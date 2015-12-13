@@ -1,0 +1,170 @@
+{% extends "ts_om_edit/base.html" %}
+
+{% block extra_local_css %}
+	{{ block.super }}
+{% endblock %}
+
+{% block extra_js_ts %}
+	{{ block.super }}
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+	  <script src="{{ STATIC_URL }}js/HighCharts/plugins/draggable-points.js"></script>
+    <script src="{{ STATIC_URL }}ts_om/js/popovers_tooltips.js"></script>
+    <script src="{{ STATIC_URL }}ts_om_edit/js/entomology.js"></script>
+{% endblock %}
+
+{% block header_content %}
+    <h3>Entomology</h3>
+    <small><em>"Level of transmission and a description of the main vectors"</em></small>
+{% endblock %}
+
+{% block container_content %}
+	<div class="modal hide fade" id="confirm">
+    <div class="modal-header">
+      <button class="close" data-dismiss="modal" type="button" aria-hidden="true">&times;</button>
+      <h3>Remove Vector?</h3>
+    </div>
+    <div class="modal-body">
+      <p>Are you sure you want to remove this vector and all related data?</p>
+    </div>
+    <div class="modal-footer">
+      <a class="btn" data-dismiss="modal" href="#" aria-hidden="true">Cancel</a>
+      <button class="btn btn-danger" id="remove" data-dismiss="modal">Remove</button>
+    </div>
+    <input id="modal-vector-mosquito" type="hidden" value="">
+  </div>
+	<div class="row">
+		<div class="span4">
+			<label for="{{ form.annual_eir.id_for_label }}">
+				Annual average EIR
+			</label>
+			{{ form.annual_eir }}
+			<div class="help-inline">Number of infectious bites per person per year</div>
+		</div>
+	</div>
+    <div class="row">
+     <div class="span1">Vectors</div>
+    <div class="span3">
+    {% for vector in om_scenario.entomology.vectors %}
+    {{ vector.mosquito }} <a class="btn"
+                             {% if om_scenario.entomology.vectors|length > 1 %}href="{% url 'ts_om.remove_species_from_scenario' scenario_id=scenario.id species=vector.mosquito %}"{% else %}disabled{% endif %}> Remove</a><br>
+    {% endfor %}
+    </div>
+    </div>
+	<div class="row">
+	  <div class="span3">
+			<select id="id_vectors" name="vectors">
+				{% for vector in form.vectors.field.choices %}
+					<option value="{{ vector.0 }}" data-name="{{ vector.0 }}"
+					        data-average-eir="{{ vector.1.extra.average_eir }}"
+					        data-human-blood-index="{{ vector.1.extra.human_blood_index }}"
+									data-monthly-values="{{ vector.1.extra.monthly_values }}">
+						An. {{ vector.0 }}
+					</option>
+				{% endfor %}
+			</select>
+		</div>
+		<div class="span4">
+      {% if has_interventions %}
+	    <button class="btn add-vector" type="button" disabled
+							title="Can't change species list if intervention section is not empty">Add</button>
+      {% else %}
+	    <button class="btn add-vector" type="button">Add</button>
+      {% endif %}
+	  </div>
+	</div>
+	{{ vector_formset.management_form }}
+	<div class="vectors">
+		{% for form in vector_formset %}
+		<fieldset class="collapse out vector" id="vector_{{ forloop.counter0 }}">
+			<legend>An. <span class="vector-name"></span>
+				<button class="btn ts-collapse pull-right" type="button" data-toggle="collapse"
+				        data-target="#vector_{{ forloop.counter0 }}">
+					<i class="icon-chevron-down"></i>
+				</button>
+				<button class="pull-right remove-vector btn {% if not has_interventions %}tooltip_button{% endif %}"
+								data-id="{{ forloop.counter0 }}"
+						{% if has_interventions or forloop.last and forloop.counter0 == 0 %}
+									title="Can't change species list if intervention section is not empty" disabled
+						{% else %}
+								data-type="remove" data-toggle="modal"
+								data-target="#confirm" data-original-title="Remove Vector and all related data"
+						{%endif %}
+					type="button" >
+					<i class="icon-remove">Remove</i>
+				</button>
+			</legend>
+			{% for field in form.visible_fields %}
+				<div class="form-inline {% if vector_formset.can_delete and field.label == "Delete"%}hide{% endif %}">
+					<div class="span2">
+						{{ field.label_tag }}
+					</div>
+					<div class="input-append">
+						{{ field }}
+						<span class="add-on">%</span>
+					</div>
+				</div>
+			{% endfor %}
+			{{ form.name }}
+			{{ form.monthly_values }}
+		</fieldset>
+		{% endfor %}
+	</div>
+	<div class="alert alert-info">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		You can edit the monthly values of each species by dragging the relevant points in the chart.
+	</div>
+	<h4>Monthly Seasonality</h4>
+	<div class="row">
+		<div class="span9">
+			<div id="chart" style="width: 100%; height: 400px; margin: 0 auto;"></div>
+		</div>
+	</div>
+	<div class="form-actions">
+		<a class="btn" id="prev-page" href="{% url "ts_om.healthsystem" scenario_id %}">Previous</a>
+		<button class="btn btn-primary" id="nextPage" type="submit">Next</button>
+	</div>
+	<div id="wiki-info">
+		For a map of dominant malaria vector species, see:
+		<a target="_blank" href="http://www.parasitesandvectors.com/content/5/1/69">Parasites and Vectors</a>
+		<br>
+		For more information on vector species parameters, see:
+		<a target="_blank" href="https://github.com/SwissTPH/openmalaria/wiki/XmlEntoVector">Ento Vector</a>
+		<br>
+		For more information on how seasonal transmission via EIR is described,
+		<a target="_blank" href="https://github.com/SwissTPH/openmalaria/wiki/EIRSeasonDynamic">EIR Season Dynamic</a>
+	</div>
+	{% with vector_formset.empty_form as form %}
+		<fieldset class="collapse out hidden-vector hide" id="vector_hidden">
+			<legend>An. <span class="vector-name"></span>
+				<button class="btn ts-collapse pull-right" type="button" data-toggle="collapse"
+				        data-target="#vector_{{ forloop.counter0 }}">
+					<i class="icon-chevron-down"></i>
+				</button>
+					<button class="pull-right remove-vector btn {% if not has_interventions %}tooltip_button{% endif %}"
+					        data-id="hidden"
+						{% if has_interventions %}
+									title="Can't change species list if intervention section is not empty" disabled
+						{% else %}
+									data-type="remove" data-toggle="modal"
+									data-target="#confirm" data-original-title="Remove Vector and all related data"
+						{%endif %}
+					type="button" >
+					<i class="icon-remove">Remove</i>
+				</button>
+			</legend>
+			{% for field in form.visible_fields %}
+				<div class="form-inline {% if vector_formset.can_delete and field.label == "Delete"%}hide{% endif %}">
+					<div class="span2">
+						{{ field.label_tag }}
+					</div>
+					<div class="input-append">
+						{{ field }}
+						<span class="add-on">%</span>
+					</div>
+				</div>
+			{% endfor %}
+			{{ form.name }}
+			{{ form.monthly_values }}
+		</fieldset>
+	{% endwith %}
+{% endblock %}

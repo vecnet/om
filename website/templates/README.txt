@@ -1,0 +1,1 @@
+Templates that aren't tied to a particular app.

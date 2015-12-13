@@ -1,0 +1,89 @@
+{% extends "ts_om_edit/base.html" %}
+
+{% block extra_local_css %}
+	{{ block.super }}
+	<link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}ts_om_edit/css/intervention_shopping_cart.css">
+{% endblock %}
+
+{% block extra_js_ts %}
+	{{ block.super }}
+	<script src="{{ STATIC_URL }}ts_om/js/popovers_tooltips.js"></script>
+	<script src="{{ STATIC_URL }}ts_om_edit/js/intervention_shopping_cart.js"></script>
+	<script src="{{ STATIC_URL }}ts_om_edit/js/interventions.js?1"></script>
+	<script>
+		vectorsCount = parseInt({{ entomology_vectors_count }});
+		vectorNames = {{ entomology_vectors_names|safe }};
+	</script>
+{% endblock %}
+
+{% block header_content %}
+	<h3>Select interventions</h3>
+	<small><em>"What interventions do you want to deploy?"</em></small>
+{% endblock %}
+
+{% block container_content %}
+	<fieldset>
+		<legend>Interventions to Add</legend>
+		<div class="box" id="intervention">
+			<ul class="source">
+				{% for intervention in interventions %}
+					<li class="ui-draggable" data-prefix="{{ intervention.component.tag|lower }}" data-name="{{ intervention.name }}"
+							data-id="{{ intervention.id }}">
+						<div class="row">
+							<div class="span6">
+								<strong>{{ intervention.name }}</strong>
+							</div>
+							<div class="span2">
+								<span class="btn-group pull-right">
+									<a class="btn btn-small" target="_blank"
+										 href="https://github.com/SwissTPH/openmalaria/wiki/GeneratedSchema32Doc#elt-{{ intervention.component.tag }}">
+										<i class="icon-book"></i>Documentation
+									</a>
+									<button class="btn btn-small add-button" type="button" data-original-title="Add intervention to simulation">
+										<i class="icon-plus"></i>Add to Simulation
+									</button>
+								</span>
+							</div>
+						</div>
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</fieldset>
+	<fieldset>
+		<legend>Interventions</legend>
+		<div class="well page-well interventions">
+			<div class="box">
+				<ul class="cart ui-sortable">
+					{% for formset in intervention_formsets %}
+						{{ formset.management_form }}
+						<div class="hide empty-form" id="empty-form-{{ formset.prefix }}">
+							{% include "ts_om_edit/interventions/intervention.html" with empty="empty" form=formset.empty_form %}
+						</div>
+						{% for form in formset %}
+							{% include "ts_om_edit/interventions/intervention.html" with index=forloop.counter0 %}
+						{% endfor %}
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</fieldset>
+	<div class="modal hide fade" id="confirm">
+		<div class="modal-header">
+			<button class="close" data-dismiss="modal" type="button" aria-hidden="true">&times;</button>
+			<h3>Remove Intervention?</h3>
+		</div>
+		<div class="modal-body">
+			<p>Are you sure you want to remove the intervention and all related data?</p>
+		</div>
+		<div class="modal-footer">
+			<a class="btn" data-dismiss="modal" href="#" aria-hidden="true">Cancel</a>
+			<button class="btn btn-danger" id="remove" data-dismiss="modal">Remove</button>
+		</div>
+		<input id="modal-intervention-id" type="hidden" value="">
+	</div>
+	<div class="form-actions">
+		<a class="btn" id="prev-page" href="{% url "ts_om.entomology" scenario_id %}">Previous</a>
+		<button class="btn btn-primary" id="nextPage" type="submit">Next</button>
+	</div>
+{% endblock %}

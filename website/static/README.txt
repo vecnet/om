@@ -1,0 +1,1 @@
+Static assets that aren't tied to a particular app.

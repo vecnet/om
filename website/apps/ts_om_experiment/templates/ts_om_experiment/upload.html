@@ -1,0 +1,24 @@
+{% extends "ts_om/base.html" %}
+
+{% block extra_js_ts %}
+	<script src="{{ STATIC_URL }}ts_om_experiment/js/upload.js"></script>
+{% endblock %}
+
+{% block right_content %}
+    {% block page_content %}
+        <h3>Upload Experiment</h3>
+        <form enctype="multipart/form-data" action="" method="post" onsubmit="captureSubmit();">{% csrf_token %}
+	        {{ form.errors }}
+					<label for="id_title">Experiment name:</label>
+					{{ form.name }}
+					<label for="id_file">Experiment file:</label>
+					{{ form.file }}
+	        <input class="btn btn-primary" type="submit" value="Upload">
+	        {{ upload_error }}
+	        <div id="validating-spinner" style="display: none;">
+						<i class="icon icon-spin icon-spinner"></i>
+		        Uploading experiment and validating simulations...
+					</div>
+        </form>
+    {% endblock %}
+{% endblock %}

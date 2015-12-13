@@ -1,0 +1,201 @@
+{% extends "ts_om_viz/base.html" %}
+{% load i18n %}
+
+{% block extra_js_ts %}
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+{% endblock %}
+
+<style type="text/css">
+    body {
+        margin: 24px;
+    }
+</style>
+
+{% block inner_content %}
+    <div class="row">
+        <div class="span12" align="center">
+            <h1>OpenMalaria output visualizer </h1>
+            <p> Download files: <a
+                    href="{% url "ts_om_viz.download" simulation_id=sim_id name="scenario.xml" %}">{{ xml_filename }}</a>
+                {% if output_txt_filename %}
+                    |
+                    <a href="{% url "ts_om_viz.download" simulation_id=sim_id name="output.txt" %}">{{ output_txt_filename }}</a>
+                {% endif %}
+                {% if ctsout_txt_filename %}
+                    |
+                    <a href="{% url "ts_om_viz.download" simulation_id=sim_id name="ctsout.txt" %}">{{ ctsout_txt_filename }}</a>
+                {% endif %}
+            {% if model_stdout %}
+                | <a href="{% url "ts_om_viz.download" simulation_id=sim_id name="model_stdout_stderr.txt"%}">Model stdout</a>
+            {% endif %}
+            </p>
+        </div>
+    </div>
+    <hr>
+    {% if request.user.username != "vecnet1" and request.user.username != "vecnet2" and request.user.username != "vecnet3" and request.user.username != "vecnet4" and request.user.username != "vecnet5" and request.user.username != "vecnet6" and request.user.username != "vecnet7" and request.user.username != "vecnet8" %}
+    <form id="dynsel" name="dynsel" method="post" action="">
+        <div class="row">
+            <div class="span2">Survey measures:</div>
+            <div class="span3">
+                <select name="subgroup" id="subgroup" style="width:180px" class="form-control"
+                        onchange="load_survey_data();">
+                    {% for measure_name, measure_code in survey_measures.items %}
+                        <option value="{{ measure_code.0 }}/{{ measure_code.1 }}"
+                                {% if survey_measure_id == measure_code.0 and survey_third_dimension == measure_code.1%}
+                                selected
+                                {% endif %}
+                                > {{ measure_name }}</option>
+                    {% endfor %}
+                </select>
+
+
+            </div>
+            <div class="span1" id="survey_loading"></div>
+            <div class="span2" id="survey_json"></div>
+        </div>
+        <div class="row">
+            <div class="span12">
+                <div id="container1" style="width:100%; height:350px;"></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="span2">Continuous measures:</div>
+            <div class="span3">
+                <select name="continuous" id="continuous" style="width:180px"
+                        onchange="load_continuous_data();">
+                    {% for measure_name in cts_measures %}
+                        <option value="{{ measure_name }}"> {{ measure_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="span1" id="continuous_loading"></div>
+            <div class="span2" id="continuous_json"></div>
+        </div>
+        <div class="row">
+            <div class="span12">
+                <div id="container2" style="width:100%; height:350px;"></div>
+            </div>
+        </div>
+    {% endif %}
+    </form>
+
+    <!--Initiation List-->
+    {% autoescape off %}
+        <script>
+            jQuery(document).ready(function ($) {
+                load_survey_data();
+                load_continuous_data();
+            });
+
+            <!--AJAX script-->
+            function load_survey_data() {
+                var sim_id = {{ sim_id }};
+                var surveyValues;
+                var url = "/ts_om_viz/sim/data/survey/" + sim_id + "/" + document.dynsel.subgroup.value + "/";
+                document.getElementById("survey_loading").innerHTML = '<i class="icon-spinner icon-spin icon-large">';
+                document.getElementById("survey_json").innerHTML = '<a href="' + url + '"> Tabular format </a>';
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    success: function (returnedvalue) {
+                        document.getElementById("survey_loading").innerHTML = "";
+                        surveyValues = returnedvalue.data;
+
+                        chart = new Highcharts.Chart({
+                            chart: {
+                                renderTo: 'container1',
+                                type: 'line',
+                                borderWidth: 2,
+                                borderRadius: 5,
+                                borderColor: '#2c7f8c'
+                            },
+                            title: {
+                                text: 'Survey Output'
+                            },
+                            yAxis: {
+                                title: {
+                                    text: 'Values '
+                                }
+                            },
+                             navigator: {
+                                enabled: true,
+                                xAxis: {
+                                    labels: { formatter:     function () {return this.value;}} }
+                            },
+                            series: [
+                                {
+                                    data: surveyValues,
+                                    name: returnedvalue.measure_name + ' :  ' + returnedvalue.description
+                                }
+                            ]
+                        });
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        document.getElementById("survey_loading").innerHTML = "";
+                        document.getElementById("container1").innerHTML = "<center>Error Loading Output Data<br> " + errorThrown + "</center>";
+                        {#  Workaround for bug https://redmine.crc.nd.edu/redmine/issues/6435 - NaN in AllCauseIMR measure#}
+                        if (errorThrown == "SyntaxError: Unexpected token N") {
+                            document.getElementById("container1").innerHTML = "<center> Can't visualize data as it contains NaN (invalid number) value. <br> Possible reason is using AllCauseIMR measure with just one Survey Time point </center>";
+                        }
+                        {#  End workaround #}
+                    }
+                });
+            }
+
+            function load_continuous_data() {
+                var ctsGroupValues;
+                var sim_id = {{ sim_id }};
+                var surveyValues;
+                var url = "/ts_om_viz/sim/data/cts/" + sim_id + "/" + document.dynsel.continuous.value + "/";
+                document.getElementById("continuous_loading").innerHTML = '<i class="icon-spinner icon-spin icon-large">';
+                document.getElementById("continuous_json").innerHTML = '<a href="' + url + '"> Tabular format </a>';
+
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    success: function (returnedvalue) {
+                        ctsGroupValues = returnedvalue.data;
+                        document.getElementById("continuous_loading").innerHTML = "";
+                        chart = new Highcharts.Chart({
+                            chart: {
+                                renderTo: 'container2',
+                                type: 'line',
+                                borderWidth: 2,
+                                borderRadius: 5,
+                                borderColor: '#2c7f8c'
+                            },
+                            title: {
+                                text: 'Continuous Output'
+                            },
+                            yAxis: {
+                                title: {
+                                    text: 'Values '
+                                }
+                            },
+                             navigator: {
+                                enabled: true,
+                                xAxis: {
+                                    labels: { formatter:     function () {return this.value;}} }
+                            },
+                            series: [
+                                {
+                                    data: ctsGroupValues,
+                                    name: returnedvalue.measure_name + ' :  ' + returnedvalue.description.substring(0,99)
+                                }
+                            ]
+                        })
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        document.getElementById("continuous_loading").innerHTML = "";
+                        document.getElementById("container2").innerHTML = "<center>Error: " + errorThrown + "</center>";
+                    }
+
+                });
+            }
+
+        </script>
+    {% endautoescape %}
+{% endblock %}
+

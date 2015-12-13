@@ -1,0 +1,9 @@
+.codemirror-ui-button-frame input[type="text"] { font-size: 1em; }
+#validate-spinner {	display: none; }
+#valid-or-not {	display: none; }
+#bar { width: 20%; }
+
+#submit-progress {
+	display: none;
+	width: 40%;
+}

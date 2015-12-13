@@ -1,0 +1,5 @@
+{{ deployment_formset.management_form }}
+{% for form in deployment_formset %}
+	{% include "ts_om_edit/deployment.html" %}
+{% endfor %}
+<input class="has-components" type="hidden" value="{{ has_components }}">

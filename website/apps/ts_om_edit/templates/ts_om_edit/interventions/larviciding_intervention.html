@@ -1,0 +1,38 @@
+<div class="form-inline">
+	{{ form.emergence_reduction.errors }}
+	<label>{{ form.emergence_reduction.label }}</label>
+	{{ form.emergence_reduction }}
+</div>
+<div class="form-inline">
+	{{ form.deploy.errors }}
+	<label>{{ form.deploy.label }}</label>
+	{{ form.deploy }}
+</div>
+<div class="form-inline">
+	{{ form.timesteps.errors }}
+	<label>{{ form.timesteps.label }}</label>
+	{{ form.timesteps }}
+</div>
+<fieldset>
+	<legend>
+		Vectors
+	</legend>
+	{% for field in form.visible_fields %}
+		{% if "vector" in field.id_for_label %}
+			{% if "seekingDeathRateIncrease" in field.id_for_label %}
+				{% if "__inner-prefix__" in field.id_for_label %}
+					<div class="hide empty-vector">
+				{% endif %}
+				<strong class="intervention-vector-name"></strong>
+			{% endif %}
+			<div class="form-inline">
+				{{ field.errors }}
+				<label>{{ field.label }}</label>
+				{{ field }}
+			</div>
+			{% if "emergenceReduction" in field.id_for_label and "__inner-prefix__" in field.id_for_label %}
+				</div>
+			{% endif %}
+		{% endif %}
+	{% endfor %}
+</fieldset>

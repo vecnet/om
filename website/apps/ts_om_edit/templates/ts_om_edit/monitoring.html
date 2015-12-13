@@ -1,0 +1,168 @@
+{% extends "ts_om_edit/base.html" %}
+
+{% block extra_local_css %}
+	{{ block.super }}
+  <link rel="stylesheet" href="{{ STATIC_URL }}ts_om_edit/css/monitoring.css">
+{% endblock %}
+
+{% block extra_js_ts %}
+	{{ block.super }}
+	<script>
+			var measure_outputs = "{{ measure_outputs }}";
+	</script>
+	<script src="{{ STATIC_URL }}ts_om/js/popovers_tooltips.js"></script>
+	<script src="{{ STATIC_URL }}ts_om_edit/js/monitoring.js"></script>
+{% endblock %}
+
+{% block header_content %}
+    <h3>Monitoring</h3>
+    <small><em>"What do you want to measure, when do you want to measure it, and for whom?"</em></small>
+{% endblock %}
+
+{% block container_content %}
+        {{ form.non_field_errors }}
+        <fieldset>
+            <legend>Output measures</legend>
+                <strong>Tracked continuously throughout the simulation</strong>
+                <label class="checkbox">
+                    {{ form.daily_eir }}
+                    Daily EIR (required)
+                </label>
+            <strong>Tracked only at the time points specified below</strong>
+            <div class="row">
+                <div class="span5">
+                    <label class="checkbox">
+                        {{ form.nr_per_age_group }}
+                        Number of individuals per age group (required)
+                    </label>
+                    <label class="checkbox">
+                        {{ form.patent_infections }}
+                        Patent infections (detected by a test) (recommended)
+                    </label>
+                    <label class="checkbox">
+                        {{ form.uncomplicated_episodes }}
+                        Uncomplicated episodes (outpatient fever) (recommended)
+                    </label>
+                    <label class="checkbox">
+                        {{ form.severe_episodes }}
+                        Severe episodes
+                    </label>
+                    <label class="checkbox">
+                        {{ form.hospitalizations }}
+                        Hospitalizations
+                    </label>
+                    <label class="checkbox">
+                        {{ form.direct_deaths }}
+                        Direct deaths
+                    </label>
+                    <label class="checkbox">
+                        {{ form.indirect_deaths }}
+                        Indirect deaths
+                    </label>
+                </div>
+                <div class="span4">
+                    <label class="checkbox">
+                        {{ form.itn }}
+                        ITNs: number of people newly covered
+                    </label>
+                    <label class="checkbox">
+                        {{ form.irs }}
+                        IRS: number of people newly covered
+                    </label>
+                    <label class="checkbox">
+                        {{ form.mda }}
+                        MDA: number of doses given
+                    </label>
+                    <label class="checkbox">
+                        {{ form.msat }}
+                        MSAT: number of people screened
+                    </label>
+                    <label class="checkbox">
+                        {{ form.vaccine }}
+                        Vaccine: number of doses delivered
+                    </label>
+                    <label class="checkbox">
+                        {{ form.nr_infections }}
+                        Number of new infections
+                    </label>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Simulation timeline</legend>
+            <div class="row">
+                <div class="span5">
+                  <div>Simulation start date</div>
+                  <div class="input-prepend">
+	                  <span class="add-on">Year</span>
+                    {{ form.sim_start_date }}
+                  </div>
+                </div>
+                <div class="span4">
+                    <label class="control-label" id="measure-outputs-label"
+                           for="{{ form.measure_outputs.id_for_label }}">
+                        How often do you want to measure outputs?
+                    </label>
+										<select id="{{ form.measure_outputs.id_for_label }}" class="input-small" name="measure_outputs">
+											{% for choice in form.measure_outputs.field.choices %}
+												<option value="{{ choice.0 }}" {% if form.initial.measure_outputs == choice.0 %}selected
+													{% endif %}
+													{% if choice.0 == 'custom' and form.initial.measure_outputs != 'custom' %}
+															style="display: none;"
+													{% endif %}
+												>
+													{{ choice.1 }}
+												</option>
+											{% endfor %}
+										</select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="span5">
+                  <div>Monitoring start date</div>
+                  <div class="input-prepend">
+	                  <span class="add-on">Year</span>
+                    {{ form.monitor_start_date }}
+                  </div>
+                </div>
+                <div class="span4">
+                    <div class="control-group">
+                    <div>Monitor for:</div>
+	                    <div class="input-append">
+		                    {{ form.monitor_yrs }}
+	                      <span class="add-on">years</span>
+                      </div>
+	                    <div class="input-append">
+		                    {{ form.monitor_mos }}
+		                    <span class="add-on">months</span>
+	                    </div>
+                    </div>
+                </div>
+            </div>
+						<input id="surveys" name="surveys" type="hidden" value="{{ surveys }}">
+            <div class="row">
+                <div class="span5">
+	                <label for="{{ form.parasite_detection_diagnostic_type.id_for_label }}">
+	                    Type of diagnostic for parasite detection
+	                </label>
+	                <span class="tooltip_link" data-toggle="tooltip"
+	                      data-original-title="Note: this detection limit is for monitoring surveys only - not for routine diagnosis through the health system or for any interventions involving testing.">
+	                    <i class="icon-info-sign"></i>
+	                </span>
+	                {{ form.parasite_detection_diagnostic_type }}
+                </div>
+            </div>
+        </fieldset>
+{#        <fieldset>#}
+{#            <legend>Age groups to be monitored</legend>#}
+{#        </fieldset>#}
+	      <div class="form-actions">
+	        <button class="btn" id="prev-page" type="button">Previous</button>
+	        <button class="btn btn-primary" id="nextPage" type="submit">Next</button>
+		    </div>
+	<div id="wiki-info">
+		Please refer to <a target="_blank" href="https://github.com/SwissTPH/openmalaria/wiki/Monitoring">Monitoring</a> for the description of monitoring methods (Survey and Continuous).<br>
+		List of all available measure is available on <a target="_blank" href="https://github.com/SwissTPH/openmalaria/wiki/XmlMonitoring">XML: Monitoring</a>
+	</div>
+{% endblock %}
+

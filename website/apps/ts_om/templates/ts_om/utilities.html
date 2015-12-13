@@ -1,0 +1,58 @@
+{% extends "ts_om/base.html" %}
+
+{% comment %}
+########################################################################################################################
+# VECNet CI - Prototype
+# Date: 4/5/2013
+# Institution: University of Notre Dame
+# Primary Authors:
+#   Alexander Vyushkov <Alexander.Vyushkov@nd.edu>
+########################################################################################################################
+{% endcomment %}
+
+{% block extra_js_ts %}
+	{{ block.super }}
+{% endblock %}
+
+{% block left_content %}
+                <ul class="nav mainnav sidebar-nav nav-list nav-tabs nav-stacked">
+                    <li id="index"><a href="{% url "ts_om.index" %}">
+                        <i class="icon-angle-left pull-left"></i> Openmalaria
+{#                        <i class="icon-angle-right pull-right"></i>#}
+                    </a></li>
+                    <li id="utilities" {% if left_menu_item %} {% else %}class="active"{% endif %}><a href="{% url "ts_om.utilities" %}">
+                        <i class="icon-wrench"></i> Utilities
+{#                        <i class="icon-angle-right pull-right"></i>#}
+                    </a></li>
+                    <li id="start" {% if left_menu_item == "standalone_submit_tool" %}class="active"{% endif %} ><a href="{% url "ts_om.standalone_submit" %}">
+                        <i class="icon-edit"></i> Upload and run a simulation xml
+                    </a></li>
+                    <li id="list"><a href="{% url "ts_om_viz.UploadView" %}">
+                        <i class="icon-list icon-rotate-180"></i> Upload and visualize simulation output
+                    </a></li>
+                </ul>
+{% endblock %}
+
+{% block right_content %}
+    {% block page_content %}
+        <h3>OpenMalaria Utilities</h3>
+        <p align="justify">
+            <b>OpenMalaria</b> is a collection of tools for working with OpenMalaria simulations
+            created outside of VecNet user interface
+        </p>
+
+        <p align="justify">
+            OpenMalaria Utilities include:
+        <ul>
+            <li>Upload and run OpenMalaria simulation</li>
+            <li>Import result of OpenMalaria model run</li>
+        </ul>
+        </p>
+        <table class="table noborder" style="table-layout: fixed">
+        </table>
+        <br/>
+        <br/>
+        <a class="btn pull-right" href="{% url "ts_om.start" %}">
+            <i class="icon-plus"></i> Add a New Simulation</a>
+    {% endblock %}
+{% endblock %}

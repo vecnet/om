@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load i18n staticfiles bootstrap3 %}
+<!--
+https://docs.djangoproject.com/en/1.8/topics/auth/default/#using-the-views
+If all Django auth URL are included using url('^', include('django.contrib.auth.urls'))
+login page will be looking for its template in registration/login.html
+Thus global login.html template (does not belong to any particular application) has been created
+-->
+{% block page_title %}Participant Management System{% endblock %}
+<!-- Remove login or logout link in top menu-->
+{% block login_logout %}{% endblock %}
+{% block extra_css %}
+    <!-- Custom styles for this template -->
+    <link href="{% static "css/login.css" %}" rel="stylesheet">
+{% endblock %}
+{% block main_content %}
+    {% if user.username %}
+        You have logged in as <b>{{ user.username }}</b> already.
+        Please <a href="{% url 'logout' %}?next=/"> logout</a> first
+        or go to the <a href="/">home page</a>
+    {% else %}
+
+        <div id="content-main">
+            <form class="form-signin" action="{{ app_path }}" method="post" id="login-form">{% csrf_token %}
+                <h2 class="form-signin-heading">Please sign in</h2>
+        {% if form.errors and not form.non_field_errors %}
+            <p class="errornote">
+                {% if form.errors.items|length == 1 %}
+                    {% trans "Please correct the error below." %}
+                {% else %}
+                    {% trans "Please correct the errors below." %}{% endif %}
+            </p>
+        {% endif %}
+
+{#        {% if form.non_field_errors %}#}
+{#            {% for error in form.non_field_errors %}#}
+{#                <p class="errornote">#}
+{#                    {{ error }}#}
+{#                </p>#}
+{#            {% endfor %}#}
+{#        {% endif %}#}
+            {% bootstrap_form form layout='inline' form_group_class='' %}
+            <!-- We want to generate code below
+            form_group_class='' is to generate <div class>. If ommited, default <div class="form-group"> will be used,
+            and it screws up layout
+            -->
+{#                  <div class>#}
+{#                <label for="id_username" class="sr-only">Username</label>#}
+{#                <input type="text" name="username" id="id_username" class="form-control" placeholder="Username" required autofocus>#}
+{#                   </div>#}
+{#                    {{ form.username.errors }}#}
+{#                <label for="id_password" class="sr-only">Password</label>#}
+{#                <input type="password" name="password" id="id_password" class="form-control" placeholder="Password" required>#}
+
+{#                    {{ form.password.errors }}#}
+                    <input type="hidden" name="next" value="{{ next }}"/>
+
+                    <div class="password-reset-link">
+                        <a href="{% url 'password_reset' %}">{% trans 'Forgotten your password or username?' %}</a>
+                    </div>
+                    <div class="password-reset-link">
+                        <a href="{% url 'registration_register' %}">{% trans 'New user? Sign up here' %}</a>
+                    </div>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            </form>
+
+{#            <script type="text/javascript">#}
+{#                document.getElementById('id_username').focus()#}
+{#            </script>#}
+        </div>
+    {% endif %}
+{% endblock %}

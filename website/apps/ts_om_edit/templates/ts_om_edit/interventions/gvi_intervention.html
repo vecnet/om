@@ -1,0 +1,34 @@
+<div class="form-inline">
+	{{ form.attrition.errors }}
+	<label>{{ form.attrition.label }}</label>
+	{{ form.attrition }}
+</div>
+<fieldset>
+	<legend>
+		Vectors
+	</legend>
+	<div class="vectors">
+	{% for field in form.visible_fields %}
+		{% if "vector" in field.id_for_label %}
+			{% if "propActive" in field.id_for_label %}
+				{% if "__inner-prefix__" in field.id_for_label %}
+					<div class="hide empty-vector">
+				{% endif %}
+				<div class="vector">
+				<strong class="intervention-vector-name"></strong>
+			{% endif %}
+			<div class="form-inline">
+				{{ field.errors }}
+				<label>{{ field.label }}</label>
+				{{ field }}
+			</div>
+			{% if "postprandial" in field.id_for_label %}
+				</div>
+				{% if "__inner-prefix__" in field.id_for_label %}
+					</div>
+				{% endif %}
+			{% endif %}
+		{% endif %}
+	{% endfor %}
+	</div>
+</fieldset>

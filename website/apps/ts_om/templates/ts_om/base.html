@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% comment %}
+########################################################################################################################
+# VECNet CI - Prototype
+# Date: 4/5/2013
+# Institution: University of Notre Dame
+# Primary Authors:
+#   Alexander Vyushkov <Alexander.Vyushkov@nd.edu>
+########################################################################################################################
+{% endcomment %}
+
+{% load i18n %}
+
+{% block page_title %}
+    OpenMalaria Online User Interface
+{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}ts_om/css/ts2.css" />
+    {% block extra_local_css %}
+    {% endblock %}
+{% endblock %}
+
+
+{% block extra_js %}
+    <script>
+        var STATIC_URL = "{{ STATIC_URL|escapejs }}";
+    </script>
+		<script src="{{ STATIC_URL }}ts_om/js/common.js"></script>
+		<script src="{{ STATIC_URL }}js/jquery.validate.min.js"></script>
+    {% block extra_js_ts %}
+    {% endblock %}
+{% endblock %}
+
+{% block jumbotron_content %}
+    <img src="{{ STATIC_URL }}ts_om/img/icon_ts.png">
+    <h1>OpenMalaria</h1>
+    <p class="lead">Basic user interface</p>
+{% endblock %}
+
+{% block main_content %}
+<div class="container">
+    <div class="row">
+        <div class="span3">
+            {% block left_content %}
+                <ul class="nav mainnav sidebar-nav nav-list nav-tabs nav-stacked">
+{#                    <li id="ts"><a href="{% url "ts.index" %}"><i class="icon-angle-left pull-left"></i>Transmission Simulator</a></li>#}
+{#                    <li id="index"><a href="{% url "ts_om.index" %}"><i class="icon-wrench"></i>OpenMalaria</a></li>#}
+                    <li id="start"><a href="{% url "ts_om.start" %}">
+                        <i class="icon-edit"></i> New Simulation
+                    </a></li>
+                    <li id="list"><a href="{% url "ts_om.list" %}">
+                        <i class="icon-list icon-rotate-180"></i> My Simulations
+                    </a></li>
+                    <li id="list"><a href="{% url "ts_om.utilities" %}">
+                        <i class="icon-wrench"></i> Utilities
+                        <i class="icon-angle-right pull-right"></i>
+                    </a></li>
+                    <li id="upload"><a href="{% url "ts_om.upload" %}">
+                        <i class="icon-upload-alt"></i> Upload Experiment
+                        <i class="icon-angle-right pull-right"></i>
+                    </a></li>
+                </ul>
+            {% endblock %}
+        </div>
+        <div class="span9">
+            {% block right_content %}
+            {% endblock %}
+        </div>
+    </div>
+</div>
+{% endblock %}

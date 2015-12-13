@@ -1,0 +1,13 @@
+OpenMalaria Basic User Interface
+https://github.com/vecnet/om
+
+Copyright 2014-2016 University of Notre Dame
+
+Contributors:
+  Nic Reed
+  Alex Vyushkov
+  Jimm Domingo
+
+This project is licensed under the Mozilla Public License, version 2.0 (the
+"License").  A copy of the License is in the project file "LICENSE.txt",
+and is also available at http://mozilla.org/MPL/2.0/.

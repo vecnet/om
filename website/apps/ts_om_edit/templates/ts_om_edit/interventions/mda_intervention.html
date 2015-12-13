@@ -1,0 +1,24 @@
+<fieldset>
+	<legend>
+		Treatment options
+		<button class="btn btn-small add-option hide" type="button">Create Option</button>
+	</legend>
+	{% for field in form.visible_fields %}
+		{% if "option" in field.id_for_label %}
+			{% if "pSelection" in field.id_for_label %}
+				{% if "__inner-prefix__" in field.id_for_label %}
+					<div class="hide empty-option">
+				{% endif %}
+				<strong class="intervention-option-name"></strong>
+			{% endif %}
+			<div class="form-inline">
+				{{ field.errors }}
+				<label>{{ field.label }}</label>
+				{{ field }}
+			</div>
+			{% if "timesteps" in field.id_for_label and "__inner-prefix__" in field.id_for_label %}
+				</div>
+			{% endif %}
+		{% endif %}
+	{% endfor %}
+</fieldset>

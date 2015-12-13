@@ -1,0 +1,49 @@
+{% with index|default:"0" as index %}
+<li class="well intervention" data-index="{{ index }}" data-empty="{{ empty|default:"" }}" data-prefix="{{ formset.prefix }}">
+	<strong class="intervention-name">{{ form.name.value }}</strong>
+	<span class="btn-group pull-right">
+		<button class="edit-intervention tooltip-link accordion-toggle btn btn-small btn-left" type="button" data-toggle="collapse"
+						{% if empty != "empty" %}data-target="#intervention-{{ formset.prefix }}-{{ index }}"{% endif %}
+						data-original-title="Edit intervention values">
+			<i class="icon-edit"></i>Edit
+		</button>
+		<button class="delete-entry btn btn-small btn-right tooltip_button {% if value.has_deployment %}disabled{% endif %}"
+			type="button" data-id="{{ key }}"
+			data-original-title="Remove Intervention and all related data" {% if value.has_deployment %}disabled{% endif %}>
+			<i class="icon-remove"></i> Remove
+		</button>
+	</span>
+	<div class="intervention-details collapse out"
+	     {% if empty != "empty" %}id="intervention-{{ formset.prefix }}-{{ index }}"{% endif %}>
+		{% if form.id %}
+			<label class="interevention-id-label">
+				<em>ID</em>:
+				<strong>
+					<span class="intervention-id-inner">{% if empty != "empty" %}{{ form.id.value }}{% endif %}
+					</span>
+				</strong>
+			</label>
+		{% endif %}
+		{% if formset.prefix == "gvi" %}
+			{% include "ts_om_edit/interventions/gvi_intervention.html" %}
+		{% elif formset.prefix == "intervention" %}
+			{% include "ts_om_edit/interventions/larviciding_intervention.html" %}
+		{% elif formset.prefix == "mda" %}
+			{% include "ts_om_edit/interventions/mda_intervention.html" %}
+		{% else %}
+			{% for field in form.visible_fields %}
+				{% if not "DELETE" in field.id_for_label %}
+					<div class="form-inline">
+						{{ field.errors }}
+						<label>{{ field.label }}</label>
+						{{ field }}
+					</div>
+				{% endif %}
+			{% endfor %}
+		{% endif %}
+    {% for field in form.hidden_fields %}
+      {{ field }}
+    {% endfor %}
+	</div>
+</li>
+{% endwith %}

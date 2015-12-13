@@ -1,0 +1,89 @@
+{% extends "ts_om_viz/base.html" %}
+
+{% block inner_content %}
+            <div class="span3">
+
+{% block left_content %}
+                <ul class="nav mainnav sidebar-nav nav-list nav-tabs nav-stacked">
+                    <li id="index"><a href="{% url "ts_om.index" %}">
+                        <i class="icon-angle-left pull-left"></i> Openmalaria
+{#                        <i class="icon-angle-right pull-right"></i>#}
+                    </a></li>
+                    <li id="utilities"><a href="{% url "ts_om.utilities" %}">
+                        <i class="icon-wrench"></i> Utilities
+{#                        <i class="icon-angle-right pull-right"></i>#}
+                    </a></li>
+                    <li id="start"><a href="{% url "ts_om.standalone_submit" %}">
+                        <i class="icon-edit"></i> Upload and run a scenario xml
+                    </a></li>
+                    <li id="list" class="active"><a href="{% url "ts_om_viz.UploadView" %}">
+                        <i class="icon-list icon-rotate-180"></i> Upload and visualize scenario output
+                    </a></li>
+                </ul>
+{% endblock %}
+</div>
+<div class="span9">
+
+{% block right_content %}
+    <ul class="breadcrumb">
+    <li class="active"><a href="{% url 'ts.index' %}">Transmission Simulator</a></li>
+    |
+    <li class="active"><a href="{% url 'ts_om.index' %}">OpenMalaria</a></li>
+    |
+    <li class="active"><a href="{% url 'ts_om.utilities' %}">Utilities</a></li>
+    | Upload OM Results
+</ul>
+    <p align="justify">
+        You can visualize output from OpenMalaria model you ran on your own computer using
+        form below.<br>
+        Specify your model input and output files and click upload button.
+    <hr>
+    </p>
+
+    <div class="hero-unit well">
+        <!-- Upload form. Note enctype attribute! -->
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+{#            <p><label for="scenario">Scenario Name (optional):  <input type="text" name="scenario_label"> </label>#}
+            <p>
+            {{ form.scenario_label.label_tag }} {{ form.scenario_label.help_text }}
+                {{ form.scenario_label.errors }}
+                {{ form.scenario_label }}
+            </p>
+
+                {% if user.is_authenticated %}
+            <label class="checkbox">
+                   {{ form.save_to }}
+                   Save to My Scenarios
+            </label>
+            {% else  %}
+                    <label>Please <a href="{{ LOGIN_URL }}?{{ REDIRECT_FIELD_NAME }}={{ request.build_absolute_uri }}">
+                        Log in </a> to save scenario to your personal workspace</label>
+            {% endif %}
+
+            <p>{{ form.non_field_errors }}</p>
+
+            <p>{{ form.xmlfile.label_tag }} {{ form.xmlfile.help_text }}</p>
+
+            <p>
+                {{ form.xmlfile.errors }}
+                {{ form.xmlfile }}
+            </p>
+
+            <p>{{ form.outputfile.label_tag }} {{ form.outputfile.help_text }}
+                {{ form.outputfile.errors }}
+                {{ form.outputfile }}
+            </p>
+
+            <p>{{ form.ctsoutputfile.label_tag }} {{ form.ctsoutputfile.help_text }}
+                {{ form.ctsoutputfile.errors }}
+                {{ form.ctsoutputfile }}
+            </p>
+
+            <p><input type="submit" value="Upload" class="btn"></p>
+        </form>
+    </div>
+    <hr>
+{% endblock %}
+</div>
+{% endblock %}

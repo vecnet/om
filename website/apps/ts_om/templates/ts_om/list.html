@@ -1,0 +1,184 @@
+{% extends "ts_om/base.html" %}
+
+{% comment %}
+########################################################################################################################
+# VECNet CI - Prototype
+# Date: 4/5/2013
+# Institution: University of Notre Dame
+# Primary Authors:
+#   Alexander Vyushkov <Alexander.Vyushkov@nd.edu>
+#   Nicolas Reed <nreed4@nd.edu>
+########################################################################################################################
+{% endcomment %}
+
+{% load staticfiles %}
+
+{#{% block bootstrap %}#}
+{#    <!-- Latest compiled and minified CSS -->#}
+{#<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" crossorigin="anonymous">#}
+{##}
+{#<!-- Optional theme -->#}
+{#<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">#}
+{##}
+{#<!-- Latest compiled and minified JavaScript -->#}
+{#<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>#}
+{#{% endblock %}#}
+
+{% block extra_local_css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}ts_om/css/list.css">
+{% endblock %}
+
+{% block extra_js_ts %}
+    {{ block.super }}
+    <script src="{{ STATIC_URL }}ts_om/js/popovers_tooltips.js"></script>
+    <script src="{{ STATIC_URL }}ts_om/js/list.js"></script>
+{% endblock %}
+
+{% block main_content %}
+    <div class="container">
+
+    <div class="row">
+    <h3>My Simulations</h3>
+        <div class="span12">
+            <p align="justify">
+                <b>OpenMalaria</b> offers flexibility for modelling malaria in humans (epidemiology)
+                allowing
+                great input in the details of human disease including; variation in human exposure
+                and response to the parasite, vaccine mechanisms, and drug treatments available to
+                villages
+                prior to intervention simulation. These strengths in epidemiology make OpenMalaria
+                attractive to those interested in human disease outputs and human population
+                dynamics.
+                Read more on OpenMalaria <a
+                    href="http://github.com/SwissTPH/openmalaria/wiki/Start?tm=6"
+                    target="_blank">here</a>.
+            </p>
+
+            <div class="alert" id="delete-message"></div>
+            <button class="delete btn tooltip_button pull-right" data-original-title="Delete selected simulations">
+                <i class="icon-trash"></i> Delete
+            </button>
+            <a href="" class="btn btn-info pull-right tooltip_button" style="color:#ffffff" data-original-title="Refresh">
+                <i class="icon-refresh"></i>
+                Refresh
+            </a>
+            <button class="submit-scenarios btn btn-success tooltip_button pull-right"
+                    data-original-title="Run selected simulations">
+                <i class="icon-play"></i> Run
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span12">
+            {% for scenario, status, demography_name, version, status_desc in object_list %}
+                {% if forloop.first %}
+                    <table class="table table-hover table-striped table-condensed">
+                    <thead>
+                    <tr></tr>
+                    <tr>
+                        <th>
+                            <input class="all-scenarios-checkbox" type="checkbox">
+                        </th>
+                        <th colspan="2">
+                            ID/Name/Description
+                        </th>
+                        <th colspan="2">Demographics</th>
+                        <th colspan="1">OpenMalaria<br>Version</th>
+                        <th colspan="3"></th>
+                        <th colspan="2"></th>
+                        <th colspan="3">Last Modified</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                {% endif %}
+            <tr id="scenario-row-{{ scenario.id }}">
+                <td>
+                    <input class="scenario-checkbox" type="checkbox" data-id="{{ scenario.id }}">
+                </td>
+                <td colspan="2">
+                    {% if demography_name != "no_name" %}
+                        {% if scenario.simulation_id %}
+                            <a href="{% url "ts_om.summary2" scenario.id %}">{{ scenario.id }}</a>
+                        {% else %}
+                            <a href="{% url "ts_om.summary2" scenario.id %}">{{ scenario.id }}</a>
+                        {% endif %}
+                    {% else %}
+                        <span>{{ scenario.id }}</span>
+                    {% endif %}
+                    {{ scenario.name }}
+                </td>
+                <td colspan="2">
+                    {{ demography_name }}
+                </td>
+                <td colspan="1">{{ version }}</td>
+                <td class="sim-status" colspan="3">
+                    {% if status == "finished" %}
+                        <a href="/ts_om_viz/sim/{{ scenario.simulation.id }}/" class="btn"
+                           id="simulation_viz_{{ scenario.simulation.id }}">
+                            <i class="icon-bar-chart"></i>
+                            Results
+                        </a>
+                    {% elif status == "error" %}
+                        {{ status_desc }}
+                        {% if scenario.output_file %}
+                        <a href="{% url 'ts_om_viz.download' simulation_id=scenario.output_file.simulation.id name="stdout.txt" %}">Details</a>
+
+                            {% endif %}
+
+                    {% elif status == "running" %}
+                        <i class="icon-refresh" style="color:#ffa500;"></i> Running
+                    {% endif %}
+                </td>
+                <td colspan="2">
+                    {% if demography_name != "no_name" and version == 32 %}
+                        <a class="duplicate btn tooltip_button" data-original-title="Copy Simulation"
+                           href="{% url "ts_om.duplicate" scenario.id %}">
+                            <i class="icon-copy"></i> Copy
+                        </a>
+                    {% endif %}
+                </td>
+                <td colspan="3">
+	            <span class="help-inline">
+								{{ scenario.last_modified.date }}
+	            </span>
+                </td>
+            </tr>
+            {% if forloop.last %}
+                </tbody>
+                </table>
+                {% if is_paginated %}
+                    <div class="pagination pagination-small pagination-centered">
+                        <ul>
+                            {% if page_obj.has_previous %}
+                                <li><a href="?page={{ page_obj.previous_page_number }}">Prev</a></li>
+                                <li>
+                                    <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+                                </li>
+                            {% endif %}
+                            <li class="active"><span>{{ page_obj.number }}</span></li>
+                            {% if page_obj.has_next %}
+                                <li><a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+                                </li>
+                                <li><a href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                {% endif %}
+            {% endif %}
+            {% empty %}
+                <p>No simulations found</p>
+            {% endfor %}
+            <p class="pull-left">
+                <a class="btn" href="{% url "ts_om.start" %}">
+                    <i class="icon-plus"></i>
+                    Create New Simulation
+                </a>
+            </p>
+
+            <div class="sim-running-container hide">
+                <i class="icon-refresh" style="color:#ffa500;"></i> Running
+            </div>
+        </div>
+    </div>
+    </div>
+{% endblock %}

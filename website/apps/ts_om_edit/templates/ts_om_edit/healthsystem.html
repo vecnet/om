@@ -1,0 +1,55 @@
+{% extends "ts_om_edit/base.html" %}
+
+{% block extra_local_css %}
+	{{ block.super }}
+{% endblock %}
+
+{% block extra_js_ts %}
+	{{ block.super }}
+	<script src="{{ STATIC_URL }}ts_om_edit/js/healthsystem.js"></script>
+{% endblock %}
+
+{% block header_content %}
+	<h3>Health system</h3>
+	<small><em>"How many fevers access treatment, and what are they treated with?"</em></small>
+{% endblock %}
+
+{% block container_content %}
+	<div class="row">
+    <div class="span9">
+        Percentages below will be translated to pSeekOfficialCareUncomplicated1 and
+        pSelfTreatUncomplicated parameters. pSeekOfficialCareUncomplicated2 is equal to pSeekOfficialCareUncomplicated1 <br><br>
+    </div>
+    </div>
+    <div class="row">
+		<div class="span9">
+			<label>Percentage of fevers treated with an antimalarial</label>
+			<div class="input-append">
+				{{ form.perc_total_treated }}
+				<span class="add-on">%</span>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="span9">
+			<label>Percentage of these treatments accessed through formal care providers</label>
+			<div class="input-append">
+				{{ form.perc_formal_care }}
+				<span class="add-on">%</span>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="span9">
+			<label>First line drug</label>
+			{{ form.first_line_drug }}
+		</div>
+	</div>
+	<div class="form-actions">
+		<a class="btn" id="prev-page" href="{% url "ts_om.demography" scenario_id %}">Previous</a>
+		<button class="btn btn-primary" id="nextPage" type="submit">Next</button>
+	</div>
+	<div id="wiki-info">
+		Please refer to <a target="_blank" href="https://github.com/SwissTPH/openmalaria/wiki/ModelClinical">Model Clinical</a> for additional information.
+	</div>
+{% endblock %}

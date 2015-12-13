@@ -1,0 +1,1 @@
+Directory that will hold user-uploaded files.

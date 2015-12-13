@@ -1,0 +1,259 @@
+/*######################################################################################################################
+# VECNet CI - Prototype
+# Date: 4/5/2013
+# Institution: University of Notre Dame
+# Primary Authors:
+#   Alexander Vyushkov <Alexander.Vyushkov@nd.edu>
+#   Robert Jones <Robert.Jones.428@nd.edu>
+######################################################################################################################*/
+
+/* CSS applied to all of the ts_emod app */
+
+/* Set up main header "jumbotron" band across the top */
+.jumbotron {
+    background: #2c84d7; /* Solid color */
+    /*background: -moz-linear-gradient(top, #012f4c 0%, #47876d 100%); *//* FF3.6+ */
+    /*background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#012f4c), color-stop(100%,#47876d)); *//* Chrome,Safari4+ */
+    /*background: -webkit-linear-gradient(top, #012f4c 0%,#47876d 100%); *//* Chrome10+,Safari5.1+ */
+    /*background: -o-linear-gradient(top, #012f4c 0%,#47876d 100%); *//* Opera 11.10+ */
+    /*background: -ms-linear-gradient(top, #012f4c 0%,#47876d 100%); *//* IE10+ */
+    /*background: linear-gradient(to bottom, #012f4c 0%,#47876d 100%); *//* W3C */
+    /*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#012f4c', endColorstr='#47876d',GradientType=0 ); *//* IE6-9 */
+}
+
+/* Left Menu Bootstrap style overrides -ked  */
+/* Set base border style for all menu items */
+.nav-tabs > li > a {
+    border:none;
+    border-right: 2px solid transparent
+}
+.nav-tabs.nav-stacked > li > a {
+    border:none;
+    border-right: 2px solid transparent
+}
+/* Set border style for active menu item */
+.nav-tabs > .active > a {
+    color:#28605f;
+    background-color:#e2ebee;
+    border-right:2px solid #b3c7ce
+}
+.nav-tabs.nav-stacked > .active > a { border-color:#b3c7ce }
+/* Maintain same active menu item style when hover over inactive and active menu items */
+.nav > li > a:hover, .nav > li > a:focus { background-color:#e2ebee; }
+.nav-tabs.nav-stacked > li > a:hover,
+.nav-tabs.nav-stacked > li > a:focus {
+    border-color:  #b3c7ce
+}
+.nav-tabs > .active > a,
+.nav-tabs > .active > a:hover,
+.nav-tabs > .active > a:focus {
+    color:#28605f;
+    background-color:#e2ebee;
+    border:none;
+    border-right:2px solid #b3c7ce
+}
+/* Eliminate text shadow on active menu item */
+.nav-list > .active > a,
+.nav-list > .active > a:hover,
+.nav-list > .active > a:focus {
+    text-shadow: none
+}
+/* Eliminate rounded corners on first/last children */
+.nav-tabs.nav-stacked > li:first-child > a,
+.nav-tabs.nav-stacked > li:last-child > a {
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+}
+/* Style disabled menu items */
+.nav-tabs > .disabled > a {text-transform: uppercase; font-size: 0.9em;}
+.sidebar-nav > li.disabled > a:hover {color:#999999; border-color: transparent }
+
+
+/* These are ensure consistent color across the theme (well just for side-bar nav). Use the darker color from the gradient
+.sidebar-nav {border-color: #b3c7ce;}
+.sidebar-nav > li > a, .breadcrumb > li > a { color:#012f4c; }
+.sidebar-nav > li > a.active { background-color: #28605f; }
+.sidebar-nav > li > a:hover { color:#012f4c; }
+.sidebar-nav > li > a:hover { background-color: #e3ede9; }
+.sidebar-nav > li > a:focus { background-color: #e3ede9; }
+.sidebar-nav > li.disabled > a:hover {color:#999999;}
+.sidebar-nav >  a { font-size: 0.9em; text-transform: uppercase }
+*/
+
+/* Set menu navigation color scheme 
+.nav-tabs.nav-stacked > li > a { border-color: #b3c7ce;}
+.nav-tabs > .active > a { background-color: #e3ede9; color: #28605f;}
+.nav-tabs > .disabled > a {text-transform: uppercase; font-size: 0.9em;}
+*/
+
+/* Link colors - according to VECNet style guide */
+a { color: #999; } /* grey out a's w/o links */
+a:link, a:visited {color: #2c7f8c;} /* #4c8773 -ked */
+a:hover, a:active, a:focus {color: #28605f;}
+/* this keeps a href buttons from getting link colors above */
+a.btn:link, a.btn:visited { color:#333; }
+
+/* breadcrumb - according to VECNet style guide */
+.breadcrumb { border: none; background:transparent; margin-left:0; padding-left:0;}
+/* .breadcrumb > li > a { color:#28605f; }  let breadcrumb links be normal page link colors */
+.breadcrumb { color: #999; padding: 0px; white-space: nowrap;} /* #4c8773 */
+
+/* Customize default bootstrap well styling */
+.page-well { padding: 30px; margin-bottom: 0px; }
+.page-well.scenario { min-height: 360px; }
+
+/* Customize default bootstrap text box styling */
+.description-box { width: 45em; height: 8em; }
+.description-box-mid {width: 40em; height: 8em;}
+.description-box-narrow { width: 31em; height: 8em; margin-bottom: 0px; }
+
+/* Customize form-actions button styling */
+.form-actions { padding-bottom: 0px; padding-left: 0px; }
+button.right {float: right;}
+button.center {align: center;}
+button.left {float: left;}
+a.btn.right {float: right;}
+
+/* Customize default bootstrap form label styling */
+form label { white-space: nowrap; font-weight: normal; }
+
+/* Customize default bootstrap help text styling */
+.helptext { color: rgb(102, 102, 102); white-space: nowrap; font-style: italic; position: relative; left: 380px; }
+.helptext-narrow { color: rgb(102, 102, 102); white-space: nowrap; font-style: italic; position: relative; left: -165px; }
+
+/* custom span between span1 and span2 */
+.span1point5 { width: 100px; }
+.span2point5 { width: 185px; }
+.span3point5 { width: 252px; }
+
+/* zebra striping */
+.striped:nth-child(odd) { background-color: rgb(255, 255, 255); }
+.striped:nth-child(even) { background-color: rgb(245, 245, 245); }
+
+/* style intervention-type label to match other form labels */
+.intervention-type { font-weight: normal; font-size: 12px; }
+
+/* Tweaks to have checkbox/radio buttons in dropdown menu */
+.dropdown-menu > li > label { display:inline-block; white-space: nowrap; padding:3px; }
+.dropdown-menu > li > input { margin: 0px 0px 0px 10px; }
+
+/* style the right nav menu tabs for sub wizards */
+.tabbable.tabs-right > .nav-tabs { border-left-width: 0px; overflow: hidden;}
+.tabbable.tabs-right > .nav-tabs > .active > a { background-color: #f5f5f5; border-color: #ddd; }
+.tabbable.tabs-right > .nav-tabs > li > a {border: 1px solid transparent; margin-bottom: 0px;}
+.tabbable.tabs-right > .nav-tabs > li > a:hover {background-color: #f5f5f5; border-color: #ddd }
+.tabbable.tabs-right {white-space: nowrap; margin-right: -38px;}
+/* pad bottom of ul so bottom nav button's border isn't cut off */
+.bs-docs-sidenav { padding-bottom: 10px; }
+
+/* orig right nav menu style - ked
+.tabbable.tabs-right > .nav-tabs { border-left-width: 0px; overflow: hidden;}
+.tabbable.tabs-right > .nav-tabs > .active > a { background-color: rgb(245, 245, 245); }
+.tabbable.tabs-right > .nav-tabs > li > a {margin-bottom: 0px;}
+.tabbable.tabs-right {white-space: nowrap; margin-right: -35px;}
+*/
+
+/* Improve table cell spacing */
+.table-condensed td { padding: 0px; vertical-align: middle; }
+
+/* reposition radio buttons to be centered in ExpWiz/Scenario Selector */
+input[type="radio"].btn-small {margin:13px 0 0;}
+
+/*----- Decorate info help popover -----*/
+/* set width bigger than default */
+.popover {max-width: 475px;}
+
+/* color the info/tooltip buttons to make them pop out */
+.info { color: #28605f; }
+.tooltip_link { color: #28605f; }
+
+/* experiment browser styling */
+.experiment.nav-tabs { border-bottom-width: 0px;  }
+.experiment > li > a {
+    padding: 0px;
+    border-bottom: 0px;
+    padding-top: 13px;
+    text-align: center;
+}
+
+/* Set colors for certain icons */
+.icon-warning-sign { color: rgb(189, 54, 47); }
+
+.help-block {font-size: 10px; margin-top:-13px;}
+
+.errorlist { margin-left: 0px; list-style:none; margin-left: 0px; font-size: 11px; color: rgb(189, 54, 47); margin-top:-13px; margin-left: 0px;}
+label.error { font-size: 11px; color: rgb(189, 54, 47); margin-top:-5px; }
+
+.emod-table tbody>tr:nth-child(odd)>td,
+.emod-table tbody>tr:nth-child(odd)>th { background-color: #ffffff; }
+
+.table-species tbody>tr:nth-child(even)>td{background-color: #eeeeee;}
+
+.table-hover tbody tr:hover>td,
+.table-hover tbody tr:hover>th { background-color: #e2ebee; } /* rgb(226, 236, 232) -ked */
+
+/* removing margins from specific elements to tidy up the look and feel
+   of the striped template table */
+#scenario_table {margin-bottom: 0px}
+#actions_form {margin-top: 0px}
+
+/* Styles for the Start Time slider for the Time Parameters step*/
+.ui-slider .ui-slider-handle {width:80px;margin-left: -40px}
+.ui-slider {text-align: center;}
+#date_slider{margin-left:60px; width:277px; margin-bottom:20px;}
+#date_slider>a{text-decoration: none;height: 20px;font-size:12px;}
+
+/* allow modals to scroll with page */
+.modal.scrollable { position: absolute; }
+
+/* progress bar styling */
+.ui-progressbar {
+    position: relative;
+}
+
+.ui-progressbar-value {
+    background-color: #82AB9D;
+}
+
+.progress-label {
+    position: absolute;
+    left: 20%;
+    top: 4px;
+    font-size: .7em;
+    font-weight: normal;
+    text-shadow: 1px 1px 0 #aaa;
+}
+
+.btn-preview{padding:2px 10px;font-size:10.2px;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;}
+.btn-preiew [class^="icon-"],.btn-preview [class*=" icon-"]{margin-top:0;}
+.btn-group>.btn-preview{font-size:10.2px;}
+.run_button {width: 20px;}
+
+/* .tooltip-inner { background-color: #EBEBEB; color: #000000; box-shadow: 10px 10px 5px #888888;} */
+/* Light version: */
+.tooltip-inner {
+  color: #4d4d4d;
+  background-color: #ebebeb;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.5);
+  white-space:pre-wrap;
+}
+.tooltip.top .tooltip-arrow { border-top:5px solid #ebebeb; }
+
+/* Dark version
+.tooltip-inner {
+  color: #ccc;
+  background-color: rgba(26, 26, 26, 0.9);
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.35);
+}
+.tooltip.top .tooltip-arrow { border-top:5px solid rgba(26, 26, 26, 0.9); }
+*/
+
+/* prevent textareas from getting resized outside the well */
+textarea { resize: vertical; }
+
+/* pull right menu slightly left */
+.nav-tabs > li > a { padding-left: 15px; }
+
+/* prevent extra padding narrowing well contents in accordions */
+.accordion-inner { padding-left: 0px; padding-right: 0px;}
