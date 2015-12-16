@@ -16,7 +16,6 @@ def rest_validate(f):
 
 
 class ScenarioValidationView(View):
-    @staticmethod
     def post(self, request):
         json_str = rest_validate(request.read())
 
