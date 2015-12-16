@@ -43,7 +43,6 @@
                                 <li class="active"> {{  scenario.name  }} </li>
                             </ul>
     </div>
-    		<form action="" id="ts-om-form" method="post">{% csrf_token %}
 
   <ul class="nav mainnav sidebar-nav nav-list nav-tabs nav-stacked workflow-steps-list">
     <li id="index">
@@ -74,6 +73,7 @@
 {% endblock %}
 {% block right_content %}
 	{% block page_content %}
+        <form action="" id="ts-om-form" method="post">{% csrf_token %}
 		{% block header_content %}
 		{% endblock %}
 			<div class="tabbable">
