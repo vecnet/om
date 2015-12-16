@@ -43,10 +43,13 @@ def run(simulation):
     stdout = open(os.path.join(input_dir, "stdout.txt"), 'w')
     try:
         logging.debug("Running openmalaria.exe")
-        exitcode = subprocess.call("%s -s scenario.xml" % settings.SIM_SERVICE_LOCAL_OM_EXECUTABLE,
-                         cwd=input_dir,
-                         stdout=stdout,
-                         stderr=stdout)
+        exitcode = subprocess.call(
+            "%s -s scenario.xml" % settings.SIM_SERVICE_LOCAL_OM_EXECUTABLE,
+            shell=True,
+            cwd=input_dir,
+            stdout=stdout,
+            stderr=stdout
+        )
         logging.debug("Openmalaria execution complete")
         stdout.flush()
         stdout.close()
