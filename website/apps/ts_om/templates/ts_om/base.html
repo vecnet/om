@@ -40,6 +40,7 @@
 {% endblock %}
 
 {% block main_content %}
+    <form action="" id="ts-om-form" method="post">{% csrf_token %}
 <div class="container">
     <div class="row">
         <div class="span3">
@@ -70,4 +71,5 @@
         </div>
     </div>
 </div>
+    </form>
 {% endblock %}
