@@ -17,7 +17,7 @@ def submit(simulation_group):
     run_script_filename = os.path.join(base_dir, "run.py")
 
     for simulation in simulation_group.simulations.all():
-        subprocess.Popen(sys.executable + " " + "%s" % run_script_filename + " " + str(simulation.id))
+        subprocess.Popen(sys.executable + " " + "%s" % run_script_filename + " " + str(simulation.id), shell=True)
 
     simulation_group.submitted_when = timezone.now()
     simulation_group.save()
