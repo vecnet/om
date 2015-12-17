@@ -1,11 +1,11 @@
 {% extends "ts_om_edit/base.html" %}
 
-{% block extra_local_css %}
+{% block extra_css %}
 	{{ block.super }}
 {#    <link rel="stylesheet" href="{{ STATIC_URL }}ts_om/css/demography.css">#}
 {% endblock %}
 
-{% block extra_js_ts %}
+{% block extra_js %}
 	{{ block.super }}
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="{{ STATIC_URL }}ts_om/js/popovers_tooltips.js"></script>
@@ -18,57 +18,54 @@
 {% endblock %}
 
 {% block container_content %}
-        <div class="row">
-            <div class="span4">
-                <span class="tooltip_link" data-toggle="tooltip"
-                      data-original-title="Affects run time: 100 humans takes seconds per simulation; 100,000 takes 1-2 hours.
+    <div class="row">
+        <div class="col-md-4">
+            <span class="tooltip_link" data-toggle="tooltip"
+                  data-original-title="Affects run time: 100 humans takes seconds per simulation; 100,000 takes 1-2 hours.
 Affects stochasticity of results: 100 only appropriate for testing; 10,000 appropriate for transmission outputs; 100,000 is preferable for mortality outputs.
 Scale outputs in post-processing to get country/region estimates.">
-                    <i class="icon-info-sign"></i>
-                </span>
-                <span>Simulated human population size</span>
-                <select class="input-small" id="id_human_pop_size" name="human_pop_size">
-                    {% for c in form.human_pop_size.field.choices %}
-                        <option value="{{ c.0 }}" {% if form.initial.human_pop_size == c.0 %}selected{% endif %}>
-                            {{ c.1 }}
-                        </option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="span5">
-              <div>Age distribution</div>
-              <select id="id_age_dist" name="age_dist">
-                  {% for c in form.age_dist.field.choices %}
-                    <option value="{{ c.1.name }}" {% if form.initial.age_dist == c.1.name %}selected{% endif %}
-	                    {% if c.1.name == 'custom' and form.initial.age_dist != 'custom' %}
-													style="display: none;"
-	                    {% endif %}
-                      >
-                      {% if c.1.name == 'custom' %}Custom ({% endif %}
-												{{ c.1.title }}
-	                    {% if c.1.name == 'custom' %}){% endif %}
+                <span class="glyphicon glyphicon-info-sign"></span>
+            </span>
+            <span>Simulated human population size</span>
+            <select class="form-control" id="id_human_pop_size" name="human_pop_size">
+                {% for c in form.human_pop_size.field.choices %}
+                    <option value="{{ c.0 }}" {% if form.initial.human_pop_size == c.0 %}selected{% endif %}>
+                        {{ c.1 }}
                     </option>
-                  {% endfor %}
-              </select>
-              <a id="age-dist-url" {% if name %}style="display: none;"{% endif %} target="_blank" href="#">Source</a>
-              {{ form.age_dist_name }}
-              {{ form.age_dist_xml }}
-              {{ form.maximum_age_yrs }}
-            </div>
+                {% endfor %}
+            </select>
         </div>
-        <div class="row">
-            <div class="span9">
-                <div id="chart" style="width: 100%; height: 400px; margin: 0 auto;"></div>
-            </div>
+        <div class="col-md-5">
+            <div>Age distribution</div>
+            <select class="form-control" id="id_age_dist" name="age_dist">
+                {% for c in form.age_dist.field.choices %}
+                    <option value="{{ c.1.name }}" {% if form.initial.age_dist == c.1.name %}selected{% endif %}
+                        {% if c.1.name == 'custom' and form.initial.age_dist != 'custom' %}style="display: none;"{% endif %}>
+                        {% if c.1.name == 'custom' %}Custom ({% endif %}
+                            {{ c.1.title }}
+                        {% if c.1.name == 'custom' %}){% endif %}
+                    </option>
+                {% endfor %}
+            </select>
+            <a id="age-dist-url" {% if name %}style="display: none;"{% endif %} target="_blank" href="#">Source</a>
+            {{ form.age_dist_name }}
+            {{ form.age_dist_xml }}
+            {{ form.maximum_age_yrs }}
         </div>
-	      <div class="form-actions">
-	        <a class="btn" id="prev-page" href="{% url "ts_om.monitoring" scenario_id %}">Previous</a>
-	        <button class="btn btn-primary" id="nextPage" type="submit">Next</button>
-	      </div>
-        {% for a in form.age_dist.field.choices %}
-          <input class="age_dist_xml" id="{{ a.1.name }}" type="hidden" data-name="{{ a.1.title }}"
-                 data-xml="{{ a.1.xml }}" data-url="{{ a.1.url }}" data-maximum-age-yrs="{{ a.1.maximum_age_yrs }}">
-        {% endfor %}
+    </div>
+    <div class="row">
+        <div class="span9">
+            <div id="chart" style="width: 100%; height: 400px; margin: 0 auto;"></div>
+        </div>
+    </div>
+    <div class="form-actions">
+        <a class="btn btn-default" id="prev-page" href="{% url "ts_om.monitoring" scenario_id %}">Previous</a>
+        <button class="btn btn-primary pull-right" id="nextPage" type="submit">Next</button>
+    </div>
+    {% for a in form.age_dist.field.choices %}
+      <input class="age_dist_xml" id="{{ a.1.name }}" type="hidden" data-name="{{ a.1.title }}"
+             data-xml="{{ a.1.xml }}" data-url="{{ a.1.url }}" data-maximum-age-yrs="{{ a.1.maximum_age_yrs }}">
+    {% endfor %}
 	<div id="wiki-info">
 		Describes the population size and age structure. Most of our simulations use the same age-structure data from Ifakara, Tanzania.<br>
 		Adjusting the population size is useful, since it has a major impact on run-time and stochasticity of results (1000-100000 individuals are often used in experiments; testing simulations often use 100-200).<br>

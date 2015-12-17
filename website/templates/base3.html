@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>{% block page_title %}Welcome to OpenMalaria Basic User Interface{% endblock %}</title>
+    <link href="{{ STATIC_URL }}bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+
+{#                <a class="brand" href="https://www.vecnet.org">&nbsp;&nbsp;VecNet</a>#}
+                {% block navbar_inner %}{% endblock %}
+
+                <ul class="nav navbar-nav">
+                    {% block navbar_inner_right_pre %}{% endblock %}
+
+                    <li class="dropdown"><a href="{% url 'ts_om.start' %}">New Simulation</a></li>
+                    <li class="dropdown"><a href="{% url 'ts_om.list' %}">My Simulations</a></li>
+                    <li class="dropdown"><a href="{% url 'ts_om.upload' %}">Upload Experiment</a></li>
+                    <li class="dropdown"><a href="#">Contact Us</a></li>
+
+                    {% block navbar_inner_right_post %}{% endblock %}
+
+                {% if user.username %}
+                     <li> <a href="{{ LOGOUT_URL }}"> Logout ({{ user.username }}) </a> </li>
+                {% else %}
+                     <li> <a href="{{ LOGIN_URL }}?{{ REDIRECT_FIELD_NAME }}={{ request.build_absolute_uri }}"> Log in </a></li>
+
+                {% endif %}
+
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    {% block jumbotron %}
+        <div class="jumbotron subhead">
+            <div class="container ">
+                {% block jumbotron_content %}
+                {% endblock %}
+            </div>
+        </div>
+    {% endblock %}
+
+    {% block main_content %}
+    {% endblock %}
+
+    <script src="{{ STATIC_URL }}js/jquery-2.1.4.min.js"></script>
+    <script src="{{ STATIC_URL }}js/jquery-migrate-1.2.1.min.js"></script>
+    <script src="{{ STATIC_URL }}bootstrap-3.3.5/js/bootstrap.min.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,12 +1,13 @@
 {% extends "ts_om_edit/base.html" %}
 
-{% block extra_local_css %}
+{% block extra_css %}
 	{{ block.super }}
 	<link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}ts_om_edit/css/intervention_shopping_cart.css">
 {% endblock %}
 
-{% block extra_js_ts %}
+{% block extra_js %}
 	{{ block.super }}
+    <script src="{{ STATIC_URL }}js/jquery-ui-1.10.0.custom.min.js"></script>
 	<script src="{{ STATIC_URL }}ts_om/js/popovers_tooltips.js"></script>
 	<script src="{{ STATIC_URL }}ts_om_edit/js/intervention_shopping_cart.js"></script>
 	<script src="{{ STATIC_URL }}ts_om_edit/js/interventions.js?1"></script>
@@ -30,19 +31,17 @@
 					<li class="ui-draggable" data-prefix="{{ intervention.component.tag|lower }}" data-name="{{ intervention.name }}"
 							data-id="{{ intervention.id }}">
 						<div class="row">
-							<div class="span6">
+							<div class="col-md-6">
 								<strong>{{ intervention.name }}</strong>
 							</div>
-							<div class="span2">
-								<span class="btn-group pull-right">
-									<a class="btn btn-small" target="_blank"
-										 href="https://github.com/SwissTPH/openmalaria/wiki/GeneratedSchema32Doc#elt-{{ intervention.component.tag }}">
-										<i class="icon-book"></i>Documentation
-									</a>
-									<button class="btn btn-small add-button" type="button" data-original-title="Add intervention to simulation">
-										<i class="icon-plus"></i>Add to Simulation
-									</button>
-								</span>
+							<div class="col-md-6">
+                                <a class="btn btn-default" target="_blank"
+                                     href="https://github.com/SwissTPH/openmalaria/wiki/GeneratedSchema32Doc#elt-{{ intervention.component.tag }}">
+                                    <span class="glyphicon glyphicon-book"></span> Documentation
+                                </a>
+                                <button class="btn btn-default add-button" type="button" data-original-title="Add intervention to simulation">
+                                    <span class="glyphicon glyphicon-plus"></span> Add to Simulation
+                                </button>
 							</div>
 						</div>
 					</li>
@@ -68,22 +67,26 @@
 			</div>
 		</div>
 	</fieldset>
-	<div class="modal hide fade" id="confirm">
-		<div class="modal-header">
-			<button class="close" data-dismiss="modal" type="button" aria-hidden="true">&times;</button>
-			<h3>Remove Intervention?</h3>
-		</div>
-		<div class="modal-body">
-			<p>Are you sure you want to remove the intervention and all related data?</p>
-		</div>
-		<div class="modal-footer">
-			<a class="btn" data-dismiss="modal" href="#" aria-hidden="true">Cancel</a>
-			<button class="btn btn-danger" id="remove" data-dismiss="modal">Remove</button>
-		</div>
-		<input id="modal-intervention-id" type="hidden" value="">
+	<div class="modal fade" id="confirm">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" data-dismiss="modal" type="button" aria-hidden="true">&times;</button>
+                    <h3>Remove Intervention?</h3>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to remove the intervention and all related data?</p>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-default" data-dismiss="modal" href="#" aria-hidden="true">Cancel</a>
+                    <button class="btn btn-danger" id="remove" data-dismiss="modal">Remove</button>
+                </div>
+                <input id="modal-intervention-id" type="hidden" value="">
+            </div>
+        </div>
 	</div>
 	<div class="form-actions">
-		<a class="btn" id="prev-page" href="{% url "ts_om.entomology" scenario_id %}">Previous</a>
+		<a class="btn btn-default" id="prev-page" href="{% url "ts_om.entomology" scenario_id %}">Previous</a>
 		<button class="btn btn-primary" id="nextPage" type="submit">Next</button>
 	</div>
 {% endblock %}

@@ -35,13 +35,14 @@ class ScenarioMonitoringForm(forms.Form):
     sim_start_date = forms.CharField(initial=datetime.datetime.now().year,
                                      widget=forms.TextInput(attrs={'class': 'input-mini'}))
     monitor_yrs = forms.CharField(initial='2',
-                                  widget=forms.TextInput(attrs={'class': 'input-mini'}))
-    monitor_mos = forms.ChoiceField(choices=MOS, initial=MOS[0][0], widget=forms.Select(attrs={'class': 'input-mini'}))
+                                  widget=forms.TextInput(attrs={'class': 'form-control'}))
+    monitor_mos = forms.ChoiceField(choices=MOS, initial=MOS[0][0], widget=forms.Select(attrs={'class': 'form-control'}))
     monitor_start_date = forms.CharField(initial=datetime.datetime.now().year,
                                          widget=forms.TextInput(attrs={'class': 'input-mini'}))
     measure_outputs = forms.ChoiceField(choices=[('yearly', 'Yearly'), ('monthly', 'Monthly'), ('custom', 'Custom')],
-                                        widget=forms.Select(attrs={'class': 'input-small'}))
-    parasite_detection_diagnostic_type = forms.ChoiceField(choices=DIAG_TYPE)
+                                        widget=forms.Select(attrs={'class': 'form-control'}))
+    parasite_detection_diagnostic_type = forms.ChoiceField(choices=DIAG_TYPE, widget=forms.Select(
+        attrs={'class': 'form-control'}))
 
 
 def get_age_dist():
@@ -85,9 +86,10 @@ class ScenarioHealthSystemForm(forms.Form):
                             ('SP', 'Sulphadoxine-Pyrimethamine (SP)'),
                             ('CQ', 'Chloroquine (CQ)')]
 
-    perc_total_treated = forms.CharField(widget=forms.TextInput(attrs={'class': 'input-mini'}))
-    perc_formal_care = forms.CharField(widget=forms.TextInput(attrs={'class': 'input-mini'}))
-    first_line_drug = forms.ChoiceField(choices=FIRST_LINE_DRUG_TYPE)
+    perc_total_treated = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+    perc_formal_care = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+    first_line_drug = forms.ChoiceField(choices=FIRST_LINE_DRUG_TYPE, widget=forms.Select(
+        attrs={'class': 'form-control'}))
 
 
 def get_vectors():
@@ -107,8 +109,9 @@ def get_vectors():
 
 
 class ScenarioEntomologyForm(forms.Form):
-    annual_eir = forms.CharField(widget=forms.TextInput(attrs={'class': 'input-mini'}))
-    vectors = forms.ChoiceField(choices=get_vectors, required=False)
+    annual_eir = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+    vectors = forms.ChoiceField(choices=get_vectors, required=False, widget=forms.Select(
+        attrs={'class': 'form-control'}))
 
 
 class ScenarioEntomologyVectorForm(forms.Form):

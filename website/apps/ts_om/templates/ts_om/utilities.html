@@ -1,36 +1,17 @@
 {% extends "ts_om/base.html" %}
 
-{% comment %}
-########################################################################################################################
-# VECNet CI - Prototype
-# Date: 4/5/2013
-# Institution: University of Notre Dame
-# Primary Authors:
-#   Alexander Vyushkov <Alexander.Vyushkov@nd.edu>
-########################################################################################################################
-{% endcomment %}
-
-{% block extra_js_ts %}
-	{{ block.super }}
-{% endblock %}
-
 {% block left_content %}
-                <ul class="nav mainnav sidebar-nav nav-list nav-tabs nav-stacked">
-                    <li id="index"><a href="{% url "ts_om.index" %}">
-                        <i class="icon-angle-left pull-left"></i> Openmalaria
-{#                        <i class="icon-angle-right pull-right"></i>#}
-                    </a></li>
-                    <li id="utilities" {% if left_menu_item %} {% else %}class="active"{% endif %}><a href="{% url "ts_om.utilities" %}">
-                        <i class="icon-wrench"></i> Utilities
-{#                        <i class="icon-angle-right pull-right"></i>#}
-                    </a></li>
-                    <li id="start" {% if left_menu_item == "standalone_submit_tool" %}class="active"{% endif %} ><a href="{% url "ts_om.standalone_submit" %}">
-                        <i class="icon-edit"></i> Upload and run a simulation xml
-                    </a></li>
-                    <li id="list"><a href="{% url "ts_om_viz.UploadView" %}">
-                        <i class="icon-list icon-rotate-180"></i> Upload and visualize simulation output
-                    </a></li>
-                </ul>
+    <ul class="nav mainnav sidebar-nav nav-list nav-tabs nav-stacked">
+        <li id="index"><a href="{% url "ts_om.list" %}">
+            <span class="glyphicon glyphicon-menu-left pull-left"></span> Openmalaria
+        </a></li>
+        <li id="utilities" {% if left_menu_item %} {% else %}class="active"{% endif %}><a href="{% url "ts_om.utilities" %}">
+            <span class="glyphicon glyphicon-wrench"></span> Utilities
+        </a></li>
+        <li id="list"><a href="{% url "ts_om_viz.UploadView" %}">
+            <i class="icon-list icon-rotate-180"></i> Upload and visualize simulation output
+        </a></li>
+    </ul>
 {% endblock %}
 
 {% block right_content %}
@@ -43,16 +24,16 @@
 
         <p align="justify">
             OpenMalaria Utilities include:
+        </p>
         <ul>
             <li>Upload and run OpenMalaria simulation</li>
             <li>Import result of OpenMalaria model run</li>
         </ul>
-        </p>
         <table class="table noborder" style="table-layout: fixed">
         </table>
         <br/>
         <br/>
-        <a class="btn pull-right" href="{% url "ts_om.start" %}">
-            <i class="icon-plus"></i> Add a New Simulation</a>
+        <a class="btn btn-success pull-right" href="{% url "ts_om.start" %}">
+            <span class="glyphicon glyphicon-plus"></span> Add a New Simulation</a>
     {% endblock %}
 {% endblock %}

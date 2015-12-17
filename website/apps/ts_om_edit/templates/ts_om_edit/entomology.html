@@ -1,10 +1,10 @@
 {% extends "ts_om_edit/base.html" %}
 
-{% block extra_local_css %}
+{% block extra_css %}
 	{{ block.super }}
 {% endblock %}
 
-{% block extra_js_ts %}
+{% block extra_js %}
 	{{ block.super }}
     <script src="https://code.highcharts.com/highcharts.js"></script>
 	  <script src="{{ STATIC_URL }}js/HighCharts/plugins/draggable-points.js"></script>
@@ -18,22 +18,26 @@
 {% endblock %}
 
 {% block container_content %}
-	<div class="modal hide fade" id="confirm">
-    <div class="modal-header">
-      <button class="close" data-dismiss="modal" type="button" aria-hidden="true">&times;</button>
-      <h3>Remove Vector?</h3>
+	<div class="modal fade" id="confirm" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                  <button class="close" data-dismiss="modal" type="button" aria-hidden="true">&times;</button>
+                  <h3>Remove Vector?</h3>
+                </div>
+                <div class="modal-body">
+                  <p>Are you sure you want to remove this vector and all related data?</p>
+                </div>
+                <div class="modal-footer">
+                  <a class="btn btn-default" data-dismiss="modal" href="#" aria-hidden="true">Cancel</a>
+                  <button class="btn btn-danger" id="remove" data-dismiss="modal">Remove</button>
+                </div>
+                <input id="modal-vector-mosquito" type="hidden" value="">
+            </div>
+        </div>
     </div>
-    <div class="modal-body">
-      <p>Are you sure you want to remove this vector and all related data?</p>
-    </div>
-    <div class="modal-footer">
-      <a class="btn" data-dismiss="modal" href="#" aria-hidden="true">Cancel</a>
-      <button class="btn btn-danger" id="remove" data-dismiss="modal">Remove</button>
-    </div>
-    <input id="modal-vector-mosquito" type="hidden" value="">
-  </div>
 	<div class="row">
-		<div class="span4">
+		<div class="col-md-4">
 			<label for="{{ form.annual_eir.id_for_label }}">
 				Annual average EIR
 			</label>
@@ -41,18 +45,10 @@
 			<div class="help-inline">Number of infectious bites per person per year</div>
 		</div>
 	</div>
-    <div class="row">
-     <div class="span1">Vectors</div>
-    <div class="span3">
-    {% for vector in om_scenario.entomology.vectors %}
-    {{ vector.mosquito }} <a class="btn"
-                             {% if om_scenario.entomology.vectors|length > 1 %}href="{% url 'ts_om.remove_species_from_scenario' scenario_id=scenario.id species=vector.mosquito %}"{% else %}disabled{% endif %}> Remove</a><br>
-    {% endfor %}
-    </div>
-    </div>
+    <h4>Vectors</h4>
 	<div class="row">
-	  <div class="span3">
-			<select id="id_vectors" name="vectors">
+	  <div class="col-md-3">
+			<select class="form-control" id="id_vectors" name="vectors">
 				{% for vector in form.vectors.field.choices %}
 					<option value="{{ vector.0 }}" data-name="{{ vector.0 }}"
 					        data-average-eir="{{ vector.1.extra.average_eir }}"
@@ -63,50 +59,52 @@
 				{% endfor %}
 			</select>
 		</div>
-		<div class="span4">
+		<div class="col-md-4">
       {% if has_interventions %}
-	    <button class="btn add-vector" type="button" disabled
-							title="Can't change species list if intervention section is not empty">Add</button>
+	    <button class="btn btn-default add-vector" type="button" disabled
+            title="Can't change species list if intervention section is not empty">Add</button>
       {% else %}
-	    <button class="btn add-vector" type="button">Add</button>
+	    <button class="btn btn-default add-vector" type="button">Add</button>
       {% endif %}
 	  </div>
 	</div>
 	{{ vector_formset.management_form }}
 	<div class="vectors">
 		{% for form in vector_formset %}
-		<fieldset class="collapse out vector" id="vector_{{ forloop.counter0 }}">
+		<div class="vector" id="vector_{{ forloop.counter0 }}">
 			<legend>An. <span class="vector-name"></span>
 				<button class="btn ts-collapse pull-right" type="button" data-toggle="collapse"
-				        data-target="#vector_{{ forloop.counter0 }}">
-					<i class="icon-chevron-down"></i>
+				        data-target="#inner-vector_{{ forloop.counter0 }}">
+					<span class="glyphicon glyphicon-chevron-down"></span>
 				</button>
-				<button class="pull-right remove-vector btn {% if not has_interventions %}tooltip_button{% endif %}"
-								data-id="{{ forloop.counter0 }}"
-						{% if has_interventions or forloop.last and forloop.counter0 == 0 %}
-									title="Can't change species list if intervention section is not empty" disabled
-						{% else %}
-								data-type="remove" data-toggle="modal"
-								data-target="#confirm" data-original-title="Remove Vector and all related data"
-						{%endif %}
+				<button class="btn btn-default pull-right remove-vector
+				    {% if not has_interventions %}tooltip_button{% endif %}" data-id="{{ forloop.counter0 }}"
+                    {% if has_interventions or forloop.last and forloop.counter0 == 0 %}
+                        title="Can't change species list if intervention section is not empty" disabled
+                    {% else %}
+                        data-type="remove" data-toggle="modal"
+                        data-target="#confirm" data-original-title="Remove Vector and all related data"
+                    {%endif %}
 					type="button" >
-					<i class="icon-remove">Remove</i>
+					<span class="glyphicon glyphicon-remove">Remove</span>
 				</button>
 			</legend>
-			{% for field in form.visible_fields %}
-				<div class="form-inline {% if vector_formset.can_delete and field.label == "Delete"%}hide{% endif %}">
-					<div class="span2">
-						{{ field.label_tag }}
-					</div>
-					<div class="input-append">
-						{{ field }}
-						<span class="add-on">%</span>
-					</div>
-				</div>
-			{% endfor %}
+            <div class="collapse inner-vector" id="inner-vector_{{ forloop.counter0 }}" aria-expanded="false">
+                {% for field in form.visible_fields %}
+                    <div class="form-inline {% if vector_formset.can_delete and field.label == "Delete"%}hide{% endif %}">
+                        <div class="col-md-2">
+                            {{ field.label_tag }}
+                        </div>
+                        <div class="input-group">
+                            {{ field }}
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
 			{{ form.name }}
 			{{ form.monthly_values }}
-		</fieldset>
+		</div>
 		{% endfor %}
 	</div>
 	<div class="alert alert-info">
@@ -115,13 +113,13 @@
 	</div>
 	<h4>Monthly Seasonality</h4>
 	<div class="row">
-		<div class="span9">
+		<div class="col-md-12">
 			<div id="chart" style="width: 100%; height: 400px; margin: 0 auto;"></div>
 		</div>
 	</div>
 	<div class="form-actions">
-		<a class="btn" id="prev-page" href="{% url "ts_om.healthsystem" scenario_id %}">Previous</a>
-		<button class="btn btn-primary" id="nextPage" type="submit">Next</button>
+		<a class="btn btn-default" id="prev-page" href="{% url "ts_om.healthsystem" scenario_id %}">Previous</a>
+		<button class="btn btn-primary pull-right" id="nextPage" type="submit">Next</button>
 	</div>
 	<div id="wiki-info">
 		For a map of dominant malaria vector species, see:
@@ -134,37 +132,39 @@
 		<a target="_blank" href="https://github.com/SwissTPH/openmalaria/wiki/EIRSeasonDynamic">EIR Season Dynamic</a>
 	</div>
 	{% with vector_formset.empty_form as form %}
-		<fieldset class="collapse out hidden-vector hide" id="vector_hidden">
+		<div class="hidden-vector hide" id="vector_hidden" aria-expanded="false">
 			<legend>An. <span class="vector-name"></span>
-				<button class="btn ts-collapse pull-right" type="button" data-toggle="collapse"
-				        data-target="#vector_{{ forloop.counter0 }}">
-					<i class="icon-chevron-down"></i>
+				<button class="btn btn-default ts-collapse pull-right" type="button" data-toggle="collapse"
+				        data-target="#inner-vector_{{ forloop.counter0 }}">
+					<span class="glyphicon glyphicon-chevron-down"></span>
 				</button>
-					<button class="pull-right remove-vector btn {% if not has_interventions %}tooltip_button{% endif %}"
-					        data-id="hidden"
-						{% if has_interventions %}
-									title="Can't change species list if intervention section is not empty" disabled
-						{% else %}
-									data-type="remove" data-toggle="modal"
-									data-target="#confirm" data-original-title="Remove Vector and all related data"
-						{%endif %}
+                <button class="pull-right remove-vector btn btn-default {% if not has_interventions %}tooltip_button{% endif %}"
+                    data-id="hidden"
+                    {% if has_interventions %}
+                        title="Can't change species list if intervention section is not empty" disabled
+                    {% else %}
+                        data-type="remove" data-toggle="modal"
+                        data-target="#confirm" data-original-title="Remove Vector and all related data"
+                    {%endif %}
 					type="button" >
-					<i class="icon-remove">Remove</i>
+					<span class="glyphicon glyphicon-remove"></span> Remove
 				</button>
 			</legend>
-			{% for field in form.visible_fields %}
-				<div class="form-inline {% if vector_formset.can_delete and field.label == "Delete"%}hide{% endif %}">
-					<div class="span2">
-						{{ field.label_tag }}
-					</div>
-					<div class="input-append">
-						{{ field }}
-						<span class="add-on">%</span>
-					</div>
-				</div>
-			{% endfor %}
+            <div class="collapse inner-vector" id="inner-vector_{{ forloop.counter0 }}" aria-expanded="false">
+                {% for field in form.visible_fields %}
+                    <div class="form-inline {% if vector_formset.can_delete and field.label == "Delete"%}hide{% endif %}">
+                        <div class="col-md-2">
+                            {{ field.label_tag }}
+                        </div>
+                        <div class="input-group">
+                            {{ field }}
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
 			{{ form.name }}
 			{{ form.monthly_values }}
-		</fieldset>
+		</div>
 	{% endwith %}
 {% endblock %}
