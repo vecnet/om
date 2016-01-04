@@ -27,7 +27,7 @@ from website.notification import set_notification
 
 
 class ScenarioSummaryView2(TemplateView):
-    template_name = "ts_om/summary2.html"
+    template_name = "ts_om/summary.html"
     form_class = ScenarioSummaryForm
     model_scenario = None
     scenario = None

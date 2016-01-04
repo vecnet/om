@@ -1,36 +1,42 @@
 {% extends "ts_om/base.html" %}
 
-{% block extra_local_css %}
+{% block extra_css %}
 	{{ block.super }}
   <link rel="stylesheet" href="{{ STATIC_URL }}ts_om/css/start.css">
 {% endblock %}
 
-{% block extra_js_ts %}
+{% block extra_js %}
 	{{ block.super }}
   <script src="{{ STATIC_URL }}ts_om/js/start.js"></script>
 {% endblock %}
-{% block left_content %} {% endblock %}
+{% block left_content %}{% endblock %}
 
 {% block right_content %}
 	<h3>Start new simulation</h3>
     <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
-	    <fieldset>
-        {{ form.name }}<br>
-	      {{ form.desc }}
+        <div class="form-group">
+            {{ form.name }}
+        </div>
+        <div class="form-group">
+            {{ form.desc }}
+        </div>
+        <div class="form-group">
         {{ form.choice.0 }}
+        </div>
+        <div class="form-group">
         {{ form.choice.1 }}
+        </div>
+        <div class="form-group">
         {{ form.list }}
-	      <div class="control-group">
-	        <div class="controls">
-	          {{ form.choice.2 }}
-	          {{ form.xml_file }}
-	        </div>
-	        <p class="text-error">{{ upload_error }}</p>
-	      </div>
-		    <div>
-            <a href="{% url 'ts_om.list' %}" class="btn text-left">Cancel</a>
-	        <button class="btn btn-primary text-right" id="nextPage" type="submit" required>Create</button>
-	      </div>
-	    </fieldset>
+        </div>
+        <div class="form-group">
+            {{ form.choice.2 }}
+            {{ form.xml_file }}
+            <p class="text-error">{{ upload_error }}</p>
+        </div>
+        <div>
+            <button class="btn btn-primary" id="nextPage" type="submit">Create</button>
+            <a href="{% url 'ts_om.list' %}" class="btn btn-default">Cancel</a>
+        </div>
     </form>
 {% endblock %}

@@ -5,7 +5,7 @@
 
 {% block left_content %}
                 <ul class="nav mainnav sidebar-nav nav-list nav-tabs nav-stacked">
-                    <li id="index"><a href="{% url "ts_om.index" %}">
+                    <li id="index"><a href="{% url "ts_om.list" %}">
                         <i class="icon-angle-left pull-left"></i> Openmalaria
 {#                        <i class="icon-angle-right pull-right"></i>#}
                     </a></li>
@@ -13,9 +13,9 @@
                         <i class="icon-wrench"></i> Utilities
 {#                        <i class="icon-angle-right pull-right"></i>#}
                     </a></li>
-                    <li id="start"><a href="{% url "ts_om.standalone_submit" %}">
-                        <i class="icon-edit"></i> Upload and run a scenario xml
-                    </a></li>
+{#                    <li id="start"><a href="{% url "ts_om.standalone_submit" %}">#}
+{#                        <i class="icon-edit"></i> Upload and run a scenario xml#}
+{#                    </a></li>#}
                     <li id="list" class="active"><a href="{% url "ts_om_viz.UploadView" %}">
                         <i class="icon-list icon-rotate-180"></i> Upload and visualize scenario output
                     </a></li>
@@ -26,9 +26,9 @@
 
 {% block right_content %}
     <ul class="breadcrumb">
-    <li class="active"><a href="{% url 'ts.index' %}">Transmission Simulator</a></li>
-    |
-    <li class="active"><a href="{% url 'ts_om.index' %}">OpenMalaria</a></li>
+{#    <li class="active"><a href="{% url 'ts.list' %}">Transmission Simulator</a></li>#}
+{#    |#}
+    <li class="active"><a href="{% url 'ts_om.list' %}">OpenMalaria</a></li>
     |
     <li class="active"><a href="{% url 'ts_om.utilities' %}">Utilities</a></li>
     | Upload OM Results

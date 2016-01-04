@@ -1,6 +1,6 @@
 {% extends "ts_om_edit/base.html" %}
 
-{% block extra_js_ts %}
+{% block extra_js %}
 	{{ block.super }}
 	<script src="{{ STATIC_URL }}ts_om_edit/js/deployments.js"></script>
 {% endblock %}
@@ -14,11 +14,11 @@
 	<fieldset>
 		<legend>
 			Deployments
-			<button class="btn btn-small add-deployment-button {% if not has_components %}disabled{% endif %}"
-			        type="button" data-toggle="modal"	data-target="#new-deployment"
+			<button class="btn btn-success pull-right add-deployment-button {% if not has_components %}disabled{% endif %}"
+			        type="button" data-toggle="modal" data-target="#new-deployment"
 			        data-original-title="Add a new deployment to the simulation"
 			        {% if not has_components %}disabled{% endif %}>
-				<i class="icon-plus"></i>Create New Deployment
+				<span class="glyphicon glyphicon-plus"></span> Create New Deployment
 			</button>
 		</legend>
 		<div class="deployments">
@@ -28,23 +28,27 @@
 			{% endfor %}
 		</div>
 	</fieldset>
-	<div class="modal hide fade" id="new-deployment">
-		<div class="modal-header">
-			<button class="close" data-dismiss="modal" type="button" aria-hidden="true">&times;</button>
-			<h3>New Deployment</h3>
-		</div>
-		<div class="modal-body">
-			<div class="empty-form-deployment">
-				{% include "ts_om_edit/deployment.html" with remove=False form=deployment_formset.empty_form %}
-			</div>
-		</div>
-		<div class="modal-footer">
-			<a class="btn" data-dismiss="modal" href="#" aria-hidden="true">Cancel</a>
-			<button class="btn btn-success" id="create" data-dismiss="modal">Create</button>
-		</div>
+	<div class="modal fade" id="new-deployment">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" data-dismiss="modal" type="button" aria-hidden="true">&times;</button>
+                    <h3>New Deployment</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="empty-form-deployment">
+                        {% include "ts_om_edit/deployment.html" with remove=False form=deployment_formset.empty_form %}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success pull-left" id="create" data-dismiss="modal">Create</button>
+                    <a class="btn btn-default pull-right" data-dismiss="modal" href="#" aria-hidden="true">Cancel</a>
+                </div>
+            </div>
+        </div>
 	</div>
 	<div class="form-actions">
-		<a class="btn" id="prev-page" href="{% url "ts_om.interventions" scenario_id %}">Previous</a>
+		<a class="btn btn-default" id="prev-page" href="{% url "ts_om.interventions" scenario_id %}">Previous</a>
 		<button class="btn btn-primary" id="nextPage" type="submit">Finish</button>
 	</div>
 {% endblock %}

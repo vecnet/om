@@ -1,152 +1,151 @@
 {% extends "ts_om/base.html" %}
 
-{% block extra_local_css %}
+{% block extra_css %}
+    {{ block.super }}
 	<link rel="stylesheet" href="{{ STATIC_URL }}js/codemirror/lib/codemirror.css">
-  <link rel="stylesheet" href="{{ STATIC_URL }}js/codemirror/addon/hint/show-hint.css">
-  <link rel="stylesheet" href="{{ STATIC_URL }}js/codemirror/addon/dialog/dialog.css">
-  <link rel="stylesheet" href="{{ STATIC_URL }}js/codemirror/addon/fold/foldgutter.css">
-  <link rel="stylesheet" href="{{ STATIC_URL }}js/codemirror/addon/display/fullscreen.css">
-  <link rel="stylesheet" href="{{ STATIC_URL }}css/codemirror-ui/codemirror-ui.css">
-  <link rel="stylesheet" href="{{ STATIC_URL }}ts_om/css/editor.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}js/codemirror/addon/hint/show-hint.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}js/codemirror/addon/dialog/dialog.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}js/codemirror/addon/fold/foldgutter.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}js/codemirror/addon/display/fullscreen.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/codemirror-ui/codemirror-ui.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}ts_om/css/editor.css">
 	<link rel="stylesheet" href="{{ STATIC_URL }}ts_om_edit/css/base.css">
 {% endblock %}
 
-{% block extra_js_ts %}
+{% block extra_js %}
+    {{ block.super }}
 	<script>var LOCAL_STATIC_URL = "{{ STATIC_URL|escapejs }}";</script>
-  <script src="{{ STATIC_URL }}js/codemirror/lib/codemirror.js"></script>
-  <script src="{{ STATIC_URL }}js/codemirror/mode/xml/xml.js"></script>
-  <script src="{{ STATIC_URL }}js/codemirror/fold/foldcode.js"></script>
-  <script src="{{ STATIC_URL }}js/codemirror/addon/fold/xml-fold.js"></script>
-  <script src="{{ STATIC_URL }}js/codemirror/addon/fold/foldgutter.js"></script>
-  <script src="{{ STATIC_URL }}js/codemirror/addon/hint/show-hint.js"></script>
-  <script src="{{ STATIC_URL }}js/codemirror/addon/edit/matchbrackets.js"></script>
-  <script src="{{ STATIC_URL }}js/codemirror/addon/edit/matchtags.js"></script>
-  <script src="{{ STATIC_URL }}js/codemirror/addon/edit/closetag.js"></script>
-  <script src="{{ STATIC_URL }}js/codemirror/hint/xml-hint.js"></script>
-  <script src="{{ STATIC_URL }}js/codemirror/addon/dialog/dialog.js"></script>
-  <script src="{{ STATIC_URL }}js/codemirror/addon/search/searchcursor.js"></script>
-  <script src="{{ STATIC_URL }}js/codemirror/addon/search/search.js"></script>
-  <script src="{{ STATIC_URL }}js/codemirror/addon/display/fullscreen.js"></script>
-  <script src="{{ STATIC_URL }}js/codemirror/addon/display/placeholder.js"></script>
-  <script src="{{ STATIC_URL }}js/codemirror/addon/lint/lint.js"></script>
-  <script src="{{ STATIC_URL }}js/codemirror-ext/util/formatting.js"></script>
-  <script src="{{ STATIC_URL }}js/codemirror-ui/codemirror-ui.js"></script>
-  <script src="{{ STATIC_URL }}ts_om/js/editor.js?2"></script>
+    <script src="{{ STATIC_URL }}js/codemirror/lib/codemirror.js"></script>
+    <script src="{{ STATIC_URL }}js/codemirror/mode/xml/xml.js"></script>
+    <script src="{{ STATIC_URL }}js/codemirror/fold/foldcode.js"></script>
+    <script src="{{ STATIC_URL }}js/codemirror/addon/fold/xml-fold.js"></script>
+    <script src="{{ STATIC_URL }}js/codemirror/addon/fold/foldgutter.js"></script>
+    <script src="{{ STATIC_URL }}js/codemirror/addon/hint/show-hint.js"></script>
+    <script src="{{ STATIC_URL }}js/codemirror/addon/edit/matchbrackets.js"></script>
+    <script src="{{ STATIC_URL }}js/codemirror/addon/edit/matchtags.js"></script>
+    <script src="{{ STATIC_URL }}js/codemirror/addon/edit/closetag.js"></script>
+    <script src="{{ STATIC_URL }}js/codemirror/hint/xml-hint.js"></script>
+    <script src="{{ STATIC_URL }}js/codemirror/addon/dialog/dialog.js"></script>
+    <script src="{{ STATIC_URL }}js/codemirror/addon/search/searchcursor.js"></script>
+    <script src="{{ STATIC_URL }}js/codemirror/addon/search/search.js"></script>
+    <script src="{{ STATIC_URL }}js/codemirror/addon/display/fullscreen.js"></script>
+    <script src="{{ STATIC_URL }}js/codemirror/addon/display/placeholder.js"></script>
+    <script src="{{ STATIC_URL }}js/codemirror/addon/lint/lint.js"></script>
+    <script src="{{ STATIC_URL }}js/codemirror-ext/util/formatting.js"></script>
+    <script src="{{ STATIC_URL }}js/codemirror-ui/codemirror-ui.js"></script>
+    <script src="{{ STATIC_URL }}ts_om/js/editor.js?2"></script>
 	<script src="{{ STATIC_URL }}ts_om_edit/js/base.js"></script>
 {% endblock %}
 
 {% block left_content %}
-        <div class="row">
-<ul class="breadcrumb">
-                    <li>
-                        <a href="{% url 'ts_om.list' %}">My Simulations</a><span class="divider">/</span>
-                                <li class="active"> {{  scenario.name  }} </li>
-                            </ul>
+    <div class="row">
+        <ul class="breadcrumb">
+            <li>
+                <a href="{% url 'ts_om.list' %}">My Simulations</a><span class="divider"></span>
+            </li>
+            <li class="active"> {{  scenario.name  }} </li>
+        </ul>
     </div>
-
-  <ul class="nav mainnav sidebar-nav nav-list nav-tabs nav-stacked workflow-steps-list">
-    <li id="index">
-            <button class="btn" type="submit" name="submit" value="ts_om.summary2">
-                <i class="icon-chevron-left"></i> Back to Summary
-            </button>
-
-    </li>
-    <li id="monitoring">
-        <button class="btn" type="submit" name="submit" value="ts_om.monitoring"><i class="icon-time"></i> Monitoring</button>
-    </li>
-    <li>
-        <button class="btn" type="submit" name="submit" value="ts_om.demography"><i class="icon-signal"></i> Demography</button>
-    </li>
-    <li id="healthsystem">
-        <button class="btn" type="submit" name="submit" value="ts_om.healthsystem"><i class="icon-plus-sign"></i> Health System</button>
-    </li>
-    <li id="entomology">
-        <button class="btn" type="submit" name="submit" value="ts_om.entomology"><i class="icon-screenshot"></i> Entomology</button>
-    </li>
-    <li id="interventions">
-        <button class="btn" type="submit" name="submit" value="ts_om.interventions"><i class="icon-wrench"></i> Interventions</button>
-    </li>
-		<li>
-        <button class="btn" type="submit" name="submit" value="ts_om.deployments"><i class="icon-calendar"></i> Deployments</button>
-        </li>
-  </ul>
+    <div class="list-group workflow-steps-list">
+        <button class="list-group-item" type="submit" name="submit" value="ts_om.summary2">
+            <span class="glyphicon glyphicon-chevron-left"></span> Back to Summary
+        </button>
+        <button class="list-group-item" type="submit" name="submit" value="ts_om.monitoring">
+            <span class="glyphicon glyphicon-time"></span> Monitoring
+        </button>
+        <button class="list-group-item" type="submit" name="submit" value="ts_om.demography">
+            <span class="glyphicon glyphicon-signal"></span> Demography
+        </button>
+        <button class="list-group-item" type="submit" name="submit" value="ts_om.healthsystem">
+            <span class="glyphicon glyphicon-plus-sign"></span> Health System
+        </button>
+        <button class="list-group-item" type="submit" name="submit" value="ts_om.entomology">
+            <span class="glyphicon glyphicon-screenshot"></span> Entomology
+        </button>
+        <button class="list-group-item" type="submit" name="submit" value="ts_om.interventions">
+            <span class="glyphicon glyphicon-wrench"></span> Interventions
+        </button>
+        <button class="list-group-item" type="submit" name="submit" value="ts_om.deployments">
+            <span class="glyphicon glyphicon-calendar"></span> Deployments
+        </button>
+    </div>
 {% endblock %}
 {% block right_content %}
 	{% block page_content %}
 		{% block header_content %}
 		{% endblock %}
 			<div class="tabbable">
-					<ul id="mode-tabs" class="nav nav-tabs">
-							<li class="active"><a data-toggle="tab" href="#simple">Basic</a></li>
-							<li>
-								<a data-toggle="tab" href="#advanced">
-									Advanced
-									<div class="advanced-tab-extra-text text-warning pull-right hide">(read-only)</div>
-								</a>
-							</li>
-					</ul>
+                <ul id="mode-tabs" class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#simple">Basic</a></li>
+                    <li>
+                        <a data-toggle="tab" href="#advanced">
+                            Advanced
+                            <div class="advanced-tab-extra-text text-warning pull-right hide">(read-only)</div>
+                        </a>
+                    </li>
+                </ul>
 			</div>
 			<div class="tab-content">
-					<div class="tab-pane active" id="simple">
-						{% block container_content %}
-						{% endblock %}
-					</div>
-					<div class="tab-pane" id="advanced">
-						<div class="row">
-							<div class="span9">
-								<span class="help-block" id="further-info">
-									Schema v32: <a target="_blank" href="https://github.com/SwissTPH/openmalaria/wiki/GeneratedSchema32Doc">Doc</a>
-									| <a download="scenario_32.xsd" href="{{ STATIC_URL }}ts_om/files/scenario_32.xsd">Download</a>
-								</span>
-							</div>
-						</div>
-						<div class="row">
-							<div class="span1">
-								<button class="btn {% if sim_id %}disabled{% endif %}" id="validate" type="button"
-												{% if sim_id %}disabled{% endif %}>
-										Validate
-								</button>
-							</div>
-							<div class="span1">
-								<div id="validate-spinner">
-										<i class="icon icon-spin icon-spinner"></i>
-								</div>
-							</div>
-							<div class="span5"></div>
-							<div class="span2">
-								<button class="discard-changes btn pull-right hide" type="button">Discard changes</button>
-							</div>
-						</div>
-						<div class="row">
-							<div class="span9">
-								<div id="valid-or-not"></div>
-							</div>
-						</div>
-							<textarea id="xml" name="xml" placeholder="<!-- write some xml -->">{{ xml }}</textarea>
-							<div class="form-actions">
-								<button class="save-scenario btn {% if sim_id %}disabled{% endif %}" id="save-scenario" type="button"
-												{% if sim_id %}disabled{% endif %}>
-									Save
-								</button>
-								<button class="submit-scenario btn {% if sim_id %}disabled{% endif %}" id="submit-scenario" type="button"
-												{% if sim_id %}disabled{% endif %} style="display: none;">
-									Save and Run
-								</button>
-							</div>
-							<span class="help-block">
-								While in the editor window:<br>
-								Use F11 to toggle Fullscreen mode.<br/>
-								Use ctrl+f / cmd+f to start searching, ctrl+g / cmd+g to find next.<br/>
-								Use ctrl+z / cmd+z to undo, ctrl+y / cmd+y to redo.
-							</span>
-							<div id="submit-progress" class="progress progress-striped active" style="width: 40%; display: none;">
-								<div class="bar" style="width: 20%;"></div>
-							</div>
-							<p class="text-success" id="submit_success" style="display: none; float:right;">Simulation submitted.</p>
-							<input id="scenario-id" name="scenario_id" type="hidden" value="{{ scenario_id }}">
-							<input id="simulation-id" name="simulation_id" type="hidden" value="{{ sim_id }}">
-							<input class="submit-type" id="submit-type-adv" name="submit_type" type="hidden" value="save">
-					</div>
+                <div class="tab-pane active" id="simple">
+                    {% block container_content %}
+                    {% endblock %}
+                </div>
+                <div class="tab-pane" id="advanced">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <span class="help-block" id="further-info">
+                                Schema v32: <a target="_blank" href="https://github.com/SwissTPH/openmalaria/wiki/GeneratedSchema32Doc">Doc</a>
+                                | <a download="scenario_32.xsd" href="{{ STATIC_URL }}ts_om/files/scenario_32.xsd">Download</a>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-1">
+                            <button class="btn {% if sim_id %}disabled{% endif %}" id="validate" type="button"
+                                {% if sim_id %}disabled{% endif %}>
+                                Validate
+                            </button>
+                        </div>
+                        <div class="col-md-1">
+                            <div id="validate-spinner">
+                                <span class="glyphicon glyphicon-spin icon-spinner"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-5"></div>
+                        <div class="col-md-2">
+                            <button class="discard-changes btn pull-right hide" type="button">Discard changes</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div id="valid-or-not"></div>
+                        </div>
+                    </div>
+                    <textarea id="xml" name="xml" placeholder="<!-- write some xml -->">{{ xml }}</textarea>
+                    <div class="form-actions">
+                        <button class="save-scenario btn {% if sim_id %}disabled{% endif %}" id="save-scenario" type="button"
+                            {% if sim_id %}disabled{% endif %}>
+                            Save
+                        </button>
+                        <button class="submit-scenario btn {% if sim_id %}disabled{% endif %}" id="submit-scenario" type="button"
+                            {% if sim_id %}disabled{% endif %} style="display: none;">
+                            Save and Run
+                        </button>
+                    </div>
+                    <span class="help-block">
+                        While in the editor window:<br>
+                        Use F11 to toggle Fullscreen mode.<br/>
+                        Use ctrl+f / cmd+f to start searching, ctrl+g / cmd+g to find next.<br/>
+                        Use ctrl+z / cmd+z to undo, ctrl+y / cmd+y to redo.
+                    </span>
+                    <div id="submit-progress" class="progress progress-striped active" style="width: 40%; display: none;">
+                        <div class="bar" style="width: 20%;"></div>
+                    </div>
+                    <p class="text-success" id="submit_success" style="display: none; float:right;">Simulation submitted.</p>
+                    <input id="scenario-id" name="scenario_id" type="hidden" value="{{ scenario_id }}">
+                    <input id="simulation-id" name="simulation_id" type="hidden" value="{{ sim_id }}">
+                    <input class="submit-type" id="submit-type-adv" name="submit_type" type="hidden" value="save">
+                </div>
 			</div>
 	{% endblock %}
 {% endblock %}

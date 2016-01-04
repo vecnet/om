@@ -76,8 +76,8 @@ $(function() {
   var vectorsObj = $(".vectors");
 
   vectorsObj.on("click", ".ts-collapse", function() {
-    var icon = $(this).find("i");
-    var commonIconStr = "icon-chevron-";
+    var icon = $(this).find("span");
+    var commonIconStr = "glyphicon-chevron-";
     var upStr = commonIconStr + "up";
     var downStr = commonIconStr + "down";
 
@@ -241,7 +241,8 @@ function addVector(count, vector, hasInterventions) {
 
   $(obj).removeClass("hidden-vector hide").addClass("vector");
   $(obj).attr('id', 'vector_' + count).hide().appendTo(".vectors").slideDown(300);
-  $(obj).find(".ts-collapse").attr("data-target", "#vector_" + count);
+  $(obj).find(".ts-collapse").attr("data-target", "#inner-vector_" + count);
+  $(obj).find(".inner-vector").attr("id", "inner-vector_" + count);
 
   var removeBtn = $(obj).find(".remove-vector");
   if (hasInterventions) {

@@ -1,12 +1,12 @@
 <div class="well deployment">
-	<button class="btn btn-small pull-right delete-deployment {% if remove == False %}hide{% endif %}" type="button">
-		<i class="icon-remove"></i>Remove
+	<button class="btn btn-default pull-right delete-deployment {% if remove == False %}hide{% endif %}" type="button">
+		<span class="glyphicon glyphicon-remove"></span>Remove
 	</button>
 	<div class="row">
-		<div class="span3">
+		<div class="col-md-4">
 			{% for field in form.visible_fields %}
 				{% if "components" not in field.id_for_label and not "DELETE" in field.id_for_label %}
-					<div class="form-inline">
+					<div class="form-group">
 						{{ field.errors }}
 						<label>{{ field.label }}</label>
 						{{ field }}
@@ -14,7 +14,7 @@
 				{% endif %}
 			{% endfor %}
 		</div>
-		<div class="span2">
+		<div class="col-md-2">
 			{{ form.components.label }}
 			{{ form.components }}
 		</div>

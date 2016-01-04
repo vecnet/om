@@ -2,18 +2,18 @@
 <li class="well intervention" data-index="{{ index }}" data-empty="{{ empty|default:"" }}" data-prefix="{{ formset.prefix }}">
 	<strong class="intervention-name">{{ form.name.value }}</strong>
 	<span class="btn-group pull-right">
-		<button class="edit-intervention tooltip-link accordion-toggle btn btn-small btn-left" type="button" data-toggle="collapse"
+		<button class="edit-intervention tooltip-link accordion-toggle btn btn-default btn-left" type="button" data-toggle="collapse"
 						{% if empty != "empty" %}data-target="#intervention-{{ formset.prefix }}-{{ index }}"{% endif %}
 						data-original-title="Edit intervention values">
 			<i class="icon-edit"></i>Edit
 		</button>
-		<button class="delete-entry btn btn-small btn-right tooltip_button {% if value.has_deployment %}disabled{% endif %}"
+		<button class="delete-entry btn btn-default btn-right tooltip_button {% if value.has_deployment %}disabled{% endif %}"
 			type="button" data-id="{{ key }}"
 			data-original-title="Remove Intervention and all related data" {% if value.has_deployment %}disabled{% endif %}>
 			<i class="icon-remove"></i> Remove
 		</button>
 	</span>
-	<div class="intervention-details collapse out"
+	<div class="intervention-details collapse"
 	     {% if empty != "empty" %}id="intervention-{{ formset.prefix }}-{{ index }}"{% endif %}>
 		{% if form.id %}
 			<label class="interevention-id-label">
