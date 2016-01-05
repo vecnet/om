@@ -73,7 +73,7 @@
 					<input class="btn" type="submit" value="Delete Experiment" disabled>
 				{% endif %}
 				<a download="{{ name }}.zip" class="btn" id="download-experiment"
-				   href="{% url "ts_om.download_experiment" id run_type %}">
+				   href="{% url "ts_om.download_experiment" experiment_id run_type %}">
 					<i class="icon-download-alt"></i> Download experiment
 				</a>
 				<button class="btn disabled" disabled>Go to Experiment Creator</button>
