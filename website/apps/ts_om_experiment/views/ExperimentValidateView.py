@@ -90,8 +90,8 @@ def get_scenarios(experiment_file, validate=False, count=-1):
     rc = []
     data = []
 
-    proj_path = getattr(settings, "PROJECT_PATH", None)
-    full_path = proj_path + experiment_file.url
+    proj_path = getattr(settings, "MEDIA_ROOT", None)
+    full_path = proj_path + "/" + experiment_file.url
 
     if zipfile.is_zipfile(experiment_file):
         exp_zip = zipfile.ZipFile(full_path)
