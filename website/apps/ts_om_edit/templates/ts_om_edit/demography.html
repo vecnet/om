@@ -7,7 +7,7 @@
 
 {% block extra_js %}
 	{{ block.super }}
-    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="{{ STATIC_URL }}js/HighCharts/js/highcharts.js"></script>
     <script src="{{ STATIC_URL }}ts_om/js/popovers_tooltips.js"></script>
     <script src="{{ STATIC_URL }}ts_om_edit/js/demography.js"></script>
 {% endblock %}

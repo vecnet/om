@@ -1,0 +1,7 @@
+{% extends "ts_om/base.html" %}
+
+{% block main_content %}
+    <form action="" id="ts-om-form" method="post">{% csrf_token %}
+        {{ block.super }}
+    </form>
+{% endblock %}
