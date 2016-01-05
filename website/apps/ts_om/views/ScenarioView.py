@@ -74,8 +74,8 @@ def download_experiment_scenario(request, scenario_id, index):
         return
 
     experiment_file = experiment.file
-    proj_path = getattr(settings, "PROJECT_PATH", None)
-    full_path = proj_path + experiment_file.url
+    proj_path = getattr(settings, "MEDIA_ROOT", None)
+    full_path = proj_path + "/" + experiment_file.url
 
     if zipfile.is_zipfile(experiment_file):
         exp_zip = zipfile.ZipFile(full_path)
