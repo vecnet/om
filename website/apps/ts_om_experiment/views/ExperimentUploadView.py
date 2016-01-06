@@ -18,7 +18,7 @@ from website.apps.ts_om.forms import ExperimentUploadForm
 class ExperimentUploadView(FormView):
     template_name = "ts_om_experiment/upload.html"
     form_class = ExperimentUploadForm
-    success_url = "/ts_om/experiment/validate/"
+    success_url = "/experiment/experiment/validate/"
 
     def get_context_data(self, **kwargs):
         context = super(ExperimentUploadView, self).get_context_data(**kwargs)
