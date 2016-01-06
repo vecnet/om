@@ -11,7 +11,8 @@
 
 /* Set up main header "jumbotron" band across the top */
 .jumbotron {
-    background: #2c84d7; /* Solid color */
+    background: mediumseagreen; /* Solid color */
+    /*background: #2c84d7; /!* Solid color *!/*/
     /*background: -moz-linear-gradient(top, #012f4c 0%, #47876d 100%); *//* FF3.6+ */
     /*background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#012f4c), color-stop(100%,#47876d)); *//* Chrome,Safari4+ */
     /*background: -webkit-linear-gradient(top, #012f4c 0%,#47876d 100%); *//* Chrome10+,Safari5.1+ */
