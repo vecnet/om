@@ -88,11 +88,11 @@
                 <form action="" method="POST">{% csrf_token %}
                     <div class="form-group">
                         <label class="col-sm-1 control-label" for="name">Name</label>
-                        <input class="text" id="name" name="name" placeholder="Name" value="{{ scenario.name }}"/>
+                        <input class="form-control text" id="name" name="name" placeholder="Name" value="{{ scenario.name }}"/>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-1 control-label" for="desc">Description</label>
-                        <textarea id="desc" name="desc" placeholder="Description"
+                        <textarea class="form-control" id="desc" name="desc" placeholder="Description"
                                   {% if deleted %}disabled{% endif %}>{{ desc }}</textarea>
                     </div>
                     <fieldset>
