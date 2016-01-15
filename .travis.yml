@@ -1,0 +1,24 @@
+sudo: false
+language: generic
+matrix:
+  include:
+    - python: 2.7
+      language: python
+      python: "2.7"
+      os: linux
+      env: PYTHON=/usr/bin/python2.7
+    - python: 2
+      os: osx
+      env: PYTHON=/usr/bin/python
+  allow_failures:
+    - os: osx
+before_install:
+  - source .travis.before_install.bash
+install:
+  - pip install --upgrade pip
+  - pip install -r requirements.txt
+script: python manage.py test
+notifications:
+  email:
+    on_success: never
+    on_failure: always
