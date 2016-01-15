@@ -12,26 +12,17 @@
 
 {% load i18n %}
 
-{% block page_title %}
-    VecNet Transmission Simulator - OpenMalaria
-{% endblock %}
-
 {% block extra_css %}
+    {{ block.super }}
     <link rel="stylesheet" href="{{ STATIC_URL }}ts_om/css/ts2.css" />
-    {% block extra_local_css %}
-    {% endblock %}
 {% endblock %}
-
 
 {% block extra_js %}
-{#    <script src="{{ STATIC_URL }}ts_om/js/ts.js"></script>#}
-    {% block extra_js_ts %}
-    {% endblock %}
+    {{ block.super }}
 {% endblock %}
 
 {% block jumbotron_content %}
-    <img src="{{ STATIC_URL }}ts_om/img/icon_ts.png">
-    <h1>Transmission Simulator</h1>
+    <h1>OpenMalaria Results Visualizer</h1>
     <p class="lead">Visualizing the OpenMalaria model output</p>
 {% endblock %}
 
@@ -39,28 +30,6 @@
 <div class="container">
     <div class="row">
         {% block inner_content %}
-            {% comment %}
-            <div class="span3">
-                <ul class="nav mainnav sidebar-nav nav-list nav-tabs nav-stacked">
-                    <li class="active"><a href="{% url "ts_weather.index" %}"><i class="icon-home"></i>Tool Overview<i
-                            class="icon-angle-right pull-right"></i></a></li>
-                    <li><a href="{% url "ts_weather.index" %}">
-                        <i class="icon-wrench"></i> New XML Scenario
-                        <i class="icon-angle-right pull-right"></i>
-                    </a></li>
-
-                    <li><a href="{% url "ts_weather.index" %}">
-                        <i class="icon-wrench"></i> List of all XML Scenarios
-                        <i class="icon-angle-right pull-right"></i>
-                    </a></li>
-
-                    <li><a href="{% url "ts_weather.index" %}">
-                        <i class="icon-wrench"></i> Upload Experiment
-                        <i class="icon-angle-right pull-right"></i>
-                    </a></li>
-                </ul>
-            </div>
-            {% endcomment %}
         {% endblock %}
     </div>
 </div>
