@@ -1,10 +1,7 @@
 {% extends "ts_om/base.html" %}
 
-{% block extra_local_css %}
-{#	<link rel="stylesheet" href="{{ STATIC_URL }}ts_om/css/testrun.css">#}
-{% endblock %}
-
-{% block extra_js_ts %}
+{% block extra_js %}
+    {{ block.super }}
 	<script>
 		var sim_group_status_link = "{% url "ts_om.run_status" experiment_id run_type %}";
 		var sims = {{ sims|safe }};
@@ -68,15 +65,15 @@
 			</label>
 			<div class="form-actions">
 				{% if status == 0 %}
-					<input class="btn" type="submit" value="Run Experiment" disabled>
+					<input class="btn btn-primary" type="submit" value="Run Experiment" disabled>
 				{% else %}
-					<input class="btn" type="submit" value="Delete Experiment" disabled>
+					<input class="btn btn-danger" type="submit" value="Delete Experiment" disabled>
 				{% endif %}
-				<a download="{{ name }}.zip" class="btn" id="download-experiment"
+				<a download="{{ name }}.zip" class="btn btn-default" id="download-experiment"
 				   href="{% url "ts_om.download_experiment" experiment_id run_type %}">
 					<i class="icon-download-alt"></i> Download experiment
 				</a>
-				<button class="btn disabled" disabled>Go to Experiment Creator</button>
+				<button class="btn btn-default disabled" disabled>Go to Experiment Creator</button>
 			</div>
     </form>
 	{% endblock %}

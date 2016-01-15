@@ -53,3 +53,8 @@ class ExperimentUploadForm(ModelForm):
     class Meta:
         model = ExperimentFile
         fields = ['name', 'file']
+
+    def __init__(self, *args, **kwargs):
+        super(ExperimentUploadForm, self).__init__(*args, **kwargs)
+
+        self.fields["name"].widget.attrs["class"] = "form-control"
