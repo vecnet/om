@@ -33,12 +33,12 @@ class ScenarioMonitoringForm(forms.Form):
     vaccine = forms.BooleanField(required=False)
     nr_infections = forms.BooleanField(required=False)
     sim_start_date = forms.CharField(initial=datetime.datetime.now().year,
-                                     widget=forms.TextInput(attrs={'class': 'input-mini'}))
+                                     widget=forms.TextInput(attrs={'class': 'form-control'}))
     monitor_yrs = forms.CharField(initial='2',
                                   widget=forms.TextInput(attrs={'class': 'form-control'}))
     monitor_mos = forms.ChoiceField(choices=MOS, initial=MOS[0][0], widget=forms.Select(attrs={'class': 'form-control'}))
     monitor_start_date = forms.CharField(initial=datetime.datetime.now().year,
-                                         widget=forms.TextInput(attrs={'class': 'input-mini'}))
+                                         widget=forms.TextInput(attrs={'class': 'form-control'}))
     measure_outputs = forms.ChoiceField(choices=[('yearly', 'Yearly'), ('monthly', 'Monthly'), ('custom', 'Custom')],
                                         widget=forms.Select(attrs={'class': 'form-control'}))
     parasite_detection_diagnostic_type = forms.ChoiceField(choices=DIAG_TYPE, widget=forms.Select(
@@ -115,8 +115,8 @@ class ScenarioEntomologyForm(forms.Form):
 
 
 class ScenarioEntomologyVectorForm(forms.Form):
-    average_eir = forms.CharField(widget=forms.TextInput(attrs={'class': 'input-mini'}), label="Annual EIR")
-    human_blood_index = forms.CharField(widget=forms.TextInput(attrs={'class': 'input-mini'}))
+    average_eir = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), label="Annual EIR")
+    human_blood_index = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     monthly_values = forms.CharField(widget=forms.HiddenInput())
     name = forms.CharField(widget=forms.HiddenInput())
 
@@ -157,22 +157,22 @@ class ScenarioGviInterventionForm(ScenarioHumanInterventionForm):
             required=False
         )
         self.fields['vector___inner-prefix___propActive'] = forms.CharField(
-            widget=forms.TextInput(attrs={'class': 'input-mini vector-prop-active'}),
+            widget=forms.TextInput(attrs={'class': 'form-control vector-prop-active'}),
             required=False,
             label="Proportion of bites for which IRS acts"
         )
         self.fields['vector___inner-prefix___deterrency'] = forms.CharField(
-            widget=forms.TextInput(attrs={'class': 'input-mini vector-deterrency'}),
+            widget=forms.TextInput(attrs={'class': 'form-control vector-deterrency'}),
             required=False,
             label="Relative attractiveness"
         )
         self.fields['vector___inner-prefix___preprandialKillingEffect'] = forms.CharField(
-            widget=forms.TextInput(attrs={'class': 'input-mini vector-preprandial-killing-effect'}),
+            widget=forms.TextInput(attrs={'class': 'form-control vector-preprandial-killing-effect'}),
             required=False,
             label="Pre-prandial killing effect"
         )
         self.fields['vector___inner-prefix___postprandialKillingEffect'] = forms.CharField(
-            widget=forms.TextInput(attrs={'class': 'input-mini vector-postprandial-killing-effect'}),
+            widget=forms.TextInput(attrs={'class': 'form-control vector-postprandial-killing-effect'}),
             required=False,
             label="Post-prandial killing effect"
         )
@@ -184,25 +184,25 @@ class ScenarioGviInterventionForm(ScenarioHumanInterventionForm):
                 required=False
             )
             self.fields['vector_%s_propActive' % index] = forms.CharField(
-                widget=forms.TextInput(attrs={'class': 'input-mini vector-prop-active'}),
+                widget=forms.TextInput(attrs={'class': 'form-control vector-prop-active'}),
                 initial=vector['propActive'],
                 required=False,
                 label="Proportion of bites for which IRS acts"
             )
             self.fields['vector_%s_deterrency' % index] = forms.CharField(
-                widget=forms.TextInput(attrs={'class': 'input-mini vector-deterrency'}),
+                widget=forms.TextInput(attrs={'class': 'form-control vector-deterrency'}),
                 initial=vector['deterrency'],
                 required=False,
                 label="Relative attractiveness"
             )
             self.fields['vector_%s_preprandialKillingEffect' % index] = forms.CharField(
-                widget=forms.TextInput(attrs={'class': 'input-mini vector-preprandial-killing-effect'}),
+                widget=forms.TextInput(attrs={'class': 'form-control vector-preprandial-killing-effect'}),
                 initial=vector['preprandialKillingEffect'],
                 required=False,
                 label="Pre-prandial killing effect"
             )
             self.fields['vector_%s_postprandialKillingEffect' % index] = forms.CharField(
-                widget=forms.TextInput(attrs={'class': 'input-mini vector-postprandial-killing-effect'}),
+                widget=forms.TextInput(attrs={'class': 'form-control vector-postprandial-killing-effect'}),
                 initial=vector['postprandialKillingEffect'],
                 required=False,
                 label="Post-prandial killing effect"
@@ -218,7 +218,7 @@ class ScenarioGviInterventionForm(ScenarioHumanInterventionForm):
             self.fields['vector___inner-prefix___postprandialKillingEffect'].initial = \
                 component.anophelesParams[0].postprandialKillingEffect
 
-    attrition = forms.CharField(widget=forms.TextInput(attrs={'class': 'input-mini'}), label="Decay", initial=0.0)
+    attrition = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), label="Decay", initial=0.0)
 
 
 class ScenarioLarvicidingInterventionForm(ScenarioBaseInterventionForm):
@@ -244,17 +244,17 @@ class ScenarioLarvicidingInterventionForm(ScenarioBaseInterventionForm):
             required=False
         )
         self.fields['vector___inner-prefix___seekingDeathRateIncrease'] = forms.CharField(
-            widget=forms.TextInput(attrs={'class': 'input-mini'}),
+            widget=forms.TextInput(attrs={'class': 'form-control'}),
             required=False,
             label="Proportional increase in deaths while host searching",
         )
         self.fields['vector___inner-prefix___probDeathOvipositing'] = forms.CharField(
-            widget=forms.TextInput(attrs={'class': 'input-mini'}),
+            widget=forms.TextInput(attrs={'class': 'form-control'}),
             required=False,
             label="Proportion ovipositing mosquitoes killed"
         )
         self.fields['vector___inner-prefix___emergenceReduction'] = forms.CharField(
-            widget=forms.TextInput(attrs={'class': 'input-mini'}),
+            widget=forms.TextInput(attrs={'class': 'form-control'}),
             required=False,
             label="Proportion of emerging pupa killed"
         )
@@ -266,19 +266,19 @@ class ScenarioLarvicidingInterventionForm(ScenarioBaseInterventionForm):
                 required=False
             )
             self.fields['vector_%s_seekingDeathRateIncrease' % index] = forms.CharField(
-                widget=forms.TextInput(attrs={'class': 'input-mini'}),
+                widget=forms.TextInput(attrs={'class': 'form-control'}),
                 initial=vector['seekingDeathRateIncrease'],
                 required=False,
                 label="Proportional increase in deaths while host searching",
             )
             self.fields['vector_%s_probDeathOvipositing' % index] = forms.CharField(
-                widget=forms.TextInput(attrs={'class': 'input-mini'}),
+                widget=forms.TextInput(attrs={'class': 'form-control'}),
                 initial=vector['probDeathOvipositing'],
                 required=False,
                 label="Proportion ovipositing mosquitoes killed"
             )
             self.fields['vector_%s_emergenceReduction' % index] = forms.CharField(
-                widget=forms.TextInput(attrs={'class': 'input-mini'}),
+                widget=forms.TextInput(attrs={'class': 'form-control'}),
                 initial=vector['emergenceReduction'],
                 required=False,
                 label="Proportion of emerging pupa killed"
@@ -307,10 +307,10 @@ class ScenarioLarvicidingInterventionForm(ScenarioBaseInterventionForm):
             else:
                 self.fields['vector___inner-prefix___probDeathOvipositing'].initial = 0.0
 
-    emergence_reduction = forms.CharField(widget=forms.TextInput(attrs={'class': 'input-mini'}),
+    emergence_reduction = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}),
                                           label="Initial proportion for emergence reduction", initial=0.0)
     deploy = forms.BooleanField(required=False)
-    timesteps = forms.CharField(widget=forms.TextInput(attrs={'class': 'input-large'}), label="Timesteps",
+    timesteps = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), label="Timesteps",
                                 required=False)
 
 
@@ -333,37 +333,37 @@ class ScenarioMdaInterventionForm(ScenarioHumanInterventionForm):
             required=False
         )
         self.fields['option___inner-prefix___pSelection'] = forms.CharField(
-            widget=forms.TextInput(attrs={'class': 'input-mini'}),
+            widget=forms.TextInput(attrs={'class': 'form-control'}),
             required=False,
             label="Probability of selection"
         )
         self.fields['option___inner-prefix___deploy___inner-option-prefix___maxAge'] = forms.CharField(
-            widget=forms.TextInput(attrs={'class': 'input-mini'}),
+            widget=forms.TextInput(attrs={'class': 'form-control'}),
             required=False,
             label="Maximum age of eligible humans"
         )
         self.fields['option___inner-prefix___deploy___inner-option-prefix___minAge'] = forms.CharField(
-            widget=forms.TextInput(attrs={'class': 'input-mini'}),
+            widget=forms.TextInput(attrs={'class': 'form-control'}),
             required=False,
             label="Minimum age of eligible humans"
         )
         self.fields['option___inner-prefix___deploy___inner-option-prefix___p'] = forms.CharField(
-            widget=forms.TextInput(attrs={'class': 'input-mini'}),
+            widget=forms.TextInput(attrs={'class': 'form-control'}),
             required=False,
             label="Probability of delivery to eligible humans"
         )
         self.fields['option___inner-prefix___deploy___inner-option-prefix___components'] = forms.CharField(
-            widget=forms.TextInput(attrs={'class': 'input-mini'}),
+            widget=forms.TextInput(attrs={'class': 'form-control'}),
             required=False,
             label="Components deployed to eligible humans"
         )
         self.fields['option___inner-prefix___clearInfection___inner-option-prefix___stage'] = forms.CharField(
-            widget=forms.TextInput(attrs={'class': 'input-mini'}),
+            widget=forms.TextInput(attrs={'class': 'form-control'}),
             required=False,
             label="Target stage"
         )
         self.fields['option___inner-prefix___clearInfection___inner-option-prefix___timesteps'] = forms.CharField(
-            widget=forms.TextInput(attrs={'class': 'input-mini'}),
+            widget=forms.TextInput(attrs={'class': 'form-control'}),
             required=False,
             label="Length of effect"
         )
@@ -375,7 +375,7 @@ class ScenarioMdaInterventionForm(ScenarioHumanInterventionForm):
                 required=False
             )
             self.fields['option_%s_pSelection' % index] = forms.CharField(
-                widget=forms.TextInput(attrs={'class': 'input-mini'}),
+                widget=forms.TextInput(attrs={'class': 'form-control'}),
                 initial=option['pSelection'],
                 required=False,
                 label="Probability of selection"
@@ -384,25 +384,25 @@ class ScenarioMdaInterventionForm(ScenarioHumanInterventionForm):
             if "deploys" in option:
                 for inner_index, deploy in option['deploys']:
                     self.fields['option_%s_deploy_%s_maxAge' % (index, inner_index)] = forms.CharField(
-                        widget=forms.TextInput(attrs={'class': 'input-mini'}),
+                        widget=forms.TextInput(attrs={'class': 'form-control'}),
                         initial=deploy.maxAge,
                         required=False,
                         label="Maximum age of eligible humans"
                     )
                     self.fields['option_%s_deploy_%s_minAge' % (index, inner_index)] = forms.CharField(
-                        widget=forms.TextInput(attrs={'class': 'input-mini'}),
+                        widget=forms.TextInput(attrs={'class': 'form-control'}),
                         initial=deploy.minAge,
                         required=False,
                         label="Minimum age of eligible humans"
                     )
                     self.fields['option_%s_deploy_%s_p' % (index, inner_index)] = forms.CharField(
-                        widget=forms.TextInput(attrs={'class': 'input-mini'}),
+                        widget=forms.TextInput(attrs={'class': 'form-control'}),
                         initial=deploy.p,
                         required=False,
                         label="Probability of delivery to eligible humans"
                     )
                     self.fields['option_%s_deploy_%s_components' % (index, inner_index)] = forms.CharField(
-                        widget=forms.TextInput(attrs={'class': 'input-mini'}),
+                        widget=forms.TextInput(attrs={'class': 'form-control'}),
                         initial=deploy.components,
                         required=False,
                         label="Components deployed to eligible humans"
@@ -412,14 +412,14 @@ class ScenarioMdaInterventionForm(ScenarioHumanInterventionForm):
                 for inner_index, clear_infection in enumerate(option['clearInfections']):
                     self.fields['option_%s_clearInfection_%s_stage' % (index, inner_index)] = \
                         forms.CharField(
-                            widget=forms.TextInput(attrs={'class': 'input-mini'}),
+                            widget=forms.TextInput(attrs={'class': 'form-control'}),
                             initial=clear_infection['stage'],
                             required=False,
                             label="Target stage"
                         )
                     self.fields['option_%s_clearInfection_%s_timesteps' % (index, inner_index)] = \
                         forms.CharField(
-                            widget=forms.TextInput(attrs={'class': 'input-mini'}),
+                            widget=forms.TextInput(attrs={'class': 'form-control'}),
                             initial=clear_infection['timesteps'],
                             required=False,
                             label="Length of effect"
@@ -427,17 +427,18 @@ class ScenarioMdaInterventionForm(ScenarioHumanInterventionForm):
 
 
 class ScenarioVaccineInterventionForm(ScenarioHumanInterventionForm):
-    attrition = forms.CharField(widget=forms.TextInput(attrs={'class': 'input-mini'}), label="Decay", initial=0.0)
-    efficacy_b = forms.CharField(widget=forms.TextInput(attrs={'class': 'input-mini'}),
+    attrition = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), label="Decay", initial=0.0)
+    efficacy_b = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}),
                                  label="Measure of variation in vaccine efficacy", initial=0.0)
-    initial_efficacy = forms.CharField(widget=forms.TextInput(attrs={'class': 'input-large'}),
+    initial_efficacy = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}),
                                        label="Mean efficacy values before decay", initial=0.0)
 
 
 class ScenarioImportedInfectionsForm(forms.Form):
-    period = forms.CharField(label="Period of repetition", initial=0)
-    timesteps = forms.CharField(initial=0)
-    values = forms.CharField(initial=0)
+    period = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}),
+                             label="Period of repetition", initial=0)
+    timesteps = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), initial=0)
+    values = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), initial=0)
     name = forms.CharField(widget=forms.HiddenInput(), required=False)
 
 
