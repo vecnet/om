@@ -27,9 +27,14 @@ class ScenarioStartForm(forms.Form):
                ('upload', 'Upload existing XML file')]
 
     choice = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect(), initial=CHOICES[0][0])
-    name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Name'}), required=True)
-    desc = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Description', 'rows': '3'}), required=False)
-    list = forms.ModelChoiceField(queryset=BaselineScenario.objects.all(), empty_label=None, required=False)
+    name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Name', 'class': 'form-control'}),
+                           required=True)
+    desc = forms.CharField(widget=forms.Textarea(
+        attrs={'placeholder': 'Description', 'rows': '3', 'class': 'form-control'}), required=False)
+    list = forms.ModelChoiceField(queryset=BaselineScenario.objects.all(),
+                                  widget=forms.Select(attrs={'class': 'form-control'}),
+                                  empty_label=None,
+                                  required=False)
     xml_file = forms.FileField(required=False)
 
 

@@ -14,8 +14,14 @@
 {% block right_content %}
 	<h3>Start new simulation</h3>
     <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+        {{ form.non_field_errors }}
         <div class="form-group">
             {{ form.name }}
+            <p class="text-danger">
+                {% for error in form.name.errors %}
+                    {{ error }}
+                {% endfor %}
+            </p>
         </div>
         <div class="form-group">
             {{ form.desc }}
