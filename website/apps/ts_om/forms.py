@@ -37,6 +37,17 @@ class ScenarioStartForm(forms.Form):
                                   required=False)
     xml_file = forms.FileField(required=False)
 
+    def clean(self):
+        clean_data = super(ScenarioStartForm, self).clean()
+
+        choice = clean_data.get("choice")
+
+        if choice == "upload":
+            xml_file = clean_data.get("xml_file")
+
+            if not xml_file:
+                raise forms.ValidationError("No scenario xml file chosen for upload.")
+
 
 class ExperimentUploadForm(ModelForm):
     class Meta:

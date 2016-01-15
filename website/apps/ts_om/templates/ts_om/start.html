@@ -14,7 +14,11 @@
 {% block right_content %}
 	<h3>Start new simulation</h3>
     <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
-        {{ form.non_field_errors }}
+        <p class="text-danger">
+            {% for error in form.non_field_errors %}
+                {{ error }}
+            {% endfor %}
+        </p>
         <div class="form-group">
             {{ form.name }}
             <p class="text-danger">
@@ -39,6 +43,11 @@
             {{ form.choice.2 }}
             {{ form.xml_file }}
             <p class="text-error">{{ upload_error }}</p>
+            <p class="text-danger">
+                {% for error in form.xml_file.errors %}
+                    {{ error }}
+                {% endfor %}
+            </p>
         </div>
         <div>
             <button class="btn btn-primary" id="nextPage" type="submit">Create</button>
