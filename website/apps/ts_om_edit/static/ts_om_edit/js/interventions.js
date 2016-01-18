@@ -49,7 +49,7 @@ function getUpdatedInterventionsForm(e) {
 
   uiSortableObj.empty();
 
-  uiSortableObj.load("/ts_om/" + $("#scenario-id").val() + "/interventions/update/form/", postVals, function (data) {
+  uiSortableObj.load("/ts_om_edit/" + $("#scenario-id").val() + "/interventions/update/form/", postVals, function (data) {
     obj.tab('show');
     $(this).trigger("customLoadEvent");
 

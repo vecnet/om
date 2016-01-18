@@ -514,6 +514,6 @@ def update_interventions_form(request, scenario_id):
 
     extra_data = load_interventions_data(temp_scenario)
 
-    html = render_to_string("ts_om/../templates/ts_om_edit/interventions/interventions_list.html", extra_data)
+    html = render_to_string("ts_om_edit/interventions/interventions_list.html", extra_data)
 
     return HttpResponse(html)

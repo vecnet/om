@@ -157,7 +157,7 @@ function getUpdatedDeploymentsForm(e) {
 
   deploymentsObj.empty();
 
-  deploymentsObj.load("/ts_om/" + $("#scenario-id").val() + "/deployments/update/form/", postVals, function (data) {
+  deploymentsObj.load("/ts_om_edit/" + $("#scenario-id").val() + "/deployments/update/form/", postVals, function (data) {
     obj.tab('show');
 
     var hasComponents = $(".has-components").val();
