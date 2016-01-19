@@ -101,7 +101,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-1">
-                            <button class="btn {% if sim_id %}disabled{% endif %}" id="validate" type="button"
+                            <button class="btn btn-default {% if sim_id %}disabled{% endif %}" id="validate" type="button"
                                 {% if sim_id %}disabled{% endif %}>
                                 Validate
                             </button>
@@ -123,11 +123,11 @@
                     </div>
                     <textarea id="xml" name="xml" placeholder="<!-- write some xml -->">{{ xml }}</textarea>
                     <div class="form-actions">
-                        <button class="save-scenario btn {% if sim_id %}disabled{% endif %}" id="save-scenario" type="button"
+                        <button class="save-scenario btn btn-default {% if sim_id %}disabled{% endif %}" id="save-scenario" type="button"
                             {% if sim_id %}disabled{% endif %}>
                             Save
                         </button>
-                        <button class="submit-scenario btn {% if sim_id %}disabled{% endif %}" id="submit-scenario" type="button"
+                        <button class="submit-scenario btn btn-default {% if sim_id %}disabled{% endif %}" id="submit-scenario" type="button"
                             {% if sim_id %}disabled{% endif %} style="display: none;">
                             Save and Run
                         </button>
