@@ -115,6 +115,7 @@ class ScenarioInterventionsView(ScenarioBaseFormView):
 
                             self.scenario.interventions.human.add(xml, id=intervention_id)
                             intervention = self.scenario.interventions.human[intervention_id]
+                            intervention.anophelesParams = []
                     finally:
                         if intervention is None:
                             return super(ScenarioInterventionsView, self).form_invalid(form)
@@ -154,6 +155,7 @@ class ScenarioInterventionsView(ScenarioBaseFormView):
 
                                 self.scenario.interventions.vectorPop.add(xml, name=name)
                                 intervention = self.scenario.interventions.vectorPop[name]
+                                intervention.anopheles = []
                         finally:
                             intervention.emergenceReduction = float(form.cleaned_data["emergence_reduction"])
                             temp_vectors = parse_parameters(self.request.POST, formset.prefix, index=index)
@@ -481,8 +483,7 @@ def load_interventions_data(scenario):
     context["intervention_formsets"] = formsets
     context["interventions"] = InterventionSnippet.objects.all()
     context["entomology_vectors_count"] = len(scenario.entomology.vectors)
-    context["entomology_vectors_names"] = json.dumps(
-        [vector.mosquito for vector in scenario.entomology.vectors])
+    context["entomology_vectors_names"] = [vector.mosquito for vector in scenario.entomology.vectors]
 
     return context
 
@@ -514,6 +515,6 @@ def update_interventions_form(request, scenario_id):
 
     extra_data = load_interventions_data(temp_scenario)
 
-    html = render_to_string("ts_om/../templates/ts_om_edit/interventions/interventions_list.html", extra_data)
+    html = render_to_string("ts_om_edit/interventions/interventions_list.html", extra_data)
 
     return HttpResponse(html)

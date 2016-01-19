@@ -38,7 +38,17 @@ $(function () {
   });
 
   uiSortableObj.trigger("customLoadEvent");
+
+    setVectorNameLabels(interventionsObj);
 });
+
+function setVectorNameLabels(obj) {
+    obj.find(".intervention").each(function() {
+        $(this).find(".vectors").children(".vector").each(function(index) {
+            $(this).children(".intervention-vector-name").html(vectorNames[index]);
+        });
+    });
+}
 
 function getUpdatedInterventionsForm(e) {
   e.stopImmediatePropagation();
@@ -49,11 +59,10 @@ function getUpdatedInterventionsForm(e) {
 
   uiSortableObj.empty();
 
-  uiSortableObj.load("/ts_om/" + $("#scenario-id").val() + "/interventions/update/form/", postVals, function (data) {
+  uiSortableObj.load("/ts_om_edit/" + $("#scenario-id").val() + "/interventions/update/form/", postVals, function (data) {
     obj.tab('show');
     $(this).trigger("customLoadEvent");
 
-    vectorsCount = parseInt($(".entomology-vectors-count").val());
-    vectorNames = $(".entomology-vector-names").val();
+      setVectorNameLabels($(".interventions"));
   });
 }

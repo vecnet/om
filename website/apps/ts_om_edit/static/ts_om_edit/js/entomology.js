@@ -205,7 +205,7 @@ function getUpdatedEntomologyForm(e) {
   var obj = $(this);
   var postVals = {'xml': window.xmleditor.getValue()};
 
-  $.post("/ts_om/" + $("#scenario-id").val() + "/entomology/update/form/", postVals, function (data) {
+  $.post("/ts_om_edit/" + $("#scenario-id").val() + "/entomology/update/form/", postVals, function (data) {
     if (data.hasOwnProperty("valid") && data.valid) {
       $(".vectors").find(".vector").each(function() {
         $(this).remove();

@@ -15,7 +15,7 @@ function getUpdatedHealthSystemForm(e) {
   var obj = $(this);
   var postVals = {'xml': window.xmleditor.getValue()};
 
-  $.post("/ts_om/" + $("#scenario-id").val() + "/healthsystem/update/form/", postVals, function (data) {
+  $.post("/ts_om_edit/" + $("#scenario-id").val() + "/healthsystem/update/form/", postVals, function (data) {
     if (data.hasOwnProperty("valid") && data.valid) {
       $("#id_perc_total_treated").val(data["perc_total_treated"]);
       $("#id_perc_formal_care").val(data["perc_formal_care"]);

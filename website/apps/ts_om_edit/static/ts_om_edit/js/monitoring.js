@@ -35,7 +35,7 @@ function getUpdatedMonitoringForm(e) {
   var obj = $(this);
   var postVals = {'xml': window.xmleditor.getValue(), 'start_date': $("#id_sim_start_date").val()};
 
-  $.post("/ts_om/" + $("#scenario-id").val() + "/monitoring/update/form/", postVals, function(data) {
+  $.post("/ts_om_edit/" + $("#scenario-id").val() + "/monitoring/update/form/", postVals, function(data) {
     if (data.hasOwnProperty("valid") && data.valid) {
       for (var i = 0; i < surveyOptions.length; i++) {
         if (data.hasOwnProperty(surveyOptions[i])) {
