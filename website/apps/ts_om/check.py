@@ -1,5 +1,6 @@
-from django.conf import settings
 import os
+
+from django.conf import settings
 
 __author__ = 'nreed'
 
@@ -10,7 +11,10 @@ url_dict = {
 }
 
 
-def check_dir(local_dir):
+def check_dir(local_dir, typ):
+    if local_dir is None or local_dir == '':
+        return url_dict[typ]
+
     if os.name == "nt":
         if not local_dir.endswith('\\'):
             local_dir += '\\'

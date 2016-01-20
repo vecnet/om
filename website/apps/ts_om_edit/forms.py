@@ -159,7 +159,7 @@ class ScenarioGviInterventionForm(ScenarioHumanInterventionForm):
         self.fields['vector___inner-prefix___propActive'] = forms.CharField(
             widget=forms.TextInput(attrs={'class': 'form-control vector-prop-active'}),
             required=False,
-            label="Proportion of bites for which IRS acts"
+            label="Proportion of bites for which intervention acts"
         )
         self.fields['vector___inner-prefix___deterrency'] = forms.CharField(
             widget=forms.TextInput(attrs={'class': 'form-control vector-deterrency'}),
@@ -187,7 +187,7 @@ class ScenarioGviInterventionForm(ScenarioHumanInterventionForm):
                 widget=forms.TextInput(attrs={'class': 'form-control vector-prop-active'}),
                 initial=vector['propActive'],
                 required=False,
-                label="Proportion of bites for which IRS acts"
+                label="Proportion of bites for which intervention acts"
             )
             self.fields['vector_%s_deterrency' % index] = forms.CharField(
                 widget=forms.TextInput(attrs={'class': 'form-control vector-deterrency'}),
