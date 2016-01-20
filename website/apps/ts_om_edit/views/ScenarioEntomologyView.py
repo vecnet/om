@@ -6,9 +6,11 @@ from django.forms.formsets import formset_factory
 from django.http import HttpResponse
 from vecnet.openmalaria.scenario import Scenario
 
-from website.apps.ts_om_edit.forms import ScenarioEntomologyForm, ScenarioEntomologyVectorForm
+from website.apps.ts_om_edit.forms import ScenarioEntomologyForm, ScenarioEntomologyVectorForm, \
+    ScenarioImportedInfectionsForm
 from website.apps.ts_om.models import Scenario as ScenarioModel, AnophelesSnippet
 from website.apps.ts_om.views.ScenarioBaseFormView import ScenarioBaseFormView, update_form
+from website.apps.ts_om_edit.views.ScenarioInterventionsView import parse_imported_infections
 from website.middleware import HttpRedirectException
 from website.notification import set_notification
 
@@ -40,7 +42,20 @@ class ScenarioEntomologyView(ScenarioBaseFormView):
 
         ScenarioEntomologyVectorFormSet = formset_factory(ScenarioEntomologyVectorForm, extra=0, can_delete=True)
 
+        imported_infection = None
+        imported_infection_form = ScenarioImportedInfectionsForm()
+
+        imported_infections = parse_imported_infections(self.scenario)
+        if imported_infections:
+            imported_infection = imported_infections[0]
+            imported_infection_form.initial["name"] = imported_infection["name"]
+            imported_infection_form.initial["period"] = imported_infection["period"]
+            imported_infection_form.initial["timesteps"] = imported_infection["timesteps"]
+            imported_infection_form.initial["values"] = imported_infection["values"]
+
         context['vector_formset'] = ScenarioEntomologyVectorFormSet(initial=parse_vectors(self.scenario))
+        context["has_imported_infection"] = imported_infection is not None
+        context["import_infections_form"] = imported_infection_form
         context['om_scenario'] = self.scenario
 
         return context
@@ -97,6 +112,31 @@ class ScenarioEntomologyView(ScenarioBaseFormView):
         for vector_name in vectors_to_delete:
             del self.scenario.entomology.vectors[vector_name]
 
+        if "has_imported_infection" in self.request.POST and self.request.POST["has_imported_infection"]:
+            if self.scenario.interventions.importedInfections is None:
+                self.scenario.interventions.add_section("importedInfections")
+
+            name = "Imported Infection"
+            if "name" in self.request.POST and self.request.POST["name"] != "":
+                name = str(self.request.POST["name"])
+
+            self.scenario.interventions.importedInfections.name = name
+            self.scenario.interventions.importedInfections.period = int(self.request.POST["period"])
+
+            rates = []
+            timesteps = self.request.POST["timesteps"].split(',')
+            values = self.request.POST["values"].split(',')
+
+            for timestep, value in zip(timesteps, values):
+                rates.append({
+                    "time": timestep,
+                    "value": value
+                })
+
+            self.scenario.interventions.importedInfections.rates = rates
+        else:
+            self.scenario.interventions.remove_section("importedInfections")
+
         return super(ScenarioEntomologyView, self).form_valid(form, kwargs={'xml': self.scenario.xml})
 
 
@@ -128,11 +168,20 @@ def update_entomology_form(request, scenario_id):
     if "scenario" in data:
         temp_scenario = data["scenario"]
 
+    has_imported_infection = temp_scenario.interventions.importedInfections is not None
+    imported_infection = None
+    if has_imported_infection:
+        imported_infections = parse_imported_infections(temp_scenario)
+        if imported_infections:
+            imported_infection = imported_infections[0]
+
     form_values = {
         'valid': valid,
         'annual_eir': temp_scenario.entomology.scaledAnnualEIR,
         'vectors': parse_vectors(temp_scenario),
-        'has_interventions': len(temp_scenario.interventions.human) or len(temp_scenario.interventions.vectorPop)
+        'has_interventions': len(temp_scenario.interventions.human) or len(temp_scenario.interventions.vectorPop),
+        'has_imported_infection': has_imported_infection,
+        'imported_infection': imported_infection
     }
 
     return HttpResponse(json.dumps(form_values), content_type="application/json")

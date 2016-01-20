@@ -197,6 +197,10 @@ $(function() {
     chart = new Highcharts.Chart(options);
     $("#id_vectors").trigger("change");
   });
+
+    $(".has-imported-infection").click(function() {
+        $(".imported-infections").toggleClass("hide");
+    });
 });
 
 function getUpdatedEntomologyForm(e) {
@@ -223,6 +227,18 @@ function getUpdatedEntomologyForm(e) {
       }
       $("#id_vectors").trigger("change");
       obj.tab('show');
+
+        $(".has-imported-infection").prop("checked", data["has_imported_infection"]);
+        $(".imported-infections").toggleClass("hide", !data["has_imported_infection"]);
+
+        if (data["has_imported_infection"]) {
+            var importedInfection = data["imported_infection"];
+
+            $("input[name='period']").val(importedInfection["period"]);
+            $("input[name='name']").val(importedInfection["name"]);
+            $("input[name='timesteps']").val(importedInfection["timesteps"]);
+            $("input[name='values']").val(importedInfection["values"]);
+        }
     }
   }, "json").fail(function(jqXHR, textStatus, errorThrown) {
   });
