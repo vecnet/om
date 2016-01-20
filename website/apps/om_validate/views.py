@@ -21,7 +21,7 @@ def validate(request):
     logger.info("user: %s" % request.user)
     fileNew = request.read()
     om_dir = check_url(getattr(settings, "OPENMALARIA_EXEC_DIR", None), "openmalaria")
-    scenarios_dir = check_dir(getattr(settings, "TS_OM_SCENARIOS_DIR", None))
+    scenarios_dir = check_dir(getattr(settings, "TS_OM_SCENARIOS_DIR", None), "scenarios")
     return_code = 0
     out = None
     data = {}
