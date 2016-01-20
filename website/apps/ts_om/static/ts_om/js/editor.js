@@ -76,8 +76,8 @@ $(document).ready(function () {
                     $(this).val("run");
                 });
 
-                submitProgressBar.children(".bar").animate({
-                   width: "80%"
+                submitProgressBar.children(".progress-bar").animate({
+                   width: "100%"
                 });
                 submitButton.text('Submitting...');
 
@@ -87,8 +87,8 @@ $(document).ready(function () {
                 submitButton.removeAttr('disabled');
                 submitButton.text('Submit');
                 submitProgressBar.hide();
-                submitProgressBar.children(".bar").css({
-                    width: "40%"
+                submitProgressBar.children(".progress-bar").css({
+                    width: "50%"
                 });
             }
         });
