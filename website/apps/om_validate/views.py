@@ -3,12 +3,11 @@ import random
 import os
 import glob
 import subprocess
-import json
 import logging
 
-from django.shortcuts import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
+from django.http import JsonResponse
 from lxml import etree
 
 from website.apps.ts_om.check import check_url, check_dir
@@ -87,4 +86,4 @@ def validate(request):
     data['result'] = return_code
     data['om_output'] = out.split("\n")
 
-    return HttpResponse(json.dumps(data), mimetype="application/json")
+    return JsonResponse(data, safe=False)
