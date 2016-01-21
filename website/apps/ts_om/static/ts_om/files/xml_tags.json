@@ -1,1111 +1,1653 @@
 {
-    "slope": {
-        "attrs": {},
-        "children": []
-    },
-    "subPop": {
-        "attrs": {
-            "id": null,
-            "number": null
-        },
-        "children": []
-    },
-    "uncomplicatedCaseDuration": {
-        "attrs": {},
-        "children": []
-    },
-    "human": {
-        "attrs": {},
-        "children": [
-            "component",
-            "deployment"
-        ]
-    },
-    "changeHS": {
-        "attrs": {
-            "name": null
-        },
-        "children": [
-            "timedDeployment"
-        ]
-    },
-    "decisions": {
-        "attrs": {},
-        "children": [
-            "decision"
-        ]
-    },
-    "NonMalariaFevers": {
-        "attrs": {},
-        "children": [
-            "prTreatment",
-            "effectNegativeTest",
-            "effectPositiveTest",
-            "effectNeed",
-            "effectInformal",
-            "CFR",
-            "TreatmentEfficacy"
-        ]
-    },
-    "group": {
-        "attrs": {
-            "upperbound": null
-        },
-        "children": []
-    },
-    "parameters": {
-        "attrs": {
-            "latentp": null,
-            "interval": null,
-            "iseed": null
-        },
-        "children": [
-            "parameter"
-        ]
-    },
-    "treatment": {
-        "attrs": {
-            "name": null
-        },
-        "children": [
-            "schedule",
-            "modifier"
-        ]
-    },
-    "timedBase": {
-        "attrs": {
-            "time": null
-        },
-        "children": []
-    },
-    "effectNegativeTest": {
-        "attrs": {},
-        "children": []
-    },
-    "effectNeed": {
-        "attrs": {},
-        "children": []
-    },
-    "initialACR": {
-        "attrs": {},
-        "children": []
-    },
-    "ripFactor": {
-        "attrs": {},
-        "children": []
-    },
-    "IC50": {
-        "attrs": {},
-        "children": []
-    },
-    "pharmacology": {
-        "attrs": {},
-        "children": [
-            "drug"
-        ]
-    },
-    "entomology": {
-        "attrs": {
-            "scaledAnnualEIR": null,
-            "name": null,
-            "mode": null
-        },
-        "children": []
-    },
-    "deploymentBase": {
-        "attrs": {
-            "vaccMinPrevDoses": null,
-            "coverage": null,
-            "vaccMaxCumDoses": null
-        },
-        "children": []
-    },
-    "BetaMeanSample": {
-        "attrs": {
-            "variance": null,
-            "mean": null
-        },
-        "children": []
-    },
-    "TreatmentEfficacy": {
-        "attrs": {},
-        "children": []
-    },
-    "effects": {
-        "attrs": {},
-        "children": [
-            "option"
-        ]
-    },
-    "deployment": {
-        "attrs": {
-            "name": null
-        },
-        "children": [
-            "Component",
-            "continuous",
-            "timed"
-        ]
-    },
-    "changeEIR": {
-        "attrs": {
-            "name": null
-        },
-        "children": [
-            "timedDeployment"
-        ]
-    },
-    "IRSDescription": {
-        "attrs": {},
-        "children": [
-            "NormalSample",
-            "DecayFunction",
-            "anophelesParams"
-        ]
-    },
-    "probDeathOvipositing": {
-        "attrs": {
-            "initial": null
-        },
-        "children": [
-            "DecayFunction"
-        ]
-    },
-    "mosqProbOvipositing": {
-        "attrs": {},
-        "children": []
-    },
-    "item": {
-        "attrs": {},
-        "children": []
-    },
-    "demography": {
-        "attrs": {
-            "maximumAgeYrs": null,
-            "growthRate": null,
-            "name": null,
-            "popSize": null
-        },
-        "children": [
-            "ageGroup"
-        ]
-    },
-    "initialEfficacy": {
-        "attrs": {},
-        "children": []
-    },
-    "treatmentActions": {
-        "attrs": {},
-        "children": [
-            "CQ",
-            "SP",
-            "AQ",
-            "SPAQ",
-            "ACT",
-            "QN"
-        ]
-    },
-    "SP": {
-        "attrs": {
-            "value": null
-        },
-        "children": []
-    },
-    "cumulativeCoverage": {
-        "attrs": {
-            "component": null
-        },
-        "children": []
-    },
-    "weight": {
-        "attrs": {
-            "multStdDev": null
-        },
-        "children": []
-    },
-    "pSequelaeInpatient": {
-        "attrs": {
-            "interpolation": null
-        },
-        "children": [
-            "group"
-        ]
-    },
-    "pupalStage": {
-        "attrs": {
-            "duration": null,
-            "survival": null
-        },
-        "children": []
-    },
-    "SPAQ": {
-        "attrs": {},
-        "children": []
-    },
-    "mosqProbResting": {
-        "attrs": {},
-        "children": []
-    },
-    "rate": {
-        "attrs": {
-            "time": null
-        },
-        "children": []
-    },
-    "ModelOptions": {
-        "attrs": {},
-        "children": [
-            "option"
-        ]
-    },
-    "emergenceReduction": {
-        "attrs": {
-            "initial": null
-        },
-        "children": [
-            "DecayFunction"
-        ]
-    },
-    "nonVector": {
-        "attrs": {
-            "eipDuration": null
-        },
-        "children": [
-            "EIRDaily"
-        ]
-    },
-    "pEventIsSevere": {
-        "attrs": {},
-        "children": []
-    },
-    "insertR_0Case": {
-        "attrs": {
-            "name": null
-        },
-        "children": [
-            "timedDeployment"
-        ]
-    },
-    "healthSystem": {
-        "attrs": {},
-        "children": [
-            "CFR",
-            "pSequelaeInpatient"
-        ]
-    },
-    "decision": {
-        "attrs": {},
-        "children": []
-    },
-    "schedule": {
-        "attrs": {},
-        "children": [
-            "medicate"
-        ]
-    },
-    "intervention": {
-        "attrs": {
-            "name": null
-        },
-        "children": [
-            "description",
-            "timed"
-        ]
-    },
-    "complicatedRiskDuration": {
-        "attrs": {},
-        "children": []
-    },
-    "HSEventScheduler": {
-        "attrs": {},
-        "children": [
-            "uncomplicated",
-            "complicated",
-            "ClinicalOutcomes",
-            "NonMalariaFevers"
-        ]
-    },
-    "SurveyOptions": {
-        "attrs": {},
-        "children": []
-    },
-    "PD": {
-        "attrs": {},
-        "children": [
-            "allele"
-        ]
-    },
-    "effectPositiveTest": {
-        "attrs": {},
-        "children": []
-    },
-    "PK": {
-        "attrs": {},
-        "children": [
-            "negligible_concentration",
-            "half_life",
-            "vol_dist"
-        ]
-    },
-    "availabilityToMosquitoes": {
-        "attrs": {},
-        "children": []
-    },
-    "lifeCycle": {
-        "attrs": {
-            "estimatedLarvalResources": null
-        },
-        "children": [
-            "eggStage",
-            "larvalStage",
-            "pupalStage",
-            "femaleEggsLaidByOviposit"
-        ]
-    },
-    "importedInfections": {
-        "attrs": {
-            "name": null
-        },
-        "children": [
-            "timed"
-        ]
-    },
-    "cohorts": {
-        "attrs": {},
-        "children": [
-            "subPop"
-        ]
-    },
-    "DecayFunction": {
-        "attrs": {
-            "function": null,
-            "mu": null,
-            "k": null,
-            "sigma": null,
-            "L": null
-        },
-        "children": []
-    },
-    "max_killing_rate": {
-        "attrs": {},
-        "children": []
-    },
-    "om:scenario": {
-        "attrs": {
-            "analysisNo": null,
-            "schemaVersion": null,
-            "wuID": null,
-            "name": null
-        },
-        "children": [
-            "demography",
-            "monitoring",
-            "interventions",
-            "healthSystem",
-            "entomology",
-            "pharmacology",
-            "model"
-        ]
-    },
-    "component": {
-        "attrs": {
-            "id": null,
-            "name": null
-        },
-        "children": [
-            "subPopRemoval"
-        ]
-    },
-    "seekingDeathRateIncrease": {
-        "attrs": {
-            "initial": null
-        },
-        "children": [
-            "DecayFunction"
-        ]
-    },
-    "half_life": {
-        "attrs": {},
-        "children": []
-    },
-    "mosqProbFindRestSite": {
-        "attrs": {},
-        "children": []
-    },
-    "complicated": {
-        "attrs": {},
-        "children": [
-            "decisions",
-            "treatments"
-        ]
-    },
-    "eggStage": {
-        "attrs": {},
-        "children": []
-    },
-    "effectivenessOnUse": {
-        "attrs": {},
-        "children": []
-    },
-    "prNeedTreatmentMF": {
-        "attrs": {},
-        "children": []
-    },
-    "bloodStageLengthDays": {
-        "attrs": {
-            "weibullShape": null,
-            "weibullScale": null
-        },
-        "children": []
-    },
-    "prTreatment": {
-        "attrs": {},
-        "children": []
-    },
-    "selfTreatment": {
-        "attrs": {},
-        "children": []
-    },
-    "vaccineDescription": {
-        "attrs": {},
-        "children": [
-            "DecayFunction",
-            "efficacyB",
-            "initialEfficacy"
-        ]
-    },
-    "compliance": {
-        "attrs": {},
-        "children": []
-    },
-    "drug": {
-        "attrs": {
-            "abbrev": null
-        },
-        "children": [
-            "PD",
-            "PK"
-        ]
-    },
-    "negligible_concentration": {
-        "attrs": {},
-        "children": []
-    },
-    "LognormalSample": {
-        "attrs": {
-            "sigma": null,
-            "mean": null
-        },
-        "children": []
-    },
-    "timed": {
-        "attrs": {},
-        "children": [
-            "timedBase"
-        ]
-    },
-    "mosq": {
-        "attrs": {
-            "minInfectedThreshold": null
-        },
-        "children": [
-            "intValue",
-            "intValue",
-            "mosqLaidEggsSameDayProportion",
-            "mosqSeekingDuration",
-            "mosqSurvivalFeedingCycleProbability",
-            "availabilityVariance",
-            "BetaMeanSample",
-            "BetaMeanSample",
-            "BetaMeanSample",
-            "mosqProbOvipositing",
-            "mosqHumanBloodIndex"
-        ]
-    },
-    "timedDeployment": {
-        "attrs": {
-            "time": null
-        },
-        "children": []
-    },
-    "Screen": {
-        "attrs": {},
-        "children": [
-            "HSDiagnostic",
-            "TriggeredDeployments",
-            "TriggeredDeployments"
-        ]
-    },
-    "availabilityVariance": {
-        "attrs": {},
-        "children": []
-    },
-    "pUseUncomplicated": {
-        "attrs": {},
-        "children": []
-    },
-    "primaquine": {
-        "attrs": {},
-        "children": [
-            "pHumanCannotReceive",
-            "pUseUncomplicated",
-            "effectivenessOnUse"
-        ]
-    },
-    "massListWithCum": {
-        "attrs": {},
-        "children": [
-            "restrictToSubPop",
-            "cumulativeCoverage",
-            "mass"
-        ]
-    },
-    "seasonality": {
-        "attrs": {
-            "input": null,
-            "annualEIR": null
-        },
-        "children": []
-    },
-    "!top": [
-        "om:scenario"
-    ],
-    "pEventSecondary": {
-        "attrs": {
-            "a": null,
-            "b": null
-        },
-        "children": []
-    },
-    "ITNDeterrency": {
-        "attrs": {
-            "interactionFactor": null,
-            "holeFactor": null,
-            "holeScalingFactor": null
-        },
-        "children": []
-    },
-    "nonHumanHosts": {
-        "attrs": {
-            "name": null
-        },
-        "children": [
-            "mosqRelativeEntoAvailability",
-            "mosqProbBiting",
-            "mosqProbFindRestSite",
-            "mosqProbResting"
-        ]
-    },
-    "ACT": {
-        "attrs": {},
-        "children": []
-    },
-    "pEventPrimary": {
-        "attrs": {},
-        "children": []
-    },
-    "TreatmentOption": {
-        "attrs": {
-            "name": null
-        },
-        "children": []
-    },
-    "efficacyB": {
-        "attrs": {},
-        "children": []
-    },
-    "surveys": {
-        "attrs": {
-            "detectionLimit": null
-        },
-        "children": [
-            "surveyTime"
-        ]
-    },
-    "restrictToSubPop": {
-        "attrs": {
-            "complement": null,
-            "id": null
-        },
-        "children": []
-    },
-    "HSDiagnostic": {
-        "attrs": {},
-        "children": []
-    },
-    "mosqLaidEggsSameDayProportion": {
-        "attrs": {},
-        "children": []
-    },
-    "clinical": {
-        "attrs": {
-            "healthSystemMemory": null
-        },
-        "children": [
-            "NonMalariaFevers"
-        ]
-    },
-    "pSelfTreatUncomplicated": {
-        "attrs": {},
-        "children": []
-    },
-    "preprandialKillingEffect": {
-        "attrs": {
-            "baseFactor": null
-        },
-        "children": []
-    },
-    "HSESTreatmentModifierEffect": {
-        "attrs": {
-            "affectsCost": null,
-            "effect": null,
-            "value": null
-        },
-        "children": []
-    },
-    "vectorPop": {
-        "attrs": {},
-        "children": [
-            "intervention"
-        ]
-    },
-    "bloodStageProtectionLatency": {
-        "attrs": {},
-        "children": []
-    },
-    "TriggeredDeployments": {
-        "attrs": {},
-        "children": [
-            "deploy"
-        ]
-    },
-    "vol_dist": {
-        "attrs": {},
-        "children": []
-    },
-    "EIRDaily": {
-        "attrs": {},
-        "children": []
-    },
-    "option": {
-        "attrs": {
-            "pSelection": null
-        },
-        "children": []
-    },
-    "dailyPrImmUCTS": {
-        "attrs": {},
-        "children": []
-    },
-    "continuous": {
-        "attrs": {},
-        "children": [
-            "restrictToSubPop",
-            "deploy"
-        ]
-    },
-    "ITNDescription": {
-        "attrs": {},
-        "children": [
-            "usage",
-            "LognormalSample",
-            "LognormalSample",
-            "ripFactor",
-            "NormalSample",
-            "DecayFunction",
-            "DecayFunction",
-            "anophelesParams"
-        ]
-    },
-    "mosqProbBiting": {
-        "attrs": {},
-        "children": []
-    },
-    "vivax": {
-        "attrs": {},
-        "children": [
-            "probBloodStageInfectiousToMosq",
-            "numberHypnozoites",
-            "hypnozoiteReleaseDelayDays",
-            "bloodStageProtectionLatency",
-            "bloodStageLengthDays",
-            "pEventPrimary",
-            "pEventSecondary",
-            "pEventIsSevere"
-        ]
-    },
-    "intValue": {
-        "attrs": {
-            "value": null
-        },
-        "children": []
-    },
-    "allele": {
-        "attrs": {
-            "name": null
-        },
-        "children": [
-            "initial_frequency",
-            "max_killing_rate",
-            "IC50",
-            "slope"
-        ]
-    },
-    "CQ": {
-        "attrs": {},
-        "children": []
-    },
-    "GVIDescription": {
-        "attrs": {},
-        "children": [
-            "DecayFunction",
-            "anophelesParams"
-        ]
-    },
-    "complicatedCaseDuration": {
-        "attrs": {},
-        "children": []
-    },
-    "femaleEggsLaidByOviposit": {
-        "attrs": {},
-        "children": []
-    },
-    "developmentSurvival": {
-        "attrs": {},
-        "children": []
-    },
-    "nonCompliersEffective": {
-        "attrs": {},
-        "children": [
-            "CQ",
-            "SP",
-            "AQ",
-            "SPAQ",
-            "ACT",
-            "QN",
-            "selfTreatment"
-        ]
-    },
-    "initial_frequency": {
-        "attrs": {},
-        "children": []
-    },
-    "medicate": {
-        "attrs": {
-            "duration": null,
-            "mg": null,
-            "hour": null,
-            "drug": null
-        },
-        "children": []
-    },
-    "mosqSeekingDuration": {
-        "attrs": {},
-        "children": []
-    },
-    "hypnozoiteReleaseDelayDays": {
-        "attrs": {
-            "mu": null,
-            "sigma": null,
-            "min": null
-        },
-        "children": []
-    },
-    "modifier": {
-        "attrs": {
-            "decision": null
-        },
-        "children": []
-    },
-    "ageGroup": {
-        "attrs": {
-            "lowerbound": null
-        },
-        "children": [
-            "group"
-        ]
-    },
-    "NormalSample": {
-        "attrs": {
-            "mu": null,
-            "sigma": null
-        },
-        "children": []
-    },
-    "mosqHumanBloodIndex": {
-        "attrs": {},
-        "children": []
-    },
-    "mosqSurvivalFeedingCycleProbability": {
-        "attrs": {},
-        "children": []
-    },
-    "interventions": {
-        "attrs": {
-            "name": null
-        },
-        "children": [
-            "changeHS",
-            "changeEIR",
-            "importedInfections",
-            "insertR_0Case",
-            "uninfectVectors",
-            "vectorPop",
-            "human"
-        ]
-    },
-    "HSImmediateOutcomes": {
-        "attrs": {
-            "useDiagnosticUC": null,
-            "name": null
-        },
-        "children": [
-            "drugRegimen",
-            "initialACR",
-            "compliance",
-            "nonCompliersEffective",
-            "treatmentActions",
-            "pSeekOfficialCareUncomplicated1",
-            "pSelfTreatUncomplicated",
-            "pSeekOfficialCareUncomplicated2",
-            "pSeekOfficialCareSevere",
-            "primaquine"
-        ]
-    },
-    "subPopRemoval": {
-        "attrs": {
-            "onFirstTreatment": null,
-            "onFirstInfection": null,
-            "afterYears": null,
-            "onFirstBout": null
-        },
-        "children": []
-    },
-    "pSeekOfficialCareUncomplicated2": {
-        "attrs": {},
-        "children": []
-    },
-    "pSeekOfficialCareUncomplicated1": {
-        "attrs": {},
-        "children": []
-    },
-    "mosqRelativeEntoAvailability": {
-        "attrs": {},
-        "children": []
-    },
-    "larvalStage": {
-        "attrs": {},
-        "children": []
-    },
-    "uninfectVectors": {
-        "attrs": {
-            "name": null
-        },
-        "children": [
-            "timedDeployment"
-        ]
-    },
-    "postprandialKillingEffect": {
-        "attrs": {},
-        "children": []
-    },
-    "pHumanCannotReceive": {
-        "attrs": {},
-        "children": []
-    },
-    "monitoring": {
-        "attrs": {
-            "name": null
-        },
-        "children": [
-            "continuous",
-            "SurveyOptions",
-            "surveys",
-            "ageGroup",
-            "cohorts"
-        ]
-    },
-    "probBloodStageInfectiousToMosq": {
-        "attrs": {},
-        "children": []
-    },
-    "Component": {
-        "attrs": {
-            "id": null
-        },
-        "children": []
-    },
-    "anopheles": {
-        "attrs": {
-            "mosquito": null
-        },
-        "children": [
-            "seekingDeathRateIncrease",
-            "probDeathOvipositing",
-            "emergenceReduction"
-        ]
-    },
-    "maxUCSeekingMemory": {
-        "attrs": {},
-        "children": []
-    },
-    "prNeedTreatmentNMF": {
-        "attrs": {},
-        "children": []
-    },
-    "parameter": {
-        "attrs": {
-            "include": null,
-            "name": null,
-            "value": null,
-            "number": null
-        },
-        "children": []
-    },
-    "anophelesParams": {
-        "attrs": {
-            "propInfectious": null,
-            "propInfected": null,
-            "mosquito": null
-        },
-        "children": [
-            "seasonality",
-            "mosq",
-            "lifeCycle",
-            "simpleMPD",
-            "nonHumanHosts"
-        ]
-    },
-    "MDAComponent": {
-        "attrs": {},
-        "children": [
-            "effects"
-        ]
-    },
-    "ITNKillingEffect": {
-        "attrs": {
-            "baseFactor": null
-        },
-        "children": []
-    },
-    "usage": {
-        "attrs": {},
-        "children": []
-    },
-    "description": {
-        "attrs": {},
-        "children": [
-            "anopheles"
-        ]
-    },
-    "deploy": {
-        "attrs": {
-            "end": null,
-            "begin": null,
-            "targetAgeYrs": null
-        },
-        "children": []
-    },
-    "incidence": {
-        "attrs": {},
-        "children": []
-    },
-    "drugRegimen": {
-        "attrs": {
-            "secondLine": null,
-            "inpatient": null,
-            "firstLine": null
-        },
-        "children": []
-    },
-    "treatments": {
-        "attrs": {},
-        "children": [
-            "treatment"
-        ]
-    },
-    "surveyTime": {
-        "attrs": {},
-        "children": []
-    },
-    "AQ": {
-        "attrs": {},
-        "children": []
-    },
-    "pSeekOfficialCareSevere": {
-        "attrs": {},
-        "children": []
-    },
-    "ClinicalOutcomes": {
-        "attrs": {},
-        "children": [
-            "maxUCSeekingMemory",
-            "uncomplicatedCaseDuration",
-            "complicatedCaseDuration",
-            "complicatedRiskDuration",
-            "dailyPrImmUCTS"
-        ]
-    },
-    "doubleList": {
-        "attrs": {},
-        "children": [
-            "item"
-        ]
-    },
-    "simpleMPD": {
-        "attrs": {},
-        "children": [
-            "intValue",
-            "developmentSurvival",
-            "femaleEggsLaidByOviposit"
-        ]
-    },
-    "numberHypnozoites": {
-        "attrs": {
-            "max": null,
-            "base": null
-        },
-        "children": []
-    },
-    "uncomplicated": {
-        "attrs": {},
-        "children": []
-    },
-    "mass": {
-        "attrs": {
-            "minAge": null,
-            "maxAge": null,
-            "time": null
-        },
-        "children": []
-    },
-    "model": {
-        "attrs": {},
-        "children": [
-            "ModelOptions",
-            "clinical",
-            "human",
-            "vivax",
-            "parameters"
-        ]
-    },
-    "deterrency": {
-        "attrs": {
-            "insecticideFactor": null,
-            "insecticideScalingFactor": null
-        },
-        "children": []
-    },
-    "CFR": {
-        "attrs": {},
-        "children": []
-    },
-    "effectInformal": {
-        "attrs": {},
-        "children": []
-    },
-    "QN": {
-        "attrs": {},
-        "children": []
+  "!top": [
+    "om:scenario"
+  ],
+  "om:scenario": {
+    "attrs": {
+      "schemaVersion": null,
+      "analysisNo": null,
+      "name": null,
+      "wuID": null
+    },
+    "children": [
+      "demography",
+      "monitoring",
+      "interventions",
+      "healthSystem",
+      "entomology",
+      "pharmacology",
+      "model"
+    ]
+  },
+  "demography": {
+    "attrs": {
+      "name": null,
+      "popSize": null,
+      "maximumAgeYrs": null,
+      "growthRate": null
+    },
+    "children": [
+      "ageGroup"
+    ]
+  },
+  "ageGroup": {
+    "attrs": {
+      "lowerbound": null
+    },
+    "children": [
+      "group"
+    ]
+  },
+  "group": {
+    "attrs": {
+      "poppercent": null,
+      "upperbound": null
     }
+  },
+  "monitoring": {
+    "attrs": {
+      "name": null
+    },
+    "children": [
+      "continuous",
+      "SurveyOptions",
+      "surveys",
+      "ageGroup",
+      "cohorts"
+    ]
+  },
+  "continuous": {
+    "attrs": {
+      "period": null,
+      "duringInit": null
+    },
+    "children": [
+      "option"
+    ]
+  },
+  "option": {
+    "attrs": {
+      "name": null,
+      "value": null
+    }
+  },
+  "SurveyOptions": {
+    "children": [
+      "option"
+    ]
+  },
+  "surveys": {
+    "attrs": {
+      "detectionLimit": null
+    },
+    "children": [
+      "surveyTime"
+    ]
+  },
+  "surveyTime": {},
+  "ageGroup": {
+    "attrs": {
+      "lowerbound": null
+    },
+    "children": [
+      "group"
+    ]
+  },
+  "group": {
+    "attrs": {
+      "upperbound": null
+    }
+  },
+  "cohorts": {
+    "children": [
+      "subPop"
+    ]
+  },
+  "subPop": {
+    "attrs": {
+      "id": null,
+      "number": null
+    }
+  },
+  "interventions": {
+    "attrs": {
+      "name": null
+    },
+    "children": [
+      "changeHS",
+      "changeEIR",
+      "importedInfections",
+      "insertR_0Case",
+      "uninfectVectors",
+      "vectorPop",
+      "human"
+    ]
+  },
+  "changeHS": {
+    "attrs": {
+      "name": null
+    },
+    "children": [
+      "timedDeployment"
+    ]
+  },
+  "timedDeployment": {
+    "attrs": {
+      "time": null
+    },
+    "children": [
+      "CFR",
+      "pSequelaeInpatient",
+      "EventScheduler",
+      "ImmediateOutcomes"
+    ]
+  },
+  "EventScheduler": {
+    "children": [
+      "uncomplicated",
+      "complicated",
+      "ClinicalOutcomes",
+      "NonMalariaFevers"
+    ]
+  },
+  "uncomplicated": {
+    "children": [
+      "decisions",
+      "treatments"
+    ]
+  },
+  "decisions": {
+    "children": [
+      "decision"
+    ]
+  },
+  "decision": {
+    "attrs": {
+      "name": null,
+      "depends": null,
+      "values": null
+    }
+  },
+  "treatments": {
+    "children": [
+      "treatment"
+    ]
+  },
+  "treatment": {
+    "attrs": {
+      "name": null
+    },
+    "children": [
+      "schedule",
+      "modifier"
+    ]
+  },
+  "schedule": {
+    "children": [
+      "medicate"
+    ]
+  },
+  "medicate": {
+    "attrs": {
+      "drug": null,
+      "mg": null,
+      "hour": null,
+      "duration": null
+    }
+  },
+  "modifier": {
+    "attrs": {
+      "decision": null
+    },
+    "children": [
+      "multiplyQty",
+      "delay",
+      "selectTimeRange"
+    ]
+  },
+  "multiplyQty": {
+    "attrs": {
+      "value": null,
+      "effect": null,
+      "affectsCost": null
+    }
+  },
+  "delay": {
+    "attrs": {
+      "value": null,
+      "effect": null,
+      "affectsCost": null
+    }
+  },
+  "selectTimeRange": {
+    "attrs": {
+      "value": null,
+      "effect": null,
+      "affectsCost": null
+    }
+  },
+  "complicated": {
+    "children": [
+      "decisions",
+      "treatments"
+    ]
+  },
+  "ClinicalOutcomes": {
+    "children": [
+      "maxUCSeekingMemory",
+      "uncomplicatedCaseDuration",
+      "complicatedCaseDuration",
+      "complicatedRiskDuration",
+      "dailyPrImmUCTS"
+    ]
+  },
+  "maxUCSeekingMemory": {},
+  "uncomplicatedCaseDuration": {},
+  "complicatedCaseDuration": {},
+  "complicatedRiskDuration": {},
+  "dailyPrImmUCTS": {},
+  "NonMalariaFevers": {
+    "children": [
+      "prTreatment",
+      "effectNegativeTest",
+      "effectPositiveTest",
+      "effectNeed",
+      "effectInformal",
+      "CFR",
+      "TreatmentEfficacy"
+    ]
+  },
+  "prTreatment": {},
+  "effectNegativeTest": {},
+  "effectPositiveTest": {},
+  "effectNeed": {},
+  "effectInformal": {},
+  "CFR": {
+    "attrs": {
+      "interpolation": [
+        "none",
+        "linear"
+      ]
+    },
+    "children": [
+      "group"
+    ]
+  },
+  "group": {
+    "attrs": {
+      "value": null,
+      "lowerbound": null
+    }
+  },
+  "TreatmentEfficacy": {},
+  "ImmediateOutcomes": {
+    "attrs": {
+      "name": null,
+      "useDiagnosticUC": null
+    },
+    "children": [
+      "drugRegimen",
+      "initialACR",
+      "compliance",
+      "nonCompliersEffective",
+      "treatmentActions",
+      "pSeekOfficialCareUncomplicated1",
+      "pSelfTreatUncomplicated",
+      "pSeekOfficialCareUncomplicated2",
+      "pSeekOfficialCareSevere",
+      "primaquine"
+    ]
+  },
+  "drugRegimen": {
+    "attrs": {
+      "firstLine": null,
+      "secondLine": null,
+      "inpatient": null
+    }
+  },
+  "initialACR": {
+    "children": [
+      "CQ",
+      "SP",
+      "AQ",
+      "SPAQ",
+      "ACT",
+      "QN",
+      "selfTreatment"
+    ]
+  },
+  "CQ": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "SP": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "AQ": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "SPAQ": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "ACT": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "QN": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "selfTreatment": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "compliance": {
+    "children": [
+      "CQ",
+      "SP",
+      "AQ",
+      "SPAQ",
+      "ACT",
+      "QN",
+      "selfTreatment"
+    ]
+  },
+  "nonCompliersEffective": {
+    "children": [
+      "CQ",
+      "SP",
+      "AQ",
+      "SPAQ",
+      "ACT",
+      "QN",
+      "selfTreatment"
+    ]
+  },
+  "treatmentActions": {
+    "children": [
+      "CQ",
+      "SP",
+      "AQ",
+      "SPAQ",
+      "ACT",
+      "QN"
+    ]
+  },
+  "CQ": {
+    "attrs": {
+      "name": null
+    },
+    "children": [
+      "deploy",
+      "clearInfections"
+    ]
+  },
+  "deploy": {
+    "attrs": {
+      "maxAge": null,
+      "minAge": null,
+      "p": null
+    },
+    "children": [
+      "component"
+    ]
+  },
+  "component": {
+    "attrs": {
+      "id": null
+    }
+  },
+  "clearInfections": {
+    "attrs": {
+      "timesteps": null,
+      "stage": [
+        "liver",
+        "blood",
+        "both"
+      ]
+    }
+  },
+  "SP": {
+    "attrs": {
+      "name": null
+    },
+    "children": [
+      "deploy",
+      "clearInfections"
+    ]
+  },
+  "AQ": {
+    "attrs": {
+      "name": null
+    },
+    "children": [
+      "deploy",
+      "clearInfections"
+    ]
+  },
+  "SPAQ": {
+    "attrs": {
+      "name": null
+    },
+    "children": [
+      "deploy",
+      "clearInfections"
+    ]
+  },
+  "ACT": {
+    "attrs": {
+      "name": null
+    },
+    "children": [
+      "deploy",
+      "clearInfections"
+    ]
+  },
+  "QN": {
+    "attrs": {
+      "name": null
+    },
+    "children": [
+      "deploy",
+      "clearInfections"
+    ]
+  },
+  "pSeekOfficialCareUncomplicated1": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "pSelfTreatUncomplicated": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "pSeekOfficialCareUncomplicated2": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "pSeekOfficialCareSevere": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "primaquine": {
+    "children": [
+      "pHumanCannotReceive",
+      "pUseUncomplicated",
+      "effectivenessOnUse"
+    ]
+  },
+  "pHumanCannotReceive": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "pUseUncomplicated": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "effectivenessOnUse": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "CFR": {
+    "attrs": {
+      "interpolation": [
+        "none",
+        "linear"
+      ]
+    },
+    "children": [
+      "group"
+    ]
+  },
+  "pSequelaeInpatient": {
+    "attrs": {
+      "interpolation": [
+        "none",
+        "linear"
+      ]
+    },
+    "children": [
+      "group"
+    ]
+  },
+  "changeEIR": {
+    "attrs": {
+      "name": null
+    },
+    "children": [
+      "timedDeployment"
+    ]
+  },
+  "timedDeployment": {
+    "attrs": {
+      "eipDuration": null,
+      "time": null
+    },
+    "children": [
+      "EIRDaily"
+    ]
+  },
+  "EIRDaily": {
+    "attrs": {
+      "origin": null
+    }
+  },
+  "importedInfections": {
+    "attrs": {
+      "name": null
+    },
+    "children": [
+      "timed"
+    ]
+  },
+  "timed": {
+    "attrs": {
+      "period": null
+    },
+    "children": [
+      "rate"
+    ]
+  },
+  "rate": {
+    "attrs": {
+      "value": null,
+      "time": null
+    }
+  },
+  "insertR_0Case": {
+    "attrs": {
+      "name": null
+    },
+    "children": [
+      "timedDeployment"
+    ]
+  },
+  "timedDeployment": {
+    "attrs": {
+      "time": null
+    }
+  },
+  "uninfectVectors": {
+    "attrs": {
+      "name": null
+    },
+    "children": [
+      "timedDeployment"
+    ]
+  },
+  "timedDeployment": {
+    "attrs": {
+      "time": null
+    }
+  },
+  "vectorPop": {
+    "children": [
+      "intervention"
+    ]
+  },
+  "intervention": {
+    "attrs": {
+      "name": null
+    },
+    "children": [
+      "description",
+      "timed"
+    ]
+  },
+  "description": {
+    "children": [
+      "anopheles"
+    ]
+  },
+  "anopheles": {
+    "attrs": {
+      "mosquito": null
+    },
+    "children": [
+      "seekingDeathRateIncrease",
+      "probDeathOvipositing",
+      "emergenceReduction"
+    ]
+  },
+  "seekingDeathRateIncrease": {
+    "attrs": {
+      "initial": null
+    },
+    "children": [
+      "decay"
+    ]
+  },
+  "decay": {
+    "attrs": {
+      "function": [
+        "constant",
+        "step",
+        "linear",
+        "exponential",
+        "weibull",
+        "hill",
+        "smooth-compact"
+      ],
+      "L": null,
+      "k": null,
+      "mu": null,
+      "sigma": null
+    }
+  },
+  "probDeathOvipositing": {
+    "attrs": {
+      "initial": null
+    },
+    "children": [
+      "decay"
+    ]
+  },
+  "decay": {
+    "attrs": {
+      "function": [
+        "constant",
+        "step",
+        "linear",
+        "exponential",
+        "weibull",
+        "hill",
+        "smooth-compact"
+      ],
+      "L": null,
+      "k": null,
+      "mu": null,
+      "sigma": null
+    }
+  },
+  "emergenceReduction": {
+    "attrs": {
+      "initial": null
+    },
+    "children": [
+      "decay"
+    ]
+  },
+  "decay": {
+    "attrs": {
+      "function": [
+        "constant",
+        "step",
+        "linear",
+        "exponential",
+        "weibull",
+        "hill",
+        "smooth-compact"
+      ],
+      "L": null,
+      "k": null,
+      "mu": null,
+      "sigma": null
+    }
+  },
+  "timed": {
+    "children": [
+      "deploy"
+    ]
+  },
+  "deploy": {
+    "attrs": {
+      "time": null
+    }
+  },
+  "human": {
+    "children": [
+      "component",
+      "deployment"
+    ]
+  },
+  "component": {
+    "attrs": {
+      "id": null,
+      "name": null
+    },
+    "children": [
+      "subPopRemoval",
+      "screen",
+      "MDA",
+      "MDA1D",
+      "PEV",
+      "BSV",
+      "TBV",
+      "ITN",
+      "IRS",
+      "GVI",
+      "recruitmentOnly",
+      "clearImmunity"
+    ]
+  },
+  "screen": {
+    "children": [
+      "diagnostic",
+      "positive",
+      "negative"
+    ]
+  },
+  "diagnostic": {
+    "children": [
+      "deterministic",
+      "stochastic"
+    ]
+  },
+  "deterministic": {
+    "attrs": {
+      "minDensity": null
+    }
+  },
+  "stochastic": {
+    "attrs": {
+      "dens_50": null,
+      "specificity": null
+    }
+  },
+  "positive": {
+    "children": [
+      "deploy"
+    ]
+  },
+  "negative": {
+    "children": [
+      "deploy"
+    ]
+  },
+  "MDA": {
+    "children": [
+      "effects"
+    ]
+  },
+  "effects": {
+    "children": [
+      "option"
+    ]
+  },
+  "option": {
+    "attrs": {
+      "name": null,
+      "pSelection": null
+    },
+    "children": [
+      "deploy",
+      "clearInfections"
+    ]
+  },
+  "MDA1D": {
+    "children": [
+      "decisions",
+      "treatments"
+    ]
+  },
+  "PEV": {
+    "children": [
+      "decay",
+      "efficacyB",
+      "initialEfficacy"
+    ]
+  },
+  "decay": {
+    "attrs": {
+      "function": [
+        "constant",
+        "step",
+        "linear",
+        "exponential",
+        "weibull",
+        "hill",
+        "smooth-compact"
+      ],
+      "L": null,
+      "k": null,
+      "mu": null,
+      "sigma": null
+    }
+  },
+  "efficacyB": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "initialEfficacy": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "BSV": {
+    "children": [
+      "decay",
+      "efficacyB",
+      "initialEfficacy"
+    ]
+  },
+  "TBV": {
+    "children": [
+      "decay",
+      "efficacyB",
+      "initialEfficacy"
+    ]
+  },
+  "ITN": {
+    "children": [
+      "usage",
+      "holeRate",
+      "ripRate",
+      "ripFactor",
+      "initialInsecticide",
+      "insecticideDecay",
+      "attritionOfNets",
+      "anophelesParams"
+    ]
+  },
+  "usage": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "holeRate": {
+    "attrs": {
+      "mean": null,
+      "sigma": null
+    }
+  },
+  "ripRate": {
+    "attrs": {
+      "mean": null,
+      "sigma": null
+    }
+  },
+  "ripFactor": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "initialInsecticide": {
+    "attrs": {
+      "mu": null,
+      "sigma": null
+    }
+  },
+  "insecticideDecay": {
+    "attrs": {
+      "function": [
+        "constant",
+        "step",
+        "linear",
+        "exponential",
+        "weibull",
+        "hill",
+        "smooth-compact"
+      ],
+      "L": null,
+      "k": null,
+      "mu": null,
+      "sigma": null
+    }
+  },
+  "attritionOfNets": {
+    "attrs": {
+      "function": [
+        "constant",
+        "step",
+        "linear",
+        "exponential",
+        "weibull",
+        "hill",
+        "smooth-compact"
+      ],
+      "L": null,
+      "k": null,
+      "mu": null,
+      "sigma": null
+    }
+  },
+  "anophelesParams": {
+    "attrs": {
+      "mosquito": null,
+      "propActive": null
+    },
+    "children": [
+      "preprandialKillingEffect",
+      "postprandialKillingEffect",
+      "deterrency",
+      "twoStageDeterrency"
+    ]
+  },
+  "deterrency": {
+    "attrs": {
+      "insecticideFactor": null,
+      "insecticideScalingFactor": null,
+      "holeFactor": null,
+      "interactionFactor": null,
+      "holeScalingFactor": null
+    }
+  },
+  "twoStageDeterrency": {
+    "children": [
+      "entering",
+      "attacking"
+    ]
+  },
+  "entering": {
+    "attrs": {
+      "insecticideFactor": null,
+      "insecticideScalingFactor": null
+    }
+  },
+  "attacking": {
+    "attrs": {
+      "insecticideFactor": null,
+      "insecticideScalingFactor": null,
+      "holeFactor": null,
+      "interactionFactor": null,
+      "holeScalingFactor": null,
+      "baseFactor": null
+    }
+  },
+  "preprandialKillingEffect": {
+    "attrs": {
+      "insecticideFactor": null,
+      "insecticideScalingFactor": null,
+      "holeFactor": null,
+      "interactionFactor": null,
+      "holeScalingFactor": null,
+      "baseFactor": null
+    }
+  },
+  "postprandialKillingEffect": {
+    "attrs": {
+      "insecticideFactor": null,
+      "insecticideScalingFactor": null,
+      "holeFactor": null,
+      "interactionFactor": null,
+      "holeScalingFactor": null,
+      "baseFactor": null
+    }
+  },
+  "IRS": {
+    "children": [
+      "initialInsecticide",
+      "insecticideDecay",
+      "anophelesParams"
+    ]
+  },
+  "initialInsecticide": {
+    "attrs": {
+      "mu": null,
+      "sigma": null
+    }
+  },
+  "insecticideDecay": {
+    "attrs": {
+      "function": [
+        "constant",
+        "step",
+        "linear",
+        "exponential",
+        "weibull",
+        "hill",
+        "smooth-compact"
+      ],
+      "L": null,
+      "k": null,
+      "mu": null,
+      "sigma": null
+    }
+  },
+  "anophelesParams": {
+    "attrs": {
+      "mosquito": null,
+      "propActive": null
+    },
+    "children": [
+      "deterrency",
+      "preprandialKillingEffect",
+      "postprandialKillingEffect"
+    ]
+  },
+  "deterrency": {
+    "attrs": {
+      "insecticideFactor": null,
+      "insecticideScalingFactor": null
+    }
+  },
+  "preprandialKillingEffect": {
+    "attrs": {
+      "insecticideFactor": null,
+      "insecticideScalingFactor": null,
+      "baseFactor": null
+    }
+  },
+  "postprandialKillingEffect": {
+    "attrs": {
+      "insecticideFactor": null,
+      "insecticideScalingFactor": null,
+      "baseFactor": null
+    }
+  },
+  "GVI": {
+    "children": [
+      "decay",
+      "anophelesParams"
+    ]
+  },
+  "decay": {
+    "attrs": {
+      "function": [
+        "constant",
+        "step",
+        "linear",
+        "exponential",
+        "weibull",
+        "hill",
+        "smooth-compact"
+      ],
+      "L": null,
+      "k": null,
+      "mu": null,
+      "sigma": null
+    }
+  },
+  "anophelesParams": {
+    "attrs": {
+      "mosquito": null,
+      "propActive": null
+    },
+    "children": [
+      "deterrency",
+      "preprandialKillingEffect",
+      "postprandialKillingEffect"
+    ]
+  },
+  "deterrency": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "preprandialKillingEffect": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "postprandialKillingEffect": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "recruitmentOnly": {},
+  "clearImmunity": {},
+  "subPopRemoval": {
+    "attrs": {
+      "onFirstBout": null,
+      "onFirstTreatment": null,
+      "onFirstInfection": null,
+      "afterYears": null
+    }
+  },
+  "deployment": {
+    "attrs": {
+      "name": null
+    },
+    "children": [
+      "component",
+      "continuous",
+      "timed"
+    ]
+  },
+  "component": {
+    "attrs": {
+      "id": null
+    }
+  },
+  "continuous": {
+    "children": [
+      "restrictToSubPop",
+      "deploy"
+    ]
+  },
+  "restrictToSubPop": {
+    "attrs": {
+      "id": null,
+      "complement": null
+    }
+  },
+  "deploy": {
+    "attrs": {
+      "coverage": null,
+      "vaccMinPrevDoses": null,
+      "vaccMaxCumDoses": null,
+      "targetAgeYrs": null,
+      "begin": null,
+      "end": null
+    }
+  },
+  "timed": {
+    "children": [
+      "restrictToSubPop",
+      "cumulativeCoverage",
+      "deploy"
+    ]
+  },
+  "restrictToSubPop": {
+    "attrs": {
+      "id": null,
+      "complement": null
+    }
+  },
+  "cumulativeCoverage": {
+    "attrs": {
+      "component": null
+    }
+  },
+  "deploy": {
+    "attrs": {
+      "coverage": null,
+      "vaccMinPrevDoses": null,
+      "vaccMaxCumDoses": null,
+      "time": null,
+      "maxAge": null,
+      "minAge": null
+    }
+  },
+  "healthSystem": {
+    "children": [
+      "CFR",
+      "pSequelaeInpatient",
+      "EventScheduler",
+      "ImmediateOutcomes"
+    ]
+  },
+  "entomology": {
+    "attrs": {
+      "name": null,
+      "mode": [
+        "forced",
+        "dynamic"
+      ],
+      "scaledAnnualEIR": null
+    },
+    "children": [
+      "nonVector",
+      "vector"
+    ]
+  },
+  "nonVector": {
+    "attrs": {
+      "eipDuration": null
+    },
+    "children": [
+      "EIRDaily"
+    ]
+  },
+  "vector": {
+    "children": [
+      "anopheles",
+      "nonHumanHosts"
+    ]
+  },
+  "anopheles": {
+    "attrs": {
+      "mosquito": null,
+      "propInfected": null,
+      "propInfectious": null
+    },
+    "children": [
+      "seasonality",
+      "mosq",
+      "lifeCycle",
+      "simpleMPD",
+      "nonHumanHosts"
+    ]
+  },
+  "seasonality": {
+    "attrs": {
+      "input": [
+        "EIR"
+      ],
+      "annualEIR": null
+    },
+    "children": [
+      "fourierSeries",
+      "monthlyValues",
+      "dailyValues"
+    ]
+  },
+  "fourierSeries": {
+    "attrs": {
+      "EIRRotateAngle": null
+    },
+    "children": [
+      "coeffic"
+    ]
+  },
+  "coeffic": {
+    "attrs": {
+      "a": null,
+      "b": null
+    }
+  },
+  "monthlyValues": {
+    "attrs": {
+      "smoothing": [
+        "none",
+        "fourier"
+      ]
+    },
+    "children": [
+      "value"
+    ]
+  },
+  "value": {},
+  "dailyValues": {
+    "children": [
+      "value"
+    ]
+  },
+  "value": {},
+  "mosq": {
+    "attrs": {
+      "minInfectedThreshold": null
+    },
+    "children": [
+      "mosqRestDuration",
+      "extrinsicIncubationPeriod",
+      "mosqLaidEggsSameDayProportion",
+      "mosqSeekingDuration",
+      "mosqSurvivalFeedingCycleProbability",
+      "availabilityVariance",
+      "mosqProbBiting",
+      "mosqProbFindRestSite",
+      "mosqProbResting",
+      "mosqProbOvipositing",
+      "mosqHumanBloodIndex"
+    ]
+  },
+  "mosqRestDuration": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "extrinsicIncubationPeriod": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "mosqLaidEggsSameDayProportion": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "mosqSeekingDuration": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "mosqSurvivalFeedingCycleProbability": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "availabilityVariance": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "mosqProbBiting": {
+    "attrs": {
+      "mean": null,
+      "variance": null
+    }
+  },
+  "mosqProbFindRestSite": {
+    "attrs": {
+      "mean": null,
+      "variance": null
+    }
+  },
+  "mosqProbResting": {
+    "attrs": {
+      "mean": null,
+      "variance": null
+    }
+  },
+  "mosqProbOvipositing": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "mosqHumanBloodIndex": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "lifeCycle": {
+    "attrs": {
+      "estimatedLarvalResources": null
+    },
+    "children": [
+      "eggStage",
+      "larvalStage",
+      "pupalStage",
+      "femaleEggsLaidByOviposit"
+    ]
+  },
+  "eggStage": {
+    "attrs": {
+      "duration": null,
+      "survival": null
+    }
+  },
+  "larvalStage": {
+    "attrs": {
+      "duration": null,
+      "survival": null
+    },
+    "children": [
+      "daily"
+    ]
+  },
+  "daily": {
+    "attrs": {
+      "resourceUsage": null,
+      "effectCompetition": null
+    }
+  },
+  "pupalStage": {
+    "attrs": {
+      "duration": null,
+      "survival": null
+    }
+  },
+  "femaleEggsLaidByOviposit": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "simpleMPD": {
+    "children": [
+      "developmentDuration",
+      "developmentSurvival",
+      "femaleEggsLaidByOviposit"
+    ]
+  },
+  "developmentDuration": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "developmentSurvival": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "femaleEggsLaidByOviposit": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "nonHumanHosts": {
+    "attrs": {
+      "name": null
+    },
+    "children": [
+      "mosqRelativeEntoAvailability",
+      "mosqProbBiting",
+      "mosqProbFindRestSite",
+      "mosqProbResting"
+    ]
+  },
+  "mosqRelativeEntoAvailability": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "mosqProbBiting": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "mosqProbFindRestSite": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "mosqProbResting": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "nonHumanHosts": {
+    "attrs": {
+      "name": null,
+      "number": null
+    }
+  },
+  "pharmacology": {
+    "children": [
+      "drug"
+    ]
+  },
+  "drug": {
+    "attrs": {
+      "abbrev": null
+    },
+    "children": [
+      "PD",
+      "PK"
+    ]
+  },
+  "PD": {
+    "children": [
+      "allele"
+    ]
+  },
+  "allele": {
+    "attrs": {
+      "name": null
+    },
+    "children": [
+      "initial_frequency",
+      "max_killing_rate",
+      "IC50",
+      "slope"
+    ]
+  },
+  "initial_frequency": {},
+  "max_killing_rate": {},
+  "IC50": {},
+  "slope": {},
+  "PK": {
+    "children": [
+      "negligible_concentration",
+      "half_life",
+      "vol_dist"
+    ]
+  },
+  "negligible_concentration": {},
+  "half_life": {},
+  "vol_dist": {},
+  "model": {
+    "children": [
+      "ModelOptions",
+      "clinical",
+      "human",
+      "vivax",
+      "parameters"
+    ]
+  },
+  "ModelOptions": {
+    "children": [
+      "option"
+    ]
+  },
+  "clinical": {
+    "attrs": {
+      "healthSystemMemory": null
+    },
+    "children": [
+      "NonMalariaFevers"
+    ]
+  },
+  "NonMalariaFevers": {
+    "children": [
+      "incidence",
+      "prNeedTreatmentNMF",
+      "prNeedTreatmentMF"
+    ]
+  },
+  "incidence": {
+    "attrs": {
+      "interpolation": [
+        "none",
+        "linear"
+      ]
+    },
+    "children": [
+      "group"
+    ]
+  },
+  "prNeedTreatmentNMF": {
+    "attrs": {
+      "interpolation": [
+        "none",
+        "linear"
+      ]
+    },
+    "children": [
+      "group"
+    ]
+  },
+  "prNeedTreatmentMF": {
+    "attrs": {
+      "interpolation": [
+        "none",
+        "linear"
+      ]
+    },
+    "children": [
+      "group"
+    ]
+  },
+  "human": {
+    "children": [
+      "availabilityToMosquitoes",
+      "weight"
+    ]
+  },
+  "availabilityToMosquitoes": {
+    "attrs": {
+      "interpolation": [
+        "none",
+        "linear"
+      ]
+    },
+    "children": [
+      "group"
+    ]
+  },
+  "weight": {
+    "attrs": {
+      "interpolation": [
+        "none",
+        "linear"
+      ],
+      "multStdDev": null
+    },
+    "children": [
+      "group"
+    ]
+  },
+  "vivax": {
+    "children": [
+      "probBloodStageInfectiousToMosq",
+      "numberHypnozoites",
+      "hypnozoiteReleaseDelayDays",
+      "bloodStageProtectionLatency",
+      "bloodStageLengthDays",
+      "pEventPrimary",
+      "pEventSecondary",
+      "pEventIsSevere"
+    ]
+  },
+  "probBloodStageInfectiousToMosq": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "numberHypnozoites": {
+    "attrs": {
+      "max": null,
+      "base": null
+    }
+  },
+  "hypnozoiteReleaseDelayDays": {
+    "attrs": {
+      "min": null,
+      "mu": null,
+      "sigma": null
+    }
+  },
+  "bloodStageProtectionLatency": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "bloodStageLengthDays": {
+    "attrs": {
+      "weibullScale": null,
+      "weibullShape": null
+    }
+  },
+  "pEventPrimary": {
+    "attrs": {
+      "a": null,
+      "b": null
+    }
+  },
+  "pEventSecondary": {
+    "attrs": {
+      "a": null,
+      "b": null
+    }
+  },
+  "pEventIsSevere": {
+    "attrs": {
+      "value": null
+    }
+  },
+  "parameters": {
+    "attrs": {
+      "interval": null,
+      "iseed": null,
+      "latentp": null
+    },
+    "children": [
+      "parameter"
+    ]
+  },
+  "parameter": {
+    "attrs": {
+      "name": null,
+      "number": null,
+      "value": null,
+      "include": null
+    }
+  }
 }
