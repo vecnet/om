@@ -37,4 +37,11 @@ urlpatterns = [
     url(r'^umbrella/', include('website.apps.umbrella.urls')),
 ]
 
+try:
+    from .settings_local import SSO_URLS
+    urlpatterns += SSO_URLS
+except ImportError:
+    pass
+
+
 # handler404 = TemplateView.as_view(template_name="404.html")

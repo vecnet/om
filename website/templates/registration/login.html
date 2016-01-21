@@ -6,7 +6,6 @@ If all Django auth URL are included using url('^', include('django.contrib.auth.
 login page will be looking for its template in registration/login.html
 Thus global login.html template (does not belong to any particular application) has been created
 -->
-{% block page_title %}Participant Management System{% endblock %}
 <!-- Remove login or logout link in top menu-->
 {% block login_logout %}{% endblock %}
 {% block extra_css %}
