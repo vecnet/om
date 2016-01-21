@@ -1,6 +1,7 @@
 # Copyright (C) 2015, University of Notre Dame
 # All rights reserved
 from django.utils import timezone
+from django.conf import settings
 import subprocess
 import sys
 import os
@@ -17,7 +18,10 @@ def submit(simulation_group):
     run_script_filename = os.path.join(base_dir, "run.py")
 
     for simulation in simulation_group.simulations.all():
-        subprocess.Popen(sys.executable + " " + "%s" % run_script_filename + " " + str(simulation.id), shell=True)
+        executable = sys.executable
+        if hasattr(settings, "PYTHON_EXECUTABLE"):
+            executable = settings.PYTHON_EXECUTABLE
+        subprocess.Popen(executable + " " + "%s" % run_script_filename + " " + str(simulation.id), shell=True)
 
     simulation_group.submitted_when = timezone.now()
     simulation_group.save()
