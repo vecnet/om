@@ -16,6 +16,14 @@ This Django project has been tested on Windows 8 x64 and CentOS 7
 3. Create an admin user
    `./manage.py createsuperuser`
 
+4. Load fixtures
+```bash
+python manage.py loaddata AnophelesSnippets
+python manage.py loaddata BaselineScenarios
+python manage.py loaddata DemographicsSnippets
+python manage.py loaddata Interventions
+```
+
 #Database server configuration
 
 
