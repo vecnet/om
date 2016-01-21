@@ -23,8 +23,11 @@ $(document).ready(function () {
     //  });
     //});
 
-    $('a[data-toggle="tab"]').on("shown", function(e) {
-        if ($(this).attr("href") == "#advanced") refreshXmlEditor();
+    $('a[data-toggle="tab"]').on("shown.bs.tab", function(e) {
+        if ($(this).attr("href") == "#advanced") {
+            refreshXmlEditor();
+            window.xmleditor.mirror.execCommand("goDocStart");
+        }
     });
 
     $("#validate").click(function() {
