@@ -40,7 +40,7 @@ class ScenarioSummaryView2(TemplateView):
         scenario.name = self.request.POST.get('name', scenario.name)
         scenario.description = self.request.POST.get('desc', scenario.description)
         scenario.save()
-        if 'run' in self.request.POST:
+        if 'submit_type' in self.request.POST and self.request.POST["submit_type"] == "run":
             # Clicked "Save and Run" button
             # Will submit a scenario to Simulation Manager here
             simulation = submit.submit(self.request.user, scenario.xml)
