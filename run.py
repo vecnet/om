@@ -33,8 +33,8 @@ def run(simulation):
     fp = open(os.path.join(input_dir, "scenario.xml"),"w+")
     fp.write(xml)
     fp.close()
-    shutil.copy2(os.path.join(base_dir, "files", "scenario_32.xsd"), os.path.join(input_dir, "scenario_32.xsd"))
-    shutil.copy2(os.path.join(base_dir, "files", "densities.csv"), os.path.join(input_dir, "densities.csv"))
+    shutil.copy2(os.path.join(base_dir, "sim_services_local", "files", "scenario_32.xsd"), os.path.join(input_dir, "scenario_32.xsd"))
+    shutil.copy2(os.path.join(base_dir, "sim_services_local", "files", "densities.csv"), os.path.join(input_dir, "densities.csv"))
 
     # Run OpenMalaria model
     simulation.status = sim_status.RUNNING_MODEL

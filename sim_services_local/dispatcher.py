@@ -14,14 +14,16 @@ def submit(simulation_group):
     Raises RuntimeError if the submission fails for some reason.
     """
     assert isinstance(simulation_group, data_models.SimulationGroup)
-    base_dir = os.path.dirname(os.path.abspath(__file__))
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     run_script_filename = os.path.join(base_dir, "run.py")
 
     for simulation in simulation_group.simulations.all():
         executable = sys.executable
         if hasattr(settings, "PYTHON_EXECUTABLE"):
             executable = settings.PYTHON_EXECUTABLE
-        subprocess.Popen(executable + " " + "%s" % run_script_filename + " " + str(simulation.id), shell=True)
+        subprocess.Popen(executable + " " + "%s" % run_script_filename + " " + str(simulation.id),
+                         cwd=base_dir,
+                         shell=True)
 
     simulation_group.submitted_when = timezone.now()
     simulation_group.save()
