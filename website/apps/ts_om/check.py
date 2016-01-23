@@ -6,7 +6,7 @@ __author__ = 'nreed'
 
 url_dict = {
     'validate': 'http://127.0.0.1:8000/om_validate/validate/',
-    'scenarios': '/home/nreed/scenarios/',
+    'scenarios': getattr(settings, "PROJECT_ROOT", '') + '/scenarios/',
     'openmalaria': getattr(settings, "PROJECT_ROOT", '') + '/om_validate/bin/'
 }
 
