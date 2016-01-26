@@ -3,7 +3,6 @@
  * Created by nreed on 12/8/14.
  */
 $(function() {
-    var runProgressBar = $("#run-progress");
     var totalSims = sims.length;
     var nrSimsFinished = 0.0;
     var intervNum = 0;
@@ -15,6 +14,13 @@ $(function() {
 
         lookup[this.id] = this;
     });
+
+    var $h3 = $("h3");
+    var $runProgressBar = $("#run-progress").children(".progress-bar");
+    var $runPercent = $runProgressBar.children(".run-percent");
+    var $screenReader = $runProgressBar.children(".sr-only");
+    var $finishedRuns = $("#finished-runs-count");
+    var $results = $("#viz-results");
 
     if (nrSimsFinished != totalSims) {
         intervNum = setInterval(function () {
@@ -39,25 +45,33 @@ $(function() {
                     if (nrSimsFinished >= totalSims) {
                         clearInterval(intervNum);
 
-                        $("h3").html("Run Successful");
-                        runProgressBar.removeClass("active");
-                        $("#viz-results").show();
+                        $h3.html("Run Successful");
+                        $runProgressBar.removeClass("active");
+                        $results.show();
                     }
 
-                    runProgressBar.children(".bar").animate({
+                    $runProgressBar.animate({
                         width: percFinished + "%"
+                    }, {
+                        step: function(now, fx) {
+                            var floored_now = Math.floor(now);
+                            $runPercent.html(floored_now + "%");
+                            $screenReader.html(floored_now + "% Complete");
+                        }
                     });
 
-                    $("#run-progress-percent").html(percFinished + "%");
-
-                    $("#finished-runs-count").html(nrSimsFinished);
+                    $finishedRuns.html(nrSimsFinished);
                 }
             });
         }, 10000);
     } else {
-        runProgressBar.hide();
-        $("h3").html("Run Successful");
-        $("#finished-runs-count").html(nrSimsFinished);
-        $("#viz-results").show();
+        $runProgressBar.removeClass("active");
+        $runPercent.html("100%");
+        $screenReader.html("100% Complete");
+        $runProgressBar.width("100%");
+
+        $h3.html("Run Successful");
+        $finishedRuns.html(nrSimsFinished);
+        $results.show();
     }
 });
