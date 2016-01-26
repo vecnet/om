@@ -1,6 +1,4 @@
-import json
-
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.generic import TemplateView
 
 from data_services.models import Simulation
@@ -33,7 +31,7 @@ def get_sim_group_status(request, experiment_id, run_type):
     if request.is_ajax():
         data = get_run_status(experiment_id, run_type)
 
-        return HttpResponse(json.dumps(data), mimetype="application/json")
+        return JsonResponse(data)
 
 
 def get_run_status(experiment_id, run_type='run'):
