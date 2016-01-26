@@ -26,7 +26,7 @@
 {#	  		<a class="btn" id="viz-results" style="display: none;" target="_blank" href="/ts_om_viz/sim/group/{{ group_id }}/">Visualize Results</a>#}
 {#			</div>#}
 			<p>
-				This experiment contains {{ scenarios|length }} scenario{% if scenarios|length > 1 %}s{% endif %}.
+				This experiment contains {{ sims|length }} scenario{{ sims|pluralize }}.
 			</p>
 			<table class="table" style="display: none;">
 				<thead>
