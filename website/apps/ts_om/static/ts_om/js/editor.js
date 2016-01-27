@@ -362,13 +362,16 @@ function saveScenario(callback) {
     }
 }
 
-function getUpdatedScenario(e, save, callback) {
+function getUpdatedScenario(e, save, callback, data, obj) {
   save = save || false;
   e.stopImmediatePropagation();
 
-  var obj = $(this);
+  obj = obj || $(this);
   var updated = false;
-  var data = $("#ts-om-form").serializeArray();
+
+    data = data || [];
+
+    data = data.concat($("#ts-om-form").serializeArray());
 
   data.push({name: 'xml', value: window.xmleditor.getValue()});
   data.push({name: 'save', value: save});

@@ -9,10 +9,12 @@
 #   Alexander Vyushkov <Alexander.Vyushkov@nd.edu>
 #   Nicolas Reed <nreed4@nd.edu>
 ########################################################################################################################
+import json
 from xml.etree.ElementTree import ParseError
 from django.core.exceptions import PermissionDenied
 
 from django.core.urlresolvers import reverse
+from django.http import JsonResponse
 from django.views.generic import FormView
 from django.views.generic.base import TemplateView
 from vecnet.openmalaria.scenario import Scenario
@@ -21,6 +23,7 @@ from vecnet.openmalaria.monitoring import get_survey_times
 from website.apps.ts_om import submit
 from website.apps.ts_om.forms import ScenarioSummaryForm
 from website.apps.ts_om.models import Scenario as ScenarioModel
+from website.apps.ts_om.views.ScenarioBaseFormView import update_form
 from website.middleware import HttpRedirectException
 from website.apps.ts_om import submit
 from website.notification import set_notification
@@ -39,7 +42,13 @@ class ScenarioSummaryView2(TemplateView):
             raise PermissionDenied
         scenario.name = self.request.POST.get('name', scenario.name)
         scenario.description = self.request.POST.get('desc', scenario.description)
-        scenario.save()
+
+        if not self.request.is_ajax() or "save" in self.request.POST and json.loads(self.request.POST["save"]):
+            scenario.save()
+
+        if self.request.is_ajax():
+            return JsonResponse({"success": True, "xml": scenario.xml})
+
         if 'submit_type' in self.request.POST and self.request.POST["submit_type"] == "run":
             # Clicked "Save and Run" button
             # Will submit a scenario to Simulation Manager here
@@ -109,3 +118,21 @@ class ScenarioSummaryView2(TemplateView):
 
         return context
 
+def update_summary_form(request, scenario_id):
+    data = update_form(request, scenario_id)
+    temp_scenario = None
+
+    if "valid" not in data:
+        return data
+
+    valid = data["valid"]
+
+    if not valid:
+        return data
+
+    if "scenario" in data:
+        temp_scenario = data["scenario"]
+
+    form_values = {'valid': valid, 'name': temp_scenario.name}
+
+    return JsonResponse(form_values)
