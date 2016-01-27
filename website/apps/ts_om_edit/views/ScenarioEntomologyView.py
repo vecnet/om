@@ -93,6 +93,7 @@ class ScenarioEntomologyView(ScenarioBaseFormView):
                 if xml is not None:
                     self.scenario.entomology.vectors.add(xml)
                     vector = self.scenario.entomology.vectors[name]
+                    add_to_interventions(self.scenario, vector.mosquito)
             finally:
                 vector.seasonality.annualEIR = float(vector_form.cleaned_data["average_eir"]) / 100.0
                 vector.mosq.mosqHumanBloodIndex = float(vector_form.cleaned_data["human_blood_index"]) / 100.0
@@ -185,3 +186,11 @@ def update_entomology_form(request, scenario_id):
     }
 
     return HttpResponse(json.dumps(form_values), content_type="application/json")
+
+
+def add_to_interventions(scenario, vector_name):
+    for intervention in scenario.interventions.human:
+        intervention.add_or_update_anophelesParams({"mosquito": vector_name})
+
+    for intervention in scenario.interventions.vectorPop:
+        intervention.add_or_update_anopheles({"mosquito": vector_name})
