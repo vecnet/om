@@ -147,7 +147,9 @@ $(function() {
     var formCount = parseInt(totalFormsObj.val());
 
     if (formCount == 2) {
-      $(".vector").find(".remove-vector").prop("disabled", true);
+        var removeBtn = $(".vector").find(".remove-vector");
+        removeBtn.prop("disabled", true);
+        removeBtn.attr("title", "Must have at least one species in the simulation");
     }
 
     totalFormsObj.val(formCount-1);
@@ -169,7 +171,7 @@ $(function() {
       removeBtn.attr("data-type", "remove");
       removeBtn.attr("data-toggle", "modal");
       removeBtn.attr("data-target", "#confirm");
-      removeBtn.attr("data-original-title", "Remove Vector and all related data");
+      removeBtn.attr("title", "Remove Vector and all related data");
     }
   });
 

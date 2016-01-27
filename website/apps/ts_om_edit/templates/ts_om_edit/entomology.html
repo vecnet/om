@@ -77,13 +77,12 @@
 				        data-target="#inner-vector_{{ forloop.counter0 }}">
 					<span class="glyphicon glyphicon-chevron-down"></span>
 				</button>
-				<button class="btn btn-default pull-right remove-vector
-				    {% if not has_interventions %}tooltip_button{% endif %}" data-id="{{ forloop.counter0 }}"
-                    {% if has_interventions or forloop.last and forloop.counter0 == 0 %}
-                        title="Can't change species list if intervention section is not empty" disabled
+				<button class="btn btn-default pull-right remove-vector" data-id="{{ forloop.counter0 }}"
+                    {% if forloop.last and forloop.counter0 == 0 %}
+                        title="Must have at least one species in the simulation" disabled
                     {% else %}
                         data-type="remove" data-toggle="modal"
-                        data-target="#confirm" data-original-title="Remove Vector and all related data"
+                        data-target="#confirm" title="Remove Vector and all related data"
                     {%endif %}
 					type="button" >
 					<span class="glyphicon glyphicon-remove">Remove</span>
@@ -148,14 +147,10 @@
 				        data-target="#inner-vector_{{ forloop.counter0 }}">
 					<span class="glyphicon glyphicon-chevron-down"></span>
 				</button>
-                <button class="pull-right remove-vector btn btn-default {% if not has_interventions %}tooltip_button{% endif %}"
+                <button class="pull-right remove-vector btn btn-default"
                     data-id="hidden"
-                    {% if has_interventions %}
-                        title="Can't change species list if intervention section is not empty" disabled
-                    {% else %}
                         data-type="remove" data-toggle="modal"
-                        data-target="#confirm" data-original-title="Remove Vector and all related data"
-                    {%endif %}
+                        data-target="#confirm" title="Remove Vector and all related data"
 					type="button" >
 					<span class="glyphicon glyphicon-remove"></span> Remove
 				</button>

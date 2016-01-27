@@ -112,6 +112,7 @@ class ScenarioEntomologyView(ScenarioBaseFormView):
 
         for vector_name in vectors_to_delete:
             del self.scenario.entomology.vectors[vector_name]
+            remove_vector_from_interventions(self.scenario, vector_name)
 
         if "has_imported_infection" in self.request.POST and self.request.POST["has_imported_infection"]:
             if self.scenario.interventions.importedInfections is None:
@@ -194,3 +195,23 @@ def add_to_interventions(scenario, vector_name):
 
     for intervention in scenario.interventions.vectorPop:
         intervention.add_or_update_anopheles({"mosquito": vector_name})
+
+
+def remove_vector_from_interventions(scenario, vector_name):
+    for intervention in scenario.interventions.human:
+        intervention.remove_anophelesParams(vector_name)
+
+        if not intervention.anophelesParams:
+            try:
+                del scenario.interventions.human[intervention.id]
+            except KeyError:
+                pass
+
+    for intervention in scenario.interventions.vectorPop:
+        intervention.remove_anopheles(vector_name)
+
+        if not intervention.anopheles:
+            try:
+                del scenario.interventions.vectorPop[intervention.name]
+            except KeyError:
+                pass
