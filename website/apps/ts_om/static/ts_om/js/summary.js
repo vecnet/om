@@ -74,7 +74,7 @@ $(function() {
         $("#modal-scenario-id").val(deleteData.id);
     });
 
-    $("#id_name").change(function (e) {
+    $("#name").change(function (e) {
         $xml = null;
 
         try {
@@ -92,7 +92,7 @@ $(function() {
         }
     });
 
-    $('a[data-toggle="tab"]').on("shown", function(e) {
+    $('a[data-toggle="tab"]').on("show.bs.tab", function(e) {
         if ($(this).attr("href") == "#simple") {
             $xml = null;
 
@@ -107,7 +107,7 @@ $(function() {
             if ($scenario != null) {
                 var name = $scenario.attr("name");
 
-                $("#id_name").val(name);
+                $("#name").val(name);
             }
         }
     });
