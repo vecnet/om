@@ -74,45 +74,45 @@ $(function() {
         $("#modal-scenario-id").val(deleteData.id);
     });
 
-    $("#name").change(function (e) {
-        $xml = null;
+    $("#save-scenario-summary-page").click(function () {
+        var data = $("form").serializeArray();
+        var save = true;
 
-        try {
-            $xml = getScenarioXml();
-        } catch (err) {
-            return false;
-        }
+        data.push({name: 'save', value: save});
 
-        $scenario = $xml.find("om\\:scenario");
-
-        if ($scenario != null) {
-            $scenario.attr("name", $(this).val());
-
-            updateEditorXml($xml);
-        }
-    });
-
-    $('a[data-toggle="tab"]').on("show.bs.tab", function(e) {
-        if ($(this).attr("href") == "#simple") {
-            $xml = null;
-
-            try {
-                $xml = getScenarioXml();
-            } catch (err) {
-                return false;
+        $.post(window.location.href, data, function(data) {
+            if (data.hasOwnProperty("success") && data.success) {
+                $(".save-scenario").trigger("click");
             }
-
-            $scenario = $xml.find("om\\:scenario");
-
-            if ($scenario != null) {
-                var name = $scenario.attr("name");
-
-                $("#name").val(name);
-            }
-        }
+        }, "json").fail(function(jqXHR, textStatus, errorThrown) {
+        });
     });
 
     window.xmleditor.mirror.options.readOnly = $("#simulation-id").val() > 0;
     $(".advanced-tab-extra-text").hide();
     $(".discard-changes").show();
+
+    var modeTabsObj = $("#mode-tabs");
+    modeTabsObj.find("a[href='#simple']").on("click", getUpdatedSummaryForm);
+    modeTabsObj.find("a[href='#advanced']").on("click", function(e) {
+        getUpdatedScenario(e, false, null, $("form").serializeArray(), $(this));
+    });
 });
+
+function getUpdatedSummaryForm(e) {
+    e.stopImmediatePropagation();
+
+    var obj = $(this);
+    var postVals = {'xml': window.xmleditor.getValue()};
+
+    $.post("/ts_om/" + $("#scenario-id").val() + "/summary/update/form/", postVals, function(data) {
+        if (data.hasOwnProperty("valid") && data.valid) {
+            if (data.hasOwnProperty('name')) {
+                $("#name").val(data["name"]);
+            }
+
+            obj.tab('show');
+        }
+    }, "json").fail(function(jqXHR, textStatus, errorThrown) {
+    });
+}

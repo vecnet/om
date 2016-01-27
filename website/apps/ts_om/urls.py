@@ -5,6 +5,7 @@ from django.views.generic import TemplateView
 from views import ScenarioListView, ScenarioValidationView, ScenarioStartView
 from views import ScenarioDeleteView, duplicate_scenario
 from views import ScenarioSubmitView
+from website.apps.ts_om.views.ScenarioSummaryView2 import update_summary_form
 from website.apps.ts_om_experiment.views.ExperimentRunView import get_sim_group_status, download_experiment_zip
 from views.ScenarioView import download_scenario, download_experiment_scenario, save_scenario, submit_scenarios
 from website.apps.ts_om.views import ScenarioSummaryView2, ScenarioAdvancedView
@@ -27,4 +28,6 @@ urlpatterns = patterns('',
                            name='ts_om.utilities'),
                        url(r'^(?P<experiment_id>.+)/experiment/run/(?P<run_type>\w+)/status/$', get_sim_group_status,
                            name='ts_om.run_status'),
+                       url(r'^(?P<scenario_id>.+)/summary/update/form/$', update_summary_form,
+                           name='ts_om.summary.update.form'),
                        )
