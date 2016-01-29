@@ -10,7 +10,6 @@ from website.apps.ts_om_edit.forms import ScenarioEntomologyForm, ScenarioEntomo
     ScenarioImportedInfectionsForm
 from website.apps.ts_om.models import Scenario as ScenarioModel, AnophelesSnippet
 from website.apps.ts_om.views.ScenarioBaseFormView import ScenarioBaseFormView, update_form
-from website.apps.ts_om_edit.views.ScenarioInterventionsView import parse_imported_infections
 from website.middleware import HttpRedirectException
 from website.notification import set_notification
 
@@ -215,3 +214,33 @@ def remove_vector_from_interventions(scenario, vector_name):
                 del scenario.interventions.vectorPop[intervention.name]
             except KeyError:
                 pass
+
+def parse_imported_infections(scenario):
+    imported_infections = []
+
+    if scenario.interventions.importedInfections is None:
+        return imported_infections
+
+    imported_infection = {
+        "period": scenario.interventions.importedInfections.period
+    }
+
+    name = None
+    try:
+        name = scenario.interventions.importedInfections.name
+    except AttributeError:
+        pass
+
+    if name is None or name == "":
+        name = "Imported Infection"
+
+    imported_infection["name"] = name
+    times = [str(rate["time"]) for rate in scenario.interventions.importedInfections.rates]
+    values = [str(rate["value"]) for rate in scenario.interventions.importedInfections.rates]
+
+    imported_infection["timesteps"] = ','.join(times)
+    imported_infection["values"] = ','.join(values)
+
+    imported_infections.append(imported_infection)
+
+    return imported_infections
