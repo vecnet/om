@@ -91,12 +91,14 @@
             <div class="collapse inner-vector" id="inner-vector_{{ forloop.counter0 }}" aria-expanded="false">
                 {% for field in form.visible_fields %}
                     <div class="form-inline {% if vector_formset.can_delete and field.label == "Delete"%}hide{% endif %}">
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             {{ field.label_tag }}
                         </div>
                         <div class="input-group">
                             {{ field }}
-                            <span class="input-group-addon">%</span>
+                            {% if forloop.counter0 != 0 %}
+                                <span class="input-group-addon">%</span>
+                            {% endif %}
                         </div>
                     </div>
                 {% endfor %}
@@ -158,12 +160,14 @@
             <div class="collapse inner-vector" id="inner-vector_{{ forloop.counter0 }}" aria-expanded="false">
                 {% for field in form.visible_fields %}
                     <div class="form-inline {% if vector_formset.can_delete and field.label == "Delete"%}hide{% endif %}">
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             {{ field.label_tag }}
                         </div>
                         <div class="input-group">
                             {{ field }}
-                            <span class="input-group-addon">%</span>
+                            {% if forloop.counter0 != 0 %}
+                                <span class="input-group-addon">%</span>
+                            {% endif %}
                         </div>
                     </div>
                 {% endfor %}
