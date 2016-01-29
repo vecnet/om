@@ -83,103 +83,22 @@ class ScenarioInterventionsView(ScenarioBaseFormView):
                     intervention_id = form.cleaned_data['id']
 
                 name = str(form.cleaned_data['name'])
-                intervention = None
 
+                key = None
                 if intervention_id is not None:
                     human_intervention_ids.append(intervention_id)
+                    key = intervention_id
+                elif formset.prefix == "intervention":
+                    vectorpop_intervention_names.append(name)
+                    key = name
 
-                    try:
-                        intervention = self.scenario.interventions.human[intervention_id]
-                    except KeyError:
-                        component_tag = formset.prefix
+                is_valid_intervention = handle_intervention(self.scenario, key, name, formset.prefix,
+                                                            self.request.POST, form.cleaned_data, index)
 
-                        if component_tag == "vaccine":
-                            component_tag = name
-
-                        possible_snippets = InterventionSnippet.objects.filter(component__tag__iexact=component_tag)
-                        if possible_snippets is not None:
-                            snippet = possible_snippets.get(name=name)
-
-                            if snippet is None:
-                                if formset.prefix == "gvi":
-                                    snippet = possible_snippets.get(name="GVI")
-                                elif formset.prefix == "mda":
-                                    snippet = possible_snippets.get(name="Coarthem")
-                                elif formset.prefix == "vaccine":
-                                    snippet = possible_snippets.get(name="BSV")
-
-                            xml = snippet.xml
-
-                            if len(self.scenario.interventions.human) == 0:
-                                self.scenario.interventions.add_section("human")
-
-                            self.scenario.interventions.human.add(xml, id=intervention_id)
-                            intervention = self.scenario.interventions.human[intervention_id]
-                            intervention.anophelesParams = []
-                    finally:
-                        if intervention is None:
-                            return super(ScenarioInterventionsView, self).form_invalid(form)
-
-                        intervention.name = name
-
-                        if formset.prefix == "gvi" and 'attrition' in form.cleaned_data:
-                            intervention.decay.L = float(form.cleaned_data['attrition'])
-                            temp_vectors = parse_parameters(self.request.POST, formset.prefix, index=index)
-                            for vector in temp_vectors:
-                                intervention.add_or_update_anophelesParams(vector)
-                        elif formset.prefix == "mda":
-                            temp_options = parse_options(self.request.POST, formset.prefix, option_type="option",
-                                                         index=index)
-                            for option in temp_options:
-                                intervention.add_or_update_treatment_option(option)
-                        elif formset.prefix == "vaccine":
-                            intervention.decay.L = float(form.cleaned_data["attrition"])
-                            intervention.efficacyB = float(form.cleaned_data["efficacy_b"])
-                            intervention.initialEfficacy = form.cleaned_data["initial_efficacy"].split(',')
-                else:
-                    if formset.prefix == 'intervention':
-                        vectorpop_intervention_names.append(name)
-
-                        try:
-                            intervention = self.scenario.interventions.vectorPop[name]
-                        except KeyError:
-                            possible_snippets = InterventionSnippet.objects.filter(
-                                component__tag__iexact=formset.prefix)
-                            if possible_snippets is not None:
-                                snippet = possible_snippets.get(name="Larviciding")
-
-                                xml = snippet.xml
-
-                                if len(self.scenario.interventions.vectorPop) == 0:
-                                    self.scenario.interventions.add_section("vectorPop")
-
-                                self.scenario.interventions.vectorPop.add(xml, name=name)
-                                intervention = self.scenario.interventions.vectorPop[name]
-                                intervention.anopheles = []
-                        finally:
-                            intervention.emergenceReduction = float(form.cleaned_data["emergence_reduction"])
-                            temp_vectors = parse_parameters(self.request.POST, formset.prefix, index=index)
-                            for vector in temp_vectors:
-                                intervention.add_or_update_anopheles(vector)
-                    elif formset.prefix == 'importedinfections':
-                        has_imported_infection = True
-                        if self.scenario.interventions.importedInfections is None:
-                            self.scenario.interventions.add_section("importedInfections")
-
-                        self.scenario.interventions.importedInfections.name = str(form.cleaned_data["name"])
-                        self.scenario.interventions.importedInfections.period = int(form.cleaned_data["period"])
-
-                        rates = []
-                        timesteps = form.cleaned_data["timesteps"].split(',')
-                        values = form.cleaned_data["values"].split(',')
-
-                        for timestep, value in zip(timesteps, values):
-                            rates.append({
-                                "time": timestep,
-                                "value": value
-                            })
-
-                        self.scenario.interventions.importedInfections.rates = rates
+                if not is_valid_intervention:
+                    return super(ScenarioInterventionsView, self).form_invalid(form)
+                elif formset.prefix == "importedInfections":
+                    has_imported_infection = True
 
         for intervention in self.scenario.interventions.human:
             if intervention.id not in human_intervention_ids:
@@ -518,3 +437,100 @@ def update_interventions_form(request, scenario_id):
     html = render_to_string("ts_om_edit/interventions/interventions_list.html", extra_data)
 
     return HttpResponse(html)
+
+
+def handle_intervention(scenario, key, name, prefix, post_data, cleaned_data, index):
+    if prefix == "importedinfections":
+        has_imported_infection = True
+        if scenario.interventions.importedInfections is None:
+            scenario.interventions.add_section("importedInfections")
+
+        scenario.interventions.importedInfections.name = str(cleaned_data["name"])
+        scenario.interventions.importedInfections.period = int(cleaned_data["period"])
+
+        rates = []
+        timesteps = cleaned_data["timesteps"].split(',')
+        values = cleaned_data["values"].split(',')
+
+        for timestep, value in zip(timesteps, values):
+            rates.append({
+                "time": timestep,
+                "value": value
+            })
+
+        scenario.interventions.importedInfections.rates = rates
+
+        return True
+
+    intervention = None
+    try:
+        if prefix == "gvi" or prefix == "mda" or prefix == "vaccine":
+            intervention = scenario.interventions.human[key]
+        else:
+            intervention = scenario.interventions.vectorPop[key]
+    except KeyError:
+        component_tag = prefix
+
+        if component_tag == "vaccine":
+            component_tag = name
+
+        possible_snippets = InterventionSnippet.objects.filter(component__tag__iexact=component_tag)
+        if possible_snippets is not None:
+            if prefix != "intervention":
+                snippet = possible_snippets.get(name=name)
+
+                if snippet is None:
+                    if prefix == "gvi":
+                        snippet = possible_snippets.get(name="GVI")
+                    elif prefix == "mda":
+                        snippet = possible_snippets.get(name="Coarthem")
+                    elif prefix == "vaccine":
+                        snippet = possible_snippets.get(name="BSV")
+            else:
+                snippet = possible_snippets.get(name="Larviciding")
+
+            xml = snippet.xml
+
+            if prefix == "gvi" or prefix == "mda" or prefix == "vaccine":
+                if len(scenario.interventions.human) == 0:
+                    scenario.interventions.add_section("human")
+
+                scenario.interventions.human.add(xml, id=key)
+                intervention = scenario.interventions.human[key]
+                intervention.anophelesParams = []
+            else:
+                if len(scenario.interventions.vectorPop) == 0:
+                    scenario.interventions.add_section("vectorPop")
+
+                scenario.interventions.vectorPop.add(xml, name=name)
+                intervention = scenario.interventions.vectorPop[name]
+                intervention.anopheles = []
+    finally:
+        if intervention is None:
+            return False  # super(ScenarioInterventionsView, self).form_invalid(form)
+
+        intervention.name = name
+
+        if prefix == "gvi" or prefix == "mda" or prefix == "vaccine":
+            if prefix == "gvi" and 'attrition' in cleaned_data:
+                intervention.decay.L = float(cleaned_data['attrition'])
+                temp_vectors = parse_parameters(post_data, prefix, index=index)
+                for vector in temp_vectors:
+                    intervention.add_or_update_anophelesParams(vector)
+            elif prefix == "mda":
+                temp_options = parse_options(post_data, prefix, option_type="option",
+                                             index=index)
+                for option in temp_options:
+                    intervention.add_or_update_treatment_option(option)
+            elif prefix == "vaccine":
+                intervention.decay.L = float(cleaned_data["attrition"])
+                intervention.efficacyB = float(cleaned_data["efficacy_b"])
+                intervention.initialEfficacy = cleaned_data["initial_efficacy"].split(',')
+        else:
+            pass
+            intervention.emergenceReduction = float(cleaned_data["emergence_reduction"])
+            temp_vectors = parse_parameters(post_data, prefix, index=index)
+            for vector in temp_vectors:
+                intervention.add_or_update_anopheles(vector)
+
+        return True
