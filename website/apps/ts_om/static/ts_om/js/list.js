@@ -98,4 +98,8 @@ $(function() {
       deleteMsg.show();
     });
   });
+
+    var refreshSimsInterval = setInterval(function() {
+        $("#simulations-data").load("#simulations-data");
+    }, 10000);
 });
