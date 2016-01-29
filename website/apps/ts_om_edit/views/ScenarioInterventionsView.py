@@ -7,6 +7,7 @@ from django.core.exceptions import PermissionDenied
 from django.forms.formsets import formset_factory
 from django.http import HttpResponse
 from django.template.loader import render_to_string
+from django.db.models import Q
 from vecnet.openmalaria.scenario import Scenario
 from vecnet.openmalaria.scenario.interventions import GVI, MDA, Vaccine, VectorPopIntervention
 
@@ -422,7 +423,8 @@ def load_interventions_data(scenario):
 
     context = {}
     context["intervention_formsets"] = formsets
-    context["interventions"] = InterventionSnippet.objects.exclude(component__tag__iexact="importedinfections")
+    context["interventions"] = InterventionSnippet.objects.exclude(
+        Q(component__tag__iexact="importedinfections") | Q(component__tag__iexact="mda"))
     context["entomology_vectors_count"] = len(scenario.entomology.vectors)
     context["entomology_vectors_names"] = [vector.mosquito for vector in scenario.entomology.vectors]
 
