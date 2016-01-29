@@ -47,17 +47,26 @@
 	{% block page_content %}
 		{% block header_content %}
 		{% endblock %}
-			<div class="tabbable">
-                <ul id="mode-tabs" class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#simple">Basic</a></li>
-                    <li>
-                        <a data-toggle="tab" href="#advanced">
-                            Advanced
-                            <div class="advanced-tab-extra-text text-warning pull-right hide">(read-only)</div>
-                        </a>
-                    </li>
-                </ul>
-			</div>
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="tabbable">
+                        <ul id="mode-tabs" class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#simple">Basic</a></li>
+                            <li>
+                                <a data-toggle="tab" href="#advanced">
+                                    Advanced
+                                    <div class="advanced-tab-extra-text text-warning pull-right hide">(read-only)</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <a class="btn btn-default pull-right" href="{% url "ts_om.summary2" scenario_id %}">
+                        <i class="glyphicon glyphicon-ban-circle"></i> Cancel changes
+                    </a>
+                </div>
+            </div>
 			<div class="tab-content">
                 <div class="tab-pane active" id="simple">
                     {% block container_content %}

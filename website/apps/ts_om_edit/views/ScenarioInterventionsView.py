@@ -7,12 +7,12 @@ from django.core.exceptions import PermissionDenied
 from django.forms.formsets import formset_factory
 from django.http import HttpResponse
 from django.template.loader import render_to_string
+from django.db.models import Q
 from vecnet.openmalaria.scenario import Scenario
 from vecnet.openmalaria.scenario.interventions import GVI, MDA, Vaccine, VectorPopIntervention
 
 from website.apps.ts_om_edit.forms import ScenarioInterventionsForm, ScenarioGviInterventionForm, \
-    ScenarioLarvicidingInterventionForm, ScenarioMdaInterventionForm, ScenarioVaccineInterventionForm, \
-    ScenarioImportedInfectionsForm
+    ScenarioLarvicidingInterventionForm, ScenarioMdaInterventionForm, ScenarioVaccineInterventionForm
 from website.apps.ts_om.models import Scenario as ScenarioModel, InterventionSnippet
 from website.apps.ts_om.views.ScenarioBaseFormView import ScenarioBaseFormView
 from website.apps.ts_om.views.ScenarioValidationView import rest_validate
@@ -55,14 +55,12 @@ class ScenarioInterventionsView(ScenarioBaseFormView):
                                                          (partial(ScenarioMdaInterventionForm, options=mda_options)),
                                                          extra=0, can_delete=True)
         ScenarioVaccineInterventionFormSet = formset_factory(ScenarioVaccineInterventionForm, extra=0, can_delete=True)
-        ScenarioImportedInfectionsFormSet = formset_factory(ScenarioImportedInfectionsForm, extra=0, can_delete=True)
 
         formsets = [
             ScenarioGviInterventionFormSet(self.request.POST, prefix='gvi'),
             ScenarioLarvicidingInterventionFormSet(self.request.POST, prefix='intervention'),
             ScenarioMdaInterventionFormSet(self.request.POST, prefix='mda'),
             ScenarioVaccineInterventionFormSet(self.request.POST, prefix='vaccine'),
-            ScenarioImportedInfectionsFormSet(self.request.POST, prefix='importedinfections')
         ]
         logger.debug(formsets)
         for formset in formsets:
@@ -73,7 +71,6 @@ class ScenarioInterventionsView(ScenarioBaseFormView):
         logger.debug("Interventions - all formsets are valid")
         human_intervention_ids = []
         vectorpop_intervention_names = []
-        has_imported_infection = False
 
         for formset in formsets:
             for index, form in enumerate(formset):
@@ -161,25 +158,6 @@ class ScenarioInterventionsView(ScenarioBaseFormView):
                             temp_vectors = parse_parameters(self.request.POST, formset.prefix, index=index)
                             for vector in temp_vectors:
                                 intervention.add_or_update_anopheles(vector)
-                    elif formset.prefix == 'importedinfections':
-                        has_imported_infection = True
-                        if self.scenario.interventions.importedInfections is None:
-                            self.scenario.interventions.add_section("importedInfections")
-
-                        self.scenario.interventions.importedInfections.name = str(form.cleaned_data["name"])
-                        self.scenario.interventions.importedInfections.period = int(form.cleaned_data["period"])
-
-                        rates = []
-                        timesteps = form.cleaned_data["timesteps"].split(',')
-                        values = form.cleaned_data["values"].split(',')
-
-                        for timestep, value in zip(timesteps, values):
-                            rates.append({
-                                "time": timestep,
-                                "value": value
-                            })
-
-                        self.scenario.interventions.importedInfections.rates = rates
 
         for intervention in self.scenario.interventions.human:
             if intervention.id not in human_intervention_ids:
@@ -198,8 +176,6 @@ class ScenarioInterventionsView(ScenarioBaseFormView):
             self.scenario.interventions.remove_section("human")
         if len(self.scenario.interventions.vectorPop) == 0:
             self.scenario.interventions.remove_section("vectorPop")
-        if not has_imported_infection:
-            self.scenario.interventions.remove_section("importedInfections")
 
         return super(ScenarioInterventionsView, self).form_valid(form, kwargs={'xml': self.scenario.xml})
 
@@ -407,43 +383,11 @@ def parse_vaccine_interventions(scenario):
     return interventions
 
 
-def parse_imported_infections(scenario):
-    imported_infections = []
-
-    if scenario.interventions.importedInfections is None:
-        return imported_infections
-
-    imported_infection = {
-        "period": scenario.interventions.importedInfections.period
-    }
-
-    name = None
-    try:
-        name = scenario.interventions.importedInfections.name
-    except AttributeError:
-        pass
-
-    if name is None or name == "":
-        name = "Imported Infection"
-
-    imported_infection["name"] = name
-    times = [str(rate["time"]) for rate in scenario.interventions.importedInfections.rates]
-    values = [str(rate["value"]) for rate in scenario.interventions.importedInfections.rates]
-
-    imported_infection["timesteps"] = ','.join(times)
-    imported_infection["values"] = ','.join(values)
-
-    imported_infections.append(imported_infection)
-
-    return imported_infections
-
-
 def load_interventions_data(scenario):
     gvi_interventions = parse_gvi_interventions(scenario)
     larviciding_interventions = parse_larviciding_interventions(scenario)
     mda_interventions = parse_mda_interventions(scenario)
     vaccine_interventions = parse_vaccine_interventions(scenario)
-    imported_infections = parse_imported_infections(scenario)
 
     gvi_vectors = parse_initial_vectors(gvi_interventions)
     larviciding_vectors = parse_initial_vectors(larviciding_interventions)
@@ -469,19 +413,18 @@ def load_interventions_data(scenario):
                                                               options_iterator=iter(mda_options))), extra=0,
                                                      can_delete=True)
     ScenarioVaccineInterventionFormSet = formset_factory(ScenarioVaccineInterventionForm, extra=0, can_delete=True)
-    ScenarioImportedInfectionsFormSet = formset_factory(ScenarioImportedInfectionsForm, extra=0, can_delete=True)
 
     formsets = [
         ScenarioGviInterventionFormSet(initial=gvi_interventions, prefix='gvi'),
         ScenarioLarvicidingInterventionFormSet(initial=larviciding_interventions, prefix='intervention'),
         ScenarioMdaInterventionFormSet(initial=mda_interventions, prefix='mda'),
         ScenarioVaccineInterventionFormSet(initial=vaccine_interventions, prefix='vaccine'),
-        ScenarioImportedInfectionsFormSet(initial=imported_infections, prefix='importedinfections')
     ]
 
     context = {}
     context["intervention_formsets"] = formsets
-    context["interventions"] = InterventionSnippet.objects.all()
+    context["interventions"] = InterventionSnippet.objects.exclude(
+        Q(component__tag__iexact="importedinfections") | Q(component__tag__iexact="mda"))
     context["entomology_vectors_count"] = len(scenario.entomology.vectors)
     context["entomology_vectors_names"] = [vector.mosquito for vector in scenario.entomology.vectors]
 
