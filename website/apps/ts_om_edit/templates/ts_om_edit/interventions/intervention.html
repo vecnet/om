@@ -24,9 +24,9 @@
 				</strong>
 			</label>
 		{% endif %}
-		{% if formset.prefix == "gvi" %}
+		{% if formset.prefix == "gvi" or formset.prefix == "llin" or formset.prefix == "irs" or formset.prefix == "pyrethroids" or formset.prefix == "ddt" %}
 			{% include "ts_om_edit/interventions/gvi_intervention.html" %}
-		{% elif formset.prefix == "intervention" %}
+		{% elif formset.prefix == "larviciding" %}
 			{% include "ts_om_edit/interventions/larviciding_intervention.html" %}
 		{% elif formset.prefix == "mda" %}
 			{% include "ts_om_edit/interventions/mda_intervention.html" %}

@@ -160,22 +160,26 @@ class ScenarioGviInterventionForm(ScenarioHumanInterventionForm):
         self.fields['vector___inner-prefix___propActive'] = forms.CharField(
             widget=forms.TextInput(attrs={'class': 'form-control vector-prop-active'}),
             required=False,
-            label="Proportion of bites for which intervention acts"
+            label="Proportion of bites for which intervention acts",
+            initial=0.0
         )
         self.fields['vector___inner-prefix___deterrency'] = forms.CharField(
             widget=forms.TextInput(attrs={'class': 'form-control vector-deterrency'}),
             required=False,
-            label="Relative attractiveness"
+            label="Relative attractiveness",
+            initial=0.0
         )
         self.fields['vector___inner-prefix___preprandialKillingEffect'] = forms.CharField(
             widget=forms.TextInput(attrs={'class': 'form-control vector-preprandial-killing-effect'}),
             required=False,
-            label="Pre-prandial killing effect"
+            label="Pre-prandial killing effect",
+            initial=0.0
         )
         self.fields['vector___inner-prefix___postprandialKillingEffect'] = forms.CharField(
             widget=forms.TextInput(attrs={'class': 'form-control vector-postprandial-killing-effect'}),
             required=False,
-            label="Post-prandial killing effect"
+            label="Post-prandial killing effect",
+            initial=0.0
         )
 
         for index, vector in enumerate(vectors):
@@ -211,13 +215,15 @@ class ScenarioGviInterventionForm(ScenarioHumanInterventionForm):
 
         if component is not None:
             self.fields['attrition'].initial = component.decay.L
-            self.fields['vector___inner-prefix___mosquito'].initial = component.anophelesParams[0].mosquito
-            self.fields['vector___inner-prefix___propActive'].initial = component.anophelesParams[0].propActive
-            self.fields['vector___inner-prefix___deterrency'].initial = component.anophelesParams[0].deterrency
-            self.fields['vector___inner-prefix___preprandialKillingEffect'].initial = \
-                component.anophelesParams[0].preprandialKillingEffect
-            self.fields['vector___inner-prefix___postprandialKillingEffect'].initial = \
-                component.anophelesParams[0].postprandialKillingEffect
+
+            if component.anophelesParams:
+                self.fields['vector___inner-prefix___mosquito'].initial = component.anophelesParams[0].mosquito
+                self.fields['vector___inner-prefix___propActive'].initial = component.anophelesParams[0].propActive
+                self.fields['vector___inner-prefix___deterrency'].initial = component.anophelesParams[0].deterrency
+                self.fields['vector___inner-prefix___preprandialKillingEffect'].initial = \
+                    component.anophelesParams[0].preprandialKillingEffect
+                self.fields['vector___inner-prefix___postprandialKillingEffect'].initial = \
+                    component.anophelesParams[0].postprandialKillingEffect
 
     attrition = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), label="Decay", initial=0.0)
 
