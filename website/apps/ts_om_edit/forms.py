@@ -428,6 +428,21 @@ class ScenarioMdaInterventionForm(ScenarioHumanInterventionForm):
 
 
 class ScenarioVaccineInterventionForm(ScenarioHumanInterventionForm):
+    def __init__(self, *args, **kwargs):
+        component = None
+
+        if 'component' in kwargs:
+            component = kwargs.pop('component')
+
+        super(ScenarioVaccineInterventionForm, self).__init__(*args, **kwargs)
+
+        if component is not None:
+            self.fields['attrition'].initial = component.decay.L
+            self.fields['efficacy_b'].initial = component.efficacyB
+
+            initial_efficacy_values = [str(value) for value in component.initialEfficacy]
+            self.fields["initial_efficacy"].initial = ','.join(initial_efficacy_values)
+
     attrition = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), label="Decay", initial=0.0)
     efficacy_b = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}),
                                  label="Measure of variation in vaccine efficacy", initial=0.0)

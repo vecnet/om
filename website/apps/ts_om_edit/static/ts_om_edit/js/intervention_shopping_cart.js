@@ -101,7 +101,7 @@ function addIntervention(prefix, selectedName, uiObj) {
   var name = selectedName;
 
   if (prefix === "pev" || prefix === "bsv" || prefix === "tbv") {
-    prefix = "vaccine";
+    prefix = "vaccine-" + prefix;
   } else if (prefix === "importedinfections") {
     $(".ui-draggable").filter(function() {
       return $(this).data("prefix") === prefix;

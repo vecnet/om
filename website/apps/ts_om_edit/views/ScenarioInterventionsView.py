@@ -54,13 +54,20 @@ class ScenarioInterventionsView(ScenarioBaseFormView):
         ScenarioMdaInterventionFormSet = formset_factory(wraps(ScenarioMdaInterventionForm)
                                                          (partial(ScenarioMdaInterventionForm, options=mda_options)),
                                                          extra=0, can_delete=True)
-        ScenarioVaccineInterventionFormSet = formset_factory(ScenarioVaccineInterventionForm, extra=0, can_delete=True)
+        ScenarioVaccineBsvInterventionFormSet = formset_factory(ScenarioVaccineInterventionForm, extra=0,
+                                                                can_delete=True)
+        ScenarioVaccinePevInterventionFormSet = formset_factory(ScenarioVaccineInterventionForm, extra=0,
+                                                                can_delete=True)
+        ScenarioVaccineTbvInterventionFormSet = formset_factory(ScenarioVaccineInterventionForm, extra=0,
+                                                                can_delete=True)
 
         formsets = [
             ScenarioGviInterventionFormSet(self.request.POST, prefix='gvi'),
             ScenarioLarvicidingInterventionFormSet(self.request.POST, prefix='intervention'),
             ScenarioMdaInterventionFormSet(self.request.POST, prefix='mda'),
-            ScenarioVaccineInterventionFormSet(self.request.POST, prefix='vaccine'),
+            ScenarioVaccineBsvInterventionFormSet(self.request.POST, prefix='vaccine-bsv'),
+            ScenarioVaccinePevInterventionFormSet(self.request.POST, prefix='vaccine-pev'),
+            ScenarioVaccineTbvInterventionFormSet(self.request.POST, prefix='vaccine-tbv'),
         ]
         logger.debug(formsets)
         for formset in formsets:
@@ -90,7 +97,7 @@ class ScenarioInterventionsView(ScenarioBaseFormView):
                     except KeyError:
                         component_tag = formset.prefix
 
-                        if component_tag == "vaccine":
+                        if component_tag.startswith("vaccine"):
                             component_tag = name
 
                         possible_snippets = InterventionSnippet.objects.filter(component__tag__iexact=component_tag)
@@ -102,8 +109,12 @@ class ScenarioInterventionsView(ScenarioBaseFormView):
                                     snippet = possible_snippets.get(name="GVI")
                                 elif formset.prefix == "mda":
                                     snippet = possible_snippets.get(name="Coarthem")
-                                elif formset.prefix == "vaccine":
+                                elif formset.prefix == "vaccine-bsv":
                                     snippet = possible_snippets.get(name="BSV")
+                                elif formset.prefix == "vaccine-pev":
+                                    snippet = possible_snippets.get(name="PEV")
+                                elif formset.prefix == "vaccine-tbv":
+                                    snippet = possible_snippets.get(name="TBV")
 
                             xml = snippet.xml
 
@@ -129,7 +140,7 @@ class ScenarioInterventionsView(ScenarioBaseFormView):
                                                          index=index)
                             for option in temp_options:
                                 intervention.add_or_update_treatment_option(option)
-                        elif formset.prefix == "vaccine":
+                        elif formset.prefix.startswith("vaccine"):
                             intervention.decay.L = float(form.cleaned_data["attrition"])
                             intervention.efficacyB = float(form.cleaned_data["efficacy_b"])
                             intervention.initialEfficacy = form.cleaned_data["initial_efficacy"].split(',')
@@ -374,7 +385,7 @@ def parse_vaccine_interventions(scenario):
     for component in scenario.interventions.human:
         if type(component) == Vaccine:
             component_info = {'attrition': component.decay.L, 'efficacy_b': component.efficacyB,
-                              'id': component.id, 'name': component.name}
+                              'id': component.id, 'name': component.name, 'vaccine_type': component.vaccine_type}
             initial_efficacy_values = [str(value) for value in component.initialEfficacy]
             component_info["initial_efficacy"] = ','.join(initial_efficacy_values)
 
@@ -389,6 +400,13 @@ def load_interventions_data(scenario):
     mda_interventions = parse_mda_interventions(scenario)
     vaccine_interventions = parse_vaccine_interventions(scenario)
 
+    bsv_vaccine_interventions = [vaccine_intervention for vaccine_intervention in vaccine_interventions
+                                 if vaccine_intervention["vaccine_type"] == "BSV"]
+    pev_vaccine_interventions = [vaccine_intervention for vaccine_intervention in vaccine_interventions
+                                 if vaccine_intervention["vaccine_type"] == "PEV"]
+    tbv_vaccine_interventions = [vaccine_intervention for vaccine_intervention in vaccine_interventions
+                                 if vaccine_intervention["vaccine_type"] == "TBV"]
+
     gvi_vectors = parse_initial_vectors(gvi_interventions)
     larviciding_vectors = parse_initial_vectors(larviciding_interventions)
     mda_options = parse_initial_options(mda_interventions)
@@ -397,6 +415,13 @@ def load_interventions_data(scenario):
     gvi_component = GVI(ElementTree.fromstring(gvi.xml))
     vector_pop = InterventionSnippet.objects.get(name="Larviciding")
     vector_pop_intervention = VectorPopIntervention(ElementTree.fromstring(vector_pop.xml))
+
+    vaccine_bsv = InterventionSnippet.objects.get(name="BSV")
+    vaccine_bsv_component = Vaccine(ElementTree.fromstring(vaccine_bsv.xml))
+    vaccine_pev = InterventionSnippet.objects.get(name="PEV")
+    vaccine_pev_component = Vaccine(ElementTree.fromstring(vaccine_pev.xml))
+    vaccine_tbv = InterventionSnippet.objects.get(name="TBV")
+    vaccine_tbv_component = Vaccine(ElementTree.fromstring(vaccine_tbv.xml))
 
     ScenarioGviInterventionFormSet = formset_factory(wraps(ScenarioGviInterventionForm)
                                                      (partial(ScenarioGviInterventionForm, component=gvi_component,
@@ -412,13 +437,26 @@ def load_interventions_data(scenario):
                                                      (partial(ScenarioMdaInterventionForm,
                                                               options_iterator=iter(mda_options))), extra=0,
                                                      can_delete=True)
-    ScenarioVaccineInterventionFormSet = formset_factory(ScenarioVaccineInterventionForm, extra=0, can_delete=True)
+    ScenarioVaccineBsvInterventionFormSet = formset_factory(wraps(ScenarioVaccineInterventionForm)
+                                                         (partial(ScenarioVaccineInterventionForm,
+                                                                  component=vaccine_bsv_component)), extra=0,
+                                                         can_delete=True)
+    ScenarioVaccinePevInterventionFormSet = formset_factory(wraps(ScenarioVaccineInterventionForm)
+                                                     (partial(ScenarioVaccineInterventionForm,
+                                                              component=vaccine_pev_component)), extra=0,
+                                                     can_delete=True)
+    ScenarioVaccineTbvInterventionFormSet = formset_factory(wraps(ScenarioVaccineInterventionForm)
+                                                         (partial(ScenarioVaccineInterventionForm,
+                                                                  component=vaccine_tbv_component)), extra=0,
+                                                         can_delete=True)
 
     formsets = [
         ScenarioGviInterventionFormSet(initial=gvi_interventions, prefix='gvi'),
         ScenarioLarvicidingInterventionFormSet(initial=larviciding_interventions, prefix='intervention'),
         ScenarioMdaInterventionFormSet(initial=mda_interventions, prefix='mda'),
-        ScenarioVaccineInterventionFormSet(initial=vaccine_interventions, prefix='vaccine'),
+        ScenarioVaccineBsvInterventionFormSet(initial=bsv_vaccine_interventions, prefix='vaccine-bsv'),
+        ScenarioVaccinePevInterventionFormSet(initial=pev_vaccine_interventions, prefix='vaccine-pev'),
+        ScenarioVaccineTbvInterventionFormSet(initial=tbv_vaccine_interventions, prefix='vaccine-tbv'),
     ]
 
     context = {}
