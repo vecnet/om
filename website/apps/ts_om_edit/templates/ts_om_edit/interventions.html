@@ -28,11 +28,13 @@
 		<div class="box" id="intervention">
 			<ul class="source">
 				{% for intervention in interventions %}
-					<li class="ui-draggable" data-prefix="{{ intervention.component.tag|lower }}" data-name="{{ intervention.name }}"
+					<li class="ui-draggable" data-prefix="{{ intervention.name|lower }}" data-name="{{ intervention.name }}"
 							data-id="{{ intervention.id }}">
 						<div class="row">
 							<div class="col-md-6">
-								<strong>{{ intervention.name }}</strong>
+								<strong>
+                                    {% if intervention.name == "Pyrethroids" or intervention.name == "DDT" %}IRS - {% endif %}{{ intervention.name }}
+                                </strong>
 							</div>
 							<div class="col-md-6">
                                 <a class="btn btn-default" target="_blank"

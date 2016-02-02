@@ -101,7 +101,7 @@ function addIntervention(prefix, selectedName, uiObj) {
   var name = selectedName;
 
   if (prefix === "pev" || prefix === "bsv" || prefix === "tbv") {
-    prefix = "vaccine";
+    prefix = "vaccine-" + prefix;
   } else if (prefix === "importedinfections") {
     $(".ui-draggable").filter(function() {
       return $(this).data("prefix") === prefix;
@@ -117,12 +117,15 @@ function addIntervention(prefix, selectedName, uiObj) {
 
   var newFormObj = $($("#empty-form-" + prefix).clone(false).get(0));
 
-  $(".interventions").find(".intervention:visible").filter(function () {
-    return $(this).data("prefix") === prefix; // && $(this).data("empty") === "";
-  }).each(function (index) {
-    var divPrefix = "#id_" + prefix + "-" + index + "-";
-    var uniqueInterventionName = $(divPrefix + "id").length ? $(divPrefix + "id").val() : $(divPrefix + "name").val();
-    if (uniqueInterventionName === name) {
+  $(".interventions").find(".intervention:visible").each(function (index) {
+      var id = "";
+      if (prefix == "larviciding") {
+          id = $.trim($(this).find(".intervention-name").html());
+      } else {
+          id = $.trim($(this).find(".intervention-details").find(".intervention-id-inner").html());
+      }
+
+    if (id === name) {
       var addedCt = 0;
       var newIdFound = false;
 
@@ -131,12 +134,15 @@ function addIntervention(prefix, selectedName, uiObj) {
         addedCt++;
         name = selectedName + "-" + addedCt;
 
-        $(".intervention:visible").filter(function () {
-          return $(this).data("prefix") === prefix; // && $(this).data("empty") === "";
-        }).each(function (innerIndex) {
-          var divPrefix = "#id_" + prefix + "-" + innerIndex + "-";
-          var uniqueInterventionName = $(divPrefix + "id").length ? $(divPrefix + "id").val() : $(divPrefix + "name").val();
-          if (uniqueInterventionName === name) {
+        $(".intervention:visible").each(function (innerIndex) {
+          var id = "";
+          if (prefix == "larviciding") {
+              id = $.trim($(this).find(".intervention-name").html());
+          } else {
+              id = $.trim($(this).find(".intervention-details").find(".intervention-id-inner").html());
+          }
+
+          if (id === name) {
             newIdFound = false;
             return newIdFound;
           }
@@ -186,7 +192,8 @@ function addIntervention(prefix, selectedName, uiObj) {
   newFormObj.find(".intervention").attr("data-index", totalFormCount);
   newFormObj.find(".intervention").data("index", totalFormCount);
 
-  if (prefix == "gvi" || prefix == "intervention") {
+  if (prefix == "gvi" || prefix == "llin" || prefix == "irs" || prefix == "pyrethroids" || prefix == "ddt" ||
+      prefix == "larviciding") {
     var emptyVectorObj = newFormObj.find(".intervention").find(".intervention-details").find(".empty-vector");
 
     for (var i = 0; i < vectorsCount; i++) {
