@@ -32,7 +32,9 @@
 							data-id="{{ intervention.id }}">
 						<div class="row">
 							<div class="col-md-6">
-								<strong>{{ intervention.name }}</strong>
+								<strong>
+                                    {% if intervention.name == "Pyrethroids" or intervention.name == "DDT" %}IRS - {% endif %}{{ intervention.name }}
+                                </strong>
 							</div>
 							<div class="col-md-6">
                                 <a class="btn btn-default" target="_blank"
