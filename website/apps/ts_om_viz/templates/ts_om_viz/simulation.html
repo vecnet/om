@@ -20,7 +20,6 @@
                 var surveyValues;
                 var url = "/ts_om_viz/sim/data/survey/" + sim_id + "/" + document.dynsel.subgroup.value + "/";
                 document.getElementById("survey_loading").innerHTML = '<i class="icon-spinner icon-spin icon-large">';
-                document.getElementById("survey_json").innerHTML = '<a href="' + url + '"> Tabular format </a>';
                 $.ajax({
                     type: "GET",
                     url: url,
@@ -75,7 +74,6 @@
                 var surveyValues;
                 var url = "/ts_om_viz/sim/data/cts/" + sim_id + "/" + document.dynsel.continuous.value + "/";
                 document.getElementById("continuous_loading").innerHTML = '<i class="icon-spinner icon-spin icon-large">';
-                document.getElementById("continuous_json").innerHTML = '<a href="' + url + '"> Tabular format </a>';
 
                 $.ajax({
                     type: "GET",
@@ -170,7 +168,6 @@
 
             </div>
             <div class="span1" id="survey_loading"></div>
-            <div class="span2" id="survey_json"></div>
         </div>
         <div class="row">
             <div class="span12">
@@ -189,7 +186,6 @@
                 </select>
             </div>
             <div class="span1" id="continuous_loading"></div>
-            <div class="span2" id="continuous_json"></div>
         </div>
         <div class="row">
             <div class="span12">
