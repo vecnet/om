@@ -47,10 +47,11 @@ class ScenarioInterventionsView(ScenarioBaseFormView):
         GviFormSet = formset_factory(wraps(ScenarioGviInterventionForm)
                                      (partial(ScenarioGviInterventionForm, vectors=gvi_vectors)),
                                      extra=0, can_delete=True)
-        LlinFormSet = formset_factory(ScenarioGviInterventionForm, extra=0, can_delete=True)
-        IrsFormSet = formset_factory(ScenarioGviInterventionForm, extra=0, can_delete=True)
-        PyrethroidsFormSet = formset_factory(ScenarioGviInterventionForm, extra=0, can_delete=True)
-        DdtFormSet = formset_factory(ScenarioGviInterventionForm, extra=0, can_delete=True)
+        BaseGviFormSet = formset_factory(ScenarioGviInterventionForm, extra=0, can_delete=True)
+        LlinFormSet = BaseGviFormSet
+        IrsFormSet = BaseGviFormSet
+        PyrethroidsFormSet = BaseGviFormSet
+        DdtFormSet = BaseGviFormSet
         LarvicidingFormSet = formset_factory(wraps(ScenarioLarvicidingInterventionForm)
                                              (partial(ScenarioLarvicidingInterventionForm,
                                                       vectors=larviciding_vectors)),
@@ -59,9 +60,10 @@ class ScenarioInterventionsView(ScenarioBaseFormView):
         MdaFormSet = formset_factory(wraps(ScenarioMdaInterventionForm)
                                      (partial(ScenarioMdaInterventionForm, options=mda_options)),
                                      extra=0, can_delete=True)
-        BsvFormSet = formset_factory(ScenarioVaccineInterventionForm, extra=0, can_delete=True)
-        PevFormSet = formset_factory(ScenarioVaccineInterventionForm, extra=0, can_delete=True)
-        TbvFormSet = formset_factory(ScenarioVaccineInterventionForm, extra=0, can_delete=True)
+        BaseVaccineFormSet = formset_factory(ScenarioVaccineInterventionForm, extra=0, can_delete=True)
+        BsvFormSet = BaseVaccineFormSet
+        PevFormSet = BaseVaccineFormSet
+        TbvFormSet = BaseVaccineFormSet
 
         formsets = [
             GviFormSet(self.request.POST, prefix='gvi'),
