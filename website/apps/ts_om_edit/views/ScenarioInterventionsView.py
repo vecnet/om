@@ -452,22 +452,15 @@ def load_interventions_data(scenario):
                                           vectors_iterator=iter(gvi_vectors))),
                                  extra=0,
                                  can_delete=True)
-    LlinFormSet = formset_factory(wraps(ScenarioGviInterventionForm)
-                                  (partial(ScenarioGviInterventionForm, component=llin_component)),
-                                  extra=0,
-                                  can_delete=True)
-    IrsFormSet = formset_factory(wraps(ScenarioGviInterventionForm)
-                                 (partial(ScenarioGviInterventionForm, component=irs_component)),
-                                 extra=0,
-                                 can_delete=True)
-    PyrethroidsFormSet = formset_factory(wraps(ScenarioGviInterventionForm)
-                                         (partial(ScenarioGviInterventionForm, component=pyrethroids_component)),
-                                         extra=0,
-                                         can_delete=True)
-    DdtFormSet = formset_factory(wraps(ScenarioGviInterventionForm)
-                                 (partial(ScenarioGviInterventionForm, component=ddt_component)),
-                                 extra=0,
-                                 can_delete=True)
+
+    LlinFormSet = common_formset_factory(ScenarioGviInterventionForm, llin_component)
+    IrsFormSet = common_formset_factory(ScenarioGviInterventionForm, irs_component)
+    PyrethroidsFormSet = common_formset_factory(ScenarioGviInterventionForm, pyrethroids_component)
+    DdtFormSet  = common_formset_factory(ScenarioGviInterventionForm, ddt_component)
+    BsvFormSet   = common_formset_factory(ScenarioVaccineInterventionForm, bsv_component)
+    PevFormSet   = common_formset_factory(ScenarioVaccineInterventionForm, pev_component)
+    TbvFormSet   = common_formset_factory(ScenarioVaccineInterventionForm, tbv_component)
+
     LarvicidingFormSet = formset_factory(wraps(ScenarioLarvicidingInterventionForm)
                                          (partial(ScenarioLarvicidingInterventionForm,
                                                   intervention=vector_pop_intervention,
@@ -476,18 +469,6 @@ def load_interventions_data(scenario):
                                          can_delete=True)
     MdaFormSet = formset_factory(wraps(ScenarioMdaInterventionForm)
                                  (partial(ScenarioMdaInterventionForm, options_iterator=iter(mda_options))),
-                                 extra=0,
-                                 can_delete=True)
-    BsvFormSet = formset_factory(wraps(ScenarioVaccineInterventionForm)
-                                 (partial(ScenarioVaccineInterventionForm, component=bsv_component)),
-                                 extra=0,
-                                 can_delete=True)
-    PevFormSet = formset_factory(wraps(ScenarioVaccineInterventionForm)
-                                 (partial(ScenarioVaccineInterventionForm, component=pev_component)),
-                                 extra=0,
-                                 can_delete=True)
-    TbvFormSet = formset_factory(wraps(ScenarioVaccineInterventionForm)
-                                 (partial(ScenarioVaccineInterventionForm, component=tbv_component)),
                                  extra=0,
                                  can_delete=True)
 
@@ -544,3 +525,9 @@ def update_interventions_form(request, scenario_id):
     html = render_to_string("ts_om_edit/interventions/interventions_list.html", extra_data)
 
     return HttpResponse(html)
+
+
+def common_formset_factory(form_class, extra_component):
+    if extra_component is None:
+        return formset_factory(form_class, extra=0, can_delete=True)
+    return formset_factory(wraps(form_class)(partial(form_class, component=extra_component)), extra=0, can_delete=True)
