@@ -152,11 +152,11 @@
     {% if request.user.username != "vecnet1" and request.user.username != "vecnet2" and request.user.username != "vecnet3" and request.user.username != "vecnet4" and request.user.username != "vecnet5" and request.user.username != "vecnet6" and request.user.username != "vecnet7" and request.user.username != "vecnet8" %}
     <form id="dynsel" name="dynsel" method="post" action="">
         <div class="row">
-            <div class="span2">Survey measures:</div>
-            <div class="span3">
-                <select name="subgroup" id="subgroup" style="width:180px" class="form-control"
-                        onchange="load_survey_data();">
+            <div class="col-md-2">Survey measures:</div>
+            <div class="col-md-4">
+                <select name="subgroup" id="subgroup" class="form-control" onchange="load_survey_data();">
                     {% for measure_name, measure_code in survey_measures.items %}
+                        <div>{{ measure_name }} - {{ measure_code }}</div>
                         <option value="{{ measure_code.0 }}/{{ measure_code.1 }}"
                                 {% if survey_measure_id == measure_code.0 and survey_third_dimension == measure_code.1%}
                                 selected
@@ -176,12 +176,11 @@
         </div>
         <hr>
         <div class="row">
-            <div class="span2">Continuous measures:</div>
-            <div class="span3">
-                <select class="form-control" name="continuous" id="continuous" style="width:180px"
-                        onchange="load_continuous_data();">
-                    {% for measure_name in cts_measures %}
-                        <option value="{{ measure_name }}"> {{ measure_name }}</option>
+            <div class="col-md-2">Continuous measures:</div>
+            <div class="col-md-4">
+                <select class="form-control" name="continuous" id="continuous" onchange="load_continuous_data();">
+                    {% for measure_name, measure_desc in cts_measures.items %}
+                        <option value="{{ measure_name }}"> {{ measure_desc }}</option>
                     {% endfor %}
                 </select>
             </div>

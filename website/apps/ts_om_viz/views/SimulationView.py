@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 import json
+
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from vecnet.openmalaria.cts import continuousMeasuresDescription
 from vecnet.openmalaria.output_parser import surveyFileMap
+
 from data_services.models import Simulation, SimulationInputFile, SimulationOutputFile
 from website.notification import set_notification
 from website.apps.ts_om_viz.utils import om_output_parser_from_simulation
@@ -75,17 +77,18 @@ class SimulationView(TemplateView):
         try:
             survey_measures = {}
             for measure in output_parser.get_survey_measures():
-                survey_measures[output_parser.get_survey_measure_name(measure_id=measure[0],
-                                                        third_dimension=measure[1])] = measure
+                survey_measures[surveyFileMap[measure[0]][2]] = measure
         except AttributeError:
             survey_measures = {}
         try:
-            cts_measures = output_parser.get_cts_measures()
+            cts_measures = {}
+            for measure in output_parser.get_cts_measures():
+                cts_measures[measure] = continuousMeasuresDescription.get(measure, "").split(".")[0]
         except AttributeError:
-            cts_measures = []
+            cts_measures = {}
 
         context["survey_measures"] = survey_measures
-        context["cts_measures"] = sorted(cts_measures)
+        context["cts_measures"] = cts_measures
         context["request"] = request
         return context
 
