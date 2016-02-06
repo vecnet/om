@@ -6,6 +6,11 @@ This project is based on VecNet-CI - https://github.com/vecnet/vnetsource
 
 This Django project has been tested on Windows 8 x64 and CentOS 7
 
+* Django 1.8
+* Python 2.7
+* PostgreSQL 9.4
+* Apache 2.4
+
 #Quick Start Guide
 1. Create database structures
     `./manage.py migrate`
@@ -82,7 +87,7 @@ DATABASES = {
 
 3. Enable DjangoAuthPubtkt middleware - put snippet below to website/settings_local.py
 Order is important - if you choose to keep standard Django authentication 
-backends, then django_auth_pubtkt.DjangoAuthPubtkt should after them.
+backends, then django_auth_pubtkt.DjangoAuthPubtkt should be after them.
 ```MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
