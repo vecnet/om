@@ -40,7 +40,10 @@ This Django project has been tested on Windows 8 x64 and CentOS 7
 python manage.py runserver
 ```
 
-#Database server configuration
+# Using docker-compose.
+```bash
+docker-compose up
+```
 
 
 #Using Vagrant

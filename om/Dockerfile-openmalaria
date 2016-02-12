@@ -1,0 +1,24 @@
+FROM centos:6.6
+MAINTAINER Tobias Thüring <tobias.thuering@swisstph.ch>
+# Install dependencies
+RUN yum update -y && yum install -y \
+  boost-devel \
+  cmake \
+  git \
+  gcc-c++ \
+  glibc-devel \
+  gsl-devel \
+  xerces-c-devel \
+  zlib-devel
+RUN rpm -i http://codesynthesis.com/download/xsd/4.0/linux-gnu/x86_64/xsd-4.0.0-1.x86_64.rpm
+# Clone openmalaria
+RUN git clone https://github.com/SwissTPH/openmalaria
+RUN pushd openmalaria \
+  && git checkout schema-32 \
+  && git pull
+# Run build steps
+RUN cd openmalaria && mkdir build-centos6 \
+  && pushd build-centos6 \
+  && cmake -DCMAKE_CXX_COMPILER=/usr/bin/g++ -DCMAKE_BUILD_TYPE=Release .. \
+  && make -j4
+CMD cd openmalaria/build-centos6 && ./openMalaria --version && ldd openMalaria
