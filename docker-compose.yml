@@ -1,0 +1,21 @@
+db:
+    image: postgres
+    environment:
+        - POSTGRES_USER=om
+        - POSTGRES_PASSWORD=om
+    ports:
+        - 5435:5432
+
+om:
+    build: ./om
+    dockerfile: Dockerfile-openmalaria
+
+web:
+    build: .
+    command: sh docker-command.sh
+    volumes:
+        - .:/app
+    ports:
+        - "8005:8000"
+    links:
+        - db

@@ -94,13 +94,6 @@ WSGI_APPLICATION = 'wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -183,6 +176,17 @@ LOGGING = {
 ACCOUNT_ACTIVATION_DAYS = 7
 
 TS_OM_VALIDATE_URL = 'https://ci-qa.vecnet.org/om_validate/validate/'
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'postgres',
+        'USER': 'om',
+        'PASSWORD': 'om',
+        'HOST': 'db',
+        'PORT': 5432,
+    }
+}
 
 try:
     # Optional settings specific to the local system (for example, custom
