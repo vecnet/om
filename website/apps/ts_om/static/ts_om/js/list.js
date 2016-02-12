@@ -100,6 +100,6 @@ $(function() {
   });
 
     var refreshSimsInterval = setInterval(function() {
-        $("#simulations-data").load("#simulations-data");
+        $("#simulations-data").load(document.URL + " #simulations-data");
     }, 10000);
 });
