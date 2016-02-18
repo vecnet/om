@@ -116,7 +116,7 @@ class ScenarioEntomologyForm(forms.Form):
 
 class ScenarioEntomologyVectorForm(forms.Form):
     average_eir = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}),
-                                  label="Relative proportion of annual EIR")
+                                  label="Relative contribution of annual EIR")
     human_blood_index = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     monthly_values = forms.CharField(widget=forms.HiddenInput())
     name = forms.CharField(widget=forms.HiddenInput())
