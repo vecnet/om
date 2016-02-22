@@ -62,9 +62,18 @@
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <a class="btn btn-default pull-right" href="{% url "ts_om.summary2" scenario_id %}">
-                        <i class="glyphicon glyphicon-ban-circle"></i> Cancel changes
+                    <button class="save-scenario btn btn-default pull {% if sim_id %}disabled{% endif %}" id="save-scenario" type="button"
+                        {% if sim_id %}disabled{% endif %}>
+                        Save
+                    </button>
+                    <a class="btn btn-default " href="{% url "ts_om.summary2" scenario_id %}">
+                        Cancel
                     </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="alert-success save-text"></p>
                 </div>
             </div>
 			<div class="tab-content">
@@ -105,10 +114,6 @@
                     </div>
                     <textarea id="xml" name="xml" placeholder="<!-- write some xml -->">{{ xml }}</textarea>
                     <div class="form-actions">
-                        <button class="save-scenario btn btn-default {% if sim_id %}disabled{% endif %}" id="save-scenario" type="button"
-                            {% if sim_id %}disabled{% endif %}>
-                            Save
-                        </button>
                         <button class="submit-scenario btn btn-default {% if sim_id %}disabled{% endif %}" id="submit-scenario" type="button"
                             {% if sim_id %}disabled{% endif %} style="display: none;">
                             Save and Run
