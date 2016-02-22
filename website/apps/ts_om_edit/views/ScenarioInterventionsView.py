@@ -522,7 +522,7 @@ def load_interventions_data(scenario):
     context = {}
     context["intervention_formsets"] = formsets
     context["interventions"] = InterventionSnippet.objects.exclude(
-        Q(component__tag__iexact="importedinfections") | Q(component__tag__iexact="mda"))
+        Q(component__tag__iexact="importedinfections") | Q(component__tag__iexact="mda") | Q(name__iexact="irs"))
     context["entomology_vectors_count"] = len(scenario.entomology.vectors)
     context["entomology_vectors_names"] = [vector.mosquito for vector in scenario.entomology.vectors]
 
