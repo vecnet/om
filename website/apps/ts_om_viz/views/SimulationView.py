@@ -77,7 +77,7 @@ class SimulationView(TemplateView):
         try:
             survey_measures = {}
             for measure in output_parser.get_survey_measures():
-                measure_key = surveyFileMap[measure[0]][2] + " (" + output_parser.get_survey_measure_name(
+                measure_key = surveyFileMap[measure[0]][0] + ": " + surveyFileMap[measure[0]][2] + ", ages (" + output_parser.get_survey_measure_name(
                     measure_id=measure[0], third_dimension=measure[1]).split("(")[1]
                 survey_measures[measure_key] = measure
         except AttributeError:
