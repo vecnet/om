@@ -21,17 +21,34 @@
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
-
-{#                <a class="brand" href="https://www.vecnet.org">&nbsp;&nbsp;VecNet</a>#}
+            </div>
+            <div class="collapse navbar-collapse">
                 {% block navbar_inner %}{% endblock %}
 
                 <ul class="nav navbar-nav">
                     {% block navbar_inner_right_pre %}{% endblock %}
-
-                    <li class="dropdown"><a href="{% url 'ts_om.start' %}">New Simulation</a></li>
-                    <li class="dropdown"><a href="{% url 'ts_om.list' %}">My Simulations</a></li>
-                    <li class="dropdown"><a href="{% url 'ts_om.upload' %}">Upload Experiment</a></li>
-                    <li class="dropdown"><a href="#">Contact Us</a></li>
+                    <li><a class="brand" href="https://www.vecnet.org">&nbsp;&nbsp;VecNet</a></li>
+                </ul>
+                 <ul class="nav navbar-nav navbar-right">
+                                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Our Work<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="https://www.vecnet.org/index.php/about-vecnet">About VecNet</a></li>
+                                <li><a href="https://www.vecnet.org/index.php/about-vecnet/collaborations">Collaborations</a></li>
+                                <li><a href="https://www.vecnet.org/index.php/about-vecnet/faq">FAQ</a></li>
+                                <li><a href="https://www.vecnet.org/index.php/about-vecnet/vecnet-how-to">VecNet How To</a></li>
+                            </ul>
+                        </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tools<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="https://dw.vecnet.org/">Data Warehouse Browser</a></li>
+                            <li><a href="https://dl.vecnet.org/">Digital Library</a></li>
+                            <li><a href="https://ci.vecnet.org/ts/">Transmission Simulator</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="{% url 'ts_om.upload' %}">Upload Experiment</a></li>
+                    <li class="dropdown"><a href="https://www.vecnet.org/index.php/contact-us">Contact Us</a></li>
 
                     {% block navbar_inner_right_post %}{% endblock %}
 
