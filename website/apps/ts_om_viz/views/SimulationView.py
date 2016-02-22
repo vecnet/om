@@ -117,7 +117,7 @@ def get_survey_data(request, sim_id, measure_id, bin_number):
 
     # Timesteps in years.
     for list_data in data:
-        list_data[0] /= 73
+        list_data[0] /= 73.0
 
     # Include measure_name and sim_id to http response for debug purpose
     result = {"measure_name": output_parser.get_survey_measure_name(measure_id=measure_id, third_dimension=bin_number),
