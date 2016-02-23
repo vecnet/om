@@ -34,32 +34,45 @@ $(document).ready(function () {
         validate();
     });
 
-    $(".save-scenario").click(function() {
+    $(".save-scenario").click(function(e) {
         var saveButton = $(this);
         var submitButton = saveButton.siblings(".submit-scenario");
+        var validOrNo = $(".save-text");
+        validOrNo.hide();
         saveButton.attr('disabled', '');
         saveButton.text('Validating...');
         submitButton.attr('disabled', '');
 
-        validate(function(valid) {
-            if (valid) {
-                $(".submit-type").each(function () {
-                    $(this).val("save");
-                });
+        if ($("#advanced").hasClass("active")) {
+            validate(function(valid) {
+                if (valid) {
+                    $(".submit-type").each(function() {
+                        $(this).val("save");
+                    });
 
-                saveButton.text('Saving...');
+                    saveButton.text('Saving...');
 
-                saveScenario(function (saved) {
-                  submitButton.removeAttr('disabled');
-                  saveButton.removeAttr('disabled');
-                  saveButton.text('Save');
-                });
-            } else {
+                    saveScenario(function(saved) {
+                        submitButton.removeAttr('disabled');
+                        saveButton.removeAttr('disabled');
+                        saveButton.text('Save');
+                    });
+                } else {
+                    submitButton.removeAttr('disabled');
+                    saveButton.removeAttr('disabled');
+                    saveButton.text('Save');
+                }
+            });
+        } else {
+            saveButton.text('Saving...');
+            getUpdatedScenario(e, true, function() {
+                validOrNo.html("Saved");
+                validOrNo.show();
                 submitButton.removeAttr('disabled');
                 saveButton.removeAttr('disabled');
                 saveButton.text('Save');
-            }
-        });
+            });
+        }
     });
 
     $(".submit-scenario").click(function() {

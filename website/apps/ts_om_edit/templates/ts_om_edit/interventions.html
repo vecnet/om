@@ -33,7 +33,14 @@
 						<div class="row">
 							<div class="col-md-6">
 								<strong>
-                                    {% if intervention.name == "Pyrethroids" or intervention.name == "DDT" %}IRS - {% endif %}{{ intervention.name }}
+                                    {% if intervention.name == "GVI" %}
+                                        {{ intervention.component.name }}
+                                    {% else %}
+                                        {% if intervention.name == "Pyrethroids" or intervention.name == "DDT" %}
+                                            IRS -
+                                        {% endif %}
+                                        {{ intervention.name }}
+                                    {% endif %}
                                 </strong>
 							</div>
 							<div class="col-md-6">
