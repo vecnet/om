@@ -124,24 +124,10 @@ class ScenarioInterventionsView(ScenarioBaseFormView):
                             snippet = possible_snippets.get(name=name)
 
                             if snippet is None:
-                                if formset.prefix == "gvi":
-                                    snippet = possible_snippets.get(name="GVI")
-                                elif formset.prefix == "llin":
-                                    snippet = possible_snippets.get(name="LLIN")
-                                elif formset.prefix == "irs":
-                                    snippet = possible_snippets.get(name="IRS")
-                                elif formset.prefix == "pyrethroids":
-                                    snippet = possible_snippets.get(name="Pyrethroids")
-                                elif formset.prefix == "ddt":
-                                    snippet = possible_snippets.get(name="DDT")
-                                elif formset.prefix == "mda":
-                                    snippet = possible_snippets.get(name="Coarthem")
-                                elif formset.prefix == "vaccine-bsv":
-                                    snippet = possible_snippets.get(name="BSV")
-                                elif formset.prefix == "vaccine-pev":
-                                    snippet = possible_snippets.get(name="PEV")
-                                elif formset.prefix == "vaccine-tbv":
-                                    snippet = possible_snippets.get(name="TBV")
+                                prefix = formset.prefix.replace("vaccine-", "")
+                                prefix = prefix if prefix != "mda" else "coarthem"
+
+                                snippet = possible_snippets.get(name__iexact=prefix)
 
                             xml = snippet.xml
 
