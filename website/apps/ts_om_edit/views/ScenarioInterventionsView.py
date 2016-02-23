@@ -228,36 +228,12 @@ def parse_initial_vectors(interventions):
     return gvi_vectors
 
 
-def parse_gvi_interventions(scenario):
-    interventions = []
+def parse_initial_options(interventions):
+    mda_options = []
+    for intervention in interventions:
+        mda_options.append(intervention['options'])
 
-    for component in scenario.interventions.human:
-        if type(component) == GVI:
-            component_info = {'attrition': component.decay.L, 'deploy': False, 'coverage': 0, 'timesteps': 0,
-                              'id': component.id, 'name': component.name}
-
-            vectors = []
-
-            try:
-                component_anopheles_params = component.anophelesParams
-            except AttributeError:
-                component_anopheles_params = []
-
-            for anopheles in component_anopheles_params:
-                vector_info = {
-                    'mosquito': anopheles.mosquito,
-                    'propActive': anopheles.propActive,
-                    'deterrency': anopheles.deterrency,
-                    'preprandialKillingEffect': anopheles.preprandialKillingEffect,
-                    'postprandialKillingEffect': anopheles.postprandialKillingEffect
-                }
-
-                vectors.append(vector_info)
-
-            component_info["vectors"] = vectors
-            interventions.append(component_info)
-
-    return interventions
+    return mda_options
 
 
 def parse_parameters(post_data, prefix, parameter_type="vector", index=0):
@@ -364,6 +340,60 @@ def parse_options(post_data, prefix, option_type="option", index=0):
     return final_parsed_vectors
 
 
+def parse_gvi_intervention(component):
+    component_info = {'attrition': component.decay.L, 'deploy': False, 'coverage': 0, 'timesteps': 0,
+                      'id': component.id, 'name': component.name}
+
+    vectors = []
+
+    try:
+        component_anopheles_params = component.anophelesParams
+    except AttributeError:
+        component_anopheles_params = []
+
+    for anopheles in component_anopheles_params:
+        vector_info = {
+            'mosquito': anopheles.mosquito,
+            'propActive': anopheles.propActive,
+            'deterrency': anopheles.deterrency,
+            'preprandialKillingEffect': anopheles.preprandialKillingEffect,
+            'postprandialKillingEffect': anopheles.postprandialKillingEffect
+        }
+
+        vectors.append(vector_info)
+
+    component_info["vectors"] = vectors
+
+    return component_info
+
+
+def parse_mda_intervention(component):
+    return {'id': component.id, 'name': component.name, "options": component.treatment_options}
+
+
+def parse_vaccine_intervention(component):
+    component_info = {'attrition': component.decay.L, 'efficacy_b': component.efficacyB,
+                      'id': component.id, 'name': component.name, 'vaccine_type': component.vaccine_type}
+    initial_efficacy_values = [str(value) for value in component.initialEfficacy]
+    component_info["initial_efficacy"] = ','.join(initial_efficacy_values)
+
+    return component_info
+
+
+def parse_human_interventions(scenario):
+    interventions = {"gvi": [], "mda": [], "vaccine": []}
+
+    for component in scenario.interventions.human:
+        if type(component) == GVI:
+            interventions["gvi"].append(parse_gvi_intervention(component))
+        elif type(component) == MDA:
+            interventions["mda"].append(parse_mda_intervention(component))
+        elif type(component) == Vaccine:
+            interventions["vaccine"].append(parse_vaccine_intervention(component))
+
+    return interventions
+
+
 def parse_larviciding_interventions(scenario):
     interventions = []
 
@@ -389,45 +419,12 @@ def parse_larviciding_interventions(scenario):
     return interventions
 
 
-def parse_initial_options(interventions):
-    mda_options = []
-    for intervention in interventions:
-        mda_options.append(intervention['options'])
-
-    return mda_options
-
-
-def parse_mda_interventions(scenario):
-    interventions = []
-
-    for component in scenario.interventions.human:
-        if type(component) == MDA:
-            component_info = {'id': component.id, 'name': component.name, "options": component.treatment_options}
-            interventions.append(component_info)
-
-    return interventions
-
-
-def parse_vaccine_interventions(scenario):
-    interventions = []
-
-    for component in scenario.interventions.human:
-        if type(component) == Vaccine:
-            component_info = {'attrition': component.decay.L, 'efficacy_b': component.efficacyB,
-                              'id': component.id, 'name': component.name, 'vaccine_type': component.vaccine_type}
-            initial_efficacy_values = [str(value) for value in component.initialEfficacy]
-            component_info["initial_efficacy"] = ','.join(initial_efficacy_values)
-
-            interventions.append(component_info)
-
-    return interventions
-
-
 def load_interventions_data(scenario):
-    gvi_interventions = parse_gvi_interventions(scenario)
+    interventions = parse_human_interventions(scenario)
+    gvi_interventions = interventions["gvi"]
+    mda_interventions = interventions["mda"]
+    vaccine_interventions = interventions["vaccine"]
     larviciding_interventions = parse_larviciding_interventions(scenario)
-    mda_interventions = parse_mda_interventions(scenario)
-    vaccine_interventions = parse_vaccine_interventions(scenario)
 
     bsv_vaccine_interventions = [vaccine_intervention for vaccine_intervention in vaccine_interventions
                                  if vaccine_intervention["vaccine_type"] == "BSV"]
