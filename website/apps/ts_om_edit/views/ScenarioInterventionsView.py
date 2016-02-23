@@ -423,15 +423,15 @@ def load_interventions_data(scenario):
     interventions = parse_human_interventions(scenario)
     gvi_interventions = interventions["gvi"]
     mda_interventions = interventions["mda"]
-    vaccine_interventions = interventions["vaccine"]
     larviciding_interventions = parse_larviciding_interventions(scenario)
 
-    bsv_vaccine_interventions = [vaccine_intervention for vaccine_intervention in vaccine_interventions
-                                 if vaccine_intervention["vaccine_type"] == "BSV"]
-    pev_vaccine_interventions = [vaccine_intervention for vaccine_intervention in vaccine_interventions
-                                 if vaccine_intervention["vaccine_type"] == "PEV"]
-    tbv_vaccine_interventions = [vaccine_intervention for vaccine_intervention in vaccine_interventions
-                                 if vaccine_intervention["vaccine_type"] == "TBV"]
+    vaccine_interventions = {"BSV": [], "PEV": [], "TBV": []}
+    for vaccine_intervention in interventions["vaccine"]:
+        vaccine_interventions[vaccine_intervention["vaccine_type"]].append(vaccine_intervention)
+
+    bsv_vaccine_interventions = vaccine_interventions["BSV"]
+    pev_vaccine_interventions = vaccine_interventions["PEV"]
+    tbv_vaccine_interventions = vaccine_interventions["TBV"]
 
     gvi_vectors = parse_initial_vectors(gvi_interventions)
     larviciding_vectors = parse_initial_vectors(larviciding_interventions)
