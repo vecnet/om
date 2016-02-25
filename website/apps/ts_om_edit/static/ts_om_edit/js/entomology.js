@@ -48,7 +48,7 @@ var options = {
                 var num = (e.target.y === 0) ? 0 : parseFloat(e.target.y).toFixed(moValDecLen);
                 var monthVals = monthlyValues[obj.series.name];
 
-                monthVals[e.target.index] = num;
+                monthVals[e.target.x] = parseFloat(num);
                 monthlyValues[obj.series.name] = monthVals;
                 $("#id_form-" + index + "-monthly_values").val(JSON.stringify(monthVals));
 
