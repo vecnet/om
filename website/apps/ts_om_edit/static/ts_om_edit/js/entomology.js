@@ -22,7 +22,7 @@ var options = {
     min: 0,
     floor: 0,
     title: {
-      text: 'Relative proportion of EIR per month'
+      text: ''
     }
   },
   tooltip: {
