@@ -122,7 +122,7 @@ def get_survey_data(request, sim_id, measure_id, bin_number):
     # Include measure_name and sim_id to http response for debug purpose
     result = {"measure_name": output_parser.get_survey_measure_name(measure_id=measure_id, third_dimension=bin_number),
               "sim_id": sim_id,
-              "data": data,
+              "data": data[1:],
               "description": surveyFileMap[measure_id][2]}
     return HttpResponse(json.dumps(result), content_type="application/json")
 
