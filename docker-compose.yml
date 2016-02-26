@@ -6,10 +6,6 @@ db:
     ports:
         - 5435:5432
 
-om:
-    build: ./om
-    dockerfile: Dockerfile-openmalaria
-
 web:
     build: .
     command: sh docker-command.sh
