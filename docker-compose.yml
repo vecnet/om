@@ -1,17 +1,21 @@
-db:
-    image: postgres
-    environment:
-        - POSTGRES_USER=om
-        - POSTGRES_PASSWORD=om
-    ports:
-        - 5435:5432
-
-web:
-    build: .
-    command: sh docker-command.sh
-    volumes:
-        - .:/app
-    ports:
-        - "8005:8000"
-    links:
-        - db
+version: '2'
+services:
+    db:
+        image: postgres
+        environment:
+            - POSTGRES_USER=om
+            - POSTGRES_PASSWORD=om
+        ports:
+            - 5435:5432
+    web:
+        build: .
+        depends_on:
+            - db
+        entrypoint: dockerize -wait tcp://db:5432
+        command: sh docker-command.sh
+        volumes:
+            - .:/app
+        ports:
+            - "8005:8000"
+        links:
+            - db
