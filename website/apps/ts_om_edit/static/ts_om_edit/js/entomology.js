@@ -3,7 +3,7 @@
  * Created by nreed on 1/15/15.
  */
 var monthlyValues = {};
-var chart = null;
+var charts = [];
 var options = {
   chart: {
     renderTo: 'chart',
@@ -22,7 +22,7 @@ var options = {
     min: 0,
     floor: 0,
     title: {
-      text: 'Relative proportion of EIR per month'
+      text: ''
     }
   },
   tooltip: {
@@ -48,7 +48,7 @@ var options = {
                 var num = (e.target.y === 0) ? 0 : parseFloat(e.target.y).toFixed(moValDecLen);
                 var monthVals = monthlyValues[obj.series.name];
 
-                monthVals[e.target.index] = num;
+                monthVals[e.target.x] = parseFloat(num);
                 monthlyValues[obj.series.name] = monthVals;
                 $("#id_form-" + index + "-monthly_values").val(JSON.stringify(monthVals));
 
@@ -112,6 +112,14 @@ $(function() {
       var splitId = $(this).attr("id").split("_");
       $(this).attr("id", splitId[0] + "_" + newIndex);
 
+        var $innerVector = $(this).find(".inner-vector");
+        splitId = $innerVector.attr("id").split("_");
+        $innerVector.attr("id", splitId[0] + "_" + newIndex);
+
+        var $chart = $innerVector.find(".chart");
+        splitId = $chart.attr("id").split("_");
+        $chart.attr("id", splitId[0] + "_" + newIndex);
+
       var collapseObj = $(this).find(".ts-collapse");
       var splitTarget = collapseObj.data("target").split("_");
       collapseObj.attr("data-target", splitTarget[0] + "_" + newIndex);
@@ -134,9 +142,11 @@ $(function() {
           updateFormElement($(this), "name", newIndex);
         }
       });
+
+        charts[newIndex+1].options.chart.renderTo = "chart_" + newIndex;
     });
 
-    chart.series[index].remove();
+      charts.splice(index, 1);
 
     var obj = vectorsObj.find(".vector").get(index);
     $(obj).remove();
@@ -176,6 +186,7 @@ $(function() {
   });
 
   var vectorClassObj = $(".vector");
+  var optionsList = [];
 
   vectorClassObj.each(function(index) {
     var vectorName = $("#id_form-" + index + "-name").val();
@@ -192,13 +203,19 @@ $(function() {
       draggableY: true,
       dragMinY: 0
     };
-    options.series.push(seriesOptions);
+
+    var newOptions = $.extend(true, {}, options);
+    newOptions.chart.renderTo = "chart_" + index;
+    newOptions.series.push(seriesOptions);
+    optionsList.push(newOptions);
   });
 
-  vectorClassObj.promise().done(function() {
-    chart = new Highcharts.Chart(options);
-    $("#id_vectors").trigger("change");
-  });
+    vectorClassObj.promise().done(function() {
+        optionsList.forEach(function(item, index, array) {
+            charts.push(new Highcharts.Chart(item));
+        });
+        $("#id_vectors").trigger("change");
+    });
 
     $(".has-imported-infection").click(function() {
         $(".imported-infections").toggleClass("hide");
@@ -217,7 +234,8 @@ function getUpdatedEntomologyForm(e) {
         $(this).remove();
       });
 
-      while (chart.series.length > 0) chart.series[0].remove();
+      //while (chart.series.length > 0) chart.series[0].remove();
+        while (charts.length > 0) charts.pop();
 
       var hasInterventions = data["has_interventions"];
 
@@ -321,5 +339,11 @@ function addVector(count, vector, hasInterventions) {
     draggableY: true,
     dragMinY: 0
   };
-  chart.addSeries(seriesOptions);
+
+    $(obj).find(".chart").attr("id", "chart_" + count);
+
+    var newOptions = $.extend(true, {}, options);
+    newOptions.chart.renderTo = "chart_" + count;
+    newOptions.series.push(seriesOptions);
+    charts.push(new Highcharts.Chart(newOptions));
 }

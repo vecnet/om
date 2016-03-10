@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from django.forms.formsets import formset_factory
 from django.http import HttpResponse
 from vecnet.openmalaria.scenario import Scenario
+from vecnet.openmalaria.scenario.interventions import Vaccine
 
 from website.apps.ts_om_edit.forms import ScenarioEntomologyForm, ScenarioEntomologyVectorForm, \
     ScenarioImportedInfectionsForm
@@ -190,6 +191,9 @@ def update_entomology_form(request, scenario_id):
 
 def add_to_interventions(scenario, vector_name):
     for intervention in scenario.interventions.human:
+        if type(intervention) == Vaccine:
+            continue
+
         intervention.add_or_update_anophelesParams({"mosquito": vector_name})
 
     for intervention in scenario.interventions.vectorPop:
@@ -198,6 +202,9 @@ def add_to_interventions(scenario, vector_name):
 
 def remove_vector_from_interventions(scenario, vector_name):
     for intervention in scenario.interventions.human:
+        if type(intervention) == Vaccine:
+            continue
+
         intervention.remove_anophelesParams(vector_name)
 
         if not intervention.anophelesParams:
