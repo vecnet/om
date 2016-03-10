@@ -21,6 +21,11 @@
 				<span class="glyphicon glyphicon-plus"></span> Create New Deployment
 			</button>
 		</legend>
+        <div class="row">
+		<div class="col-md-12">
+        <p><small><em>Please refer to <a href="https://github.com/SwissTPH/openmalaria/wiki/ModelInterventions#human-allocated-interventions">Human Allocated Interventions</a> for additional information</em></small></p>
+        </div>
+    </div>
 		<div class="deployments">
 			{{ deployment_formset.management_form }}
 			{% for form in deployment_formset %}

@@ -121,8 +121,14 @@
     <h4>
         <input class="has-imported-infection" name="has_imported_infection" type="checkbox"
                {% if has_imported_infection %}checked{% endif %}>
-        Imported Infection
+        <i class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="This pseudo-intervention provides a way to model infections being imported into the simulated population."></i> Imported Infection
     </h4>
+    <div class="row">
+		<div class="col-md-12">
+        <p><small><em>Please refer to <a href="https://github.com/SwissTPH/openmalaria/wiki/ModelIntervMisc#import-infections"> Import Infections </a> for additional information</em></small></p>
+        </div>
+    </div>
+
     <div class="row {% if not has_imported_infection %}hide{% endif %} imported-infections">
         <div class="col-md-9">
             {{ import_infections_form }}
@@ -139,8 +145,8 @@
 		For more information on vector species parameters, see:
 		<a target="_blank" href="https://github.com/SwissTPH/openmalaria/wiki/XmlEntoVector">Ento Vector</a>
 		<br>
-		For more information on how seasonal transmission via EIR is described,
-		<a target="_blank" href="https://github.com/SwissTPH/openmalaria/wiki/EIRSeasonDynamic">EIR Season Dynamic</a>
+{#		For more information on how seasonal transmission via EIR is described,#}
+{#		<a target="_blank" href="https://github.com/SwissTPH/openmalaria/wiki/EIRSeasonDynamic">EIR Season Dynamic</a>#}
 	</div>
 	{% with vector_formset.empty_form as form %}
 		<div class="hidden-vector hide" id="vector_hidden" aria-expanded="false">

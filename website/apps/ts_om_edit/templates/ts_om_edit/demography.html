@@ -67,8 +67,7 @@ Scale outputs in post-processing to get country/region estimates.">
              data-xml="{{ a.1.xml }}" data-url="{{ a.1.url }}" data-maximum-age-yrs="{{ a.1.maximum_age_yrs }}">
     {% endfor %}
 	<div id="wiki-info">
-		Describes the population size and age structure. Most of our simulations use the same age-structure data from Ifakara, Tanzania.<br>
-		Adjusting the population size is useful, since it has a major impact on run-time and stochasticity of results (1000-100000 individuals are often used in experiments; testing simulations often use 100-200).<br>
+		Demography describes the population size and age structure. Adjusting the population size is useful, since it has a major impact on run-time and stochasticity of results (testing simulations often use 100-200, 1000 or more are used for simulations, relatively rare outcomes such as deaths require a larger population size due to stochasticity).
 		Please refer to <a target="_blank" href="https://github.com/SwissTPH/openmalaria/wiki/ModelDemography">Model Demography</a> for additional information.
 	</div>
 {% endblock %}
