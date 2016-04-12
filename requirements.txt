@@ -1,4 +1,4 @@
-Django==1.8.9
+Django==1.8.10
 requests==2.7.0
 django-bootstrap3==6.1.0
 django-registration-redux==1.2
