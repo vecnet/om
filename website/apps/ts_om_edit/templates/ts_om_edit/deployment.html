@@ -6,20 +6,45 @@
 		<span class="glyphicon glyphicon-remove"></span>Remove
 	</button>
 	<div class="row">
-		<div class="col-md-4">
-			{% for field in form.visible_fields %}
-				{% if "components" not in field.id_for_label and not "DELETE" in field.id_for_label %}
-					<div class="form-group">
-						{{ field.errors }}
-						<label>{{ field.label }}</label>
-						{{ field }}
-					</div>
-				{% endif %}
-			{% endfor %}
-		</div>
-		<div class="col-md-2">
-			{{ form.components.label }}
-			{{ form.components }}
-		</div>
+        {% if not form.xml.value %}
+            <div class="col-md-4">
+                {% for field in form.visible_fields %}
+                    {% if "components" not in field.id_for_label and not "DELETE" in field.id_for_label %}
+                        <div class="form-group">
+                            {{ field.errors }}
+                            <label>{{ field.label }}</label>
+                            {{ field }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% for field in form.hidden_fields %}
+               {{ field }}
+            {% endfor %}
+            </div>
+            <div class="col-md-2">
+                {{ form.components.label }}
+                {{ form.components }}
+            </div>
+        {% else %}
+            {# Temp workaround for internal server error when using <continuous> deployment #}
+            <div class="col-md-6">
+             <b> Can't edit a deployment below. It will be lost if you click "Finish" button. </b>
+            <div hidden>
+                {% for field in form.hidden_fields %}
+                   {{ field }}
+                {% endfor %}
+                 {% for field in form.visible_fields %}
+                    {% if not "DELETE" in field.id_for_label %}
+                        <div class="form-group">
+                            {{ field.errors }}
+                            <label>{{ field.label }}</label>
+                            {{ field }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <textarea class="form-control" rows="5">{{ form.xml.value }}</textarea>
+            </div>
+        {% endif %}
 	</div>
 </div>

@@ -486,6 +486,7 @@ class ScenarioDeploymentForm(forms.Form):
     name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Description of deployment'}), required=False)
     timesteps = forms.CharField(initial=0)
     coverages = forms.CharField(widget=forms.TextInput(attrs={'class': 'coverages'}), initial=0.0)
+    xml = forms.CharField(widget=forms.HiddenInput(), required=False)
 
     def clean_coverages(self):
         coverages = self.cleaned_data["coverages"]

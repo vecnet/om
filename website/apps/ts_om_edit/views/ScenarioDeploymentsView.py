@@ -50,6 +50,10 @@ class ScenarioDeploymentsView(ScenarioBaseFormView):
                 'components': form.cleaned_data["components"]
             }
 
+            if 'xml' in form.cleaned_data and form.cleaned_data["xml"]:
+                # Skip "continuous" deployment as a workaround for internal server error
+                continue
+
             if 'name' in form.cleaned_data and form.cleaned_data["name"] != "":
                 deployment_info['name'] = form.cleaned_data["name"]
 
@@ -81,8 +85,19 @@ def parse_deployments(scenario):
         except AttributeError:
             pass
 
-        times = [str(timestep["time"]) for timestep in deployment.timesteps]
-        coverages = [str(timestep["coverage"]) for timestep in deployment.timesteps]
+        deployment_info["xml"] = ""
+        try:
+            timesteps = deployment.timesteps
+        except:
+            # Temp workaround for internal server error when using <continuous> deployment
+            deployment_info["xml"] = deployment.xml
+            deployment_info["timesteps"] = '1'
+            deployment_info["coverages"] = '1'
+            deployments.append(deployment_info)
+            continue
+
+        times = [str(timestep["time"]) for timestep in timesteps]
+        coverages = [str(timestep["coverage"]) for timestep in timesteps]
 
         deployment_info["timesteps"] = ','.join(times)
         deployment_info["coverages"] = ','.join(coverages)
