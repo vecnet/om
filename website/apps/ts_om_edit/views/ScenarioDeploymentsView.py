@@ -51,22 +51,22 @@ class ScenarioDeploymentsView(ScenarioBaseFormView):
             }
 
             if 'xml' in form.cleaned_data and form.cleaned_data["xml"]:
-                # Skip "continuous" deployment as a workaround for internal server error
-                continue
+                # Preserve "continuous" deployment as a workaround for internal server error
+                deployment_info["xml"] = form.cleaned_data["xml"]
+            else:
+                if 'name' in form.cleaned_data and form.cleaned_data["name"] != "":
+                    deployment_info['name'] = form.cleaned_data["name"]
 
-            if 'name' in form.cleaned_data and form.cleaned_data["name"] != "":
-                deployment_info['name'] = form.cleaned_data["name"]
+                times = form.cleaned_data["timesteps"].split(',')
+                coverages = form.cleaned_data["coverages"].split(',')
+                timesteps = []
+                for index, time in enumerate(times):
+                    timesteps.append({
+                        "time": time,
+                        "coverage": coverages[index] if len(coverages) > index else coverages[0]
+                    })
 
-            times = form.cleaned_data["timesteps"].split(',')
-            coverages = form.cleaned_data["coverages"].split(',')
-            timesteps = []
-            for index, time in enumerate(times):
-                timesteps.append({
-                    "time": time,
-                    "coverage": coverages[index] if len(coverages) > index else coverages[0]
-                })
-
-            deployment_info["timesteps"] = timesteps
+                deployment_info["timesteps"] = timesteps
             deployments.append(deployment_info)
 
         self.scenario.interventions.human.deployments = deployments

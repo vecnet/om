@@ -28,7 +28,7 @@
         {% else %}
             {# Temp workaround for internal server error when using <continuous> deployment #}
             <div class="col-md-6">
-             <b> Can't edit a deployment below. It will be lost if you click "Finish" button. </b>
+             <b> Can't edit a deployment below. It will be preserved if you click "Finish" button. </b>
             <div hidden>
                 {% for field in form.hidden_fields %}
                    {{ field }}
@@ -43,7 +43,7 @@
                     {% endif %}
                 {% endfor %}
             </div>
-            <textarea class="form-control" rows="5">{{ form.xml.value }}</textarea>
+            <textarea disabled class="form-control" rows="5">{{ form.xml.value }}</textarea>
             </div>
         {% endif %}
 	</div>
