@@ -1,38 +1,41 @@
-sudo: false
-language: generic
+language: python
 env:
   global:
     - SECRET_KEY=travis
-    - DJANGO_SETTINGS_MODULE="website.settings.base"
+    - DJANGO_SETTINGS_MODULE="website.settings.staging"
     - DATABASE_ENGINE="django.db.backends.postgresql_psycopg2"
     - DATABASE_NAME=om
     - DATABASE_USER=postgres
+    - DATABASE_PASSWORD=""
     - DATABASE_HOST=127.0.0.1
     - DATABASE_PORT=5432
-services:
-  - postgresql
+    - DOCKER_COMPOSE_VERSION=1.7.0
 matrix:
   include:
-    - python: 2.7
-      language: python
+    - os: linux
+      sudo: required
+      dist: trusty
+      language: generic
+      services: docker
+      env: USE_DOCKER="yes"
+    - os: linux
       python: "2.7"
-      os: linux
       env: PYTHON=/usr/bin/python2.7
-    - python: 2
-      os: osx
+      services: postgresql
+    - os: osx
+      language: generic
       env: PYTHON=/usr/bin/python
+      services: postgresql
   allow_failures:
     - os: osx
 before_install:
-  - source .travis.before_install.bash
+  - ./.travis/before_install.sh
 install:
-  - pip install --upgrade pip
-  - pip install -r requirements/staging.txt
+  - ./.travis/install.sh
 before_script:
-  - psql -c 'create database om;' -U postgres
+  - ./.travis/before_script.sh
 script:
-  - python manage.py migrate
-  - python manage.py test
+  - ./.travis/script.sh
 notifications:
   email:
     on_success: never

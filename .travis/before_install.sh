@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 if [ "$TRAVIS_OS_NAME" == "linux" ]; then
 	echo "OK"
