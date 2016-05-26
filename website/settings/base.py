@@ -11,23 +11,34 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# The following import and function are taken verbatim from
+#  Two Scoops of Django, pgs. 39-40.
+
+# Normally you should not import ANYTHING from Django directely
+#  into your settings, but ImproperlyConfigured is an exception.
+from django.core.exceptions import ImproperlyConfigured
+
+
+def get_env_variable(var_name):
+	""" Get the environment variable or return exception. """
+	try:
+		return os.environ[var_name]
+	except KeyError:
+		error_msg = "Set the %s environment variable" % var_name
+		raise ImproperlyConfigured(error_msg)
+
+
+SECRET_KEY = get_env_variable("SECRET_KEY")
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
 PROJECT_ROOT = os.path.join(PROJECT_PATH, "apps")
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'o*4s(hs!!yc3ikl2p9$kftik&hj)#q!&7ey!x&rzjfi4=3jo'
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
-
-ADMINS = (('Alex', 'avyushko@nd.edu'),)
 
 # Application definition
 
@@ -90,10 +101,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -114,11 +121,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
-# SMTP server configuration
-EMAIL_HOST = "smtp.nd.edu"
-EMAIL_PORT = 25
-EMAIL_USE_TLS = True
 
 # Your project will probably also have static assets that aren't tied to a particular app. In addition to using
 # a static/ directory inside your apps, you can define a list of directories (STATICFILES_DIRS) in your settings
@@ -141,7 +143,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'apache', 'static')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'website', 'media')
 
 SIM_SERVICE_LOCAL_INPUT_DIR = os.path.join(MEDIA_ROOT, "simulations")
-SIM_SERVICE_LOCAL_OM_EXECUTABLE = "d:\\Bin\\OM\\32\\openMalaria.exe"
+SIM_SERVICE_LOCAL_OM_EXECUTABLE = os.path.join(BASE_DIR, 'binaries/om/openMalaria')
 
 LOGIN_URL = "/auth/login/"
 LOGOUT_URL = "/auth/logout/?next=/"
@@ -182,12 +184,7 @@ LOGGING = {
 # by maintenance scripts provided in django-registration.
 ACCOUNT_ACTIVATION_DAYS = 7
 
-TS_OM_VALIDATE_URL = 'https://ci-qa.vecnet.org/om_validate/validate/'
+OPENMALARIA_EXEC_DIR = os.path.join(BASE_DIR, 'binaries/om/')
 
-try:
-    # Optional settings specific to the local system (for example, custom
-    # settings on a developer's system).  The file "settings_local.py" is
-    # excluded from version control.
-    from settings_local import *
-except ImportError:
-    pass
+TS_OM_VALIDATE_URL = 'http://0.0.0.0:8000/validate/validate/'
+TS_OM_SCENARIOS_DIR = os.path.join(BASE_DIR, 'scenarios')
