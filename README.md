@@ -12,21 +12,32 @@ This Django project has been tested on Windows 8 x64 and CentOS 7
 * Apache 2.4
 
 #Quick Start Guide
-1. Create database structures
+1. Set a local SECRET_KEY and use local settings module.
+	```bash
+	export SECRET_KEY=some-value
+	export DJANGO_SETTINGS_MODULE=website.settings.local
+	```
+
+2. Create database structures
     `./manage.py migrate`
 
-2. Check if there are database migrations by reviewing the list of known migrations:
+3. Check if there are database migrations by reviewing the list of known migrations:
     `./manage.py migrate --list`
 
-3. Create an admin user
+4. Create an admin user
    `./manage.py createsuperuser`
 
-4. Load fixtures
+5. Load fixtures
+	```bash
+	python manage.py loaddata AnophelesSnippets
+	python manage.py loaddata BaselineScenarios
+	python manage.py loaddata DemographicsSnippets
+	python manage.py loaddata Interventions
+	```
+
+6. Run the server.
 ```bash
-python manage.py loaddata AnophelesSnippets
-python manage.py loaddata BaselineScenarios
-python manage.py loaddata DemographicsSnippets
-python manage.py loaddata Interventions
+python manage.py runserver
 ```
 
 #Database server configuration

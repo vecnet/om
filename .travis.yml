@@ -1,5 +1,16 @@
 sudo: false
 language: generic
+env:
+  global:
+    - SECRET_KEY=travis
+    - DJANGO_SETTINGS_MODULE="website.settings.base"
+    - DATABASE_ENGINE="django.db.backends.postgresql_psycopg2"
+    - DATABASE_NAME=om
+    - DATABASE_USER=postgres
+    - DATABASE_HOST=127.0.0.1
+    - DATABASE_PORT=5432
+services:
+  - postgresql
 matrix:
   include:
     - python: 2.7
@@ -16,8 +27,12 @@ before_install:
   - source .travis.before_install.bash
 install:
   - pip install --upgrade pip
-  - pip install -r requirements.txt
-script: python manage.py test
+  - pip install -r requirements/staging.txt
+before_script:
+  - psql -c 'create database om;' -U postgres
+script:
+  - python manage.py migrate
+  - python manage.py test
 notifications:
   email:
     on_success: never
