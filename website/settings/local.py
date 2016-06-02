@@ -28,5 +28,3 @@ FILE_SERVER = {
         # should be set accordingly for each application environment.
     },
 }
-
-TS_OM_VALIDATE_URL = 'http://127.0.0.1:8000/validate/validate/'

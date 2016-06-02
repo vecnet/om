@@ -186,5 +186,4 @@ ACCOUNT_ACTIVATION_DAYS = 7
 
 OPENMALARIA_EXEC_DIR = os.path.join(BASE_DIR, 'binaries/om/')
 
-TS_OM_VALIDATE_URL = 'http://0.0.0.0:8000/validate/validate/'
 TS_OM_SCENARIOS_DIR = os.path.join(BASE_DIR, 'scenarios')
