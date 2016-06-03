@@ -6,13 +6,14 @@ from django.test.client import Client
 from django.test.testcases import TestCase
 from vecnet.openmalaria.scenario import Scenario
 
-from website.apps.ts_om.models import Scenario as ScenarioModel
-
+from website.apps.ts_om.models import Scenario as ScenarioModel, DemographicsSnippet
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-class ScenarioMonitoringViewTest(TestCase):
+class ScenarioViewsTest(TestCase):
+    fixtures = ["DemographicsSnippets"]
+
     def setUp(self):
         self.client = Client()
         user = User.objects.create(username="user")
@@ -53,3 +54,40 @@ class ScenarioMonitoringViewTest(TestCase):
         scenario = Scenario(model_scenario.xml)
 
         self.assertListEqual(scenario.monitoring.SurveyOptions, ["nHost", "nPatent"])
+
+    def test_get_demography_view(self):
+        response = self.client.get(reverse("ts_om.demography", kwargs={"scenario_id": self.model_scenario.id}))
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_post_demography_view(self):
+        scenario = Scenario(self.model_scenario.xml)
+        self.assertEqual(scenario.demography.name, "Ifakara")
+        self.assertEqual(scenario.demography.maximumAgeYrs, 90)
+        self.assertEqual(scenario.demography.popSize, 1000)
+
+        demographics_snippet = DemographicsSnippet.objects.get(name="Rachuonyo")
+        self.assertIsNotNone(demographics_snippet)
+
+        new_age_dist_xml = demographics_snippet.xml
+
+        post_data = {
+            "age_dist": "Rachuonyo",
+            "age_dist_name": "Rachuonyo",
+            "age_dist_xml": new_age_dist_xml,
+            "maximum_age_yrs": "90",
+            "human_pop_size": "100"
+        }
+        response = self.client.post(reverse("ts_om.demography", kwargs={"scenario_id": self.model_scenario.id}),
+                                    post_data)
+        self.assertEqual(response.status_code, 302)
+
+        model_scenario = ScenarioModel.objects.get(id=self.model_scenario.id)
+        scenario = Scenario(model_scenario.xml)
+
+        self.assertEqual(scenario.demography.name, "Rachuonyo")
+        self.assertEqual(scenario.demography.maximumAgeYrs, 90)
+        self.assertEqual(scenario.demography.popSize, 100)
+        self.assertEqual(scenario.demography.ageGroup.lowerbound, 0)
+        self.assertEqual(float(scenario.demography.ageGroup.group[1]["upperbound"]), 5.0)
+        self.assertEqual(float(scenario.demography.ageGroup.group[1]["poppercent"]), 13.1)
