@@ -14,7 +14,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 class ScenarioViewsTest(TestCase):
-    fixtures = ["DemographicsSnippets", "AnophelesSnippets"]
+    fixtures = ["DemographicsSnippets", "AnophelesSnippets", "Interventions"]
 
     def setUp(self):
         self.client = Client()
@@ -189,3 +189,99 @@ class ScenarioViewsTest(TestCase):
         self.assertEqual(vector.seasonality.annualEIR, expected_average_eir)
         self.assertEqual(vector.mosq.mosqHumanBloodIndex, expected_human_blood_index)
         self.assertEqual(vector.seasonality.monthlyValues, monthly_values)
+
+    def test_get_interventions_view(self):
+        response = self.client.get(reverse("ts_om.interventions", kwargs={"scenario_id": self.model_scenario.id}))
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_post_interventions_view(self):
+        scenario = Scenario(self.model_scenario.xml)
+
+        self.assertEqual(len(scenario.interventions.human), 3)
+        intervention = scenario.interventions.human["ActellicBased"]
+        self.assertEqual(intervention.id, "ActellicBased")
+        self.assertEqual(intervention.name, "IRS")
+        self.assertEqual(len(intervention.anophelesParams), 1)
+        anopheles_params = intervention.anophelesParams[0]
+        self.assertEqual(anopheles_params.mosquito, "gambiae")
+        self.assertEqual(anopheles_params.propActive, 0.45)
+        self.assertEqual(anopheles_params.deterrency, -0.23)
+        self.assertEqual(anopheles_params.preprandialKillingEffect , 0.1)
+        self.assertEqual(anopheles_params.postprandialKillingEffect , 0.5)
+        self.assertEqual(len(scenario.interventions.human.deployments), 3)
+
+        scenario.interventions.human.deployments = []
+        self.assertEqual(len(scenario.interventions.human.deployments), 0)
+
+        post_data = {
+            "gvi-TOTAL_FORMS": 1,
+            "gvi-INITIAL_FORMS": 0,
+            "gvi-MIN_FORMS": 0,
+            "gvi-MAX_FORMS": 1000,
+            "llin-TOTAL_FORMS": 0,
+            "llin-INITIAL_FORMS": 0,
+            "llin-MIN_FORMS": 0,
+            "llin-MAX_FORMS": 1000,
+            "irs-TOTAL_FORMS": 0,
+            "irs-INITIAL_FORMS": 0,
+            "irs-MIN_FORMS": 0,
+            "irs-MAX_FORMS": 1000,
+            "pyrethroids-TOTAL_FORMS": 0,
+            "pyrethroids-INITIAL_FORMS": 0,
+            "pyrethroids-MIN_FORMS": 0,
+            "pyrethroids-MAX_FORMS": 1000,
+            "ddt-TOTAL_FORMS": 0,
+            "ddt-INITIAL_FORMS": 0,
+            "ddt-MIN_FORMS": 0,
+            "ddt-MAX_FORMS": 1000,
+            "larviciding-TOTAL_FORMS": 0,
+            "larviciding-INITIAL_FORMS": 0,
+            "larviciding-MIN_FORMS": 0,
+            "larviciding-MAX_FORMS": 1000,
+            "mda-TOTAL_FORMS": 0,
+            "mda-INITIAL_FORMS": 0,
+            "mda-MIN_FORMS": 0,
+            "mda-MAX_FORMS": 1000,
+            "vaccine-bsv-TOTAL_FORMS": 0,
+            "vaccine-bsv-INITIAL_FORMS": 0,
+            "vaccine-bsv-MIN_FORMS": 0,
+            "vaccine-bsv-MAX_FORMS": 1000,
+            "vaccine-pev-TOTAL_FORMS": 0,
+            "vaccine-pev-INITIAL_FORMS": 0,
+            "vaccine-pev-MIN_FORMS": 0,
+            "vaccine-pev-MAX_FORMS": 1000,
+            "vaccine-tbv-TOTAL_FORMS": 0,
+            "vaccine-tbv-INITIAL_FORMS": 0,
+            "vaccine-tbv-MIN_FORMS": 0,
+            "vaccine-tbv-MAX_FORMS": 1000,
+            "gvi-0-id": "test",
+            "gvi-0-name": "GVI",
+            "gvi-0-attrition": 50,
+            "gvi-0-vector_0_mosquito": "gambiae",
+            "gvi-0-vector_0_propActive": 0.1,
+            "gvi-0-vector_0_deterrency": 0.25,
+            "gvi-0-vector_0_preprandialKillingEffect ": 0.2,
+            "gvi-0-vector_0_postprandialKillingEffect ": 0.44,
+        }
+        response = self.client.post(reverse("ts_om.interventions", kwargs={"scenario_id": self.model_scenario.id}),
+                                    post_data)
+        self.assertEqual(response.status_code, 302)
+
+        model_scenario = ScenarioModel.objects.get(id=self.model_scenario.id)
+        scenario = Scenario(model_scenario.xml)
+
+        self.assertEqual(len(scenario.interventions.human), 1)
+        self.assertRaises(KeyError, lambda: scenario.interventions.human["ActellicBased"])
+
+        intervention = scenario.interventions.human["test"]
+        self.assertEqual(intervention.id, "test")
+        self.assertEqual(intervention.name, "GVI")
+        self.assertEqual(len(intervention.anophelesParams), 1)
+
+        anopheles_params = intervention.anophelesParams[0]
+        self.assertEqual(anopheles_params.mosquito, "gambiae")
+        self.assertEqual(anopheles_params.propActive, 0.1)
+        self.assertEqual(anopheles_params.deterrency, 0.25)
+        self.assertEqual(anopheles_params.preprandialKillingEffect , 0.2)
+        self.assertEqual(anopheles_params.postprandialKillingEffect , 0.44)
