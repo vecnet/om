@@ -1,4 +1,5 @@
 import os
+import json
 
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
@@ -13,7 +14,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 class ScenarioViewsTest(TestCase):
-    fixtures = ["DemographicsSnippets"]
+    fixtures = ["DemographicsSnippets", "AnophelesSnippets"]
 
     def setUp(self):
         self.client = Client()
@@ -132,3 +133,59 @@ class ScenarioViewsTest(TestCase):
         self.assertEqual(scenario.healthSystem.ImmediateOutcomes.pSeekOfficialCareUncomplicated1, expected_prob_total)
         self.assertEqual(scenario.healthSystem.ImmediateOutcomes.pSeekOfficialCareUncomplicated2, expected_prob_total)
         self.assertEqual(scenario.healthSystem.ImmediateOutcomes.pSelfTreatUncomplicated, expected_prob_formal)
+
+    def test_get_entomology_view(self):
+        response = self.client.get(reverse("ts_om.entomology", kwargs={"scenario_id": self.model_scenario.id}))
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_post_entomology_view(self):
+        scenario = Scenario(self.model_scenario.xml)
+
+        self.assertEqual(scenario.entomology.name, "one species")
+        self.assertEqual(scenario.entomology.scaledAnnualEIR, 16)
+        self.assertEqual(len(scenario.entomology.vectors), 1)
+
+        vector = scenario.entomology.vectors["gambiae"]
+        self.assertEqual(vector.mosquito, "gambiae")
+        self.assertEqual(vector.propInfected, 0.078)
+        self.assertEqual(vector.propInfectious, 0.015)
+        self.assertEqual(vector.seasonality.annualEIR, 1)
+
+        annual_eir = 25
+        perc_average_eir = 6
+        expected_average_eir = perc_average_eir / 100.0
+        perc_human_blood_index = 50
+        expected_human_blood_index = perc_human_blood_index / 100.0
+        monthly_values = [0.121950947577, 0.150033433731, 0.135783169538, 0.142507307385, 0.12160516792, 0.132069391,
+                          0.14132650592, 0.12974214888, 0.10223384536, 0.08159456812, 0.0673589848, 0.08462085352]
+        post_data = {
+            "form-TOTAL_FORMS": 1,
+            "form-INITIAL_FORMS": 1,
+            "form-MIN_FORMS": 0,
+            "form-MAX_FORMS": 1000,
+            "annual_eir": annual_eir,
+            "form-0-average_eir": perc_average_eir,
+            "form-0-human_blood_index": perc_human_blood_index,
+            "form-0-monthly_values": json.dumps(monthly_values),
+            "form-0-name": "arabiensis",
+        }
+        response = self.client.post(reverse("ts_om.entomology", kwargs={"scenario_id": self.model_scenario.id}),
+                                    post_data)
+        self.assertEqual(response.status_code, 302)
+
+        model_scenario = ScenarioModel.objects.get(id=self.model_scenario.id)
+        scenario = Scenario(model_scenario.xml)
+
+        self.assertEqual(scenario.entomology.scaledAnnualEIR, annual_eir)
+        self.assertEqual(len(scenario.entomology.vectors), 1)
+
+        self.assertRaises(KeyError, lambda: scenario.entomology.vectors["gambiae"])
+        vector = scenario.entomology.vectors["arabiensis"]
+
+        self.assertEqual(vector.mosquito, "arabiensis")
+        self.assertEqual(vector.propInfected, 0.078)
+        self.assertEqual(vector.propInfectious, 0.015)
+        self.assertEqual(vector.seasonality.annualEIR, expected_average_eir)
+        self.assertEqual(vector.mosq.mosqHumanBloodIndex, expected_human_blood_index)
+        self.assertEqual(vector.seasonality.monthlyValues, monthly_values)
