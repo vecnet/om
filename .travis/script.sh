@@ -10,6 +10,7 @@ else
 	  docker-compose run web /bin/sh -c "exec python manage.py test"
 	  docker-compose down
   else
+	  ./binaries/om/openMalaria -v
 	  python manage.py migrate
 	  python manage.py test
   fi
