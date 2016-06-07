@@ -1,10 +1,11 @@
 import os
 import json
 
+from django.test import override_settings
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test.client import Client
-from django.test.testcases import TestCase
+from django.test.testcases import LiveServerTestCase
 from vecnet.openmalaria.healthsystem import get_prob_from_percentage
 from vecnet.openmalaria.scenario import Scenario
 
@@ -13,9 +14,10 @@ from website.apps.ts_om.models import Scenario as ScenarioModel, DemographicsSni
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-class ScenarioViewsTest(TestCase):
+class ScenarioViewsTest(LiveServerTestCase):
     fixtures = ["DemographicsSnippets", "AnophelesSnippets", "Interventions"]
 
+    @override_settings(CSRF_COOKIE_SECURE=False)
     def setUp(self):
         self.client = Client()
         user = User.objects.create(username="user")
