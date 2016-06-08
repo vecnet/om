@@ -22,6 +22,12 @@ matrix:
       python: "2.7"
       env: PYTHON=/usr/bin/python2.7
       services: postgresql
+      addons:
+        apt:
+          packages:
+            - gsl-bin
+            - libxerces-c3.1
+            - xsdcxx
     - os: osx
       language: generic
       env: PYTHON=/usr/bin/python

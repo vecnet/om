@@ -19,4 +19,4 @@ EMAIL_HOST = "smtp.nd.edu"
 EMAIL_PORT = 25
 EMAIL_USE_TLS = True
 
-TS_OM_VALIDATE_URL = 'http://127.0.0.1:8000/validate/validate/'
+TS_OM_VALIDATE_URL = "http://localhost:8082/validate/validate/"

@@ -8,3 +8,5 @@ elif [ "$TRAVIS_OS_NAME" == "osx" ]; then
 	source /tmp/venv/bin/activate
 	pip install -U pytest
 fi
+
+cp .travis/openMalaria binaries/om/

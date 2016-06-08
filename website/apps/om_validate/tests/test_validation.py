@@ -1,0 +1,26 @@
+import json
+import os
+from unittest import TestCase
+
+from django.contrib.auth.models import AnonymousUser
+from django.test import RequestFactory
+
+from website.apps.om_validate.views import validate
+
+
+class ValidationTestCase(TestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+
+    def test_scenario_validation(self):
+        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "files/scenario.xml")) as fp:
+            request = self.factory.post("/validate/", data=fp.read(), content_type="text/xml")
+
+        request.user = AnonymousUser()
+
+        response = validate(request)
+
+        self.assertEqual(response.status_code, 200)
+
+        json_content = json.loads(response.content)
+        self.assertEqual(json_content["result"], 0)

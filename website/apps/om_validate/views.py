@@ -20,6 +20,13 @@ def validate(request):
     logger.info("om_validate service started")
     logger.info("user: %s" % request.user)
     fileNew = request.read()
+
+    data = validate_scenario(fileNew)
+
+    return JsonResponse(data, safe=False)
+
+
+def validate_scenario(scenario_file):
     om_dir = check_url(getattr(settings, "OPENMALARIA_EXEC_DIR", None), "openmalaria")
     scenarios_dir = check_dir(getattr(settings, "TS_OM_SCENARIOS_DIR", None), "scenarios")
     return_code = 0
@@ -36,7 +43,7 @@ def validate(request):
     xmlSchema = etree.XMLSchema(xmlSchemaDoc)
 
     try:
-        tree = etree.fromstring(fileNew)
+        tree = etree.fromstring(scenario_file)
     except etree.ParseError as e:
         return_code = -1
         out = ""
@@ -66,7 +73,7 @@ def validate(request):
         filename = os.path.join(scenarios_dir, 'scenario_' + ''.join(random.sample(string.lowercase+string.digits,10)) + ".xml")
         logger.info("Filename: %s" % filename)
         with open(filename, 'w') as destination:
-            destination.write(fileNew)
+            destination.write(scenario_file)
 
         if os.name == "nt":
             cmd = ['openMalaria.exe', '--scenario', filename, '--validate-only']
@@ -86,4 +93,4 @@ def validate(request):
     data['result'] = return_code
     data['om_output'] = out.split("\n")
 
-    return JsonResponse(data, safe=False)
+    return data

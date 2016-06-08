@@ -234,7 +234,12 @@ def parse_gvi_interventions(scenario):
     for component in scenario.interventions.human:
         if type(component) == GVI:
             component_info = {'attrition': component.decay.L, 'deploy': False, 'coverage': 0, 'timesteps': 0,
-                              'id': component.id, 'name': component.name}
+                              'id': component.id}
+
+            try:
+                component_info["name"] = component.name
+            except AttributeError:
+                pass
 
             vectors = []
 
@@ -402,7 +407,13 @@ def parse_mda_interventions(scenario):
 
     for component in scenario.interventions.human:
         if type(component) == MDA:
-            component_info = {'id': component.id, 'name': component.name, "options": component.treatment_options}
+            component_info = {'id': component.id, "options": component.treatment_options}
+
+            try:
+                component_info["name"] = component.name
+            except AttributeError:
+                pass
+
             interventions.append(component_info)
 
     return interventions
@@ -414,7 +425,13 @@ def parse_vaccine_interventions(scenario):
     for component in scenario.interventions.human:
         if type(component) == Vaccine:
             component_info = {'attrition': component.decay.L, 'efficacy_b': component.efficacyB,
-                              'id': component.id, 'name': component.name, 'vaccine_type': component.vaccine_type}
+                              'id': component.id, 'vaccine_type': component.vaccine_type}
+
+            try:
+                component_info["name"] = component.name
+            except AttributeError:
+                pass
+
             initial_efficacy_values = [str(value) for value in component.initialEfficacy]
             component_info["initial_efficacy"] = ','.join(initial_efficacy_values)
 

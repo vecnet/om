@@ -1,18 +1,35 @@
+import json
 import requests
 
 from django.conf import settings
 from django.http import HttpResponse
 from django.views.generic.base import View
+from website.apps.om_validate.views import validate_scenario
 
 from website.apps.ts_om.check import check_url
 
 
 def rest_validate(f):
-    validate_url = check_url(getattr(settings, "TS_OM_VALIDATE_URL", None), "validate")
+    if f is None:
+        return None
 
-    response = requests.post(validate_url, data=f)
+    url = getattr(settings, "TS_OM_VALIDATE_URL", None)
+    validate_url = None
+    if url is not None:
+        validate_url = check_url(url, "validate")
 
-    return response.text
+    if validate_url is not None:
+        response = requests.post(validate_url, data=f)
+
+        if response is not None:
+            return response.text
+    else:
+        validation_data = validate_scenario(f)
+
+        if validation_data:
+            return json.dumps(validation_data)
+
+    return None
 
 
 class ScenarioValidationView(View):
