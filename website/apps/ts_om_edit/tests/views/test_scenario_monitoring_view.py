@@ -285,3 +285,45 @@ class ScenarioViewsTest(TestCase):
         self.assertEqual(anopheles_params.deterrency, 0.25)
         self.assertEqual(anopheles_params.preprandialKillingEffect , 0.2)
         self.assertEqual(anopheles_params.postprandialKillingEffect , 0.44)
+
+    def test_get_deployments_view(self):
+        response = self.client.get(reverse("ts_om.deployments", kwargs={"scenario_id": self.model_scenario.id}))
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_post_deployments_view(self):
+        scenario = Scenario(self.model_scenario.xml)
+
+        self.assertEqual(len(scenario.interventions.human.deployments), 3)
+        deployment = scenario.interventions.human.deployments[1]
+        self.assertEqual(deployment.name, "Nets")
+        self.assertEqual(len(deployment.components), 1)
+        self.assertEqual(deployment.components[0], "LLIN")
+        self.assertEqual(len(deployment.timesteps), 3)
+        self.assertEqual(deployment.timesteps[2]["time"], 449)
+
+        post_data = {
+            "deployment-TOTAL_FORMS": 1,
+            "deployment-INITIAL_FORMS": 0,
+            "deployment-MIN_FORMS": 0,
+            "deployment-MAX_FORMS": 1000,
+            "deployment-0-name": "test",
+            "deployment-0-timesteps": "0,73,146,730",
+            "deployment-0-coverages": "0.0",
+            "deployment-0-components": "LLIN"
+        }
+        response = self.client.post(reverse("ts_om.deployments", kwargs={"scenario_id": self.model_scenario.id}),
+                                    post_data)
+        self.assertEqual(response.status_code, 302)
+
+        model_scenario = ScenarioModel.objects.get(id=self.model_scenario.id)
+        scenario = Scenario(model_scenario.xml)
+
+        self.assertEqual(len(scenario.interventions.human.deployments), 1)
+        self.assertRaises(IndexError, lambda: scenario.interventions.human.deployments[1])
+        deployment = scenario.interventions.human.deployments[0]
+        self.assertEqual(deployment.name, "test")
+        self.assertEqual(len(deployment.components), 1)
+        self.assertEqual(deployment.components[0], "LLIN")
+        self.assertEqual(len(deployment.timesteps), 4)
+        self.assertEqual(deployment.timesteps[2]["time"], 146)
