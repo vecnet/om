@@ -165,7 +165,7 @@ class ScenarioInterventionsView(ScenarioBaseFormView):
                             for vector in temp_vectors:
                                 intervention.add_or_update_anophelesParams(vector)
                         elif formset.prefix == "mda":
-                            temp_options = parse_options(self.request.POST, formset.prefix, option_type="option",
+                            temp_options = parse_options(self.request.POST, formset.prefix,
                                                          index=index)
                             for option in temp_options:
                                 intervention.add_or_update_treatment_option(option)
@@ -265,108 +265,113 @@ def parse_gvi_interventions(scenario):
     return interventions
 
 
-def parse_parameters(post_data, prefix, parameter_type="vector", index=0):
-    temp_vectors = []
+def parse_inner_data(post_data, prefix, data_type="vector", index=0, inner_func=None):
+    data_points = []
     for key, value in post_data.iteritems():
-        if key.__contains__(prefix) and key.__contains__(parameter_type) \
-                and not key.__contains__("inner-prefix"):
-            split_key_strings = key.split('-')
-            form_index = int(split_key_strings[1])
+        if prefix in key and data_type in key and "inner-prefix" not in key:
+            split_key = key.split('-')
+            try:
+                form_index = int(split_key[1])
+            except ValueError:
+                continue
 
             if form_index != index:
                 continue
 
-            vector_key_string = split_key_strings[2]
-            split_vector_key_strings = vector_key_string.split('_', 2)
-            vector_index = split_vector_key_strings[1]
-            vector_parameter_key = split_vector_key_strings[2]
+            data_key = split_key[2]
+
+            split_data_key = data_key.split('_', 2)
+            data_index = split_data_key[1]
+            data_parameter_key= split_data_key[2]
 
             found = False
-            for temp_vector in temp_vectors:
-                if temp_vector[0] == vector_index:
-                    temp_vector[1][vector_parameter_key] = value
+            for data_point in data_points:
+                if data_point[0] == data_index:
+                    if inner_func is None or not inner_func(data_parameter_key, data_point, value):
+                        data_point[1][data_parameter_key] = value
                     found = True
                     break
 
             if not found:
-                temp_vectors.append((vector_index, {vector_parameter_key: value}))
-
-    return [temp_vector[1] for temp_vector in sorted(temp_vectors, key=lambda temp: temp[0])]
-
-
-def parse_options(post_data, prefix, option_type="option", index=0):
-    temp_vectors = []
-    for key, value in post_data.iteritems():
-        if key.__contains__(prefix) and key.__contains__(option_type) \
-                and not key.__contains__("inner-prefix"):
-            split_key_strings = key.split('-')
-            form_index = int(split_key_strings[1])
-
-            if form_index != index:
-                continue
-
-            vector_key_string = split_key_strings[2]
-            split_vector_key_strings = vector_key_string.split('_', 2)
-            vector_index = split_vector_key_strings[1]
-            vector_parameter_key = split_vector_key_strings[2]
-
-            found = False
-            for temp_vector in temp_vectors:
-                if temp_vector[0] == vector_index:
-                    split_sub_key_strings = vector_parameter_key.split('_')
-                    if len(split_sub_key_strings) > 1:
-                        sub_parameter_key = split_sub_key_strings[0]
-                        sub_parameter_index = int(split_sub_key_strings[1])
-                        sub_parameter_sub_key = split_sub_key_strings[2]
-
-                        sub_parameter_key += "s"
-
-                        if sub_parameter_key not in temp_vector[1]:
-                            temp_vector[1][sub_parameter_key] = []
-
-                        option_found = False
-                        for temp_option in temp_vector[1][sub_parameter_key]:
-                            if temp_option[0] == sub_parameter_index:
-                                temp_option[1][sub_parameter_sub_key] = value
-                                option_found = True
-                                break
-
-                        if not option_found:
-                            temp_vector[1][sub_parameter_key].append((sub_parameter_index, {
-                                sub_parameter_sub_key: value
-                            }))
-                    else:
-                        temp_vector[1][vector_parameter_key] = value
-
-                    found = True
-                    break
-
-            if not found:
-                split_sub_key_strings = vector_parameter_key.split('_')
-                if len(split_sub_key_strings) > 1:
-                    sub_parameter_key = split_sub_key_strings[0]
-                    sub_parameter_index = int(split_sub_key_strings[1])
-                    sub_parameter_sub_key = split_sub_key_strings[2]
-
-                    sub_parameter_key += "s"
-
-                    temp_vectors.append((vector_index, {sub_parameter_key: [
-                        (sub_parameter_index, {
-                            sub_parameter_sub_key: value
-                        })
-                    ]}))
+                parameter_data = split_inner_data_parameter(data_parameter_key)
+                if parameter_data:
+                    sub_parameter_key = parameter_data["key"]
+                    sub_parameter_index = parameter_data["index"]
+                    sub_parameter_sub_key = parameter_data["sub_key"]
+                    new_data_point = (data_index, {sub_parameter_key: [
+                        (sub_parameter_index, {sub_parameter_sub_key: value})
+                    ]})
+                    data_points.append(new_data_point)
                 else:
-                    temp_vectors.append((vector_index, {vector_parameter_key: value}))
+                    data_points.append((data_index, {data_parameter_key: value}))
 
-    final_parsed_vectors = [temp_vector[1] for temp_vector in sorted(temp_vectors, key=lambda temp: temp[0])]
+    data_points = [data_point[1] for data_point in sorted(data_points, key=lambda  point: point[0])]
 
-    for parsed_vector in final_parsed_vectors:
-        for key, value in parsed_vector.iteritems():
+    return data_points
+
+
+def parse_parameters(post_data, prefix, index=0):
+    return parse_inner_data(post_data, prefix, data_type="vector", index=index)
+
+
+def split_inner_data_parameter(data_parameter_key):
+    split_data_parameter_key = data_parameter_key.split('_')
+    sub_parameter_data = {}
+    if len(split_data_parameter_key) > 1:
+        sub_parameter_key = split_data_parameter_key[0] + "s"
+        try:
+            sub_parameter_index = int(split_data_parameter_key[1])
+        except ValueError:
+            return False
+        sub_parameter_sub_key = split_data_parameter_key[2]
+
+        sub_parameter_data = {
+            "key": sub_parameter_key,
+            "index": sub_parameter_index,
+            "sub_key": sub_parameter_sub_key
+        }
+
+    return sub_parameter_data
+
+
+def inner_parse_options(data_parameter_key, data_point, value):
+    sub_parameter_data = split_inner_data_parameter(data_parameter_key)
+    if sub_parameter_data:
+        sub_parameter_key = sub_parameter_data["key"]
+        if sub_parameter_key not in data_point[1]:
+            data_point[1][sub_parameter_key] = []
+
+        sub_parameter_index = sub_parameter_data["index"]
+        sub_parameter_sub_key = sub_parameter_data["sub_key"]
+
+        found = False
+        for parameter in data_point[1][sub_parameter_key]:
+            if parameter[0] == sub_parameter_index:
+                parameter[1][sub_parameter_sub_key] = value
+                found = True
+                break
+
+        if not found:
+            data_parameter = (sub_parameter_index, {
+                sub_parameter_sub_key: value
+            })
+            data_point[1][sub_parameter_key].append(data_parameter)
+
+        return True
+
+    return False
+
+
+def parse_options(post_data, prefix, index=0):
+    parsed_data = parse_inner_data(post_data, prefix, data_type="option", index=index, inner_func=inner_parse_options)
+
+    for data_point in parsed_data:
+        for key, value in data_point.iteritems():
             if key == "clearInfections" or key == "deploys":
                 new_value = [v[1] for v in sorted(value, key=lambda val: val[0])]
-                parsed_vector[key] = new_value
+                data_point[key] = new_value
 
-    return final_parsed_vectors
+    return parsed_data
 
 
 def parse_larviciding_interventions(scenario):
