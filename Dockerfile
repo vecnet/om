@@ -21,6 +21,6 @@ RUN cd openmalaria \
 RUN cd openmalaria && mkdir build \
   && cd build \
   && cmake -DCMAKE_CXX_COMPILER=/usr/bin/g++ -DCMAKE_BUILD_TYPE=Release .. \
-  && make -j4
+  && make
 RUN cp openmalaria/build/openMalaria /app/binaries/om/
 WORKDIR /app
