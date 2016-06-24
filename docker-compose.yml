@@ -15,8 +15,6 @@ services:
             - db
         entrypoint: dockerize -wait tcp://db:5432
         command: sh docker/docker-command.sh
-        volumes:
-            - .:/app
         ports:
             - "8001:8000"
         links:
