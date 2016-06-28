@@ -266,63 +266,99 @@ def parse_gvi_interventions(scenario):
 
 
 def parse_inner_data(post_data, prefix, data_type="vector", index=0, inner_func=None):
+    """Parses a variable number of dynamically added form fields.
+
+    This essentially provides parsing of nested 'formsets'.
+
+    :param post_data: The QueryDict from the POST HttpRequest.
+    :param prefix: Formset prefix to filter on.
+    :param data_type: String to filter on.
+    :param index: The index of the form to filter on.
+    :param inner_func: Optional function that can be called to do further work.
+    :return: An array of data points containing data_type-specific data.
+    """
     data_points = []
+    ignored_substring = "inner-prefix"
+
     for key, value in post_data.iteritems():
-        if prefix in key and data_type in key and "inner-prefix" not in key:
-            split_key = key.split('-')
-            try:
-                form_index = int(split_key[1])
-            except ValueError:
-                continue
+        if ignored_substring in key or prefix not in key or data_type not in key:
+            continue
 
-            if form_index != index:
-                continue
+        split_key = key.split('-')
+        try:
+            form_index = int(split_key[1])
+        except ValueError:
+            continue
 
-            data_key = split_key[2]
+        if form_index != index:
+            continue
 
-            split_data_key = data_key.split('_', 2)
-            data_index = split_data_key[1]
-            data_parameter_key= split_data_key[2]
+        split_data_key = split_key[2].split('_', 2)
+        data_index = split_data_key[1]
+        data_parameter_key = split_data_key[2]
 
-            found = False
-            for data_point in data_points:
-                if data_point[0] == data_index:
-                    if inner_func is None or not inner_func(data_parameter_key, data_point, value):
-                        data_point[1][data_parameter_key] = value
-                    found = True
-                    break
+        found = False
+        for data_point in data_points:
+            if data_point["index"] == data_index:
+                inner_func_args = (data_parameter_key, data_point, value)
+                if inner_func is None or not inner_func(*inner_func_args):
+                    data_point["data"][data_parameter_key] = value
+                found = True
+                break
 
-            if not found:
-                parameter_data = split_inner_data_parameter(data_parameter_key)
-                if parameter_data:
-                    sub_parameter_key = parameter_data["key"]
-                    sub_parameter_index = parameter_data["index"]
-                    sub_parameter_sub_key = parameter_data["sub_key"]
-                    new_data_point = (data_index, {sub_parameter_key: [
-                        (sub_parameter_index, {sub_parameter_sub_key: value})
-                    ]})
-                    data_points.append(new_data_point)
-                else:
-                    data_points.append((data_index, {data_parameter_key: value}))
+        if not found:
+            parameter_data = split_inner_data_parameter(data_parameter_key)
+            if parameter_data:
+                new_data_point = {
+                    "index": data_index,
+                    "data": {
+                        parameter_data["key"]: [{
+                            "index": parameter_data["index"],
+                            "data": {
+                                parameter_data["sub_key"]: value
+                            }
+                        }]
+                    }
+                }
+                data_points.append(new_data_point)
+            else:
+                data_points.append({
+                    "index": data_index,
+                    "data": {
+                        data_parameter_key: value
+                    }
+                })
 
-    data_points = [data_point[1] for data_point in sorted(data_points, key=lambda  point: point[0])]
-
-    return data_points
+    return [data_point["data"] for data_point in sorted(data_points, key=lambda  point: point["index"])]
 
 
 def parse_parameters(post_data, prefix, index=0):
+    """Obtain vector-specific data from vector-specific form fields in a POST.
+
+    :param post_data: The QueryDict from the POST HttpRequest.
+    :param prefix: Formset prefix to filter on.
+    :param index: The index of the form to filter on.
+    :return: An array of data points containing vector-specific data.
+    """
     return parse_inner_data(post_data, prefix, data_type="vector", index=index)
 
 
 def split_inner_data_parameter(data_parameter_key):
+    """Split specified key string into separate sub keys and indexes.
+
+    :param data_parameter_key: The string to split on.
+    :return: A dictionary with key, index, and sub_key values.
+    """
     split_data_parameter_key = data_parameter_key.split('_')
     sub_parameter_data = {}
     if len(split_data_parameter_key) > 1:
-        sub_parameter_key = split_data_parameter_key[0] + "s"
+        sub_parameter_key_suffix = "s"
+        sub_parameter_key = split_data_parameter_key[0] + sub_parameter_key_suffix
         try:
             sub_parameter_index = int(split_data_parameter_key[1])
         except ValueError:
-            return False
+            return sub_parameter_data
+
         sub_parameter_sub_key = split_data_parameter_key[2]
 
         sub_parameter_data = {
@@ -335,40 +371,61 @@ def split_inner_data_parameter(data_parameter_key):
 
 
 def inner_parse_options(data_parameter_key, data_point, value):
+    """Obtains nested option-specific data from mda-options.
+
+    :param data_parameter_key: The mda-option form field's POST key.
+    :param data_point: The currently parsed out data point.
+    :param value: Value to be added to the data point's sub key.
+    :return: Whether further parsing was successful or not.
+    """
+    if data_parameter_key is None or data_point is None:
+        return False
+
     sub_parameter_data = split_inner_data_parameter(data_parameter_key)
-    if sub_parameter_data:
-        sub_parameter_key = sub_parameter_data["key"]
-        if sub_parameter_key not in data_point[1]:
-            data_point[1][sub_parameter_key] = []
 
-        sub_parameter_index = sub_parameter_data["index"]
-        sub_parameter_sub_key = sub_parameter_data["sub_key"]
+    if not sub_parameter_data:
+        return False
 
-        found = False
-        for parameter in data_point[1][sub_parameter_key]:
-            if parameter[0] == sub_parameter_index:
-                parameter[1][sub_parameter_sub_key] = value
-                found = True
-                break
+    sub_parameter_key = sub_parameter_data["key"]
+    if sub_parameter_key not in data_point["data"]:
+        data_point["data"][sub_parameter_key] = []
 
-        if not found:
-            data_parameter = (sub_parameter_index, {
+    sub_parameter_index = sub_parameter_data["index"]
+    sub_parameter_sub_key = sub_parameter_data["sub_key"]
+
+    found = False
+    for parameter in data_point["data"][sub_parameter_key]:
+        if parameter["index"] == sub_parameter_index:
+            parameter["data"][sub_parameter_sub_key] = value
+            found = True
+            break
+
+    if not found:
+        data_parameter = {
+            "index": sub_parameter_index,
+            "data": {
                 sub_parameter_sub_key: value
-            })
-            data_point[1][sub_parameter_key].append(data_parameter)
+            }
+        }
+        data_point["data"][sub_parameter_key].append(data_parameter)
 
-        return True
-
-    return False
+    return True
 
 
 def parse_options(post_data, prefix, index=0):
+    """Obtain vector-specific data from mda-option-specific form fields in a POST.
+
+    :param post_data: The QueryDict from the POST HttpRequest.
+    :param prefix: Formset prefix to filter on.
+    :param index: The index of the form to filter on.
+    :return: An array of data points containing mda-option-specific data.
+    """
     parsed_data = parse_inner_data(post_data, prefix, data_type="option", index=index, inner_func=inner_parse_options)
 
     for data_point in parsed_data:
         for key, value in data_point.iteritems():
             if key == "clearInfections" or key == "deploys":
-                new_value = [v[1] for v in sorted(value, key=lambda val: val[0])]
+                new_value = [val["data"] for val in sorted(value, key=lambda val: val["index"])]
                 data_point[key] = new_value
 
     return parsed_data

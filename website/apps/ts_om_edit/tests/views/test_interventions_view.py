@@ -11,7 +11,7 @@ from website.apps.ts_om_edit.views.ScenarioInterventionsView import parse_parame
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-class InterventionsViewTestCast(TestCase):
+class InterventionsViewTestCase(TestCase):
     post_data = None
     query_dict = None
 
