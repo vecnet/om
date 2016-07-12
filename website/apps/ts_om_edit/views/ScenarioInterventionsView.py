@@ -165,7 +165,7 @@ class ScenarioInterventionsView(ScenarioBaseFormView):
                             for vector in temp_vectors:
                                 intervention.add_or_update_anophelesParams(vector)
                         elif formset.prefix == "mda":
-                            temp_options = parse_options(self.request.POST, formset.prefix, option_type="option",
+                            temp_options = parse_options(self.request.POST, formset.prefix,
                                                          index=index)
                             for option in temp_options:
                                 intervention.add_or_update_treatment_option(option)
@@ -265,108 +265,170 @@ def parse_gvi_interventions(scenario):
     return interventions
 
 
-def parse_parameters(post_data, prefix, parameter_type="vector", index=0):
-    temp_vectors = []
+def parse_inner_data(post_data, prefix, data_type="vector", index=0, inner_func=None):
+    """Parses a variable number of dynamically added form fields.
+
+    This essentially provides parsing of nested 'formsets'.
+
+    :param post_data: The QueryDict from the POST HttpRequest.
+    :param prefix: Formset prefix to filter on.
+    :param data_type: String to filter on.
+    :param index: The index of the form to filter on.
+    :param inner_func: Optional function that can be called to do further work.
+    :return: An array of data points containing data_type-specific data.
+    """
+    data_points = []
+    ignored_substring = "inner-prefix"
+
     for key, value in post_data.iteritems():
-        if key.__contains__(prefix) and key.__contains__(parameter_type) \
-                and not key.__contains__("inner-prefix"):
-            split_key_strings = key.split('-')
-            form_index = int(split_key_strings[1])
+        if ignored_substring in key or prefix not in key or data_type not in key:
+            continue
 
-            if form_index != index:
-                continue
+        split_key = key.split('-')
+        try:
+            form_index = int(split_key[1])
+        except ValueError:
+            continue
 
-            vector_key_string = split_key_strings[2]
-            split_vector_key_strings = vector_key_string.split('_', 2)
-            vector_index = split_vector_key_strings[1]
-            vector_parameter_key = split_vector_key_strings[2]
+        if form_index != index:
+            continue
 
-            found = False
-            for temp_vector in temp_vectors:
-                if temp_vector[0] == vector_index:
-                    temp_vector[1][vector_parameter_key] = value
-                    found = True
-                    break
+        split_data_key = split_key[2].split('_', 2)
+        data_index = split_data_key[1]
+        data_parameter_key = split_data_key[2]
 
-            if not found:
-                temp_vectors.append((vector_index, {vector_parameter_key: value}))
+        found = False
+        for data_point in data_points:
+            if data_point["index"] == data_index:
+                inner_func_args = (data_parameter_key, data_point, value)
+                if inner_func is None or not inner_func(*inner_func_args):
+                    data_point["data"][data_parameter_key] = value
+                found = True
+                break
 
-    return [temp_vector[1] for temp_vector in sorted(temp_vectors, key=lambda temp: temp[0])]
+        if not found:
+            parameter_data = split_inner_data_parameter(data_parameter_key)
+            if parameter_data:
+                new_data_point = {
+                    "index": data_index,
+                    "data": {
+                        parameter_data["key"]: [{
+                            "index": parameter_data["index"],
+                            "data": {
+                                parameter_data["sub_key"]: value
+                            }
+                        }]
+                    }
+                }
+                data_points.append(new_data_point)
+            else:
+                data_points.append({
+                    "index": data_index,
+                    "data": {
+                        data_parameter_key: value
+                    }
+                })
+
+    return [data_point["data"] for data_point in sorted(data_points, key=lambda  point: point["index"])]
 
 
-def parse_options(post_data, prefix, option_type="option", index=0):
-    temp_vectors = []
-    for key, value in post_data.iteritems():
-        if key.__contains__(prefix) and key.__contains__(option_type) \
-                and not key.__contains__("inner-prefix"):
-            split_key_strings = key.split('-')
-            form_index = int(split_key_strings[1])
+def parse_parameters(post_data, prefix, index=0):
+    """Obtain vector-specific data from vector-specific form fields in a POST.
 
-            if form_index != index:
-                continue
+    :param post_data: The QueryDict from the POST HttpRequest.
+    :param prefix: Formset prefix to filter on.
+    :param index: The index of the form to filter on.
+    :return: An array of data points containing vector-specific data.
+    """
+    return parse_inner_data(post_data, prefix, data_type="vector", index=index)
 
-            vector_key_string = split_key_strings[2]
-            split_vector_key_strings = vector_key_string.split('_', 2)
-            vector_index = split_vector_key_strings[1]
-            vector_parameter_key = split_vector_key_strings[2]
 
-            found = False
-            for temp_vector in temp_vectors:
-                if temp_vector[0] == vector_index:
-                    split_sub_key_strings = vector_parameter_key.split('_')
-                    if len(split_sub_key_strings) > 1:
-                        sub_parameter_key = split_sub_key_strings[0]
-                        sub_parameter_index = int(split_sub_key_strings[1])
-                        sub_parameter_sub_key = split_sub_key_strings[2]
+def split_inner_data_parameter(data_parameter_key):
+    """Split specified key string into separate sub keys and indexes.
 
-                        sub_parameter_key += "s"
+    :param data_parameter_key: The string to split on.
+    :return: A dictionary with key, index, and sub_key values.
+    """
+    split_data_parameter_key = data_parameter_key.split('_')
+    sub_parameter_data = {}
+    if len(split_data_parameter_key) > 1:
+        sub_parameter_key_suffix = "s"
+        sub_parameter_key = split_data_parameter_key[0] + sub_parameter_key_suffix
+        try:
+            sub_parameter_index = int(split_data_parameter_key[1])
+        except ValueError:
+            return sub_parameter_data
 
-                        if sub_parameter_key not in temp_vector[1]:
-                            temp_vector[1][sub_parameter_key] = []
+        sub_parameter_sub_key = split_data_parameter_key[2]
 
-                        option_found = False
-                        for temp_option in temp_vector[1][sub_parameter_key]:
-                            if temp_option[0] == sub_parameter_index:
-                                temp_option[1][sub_parameter_sub_key] = value
-                                option_found = True
-                                break
+        sub_parameter_data = {
+            "key": sub_parameter_key,
+            "index": sub_parameter_index,
+            "sub_key": sub_parameter_sub_key
+        }
 
-                        if not option_found:
-                            temp_vector[1][sub_parameter_key].append((sub_parameter_index, {
-                                sub_parameter_sub_key: value
-                            }))
-                    else:
-                        temp_vector[1][vector_parameter_key] = value
+    return sub_parameter_data
 
-                    found = True
-                    break
 
-            if not found:
-                split_sub_key_strings = vector_parameter_key.split('_')
-                if len(split_sub_key_strings) > 1:
-                    sub_parameter_key = split_sub_key_strings[0]
-                    sub_parameter_index = int(split_sub_key_strings[1])
-                    sub_parameter_sub_key = split_sub_key_strings[2]
+def inner_parse_options(data_parameter_key, data_point, value):
+    """Obtains nested option-specific data from mda-options.
 
-                    sub_parameter_key += "s"
+    :param data_parameter_key: The mda-option form field's POST key.
+    :param data_point: The currently parsed out data point.
+    :param value: Value to be added to the data point's sub key.
+    :return: Whether further parsing was successful or not.
+    """
+    if data_parameter_key is None or data_point is None:
+        return False
 
-                    temp_vectors.append((vector_index, {sub_parameter_key: [
-                        (sub_parameter_index, {
-                            sub_parameter_sub_key: value
-                        })
-                    ]}))
-                else:
-                    temp_vectors.append((vector_index, {vector_parameter_key: value}))
+    sub_parameter_data = split_inner_data_parameter(data_parameter_key)
 
-    final_parsed_vectors = [temp_vector[1] for temp_vector in sorted(temp_vectors, key=lambda temp: temp[0])]
+    if not sub_parameter_data:
+        return False
 
-    for parsed_vector in final_parsed_vectors:
-        for key, value in parsed_vector.iteritems():
+    sub_parameter_key = sub_parameter_data["key"]
+    if sub_parameter_key not in data_point["data"]:
+        data_point["data"][sub_parameter_key] = []
+
+    sub_parameter_index = sub_parameter_data["index"]
+    sub_parameter_sub_key = sub_parameter_data["sub_key"]
+
+    found = False
+    for parameter in data_point["data"][sub_parameter_key]:
+        if parameter["index"] == sub_parameter_index:
+            parameter["data"][sub_parameter_sub_key] = value
+            found = True
+            break
+
+    if not found:
+        data_parameter = {
+            "index": sub_parameter_index,
+            "data": {
+                sub_parameter_sub_key: value
+            }
+        }
+        data_point["data"][sub_parameter_key].append(data_parameter)
+
+    return True
+
+
+def parse_options(post_data, prefix, index=0):
+    """Obtain vector-specific data from mda-option-specific form fields in a POST.
+
+    :param post_data: The QueryDict from the POST HttpRequest.
+    :param prefix: Formset prefix to filter on.
+    :param index: The index of the form to filter on.
+    :return: An array of data points containing mda-option-specific data.
+    """
+    parsed_data = parse_inner_data(post_data, prefix, data_type="option", index=index, inner_func=inner_parse_options)
+
+    for data_point in parsed_data:
+        for key, value in data_point.iteritems():
             if key == "clearInfections" or key == "deploys":
-                new_value = [v[1] for v in sorted(value, key=lambda val: val[0])]
-                parsed_vector[key] = new_value
+                new_value = [val["data"] for val in sorted(value, key=lambda val: val["index"])]
+                data_point[key] = new_value
 
-    return final_parsed_vectors
+    return parsed_data
 
 
 def parse_larviciding_interventions(scenario):
