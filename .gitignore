@@ -3,7 +3,8 @@
 # Note: use command below to debug .gitignore file
 # git check-ignore -v psycopg2-2.6.1.win-amd64-py2.7-pg9.4.4-release.exe
 !binaries/psycopg2-2.6.1.win-amd64-py2.7-pg9.4.4-release.exe
-
+!binaries/om/*.exe
+!binaries/om/*.dll
 # database file
 db.sqlite3*
 
