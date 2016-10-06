@@ -33,7 +33,8 @@ class SimulationModelTest(TestCase):
         self.assertEqual(self.simulation.ended_when, datetime.datetime(1990, 12, 12, second=30))
 
     def test_str(self):
-        self.assertEqual(str(self.simulation), "1 (123 vv30) - DONE")
+        simulation_as_string = "{} (123 vv30) - DONE".format(self.simulation.id)
+        self.assertEqual(str(self.simulation), simulation_as_string)
 
     def test_copy(self):
         new_simulation = self.simulation.copy()
