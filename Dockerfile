@@ -12,8 +12,15 @@ RUN pip install -r /app/requirements/local.txt
 ENV SECRET_KEY=docker
 ENV DJANGO_SETTINGS_MODULE=website.settings.docker
 # OpenMalaria-specific
-RUN apt-get --yes update && apt-get --yes upgrade
-RUN apt-get install -y g++ git cmake libgsl0-dev libboost-all-dev libxerces-c-dev xsdcxx
+RUN apt-get update && apt-get install -y \
+	g++ \
+	git \
+	cmake \
+	libgsl0-dev \
+	libboost-all-dev \
+	libxerces-c-dev \
+	xsdcxx \
+&& rm -rf /var/lib/apt/lists/*
 RUN git clone https://github.com/SwissTPH/openmalaria
 RUN cd openmalaria \
   && git checkout schema-32 \
