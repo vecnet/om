@@ -20,10 +20,23 @@ services:
       entrypoint: dockerize -wait tcp://db:5432
       volumes:
         - .:/app
+        - /app/static
       ports:
         - "8000:8000"
       links:
         - db:db
+
+    nginx:
+      restart: always
+      build: ./nginx/
+      ports:
+        - "80:80"
+      volumes:
+        - /www/static
+      volumes_from:
+        - web
+      links:
+        - web:web
 
 volumes:
   pgdata: {}
