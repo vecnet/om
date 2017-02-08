@@ -1,23 +1,42 @@
 version: '2'
 services:
     db:
-        image: postgres
-        environment:
-            - POSTGRES_DB=om
-            - POSTGRES_USER=om
-            - POSTGRES_PASSWORD=om
-        ports:
-            - "5433:5432"
+      restart: always
+      image: postgres
+      environment:
+          - POSTGRES_DB=om
+          - POSTGRES_USER=om
+          - POSTGRES_PASSWORD=om
+      ports:
+          - "5432:5432"
+      volumes:
+        - pgdata:/var/lib/postgresql/data
+
     web:
-        build:
-            context: .
-        depends_on:
-            - db
-        entrypoint: dockerize -wait tcp://db:5432
-        command: sh docker/docker-command.sh
-        volumes:
-          - .:/app
-        ports:
-            - "8001:8000"
-        links:
-            - db
+      restart: always
+      build:
+        context: .
+      command: sh docker/docker-command.sh
+      entrypoint: dockerize -wait tcp://db:5432
+      volumes:
+        - .:/app
+        - /app/static
+      ports:
+        - "8000:8000"
+      links:
+        - db:db
+
+    nginx:
+      restart: always
+      build: ./nginx/
+      ports:
+        - "80:80"
+      volumes:
+        - /www/static
+      volumes_from:
+        - web
+      links:
+        - web:web
+
+volumes:
+  pgdata: {}
