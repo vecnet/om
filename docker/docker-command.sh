@@ -4,4 +4,4 @@ python /app/manage.py migrate --noinput
 sh /app/docker/load-fixtures.sh
 sh /app/docker/delete-test-user.sh
 sh /app/docker/create-test-user.sh
-python /app/manage.py runserver 0.0.0.0:8000
+/usr/local/bin/gunicorn wsgi:application -w 2 -b :8000
