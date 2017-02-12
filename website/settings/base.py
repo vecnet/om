@@ -20,12 +20,13 @@ from django.core.exceptions import ImproperlyConfigured
 
 
 def get_env_variable(var_name):
-	""" Get the environment variable or return exception. """
-	try:
-		return os.environ[var_name]
-	except KeyError:
-		error_msg = "Set the %s environment variable" % var_name
-		raise ImproperlyConfigured(error_msg)
+    """ Get the environment variable or return exception. """
+    try:
+        return os.environ[var_name]
+    except KeyError:
+        pass
+        # error_msg = "Set the %s environment variable" % var_name
+        # raise ImproperlyConfigured(error_msg)
 
 
 SECRET_KEY = get_env_variable("SECRET_KEY")
@@ -187,3 +188,5 @@ ACCOUNT_ACTIVATION_DAYS = 7
 OPENMALARIA_EXEC_DIR = os.path.join(BASE_DIR, 'binaries/om/')
 
 TS_OM_SCENARIOS_DIR = os.path.join(BASE_DIR, 'scenarios')
+
+DATABASE_BACKUP_DIR = MEDIA_ROOT
