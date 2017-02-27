@@ -28,10 +28,6 @@ matrix:
             - gsl-bin
             - libxerces-c3.1
             - xsdcxx
-    - os: osx
-      language: generic
-      env: PYTHON=/usr/bin/python
-      services: postgresql
   allow_failures:
     - os: osx
 before_install:
