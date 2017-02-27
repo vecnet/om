@@ -3,6 +3,7 @@ requests==2.7.0
 django-bootstrap3==6.1.0
 django-registration-redux==1.2
 jsonfield==1.0.0
+django-tastypie==0.12.2
 gunicorn
 lxml
 git+git://github.com/vecnet/vecnet.openmalaria.git@develop#egg=vecnet.openmalaria
