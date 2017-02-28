@@ -41,6 +41,10 @@ DEBUG = False
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
+EXTRA_ALLOWED_HOSTS = get_env_variable("ALLOWED_HOSTS")
+if EXTRA_ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(EXTRA_ALLOWED_HOSTS)
+
 # Application definition
 
 INSTALLED_APPS = (
