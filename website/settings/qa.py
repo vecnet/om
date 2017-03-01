@@ -36,6 +36,7 @@ SERVER_EMAIL = "Wellbeing Project Database <happy@nd.edu>"
 PYTHON_EXECUTABLE = "/opt/venvs/om-qa.vecnet.org/bin/python"
 SIM_SERVICE_LOCAL_OM_EXECUTABLE = "/opt/portal/om-qa.vecnet.org/binaries/om/openMalaria"
 TS_OM_SCENARIOS_DIR = os.path.join(PROJECT_PATH, "scenarios")
+OPENMALARIA_EXEC_DIR = os.path.join(BASE_DIR, 'binaries', 'om')
 
 LOGIN_URL = "/sso/"
 LOGOUT_URL="https://www.vecnet.org/index.php/log-out"
