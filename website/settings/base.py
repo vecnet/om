@@ -180,12 +180,7 @@ LOGGING = {
     }
 }
 
-# This is the number of days users will have to activate their accounts after registering.
-# If a user does not activate within that period, the account will remain permanently inactive and may be deleted
-# by maintenance scripts provided in django-registration.
-ACCOUNT_ACTIVATION_DAYS = 7
-
-OPENMALARIA_EXEC_DIR = os.path.join(BASE_DIR, 'binaries/om/')
+OPENMALARIA_EXEC_DIR = os.path.join(BASE_DIR, 'binaries', 'om')
 
 TS_OM_SCENARIOS_DIR = os.path.join(BASE_DIR, 'scenarios')
 
