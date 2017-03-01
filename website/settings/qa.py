@@ -10,12 +10,12 @@ SECRET_KEY = get_env_variable("SECRET_KEY")
 
 DATABASES = {
     'default': {
-        'ENGINE': get_env_variable("DATABASE_ENGINE"),
+        'ENGINE': "django.db.backends.postgresql",
         'NAME': get_env_variable("DATABASE_NAME"),
         'USER': get_env_variable("DATABASE_USER"),
         'PASSWORD': get_env_variable("DATABASE_PASSWORD"),
-        'HOST': get_env_variable("DATABASE_HOST"),
-        'PORT': get_env_variable("DATABASE_PORT"),
+        'HOST': "127.0.0.1",
+        'PORT': "5432",
     }
 }
 
