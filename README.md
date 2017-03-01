@@ -99,31 +99,3 @@ DATABASES = {
 
 2. Copy public key for validating pubtkt tickets to /etc/httpd/conf/sso/tkt_pubkey_dsa.pem
 
-3. Enable DjangoAuthPubtkt middleware - put snippet below to website/settings_local.py
-Order is important - if you choose to keep standard Django authentication 
-backends, then django_auth_pubtkt.DjangoAuthPubtkt should be after them.
-```MIDDLEWARE_CLASSES = (
-    'django.middleware.common.CommonMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django_auth_pubtkt.DjangoAuthPubtkt',
-    'django.contrib.messages.middleware.MessageMiddleware',
-) ```
-
-4. Set configuration options below (in website/settings_local.py)
-```from django_auth_pubtkt.views import redirect_to_sso
-from django.conf.urls import url
-LOGIN_URL = "/sso/"
-TKT_AUTH_LOGIN_URL = "https://www.vecnet.org/index.php/sso-login"
-TKT_AUTH_PUBLIC_KEY = '/etc/httpd/conf/sso/tkt_pubkey_dsa.pem'
-SSO_URLS = [url(r'^sso/', redirect_to_sso),]
-```
-
-
-# TODOs
-1. https://docs.djangoproject.com/en/1.6/ref/contrib/staticfiles/#django.contrib.staticfiles.storage.CachedStaticFilesStorage
-
-Consider using static files storage to avoid caching issues
-
-# Useful links
-http://staticfiles.productiondjango.com/blog/stop-using-static-url-in-templates/

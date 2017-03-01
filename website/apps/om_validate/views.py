@@ -27,7 +27,7 @@ def validate(request):
 
 
 def validate_scenario(scenario_file):
-    om_dir = check_url(getattr(settings, "OPENMALARIA_EXEC_DIR", None), "openmalaria")
+    om_dir = check_dir(getattr(settings, "OPENMALARIA_EXEC_DIR", None), "openmalaria")
     scenarios_dir = check_dir(getattr(settings, "TS_OM_SCENARIOS_DIR", None), "scenarios")
     return_code = 0
     out = None
