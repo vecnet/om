@@ -43,7 +43,13 @@ def validate_scenario(scenario_file):
     xmlSchema = etree.XMLSchema(xmlSchemaDoc)
 
     try:
-        tree = etree.fromstring(scenario_file)
+        # For some reason sometimes scenario_file is unicode, not str
+        # As result, exception is thrown:
+        # ValueError: Unicode strings with encoding declaration are not supported.
+        # Please use bytes input or XML fragments without declaration.
+        #
+        # See http://lxml.de/parsing.html for additional details
+        tree = etree.fromstring(str(scenario_file))
     except etree.ParseError as e:
         return_code = -1
         out = ""
