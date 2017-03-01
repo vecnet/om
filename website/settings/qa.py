@@ -10,6 +10,8 @@ ALLOWED_HOSTS = [
 ]
 
 
+
+
 SECRET_KEY = get_env_variable("SECRET_KEY")
 
 DATABASES = {
@@ -27,6 +29,12 @@ DATABASES = {
 EMAIL_HOST = "smtp.nd.edu"
 EMAIL_PORT = 25
 EMAIL_USE_TLS = True
+# SMTP Backend: the backend to use for sending emails.
+# Overriding development settings (Console backend)
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+# The email address that error messages come from, such as those sent to ADMINS and MANAGERS.
+# Used by mail_managers function
+SERVER_EMAIL = "Wellbeing Project Database <happy@nd.edu>"
 
 PYTHON_EXECUTABLE = "/opt/venvs/om-qa.vecnet.org/bin/python"
 SIM_SERVICE_LOCAL_OM_EXECUTABLE = "/opt/portal/om-qa.vecnet.org/binaries/om/openMalaria"
