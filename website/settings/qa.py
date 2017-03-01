@@ -119,3 +119,12 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 # Pages will be served with an 'x-xss-protection: 1; mode=block' header to to activate the browser's
 # XSS filtering and help prevent XSS attacks
 SECURE_BROWSER_XSS_FILTER = True
+
+
+try:
+    # Optional settings specific to the local system (for example, custom
+    # settings on a developer's system).  The file "settings_local.py" is
+    # excluded from version control.
+    from .settings_local import *
+except ImportError:
+    pass
