@@ -1,3 +1,4 @@
 -r base.txt
 
 psycopg2
+django-auth-pubtkt==1.1.2

@@ -38,8 +38,9 @@ urlpatterns = [
 ]
 
 try:
-    from .settings_local import SSO_URLS
-    urlpatterns += SSO_URLS
+    # If django_auth_pubtkt is installed, add sso/ to url patterns
+    from django_auth_pubtkt.views import redirect_to_sso
+    urlpatterns.append(url(r'^sso/', redirect_to_sso))
 except ImportError:
     pass
 
