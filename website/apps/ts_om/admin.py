@@ -4,7 +4,7 @@ from .models import *
 
 admin.site.register(DemographicsSnippet)
 admin.site.register(BaselineScenario)
-admin.site.register(Scenario)
+
 admin.site.register(ModelSnippet)
 admin.site.register(AnophelesSnippet)
 admin.site.register(InterventionSnippet)
@@ -33,3 +33,10 @@ class ExperimentFileAdmin(admin.ModelAdmin):
 
 
 admin.site.register(ExperimentFile, ExperimentFileAdmin)
+
+class ScenarioAdmin(admin.ModelAdmin):
+    list_display = ("id", "name", "user", "status", "baseline", "is_public")
+    list_filter = ("user", "simulation__status", "baseline", )
+    search_fields = ("id", "user__username", "description")
+
+admin.site.register(Scenario, ScenarioAdmin)
