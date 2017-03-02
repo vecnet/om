@@ -57,7 +57,6 @@ INSTALLED_APPS = (
     # Although it's not required that you use the sites framework, it's strongly encouraged
     'django.contrib.sites',
     'bootstrap3',
-    'registration',
     'website',
     'data_services',
     'website.apps.om_validate',
