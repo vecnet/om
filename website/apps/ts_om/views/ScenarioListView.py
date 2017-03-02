@@ -7,6 +7,8 @@
 # Primary Authors:
 #   Alexander Vyushkov <Alexander.Vyushkov@nd.edu>
 ########################################################################################################################
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.generic import ListView
 from vecnet.openmalaria.scenario import Scenario
 from vecnet.simulation import sim_status
@@ -18,6 +20,11 @@ class ScenarioListView(ListView):
     template_name = 'ts_om/list.html'
     paginate_by = 10
     model = ScenarioModel
+
+    @method_decorator(ensure_csrf_cookie)
+    # Make sure we send CSRF cookie with this view - to ensure that DeleteView is working properly
+    def dispatch(self, request, *args, **kwargs):
+        return super(ScenarioListView, self).dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
         scenarios = ScenarioModel.objects.filter(user=self.request.user, deleted=False).order_by('-last_modified')
