@@ -9,12 +9,14 @@
 # License (MPL), version 2.0.  If a copy of the MPL was not distributed
 # with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+import os
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test.testcases import TestCase
 
 from website.apps.ts_om.models import Scenario
 
+DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
 
 class ScenarioListViewTest(TestCase):
     def setUp(self):
@@ -22,6 +24,8 @@ class ScenarioListViewTest(TestCase):
         self.user.set_password("1")
         self.user.save()
         self.client.login(username="user", password="1")
+        with open(os.path.join(DATA_DIR, "default.xml")) as fp:
+            self.xml = fp.read()
 
     def test_empty_list(self):
         self.assertEqual(Scenario.objects.filter(user=self.user).count(), 0)
@@ -54,13 +58,12 @@ class ScenarioListViewTest(TestCase):
         # Perhaps should use correct xml in this test
         scenario = Scenario.objects.create(
             user=self.user,
-            xml="",
+            xml=self.xml,
             description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce auctor molestie ex vel cursus. "
                         "Donec tortor magna, porttitor at ipsum placerat,"
         )
         response = self.client.get(reverse("ts_om.list"))
         self.assertEqual(response.status_code, 200)
-        print response.content
         self.assertIn(
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce auctor molestie ex vel cursus. Don...",
             response.content,

@@ -73,3 +73,5 @@ apache/static/*
 
 # Sphinx documentation
 docs/build/
+
+config_local.py
