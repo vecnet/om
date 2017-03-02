@@ -4,6 +4,7 @@
 
 $(function() {
     var csrfToken = getCookie('csrftoken');
+    // var csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 
     $.ajaxSetup({
         beforeSend: function(xhr, settings) {

@@ -44,5 +44,7 @@ script:
   - ./.travis/script.sh
 notifications:
   email:
+      recipients:
+      - avyushko@nd.edu
     on_success: never
     on_failure: always

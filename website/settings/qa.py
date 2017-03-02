@@ -97,7 +97,7 @@ LOGGING = {
 # Security options
 # https://docs.djangoproject.com/en/1.10/ref/settings/#std:setting-CSRF_COOKIE_AGE
 CSRF_COOKIE_SECURE = True
-CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_HTTPONLY = False  # Don't set to True just yet - ajaxSetup in common.js depends on that cookie
 CSRF_COOKIE_AGE = 60480  # One week
 SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_HTTPONLY = True
