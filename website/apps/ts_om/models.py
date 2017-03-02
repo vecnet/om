@@ -70,7 +70,7 @@ http://www.plosmedicine.org/article/fetchObject.action?uri=info:doi/10.1371/jour
 
 class Scenario(models.Model):
     xml = models.TextField()
-    start_date = models.IntegerField(default=datetime.datetime.now().year)
+    start_date = models.IntegerField(default=2016)
     user = models.ForeignKey(User)
     simulation = models.ForeignKey(Simulation, null=True, blank=True)
     last_modified = models.DateTimeField(auto_now=True)

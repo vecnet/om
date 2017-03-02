@@ -15,12 +15,11 @@ from django.core.exceptions import PermissionDenied
 
 from django.core.urlresolvers import reverse
 from django.http import JsonResponse
-from django.views.generic import FormView
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.base import TemplateView
 from vecnet.openmalaria.scenario import Scenario
 from vecnet.openmalaria.monitoring import get_survey_times
 
-from website.apps.ts_om import submit
 from website.apps.ts_om.forms import ScenarioSummaryForm
 from website.apps.ts_om.models import Scenario as ScenarioModel
 from website.apps.ts_om.views.ScenarioBaseFormView import update_form
@@ -118,6 +117,7 @@ class ScenarioSummaryView2(TemplateView):
 
         return context
 
+@csrf_exempt
 def update_summary_form(request, scenario_id):
     data = update_form(request, scenario_id)
     temp_scenario = None

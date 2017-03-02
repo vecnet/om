@@ -2,7 +2,7 @@ language: python
 env:
   global:
     - SECRET_KEY=travis
-    - DJANGO_SETTINGS_MODULE="website.settings.staging"
+    - DJANGO_SETTINGS_MODULE="website.settings.travis"
     - DATABASE_ENGINE="django.db.backends.postgresql_psycopg2"
     - DATABASE_NAME=om
     - DATABASE_USER=postgres
@@ -40,5 +40,7 @@ script:
   - ./.travis/script.sh
 notifications:
   email:
-    on_success: never
+    recipients:
+      - avyushko@nd.edu
+    on_success: change
     on_failure: always

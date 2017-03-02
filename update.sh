@@ -38,11 +38,11 @@ function update
     touch django.log
     chmod 660 django.log
     git pull
-    if [ $? -ne 0 ]; then
-       echo "git pull failed"
-       echo "make sure you ran ssh-add ~/.ssh/github"
-       exit 1
-    fi
+#    if [ $? -ne 0 ]; then
+#       echo "git pull failed"
+#       echo "make sure you ran ssh-add ~/.ssh/github"
+#       exit 1
+#    fi
     echo "Removing .pyc files"
     find . -name \*.pyc -delete
     # Dependencies should be installed before running showmigrations

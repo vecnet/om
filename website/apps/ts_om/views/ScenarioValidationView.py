@@ -3,12 +3,14 @@ import requests
 
 from django.conf import settings
 from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.base import View
 from website.apps.om_validate.views import validate_scenario
 
 from website.apps.ts_om.check import check_url
 
 
+@csrf_exempt
 def rest_validate(f):
     if f is None:
         return None

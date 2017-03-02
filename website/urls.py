@@ -25,9 +25,6 @@ urlpatterns = [
     # Please refer to https://docs.djangoproject.com/en/1.8/topics/auth/default/#using-the-views
     # for additional information about using django.contrib.auth.urls
     url(r'^auth/', include('django.contrib.auth.urls')),
-    # django-registration-redux URLs
-    # https://django-registration-redux.readthedocs.org/en/latest/quickstart.html#setting-up-urls
-    url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^test_500/$', 'website.views.test_http_code_500'),
     url(r'^ts_om/', include('website.apps.ts_om.urls')),
     url(r'^ts_om_edit/', include('website.apps.ts_om_edit.urls')),
@@ -38,8 +35,9 @@ urlpatterns = [
 ]
 
 try:
-    from .settings_local import SSO_URLS
-    urlpatterns += SSO_URLS
+    # If django_auth_pubtkt is installed, add sso/ to url patterns
+    from django_auth_pubtkt.views import redirect_to_sso
+    urlpatterns.append(url(r'^sso/', redirect_to_sso))
 except ImportError:
     pass
 

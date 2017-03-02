@@ -99,7 +99,7 @@ $(function() {
     });
   });
 
-    var refreshSimsInterval = setInterval(function() {
-        $("#simulations-data").load(document.URL + " #simulations-data");
-    }, 10000);
+    // var refreshSimsInterval = setInterval(function() {
+    //     $("#simulations-data").load(document.URL + " #simulations-data");
+    // }, 10000);
 });

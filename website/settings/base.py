@@ -19,17 +19,15 @@ import os
 from django.core.exceptions import ImproperlyConfigured
 
 
-def get_env_variable(var_name):
+def get_env_variable(var_name, default=None):
     """ Get the environment variable or return exception. """
     try:
         return os.environ[var_name]
     except KeyError:
-        pass
+        return default
         # error_msg = "Set the %s environment variable" % var_name
         # raise ImproperlyConfigured(error_msg)
 
-
-SECRET_KEY = get_env_variable("SECRET_KEY")
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -57,7 +55,6 @@ INSTALLED_APPS = (
     # Although it's not required that you use the sites framework, it's strongly encouraged
     'django.contrib.sites',
     'bootstrap3',
-    'registration',
     'website',
     'data_services',
     'website.apps.om_validate',
@@ -142,7 +139,7 @@ STATIC_URL = '/static/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'apache', 'static')
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 MEDIA_ROOT = os.path.join(BASE_DIR, 'website', 'media')
@@ -184,12 +181,7 @@ LOGGING = {
     }
 }
 
-# This is the number of days users will have to activate their accounts after registering.
-# If a user does not activate within that period, the account will remain permanently inactive and may be deleted
-# by maintenance scripts provided in django-registration.
-ACCOUNT_ACTIVATION_DAYS = 7
-
-OPENMALARIA_EXEC_DIR = os.path.join(BASE_DIR, 'binaries/om/')
+OPENMALARIA_EXEC_DIR = os.path.join(BASE_DIR, 'binaries', 'om')
 
 TS_OM_SCENARIOS_DIR = os.path.join(BASE_DIR, 'scenarios')
 

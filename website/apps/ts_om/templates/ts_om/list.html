@@ -10,7 +10,7 @@
 {% block extra_js %}
     {{ block.super }}
     <script src="{{ STATIC_URL }}ts_om/js/popovers_tooltips.js"></script>
-    <script src="{{ STATIC_URL }}ts_om/js/list.js"></script>
+    <script src="{{ STATIC_URL }}ts_om/js/list.js?1"></script>
 {% endblock %}
 
 {% block main_content %}
@@ -18,12 +18,7 @@
     <div class="container">
         <div class="row">
             <h3>My Simulations</h3>
-            <p class="pull-right">
-                <a class="btn btn-success" href="{% url "ts_om.start" %}">
-                    <span class="glyphicon glyphicon-plus"></span>
-                    Create Simulation
-                </a>
-            </p>
+
             <div class="col-md-12">
                 <p align="justify">
                     <b>OpenMalaria</b> offers flexibility for modelling malaria in humans (epidemiology)
@@ -37,18 +32,22 @@
                     Read more on OpenMalaria <a href="http://github.com/SwissTPH/openmalaria/wiki/Start?tm=6"
                         target="_blank">here</a>.
                 </p>
+                <a class="btn btn-success" href="{% url "ts_om.start" %}">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    Create Simulation
+                </a>
 
                 <div class="alert" id="delete-message"></div>
-                <button class="delete btn btn-default tooltip_button pull-right" data-original-title="Delete selected simulations">
-                    <i class="icon-trash"></i> Delete
+                <button class="delete btn btn-danger tooltip_button pull-right" data-original-title="Delete selected simulations">
+                    <i class="glyphicon glyphicon-trash"></i> Delete
                 </button>
                 <a href="" class="btn btn-info pull-right tooltip_button" style="color:#ffffff" data-original-title="Refresh">
-                    <i class="icon-refresh"></i>
+                    <i class="glyphicon glyphicon-refresh"></i>
                     Refresh
                 </a>
                 <button class="submit-scenarios btn btn-success tooltip_button pull-right"
                         data-original-title="Run selected simulations">
-                    <i class="icon-play"></i> Run
+                    <i class="glyphicon glyphicon-play"></i> Run
                 </button>
             </div>
         </div>
@@ -63,8 +62,9 @@
                             <th>
                                 <input class="all-scenarios-checkbox" type="checkbox">
                             </th>
+                            <th>ID</th>
                             <th colspan="4">
-                                ID/Name/Description
+                                Name/Description
                             </th>
 {#                            <th colspan="2">Demographics</th>#}
                             <th colspan="1">OpenMalaria<br>Version</th>
@@ -79,17 +79,20 @@
                     <td>
                         <input class="scenario-checkbox" type="checkbox" data-id="{{ scenario.id }}">
                     </td>
-                    <td colspan="4">
+                    <td colspan="1">
                         {% if demography_name != "no_name" %}
-                            {% if scenario.simulation_id %}
+                            {% if scenario.id and status != "xmlerror" %}
                                 <a href="{% url "ts_om.summary2" scenario.id %}">{{ scenario.id }}</a>
                             {% else %}
-                                <a href="{% url "ts_om.summary2" scenario.id %}">{{ scenario.id }}</a>
+                                {{ scenario.id }}
                             {% endif %}
                         {% else %}
                             <span>{{ scenario.id }}</span>
                         {% endif %}
-                        {{ scenario.name }}
+                    </td>
+                    <td colspan="4">
+                        {{ scenario.name }}<br>
+                        <i id="scenario-{{ scenario.id }}-description">{{ scenario.description|default:""|truncatechars:100 }}</i>
                     </td>
 {#                    <td colspan="2">#}
 {#                        {{ demography_name }}#}
@@ -111,6 +114,8 @@
                             {% endif %}
                         {% elif status == "running" %}
                             <span class="glyphicon glyphicon-refresh" style="color:#ffa500;"></span> Running
+                        {% elif status == "xmlerror" %}
+                            <span class="glyphicon glyphicon-warning-sign" style="color:red;"></span> XML Error
                         {% endif %}
                     </td>
                     <td colspan="2">
