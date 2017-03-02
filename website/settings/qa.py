@@ -37,6 +37,7 @@ PYTHON_EXECUTABLE = "/opt/venvs/om-qa.vecnet.org/bin/python"
 SIM_SERVICE_LOCAL_OM_EXECUTABLE = "/opt/portal/om-qa.vecnet.org/binaries/om/openMalaria"
 TS_OM_SCENARIOS_DIR = os.path.join(BASE_DIR, 'scenarios')
 OPENMALARIA_EXEC_DIR = os.path.join(BASE_DIR, 'binaries', 'om')
+SIM_SERVICE_LOCAL_OM_EXECUTABLE = "/opt/portal/om-qa.vecnet.org/binaries/om/openMalaria"
 
 LOGIN_URL = "/sso/"
 LOGOUT_URL="https://www.vecnet.org/index.php/log-out"
@@ -119,6 +120,26 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 # Pages will be served with an 'x-xss-protection: 1; mode=block' header to to activate the browser's
 # XSS filtering and help prevent XSS attacks
 SECURE_BROWSER_XSS_FILTER = True
+
+
+FILE_SERVER = {
+    'URI schemes': ('data', 'file'), #, 'https'),
+    'write scheme': 'data',
+    'file scheme': {
+        'root directory': '/tmp'
+        # The path above is a real directory (the output directory for testing), so it'll pass validation.  This setting
+        # should be set accordingly for each application environment.
+    },
+    # 'https scheme': {
+    #     'root directory': '',
+    #     # 'root directory': 'https://vecnet-qa.crc.nd.edu/webdav/qa/',
+    #     'authentication': 'basic',
+    #     'username': "webdav",
+    #     'password': "webdav",
+    #     # 'verify certificates': True,  # Optional; default = False
+    # }
+}
+
 
 
 try:
