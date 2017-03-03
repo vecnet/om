@@ -1,12 +1,13 @@
 import mock
 import sys
 
+from django.contrib.auth.models import User
 from django.test import TestCase
 from vecnet.simulation import sim_model
 
 from .data import EMPTY_SCENARIO
 from website.apps.ts_om.submit import add_simulation
-from data_services.models import DimUser, Simulation, SimulationGroup
+from data_services.models import Simulation, SimulationGroup
 
 
 class AddSimulationTests(TestCase):
@@ -17,8 +18,8 @@ class AddSimulationTests(TestCase):
     @classmethod
     def setUpClass(cls):
         super(AddSimulationTests, cls).setUpClass()
-        cls.test_user = DimUser.objects.create(username='test-user')
-        cls.sim_group = SimulationGroup.objects.create(submitted_by=cls.test_user)
+        cls.test_user = User.objects.create(username='test-user')
+        cls.sim_group = SimulationGroup.objects.create(submitted_by_user=cls.test_user)
 
         # Setup mock for sys.stdout so "print" statements don't print anything
         cls.sys_stdout = sys.stdout
@@ -53,7 +54,6 @@ class AddSimulationTests(TestCase):
         self.assertEqual(simulation.input_files.count(), 1)
         input_file = simulation.input_files.all()[0]
         self.assertEqual(input_file.name, 'scenario.xml')
-        self.assertEqual(input_file.created_by, self.test_user)
         self.assertEqual(input_file.get_contents(), expected_contents)
 
     def test_with_empty_xml(self):

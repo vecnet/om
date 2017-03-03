@@ -1,5 +1,6 @@
+from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
-from data_services.models import DimUser, Simulation, SimulationGroup
+from data_services.models import Simulation, SimulationGroup
 from vecnet.simulation import sim_status
 from sim_services import dispatcher
 from website.apps.ts_om.submit import add_simulation
@@ -9,8 +10,8 @@ import os
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        user = DimUser.objects.get_or_create(username="avyushko")[0]
-        sim_group = SimulationGroup(submitted_by=user)
+        user = User.objects.get(username="avyushko")
+        sim_group = SimulationGroup(submitted_by_user=user)
         sim_group.save()
         print "Simulation group %s has been created successfully" % sim_group.id
         with open(os.path.join("ts_om","management", "commands", "default.xml")) as fp:

@@ -1,16 +1,12 @@
 from StringIO import StringIO
-import datetime
-from xml.etree.ElementTree import ParseError
 
 from django.core.exceptions import MultipleObjectsReturned
-from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import User
 from lxml import etree
 from lxml.etree import XMLSyntaxError
-import vecnet.openmalaria.scenario
 
-from data_services.models import Simulation, SimulationGroup, DimUser
+from data_services.models import Simulation, SimulationGroup
 
 
 class ExperimentFile(models.Model):

@@ -1,16 +1,18 @@
 # Copyright (C) 2016, University of Notre Dame
 # All rights reserved
 import datetime
+
+from django.contrib.auth.models import User
 from django.test.testcases import TestCase
 from vecnet.simulation import sim_status
 
-from data_services.models import Simulation, SimulationGroup, DimUser
+from data_services.models import Simulation, SimulationGroup
 
 
 class SimulationModelTest(TestCase):
     def setUp(self):
         self.sim_group = SimulationGroup.objects.create(
-            submitted_by=DimUser.objects.create(username="user")
+            submitted_by_user=User.objects.create(username="user")
         )
         self.simulation = Simulation.objects.create(
             group=self.sim_group,

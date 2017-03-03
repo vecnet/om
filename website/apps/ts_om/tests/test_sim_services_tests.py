@@ -1,4 +1,6 @@
+from django.contrib.auth.models import User
 from django.test import TestCase
+from django.test.utils import override_settings
 from vecnet.simulation import (sim_model, Simulation as SimulationRepresentation,
                                SimulationGroup as SimGroupRepresentation)
 
@@ -15,16 +17,16 @@ class ResourceRepresentationTests(TestCase):
     @classmethod
     def setUpClass(cls):
         super(ResourceRepresentationTests, cls).setUpClass()
-        cls.test_user = data_models.DimUser.objects.create(username='test-user')
-        cls.sim_group = data_models.SimulationGroup.objects.create(submitted_by=cls.test_user)
+        cls.test_user = User.objects.create(username='test-user')
+        cls.sim_group = data_models.SimulationGroup.objects.create(submitted_by_user=cls.test_user)
         cls.simulation = data_models.Simulation.objects.create(group=cls.sim_group,
                                                                model=sim_model.OPEN_MALARIA,
                                                                version="32")
         cls.scenario_file = data_models.SimulationInputFile.objects.create_file(EMPTY_SCENARIO,
-                                                                                name='scenario.xml',
-                                                                                created_by=cls.test_user)
+                                                                                name='scenario.xml')
         cls.simulation.input_files.add(cls.scenario_file)
 
+    @override_settings(SITE_ROOT_URL="http://localhost")
     def test_simulation_representation(self):
         """
         Test the creation of a representation for a simulation resource.
@@ -46,6 +48,7 @@ class ResourceRepresentationTests(TestCase):
         }
         self.assertEqual(sim_resource_repr.input_files, expected_input_files)
 
+    @override_settings(SITE_ROOT_URL="http://localhost")
     def test_group_representation(self):
         """
         Test the creation of a representation for a simulation group resource.

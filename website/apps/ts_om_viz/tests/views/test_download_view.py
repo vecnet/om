@@ -14,17 +14,16 @@ from django.core.urlresolvers import reverse
 from django.test.client import Client
 from django.test.testcases import TestCase
 
-from data_services.models import Simulation, DimUser, SimulationGroup, SimulationInputFile
+from data_services.models import Simulation, SimulationGroup, SimulationInputFile
 from website.apps.ts_om.models import Scenario
 
 
 def create_simulation(user, input_file=None):
-    dim_user = DimUser.objects.get_or_create(username=user.username)[0]
-    sim_group = SimulationGroup.objects.create(submitted_by=dim_user)
+    sim_group = SimulationGroup.objects.create(submitted_by_user=user)
     simulation = Simulation.objects.create(group=sim_group, model='OM', version='32')
     if input_file:
         simulation.input_files.add(
-            SimulationInputFile.objects.create_file(input_file, name="input.xml", created_by=dim_user)
+            SimulationInputFile.objects.create_file(input_file, name="input.xml")
         )
     return simulation
 

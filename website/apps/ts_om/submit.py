@@ -3,21 +3,18 @@ from django.contrib.auth.models import User
 from vecnet.simulation import sim_model, sim_status
 from vecnet.openmalaria import get_schema_version_from_xml
 
-from data_services.models import DimUser, SimulationGroup, Simulation, SimulationInputFile
+from data_services.models import SimulationGroup, Simulation, SimulationInputFile
 
 from sim_services_local import dispatcher
 
 
 def submit(user, xml, version=None):
     # Create Simulation and SimulationGroup
-    if isinstance(user, User):
-        user = DimUser.objects.get_or_create(username=user.username)[0]
     if isinstance(user, (str, unicode)):
-        user = DimUser.objects.get_or_create(username=user)[0]
+        user = User.objects.get(username=user)
 
-    sim_group = SimulationGroup(submitted_by=user)
+    sim_group = SimulationGroup(submitted_by_user=user)
     sim_group.save()
-    print sim_group.id
 
     simulation = add_simulation(sim_group, xml, version=version)
     try:
@@ -29,12 +26,10 @@ def submit(user, xml, version=None):
 
 def submit_group(user, xml_scenarios, version=None):
     # Create Simulation and SimulationGroup
-    if isinstance(user, User):
-        user = DimUser.objects.get_or_create(username=user.username)[0]
     if isinstance(user, (str, unicode)):
-        user = DimUser.objects.get_or_create(username=user)[0]
+        user = User.objects.get(username=user)
 
-    sim_group = SimulationGroup(submitted_by=user)
+    sim_group = SimulationGroup(submitted_by_user=user)
     sim_group.save()
     for scenario in xml_scenarios:
         add_simulation(sim_group, scenario, version=version)
@@ -61,8 +56,7 @@ def add_simulation(sim_group, xml, version=None, input_file_metadata=None):
 
     scenario_file = SimulationInputFile.objects.create_file(contents=xml,
                                                             name="scenario.xml",
-                                                            metadata="{}",
-                                                            created_by=sim_group.submitted_by)
+                                                            metadata="{}")
     if input_file_metadata is not None:
         for item in input_file_metadata:
             # Note that scenario_file.metadata is dict after calling create_file

@@ -11,6 +11,8 @@ import logging
 import tempfile
 from wsgiref.util import FileWrapper
 import zipfile
+
+from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 
 from django.db import models
@@ -35,30 +37,13 @@ def make_choices_tuple(choices, get_display_name):
     return tuple((x, get_display_name(x)) for x in choices)
 
 
-class DimUser(models.Model):
-    def __str__(self):
-        return self.username
-    username = models.CharField(max_length=30, unique=True)
-    first_name = models.CharField(max_length=30, null=True, blank=True)
-    last_name = models.CharField(max_length=30, null=True, blank=True)
-    organization = models.TextField(null=True, blank=True)
-    email = models.EmailField(null=True, blank=True)
-    is_staff = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True)
-    date_joined = models.DateTimeField(null=True)
-
-    class Meta:
-        db_table = 'dim_user'
-
-
 class SimulationGroup(models.Model):
     """
     Represents a group of simulations submitted for execution at the same time.
     """
-    submitted_by = models.ForeignKey(DimUser,
-                                     help_text='who submitted the group for execution')
     submitted_when = models.DateTimeField(help_text='when was the group submitted',
                                           null=True, blank=True)  # Assigned by job services
+    submitted_by_user = models.ForeignKey(User, related_name="simulation_groups")
 
     def __str__(self):
         return "%s" % self.id
@@ -140,7 +125,7 @@ class Simulation(models.Model):
         return self.started_when + self.duration_as_timedelta
 
     def copy(self, include_output=False, should_link_files=False):
-        simulation_group = SimulationGroup(submitted_by=self.group.submitted_by)
+        simulation_group = SimulationGroup(submitted_by_user=self.group.submitted_by_user)
         simulation_group.save()
 
         new_simulation = Simulation.objects.create(
@@ -274,8 +259,6 @@ class SimulationInputFile(SimulationFile):
     simulations = models.ManyToManyField(Simulation,
                                          help_text='the simulations that used this file as input',
                                          related_name='input_files')
-    created_by = models.ForeignKey(DimUser,
-                                   help_text='who created the file')
     created_when = models.DateTimeField(help_text='when was the file created',
                                         auto_now_add=True)
 

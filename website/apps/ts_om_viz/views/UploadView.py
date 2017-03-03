@@ -58,11 +58,7 @@ class UploadView(TemplateView):
             xml = request.FILES['uploadForm-xmlfile'].read()
 
             # Creation data_services.models.Simulation object - for visualization
-            # Using get_or_create to automatically create DimUser object for a new user
-            # django.auth.contrib.models.User is created automatically by django_auth_pubtkt middleware and
-            # data_services.models.DimUser is not
-            # note that get_or_create returns a tuple - i.e (<DimUser: admin>, False) -thus using [0].
-            sim_group = SimulationGroup(submitted_by=DimUser.objects.get_or_create(username=username)[0])
+            sim_group = SimulationGroup(submitted_by_user=request.user)
             sim_group.save()
 
             om_version = get_schema_version_from_xml(xml)
@@ -74,9 +70,7 @@ class UploadView(TemplateView):
 
             # store scenario.xml to database
             # metadata = "{\"filename\":\"%s\"}" % request.FILES['uploadForm-xmlfile'].name
-            scenario_file = SimulationInputFile.objects.create_file(contents=xml,
-                                                                    name="scenario.xml",
-                                                                    created_by=sim_group.submitted_by)
+            scenario_file = SimulationInputFile.objects.create_file(contents=xml, name="scenario.xml")
             scenario_file.metadata["filename"] = request.FILES['uploadForm-xmlfile'].name
             scenario_file.save()
             simulation.input_files.add(scenario_file)
