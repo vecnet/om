@@ -95,6 +95,14 @@ LOGGING = {
     }
 }
 
+
+# Supress W004 "You have not set a value for the SECURE_HSTS_SECONDS setting." warning
+# Reason: Be sure to read the documentation first; enabling HSTS carelessly can cause serious, irreversible problems.
+# Supress W019 "You have 'django.middleware.clickjacking.XFrameOptionsMiddleware' in your MIDDLEWARE_CLASSES,
+# but X_FRAME_OPTIONS is not set to 'DENY'"
+# Reason: Using frames to display html of Qualtrics responses
+SILENCED_SYSTEM_CHECKS = ['security.W004', 'security.W019']
+
 # Security options
 # https://docs.djangoproject.com/en/1.10/ref/settings/#std:setting-CSRF_COOKIE_AGE
 CSRF_COOKIE_SECURE = True

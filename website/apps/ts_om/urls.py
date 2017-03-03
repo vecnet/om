@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
 
 from views import ScenarioListView, ScenarioValidationView, ScenarioStartView
-from views import ScenarioDeleteView, duplicate_scenario
+from views import ScenarioDeleteView, duplicate_scenario_view
 from views import ScenarioSubmitView
 from website.apps.ts_om.views.ScenarioSummaryView2 import update_summary_form
 from website.apps.ts_om_experiment.views.ExperimentRunView import get_sim_group_status, download_experiment_zip
@@ -20,7 +20,7 @@ urlpatterns = patterns('',
                        url(r'^(?P<scenario_id>.+)/advanced/$', ScenarioAdvancedView.as_view(), name='ts_om.advanced'),
                        url(r'^submitScenario/$', ScenarioSubmitView.as_view(), name='ts_om.submitScenario'),
                        url(r'^deleteScenario/$', ScenarioDeleteView.as_view(), name='ts_om.deleteScenario'),
-                       url(r'^(?P<scenario_id>.+)/duplicate/$', duplicate_scenario, name='ts_om.duplicate'),
+                       url(r'^(?P<scenario_id>.+)/duplicate/$', duplicate_scenario_view, name='ts_om.duplicate'),
                        url(r'^(?P<scenario_id>.+)/download/$', download_scenario, name='ts_om.download'),
                        url(r'^(?P<scenario_id>.+)/save/$', save_scenario, name='ts_om.save'),
                        url(r'^scenarios/submit/$', submit_scenarios, name='ts_om.submit'),

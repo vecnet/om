@@ -14,7 +14,7 @@ from ScenarioStartView import ScenarioStartView
 from ScenarioValidationView import ScenarioValidationView
 from ScenarioSubmitView import ScenarioSubmitView
 from ScenarioDeleteView import ScenarioDeleteView
-from ScenarioView import ScenarioView, duplicate_scenario
+from ScenarioView import duplicate_scenario_view
 from ScenarioSummaryView2 import ScenarioSummaryView2
 from ScenarioAdvancedView import ScenarioAdvancedView
 
