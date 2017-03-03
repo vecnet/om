@@ -19,7 +19,7 @@ from django.views.generic.base import TemplateView, RedirectView
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', RedirectView.as_view(url='/ts_om/'), name="index"),
+    url(r'^$', RedirectView.as_view(url='/ts_om/', permanent=False), name="index"),
     # robots.txt is implemented as a template because Django can't seem to serve a static file from urls.py
     url(r'^robots.txt$', TemplateView.as_view(template_name="robots.txt")),
     # Please refer to https://docs.djangoproject.com/en/1.8/topics/auth/default/#using-the-views
