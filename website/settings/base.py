@@ -60,7 +60,6 @@ INSTALLED_APPS = (
     'website.apps.om_validate',
     'website.apps.ts_om',
     'website.apps.ts_om_viz',
-    'website.apps.umbrella',
     'website.apps.ts_om_edit',
     'website.apps.ts_om_experiment',
 )

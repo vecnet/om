@@ -63,8 +63,6 @@
                             <span class="glyphicon glyphicon-stats"></span> See results
                         </a>
                         {% endif %}
-                        <a download="{{ name }}.umbrella" class="pull-right btn btn-default" href="{% url 'umbrella.umbrella_spec' scenario_id=scenario_id %}">
-                        Get Umbrella Spec</a>
                         <a {% if scenario.simulation %}disabled{% else %}href="{% url "ts_om.monitoring" scenario.id %}"{% endif %} class='pull-right btn btn-default'  > Edit </a>
                     </div>
                     <div class="modal fade" id="confirm">

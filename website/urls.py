@@ -31,7 +31,6 @@ urlpatterns = [
     url(r'^ts_om_viz/', include('website.apps.ts_om_viz.urls')),
     url(r'^validate/', include('website.apps.om_validate.urls')),
     url(r'^experiment/', include('website.apps.ts_om_experiment.urls')),
-    url(r'^umbrella/', include('website.apps.umbrella.urls')),
 ]
 
 try:
