@@ -2,11 +2,10 @@ from django.conf.urls import patterns, url
 
 from website.apps.ts_om_viz.views.UploadView import UploadView
 from website.apps.ts_om_viz.views.SimulationView import SimulationView, get_cts_data, get_survey_data
-from website.apps.ts_om_viz.views.download import download
+from website.apps.ts_om_viz.views.download_view import download_view
 
 
 urlpatterns = patterns(
-    'ts_om_viz.views',
     #########################################################################################
     # Main views
     #########################################################################################
@@ -22,7 +21,7 @@ urlpatterns = patterns(
     #########################################################################################
 
     # Download scenario files (both input and output)
-    url(r'^download/(?P<simulation_id>\d+)/(?P<name>.+)', download, name="ts_om_viz.download"),
+    url(r'^download/(?P<simulation_id>\d+)/(?P<name>.+)', download_view, name="ts_om_viz.download"),
     url(r'^sim/data/survey/(?P<sim_id>\d+)/(?P<measure_id>\d+)/(?P<bin_number>\w+)/$',
         get_survey_data,
         name="ts_om_viz.get_survey_data"),

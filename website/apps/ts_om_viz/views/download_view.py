@@ -1,11 +1,17 @@
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from data_services.models import Simulation
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 
 
-def download(request, simulation_id, name):
+@login_required
+def download_view(request, simulation_id, name):
     simulation = Simulation.objects.get(id=simulation_id)
-    print list(simulation.input_files.all())
+    if simulation.scenario_set.count() > 0:
+        scenario = simulation.scenario_set.all()[0]
+        if scenario.user != request.user:
+            raise PermissionDenied
+
     filename = name
     try:
         simulation_file = simulation.input_files.get(name=name)
