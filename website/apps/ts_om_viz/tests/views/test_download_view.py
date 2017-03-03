@@ -1,0 +1,79 @@
+# -*- coding: utf-8 -*-
+#
+# This file is part of the VecNet OpenMalaria Portal.
+# For copyright and licensing information about this package, see the
+# NOTICE.txt and LICENSE.txt files in its top-level directory; they are
+# available at https://github.com/vecnet/om
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License (MPL), version 2.0.  If a copy of the MPL was not distributed
+# with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
+from django.test.client import Client
+from django.test.testcases import TestCase
+
+from data_services.models import Simulation, DimUser, SimulationGroup, SimulationInputFile
+from website.apps.ts_om.models import Scenario
+
+
+def create_simulation(user, input_file=None):
+    dim_user = DimUser.objects.get_or_create(username=user.username)[0]
+    sim_group = SimulationGroup.objects.create(submitted_by=dim_user)
+    simulation = Simulation.objects.create(group=sim_group, model='OM', version='32')
+    if input_file:
+        simulation.input_files.add(
+            SimulationInputFile.objects.create_file(input_file, name="input.xml", created_by=dim_user)
+        )
+    return simulation
+
+class DownloadViewTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create(username="user")
+        self.user.set_password("1")
+        self.user.save()
+        self.scenario = Scenario.objects.create(
+            user=self.user,
+            xml=""
+        )
+        self.client.login(username="user", password="1")
+
+    def test_anonymous(self):
+        simulation = create_simulation(self.user, input_file="123")
+        client = Client()
+        response = client.get(
+            reverse("ts_om_viz.download", kwargs={"simulation_id": simulation.id, "name": "input.xml"})
+        )
+        print(response.url)
+        self.assertEqual(response.status_code, 302)
+        self.assertIn("login", response.url)
+
+    def test_wrong_user(self):
+        user = User.objects.create(username="user1")
+        simulation = create_simulation(self.user, input_file="123")
+        self.scenario.simulation = simulation
+        self.scenario.user = user
+        self.scenario.save()
+        response = self.client.get(
+            reverse("ts_om_viz.download", kwargs={"simulation_id": simulation.id, "name": "input.xml"})
+        )
+        self.assertEqual(response.status_code, 403)
+
+    def test_success_1(self):
+        simulation = create_simulation(self.user, input_file="123")
+        response = self.client.get(
+            reverse("ts_om_viz.download", kwargs={"simulation_id": simulation.id, "name": "input.xml"})
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.content, "123")
+
+    def test_success_2(self):
+        simulation = create_simulation(self.user, input_file="123")
+        self.scenario.simulation = simulation
+        self.scenario.save()
+        response = self.client.get(
+            reverse("ts_om_viz.download", kwargs={"simulation_id": simulation.id, "name": "input.xml"})
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.content, "123")
