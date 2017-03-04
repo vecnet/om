@@ -18,7 +18,7 @@ from django.contrib.auth.models import User
 from lxml import etree
 from lxml.etree import XMLSyntaxError
 
-from data_services.models import Simulation as OldSimulation, SimulationGroup
+from data_services.models import SimulationGroup
 
 
 class ExperimentFile(models.Model):
@@ -145,7 +145,6 @@ class Scenario(models.Model):
     xml = models.TextField()
     start_date = models.IntegerField(default=2016)
     user = models.ForeignKey(User)
-    simulation = models.ForeignKey(OldSimulation, null=True, blank=True)
     new_simulation = models.OneToOneField(Simulation, null=True, blank=True, related_name="scenario")
     last_modified = models.DateTimeField(auto_now=True)
     deleted = models.BooleanField(default=False)
@@ -181,17 +180,16 @@ class Scenario(models.Model):
     @property
     def status(self):
         try:
-            status = self.simulation.status
+            status = self.new_simulation.status
         except Exception:
             status = None
         return status
 
     @property
     def output_file(self):
-        stdout_file = self.simulation.simulationoutputfile_set.filter(name="stdout.txt")
-        if stdout_file.exists():
-            return stdout_file[0]
-        return None
+        if not self.new_simulation.model_stdout:
+            return None
+        return self.new_simulation.model_stdout
 
 
 class AnophelesSnippet(models.Model):

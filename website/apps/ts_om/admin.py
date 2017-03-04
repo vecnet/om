@@ -37,7 +37,7 @@ admin.site.register(ExperimentFile, ExperimentFileAdmin)
 
 class ScenarioAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "user", "status", "baseline", "deleted", "is_public", "last_modified",)
-    list_filter = ("user", "simulation__status", "baseline", "deleted",)
+    list_filter = ("user", "new_simulation__status", "baseline", "deleted",)
     search_fields = ("id", "user__username", "description")
 
 admin.site.register(Scenario, ScenarioAdmin)

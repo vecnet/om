@@ -85,8 +85,8 @@ class ScenarioSummaryView2(TemplateView):
             context["deleted"] = self.model_scenario.deleted
             context["version"] = self.scenario.schemaVersion
 
-            if self.model_scenario.simulation:
-                context['sim_id'] = self.model_scenario.simulation.id
+            if self.model_scenario.new_simulation:
+                context['sim_id'] = self.model_scenario.new_simulation.id
 
             context["xml"] = self.scenario.xml
 

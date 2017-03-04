@@ -141,7 +141,7 @@ def submit_scenarios(request):
 
         scenario = Scenario.objects.get(user=request.user, id=int(scenario_id))
 
-        if not scenario or scenario.simulation is not None:
+        if not scenario or scenario.new_simulation is not None:
             continue
 
         json_str = rest_validate(scenario.xml)
