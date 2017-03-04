@@ -7,7 +7,7 @@ def migrate_simulations():
     for simulation in Simulation.objects.all():
         print simulation.id
         simulation_new = SimulationNew()
-        input_file = simulation.input_files.filter(name="input.xml").first()
+        input_file = simulation.input_files.filter(name="scenario.xml").first()
         if input_file:
             print input_file
             simulation_new.input_file.save(
@@ -25,7 +25,7 @@ def migrate_simulations():
         ctsout_file = simulation.simulationoutputfile_set.filter(name="ctsout.txt").first()
         if ctsout_file:
             print ctsout_file
-            simulation_new.output_file.save(
+            simulation_new.ctsout_file.save(
                 "ctsout_%s.txt" % simulation_new.id,
                 ContentFile(ctsout_file.get_contents())
             )
@@ -33,7 +33,7 @@ def migrate_simulations():
         stdout = simulation.simulationoutputfile_set.filter(name="stdout.txt").first()
         if stdout:
             print stdout
-            simulation_new.output_file.save(
+            simulation_new.model_stdout.save(
                 "stdout_%s.txt" % simulation_new.id,
                 ContentFile(stdout.get_contents())
             )
