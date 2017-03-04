@@ -14,17 +14,14 @@ from django.core.urlresolvers import reverse
 from django.test.client import Client
 from django.test.testcases import TestCase
 
-from data_services.models import Simulation, SimulationGroup, SimulationInputFile
-from website.apps.ts_om.models import Scenario
+from website.apps.ts_om.models import Scenario, Simulation
 
 
 def create_simulation(user, input_file=None):
-    sim_group = SimulationGroup.objects.create(submitted_by_user=user)
-    simulation = Simulation.objects.create(group=sim_group, model='OM', version='32')
+    simulation = Simulation.objects.create()
     if input_file:
-        simulation.input_files.add(
-            SimulationInputFile.objects.create_file(input_file, name="input.xml")
-        )
+        simulation.set_input_file(input_file)
+        simulation.save()
     return simulation
 
 class DownloadViewTest(TestCase):
@@ -44,14 +41,13 @@ class DownloadViewTest(TestCase):
         response = client.get(
             reverse("ts_om_viz.download", kwargs={"simulation_id": simulation.id, "name": "input.xml"})
         )
-        print(response.url)
         self.assertEqual(response.status_code, 302)
         self.assertIn("login", response.url)
 
     def test_wrong_user(self):
         user = User.objects.create(username="user1")
         simulation = create_simulation(self.user, input_file="123")
-        self.scenario.simulation = simulation
+        self.scenario.new_simulation = simulation
         self.scenario.user = user
         self.scenario.save()
         response = self.client.get(
@@ -62,17 +58,17 @@ class DownloadViewTest(TestCase):
     def test_success_1(self):
         simulation = create_simulation(self.user, input_file="123")
         response = self.client.get(
-            reverse("ts_om_viz.download", kwargs={"simulation_id": simulation.id, "name": "input.xml"})
+            reverse("ts_om_viz.download", kwargs={"simulation_id": simulation.id, "name": "scenario.xml"})
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content, "123")
 
     def test_success_2(self):
         simulation = create_simulation(self.user, input_file="123")
-        self.scenario.simulation = simulation
+        self.scenario.new_simulation = simulation
         self.scenario.save()
         response = self.client.get(
-            reverse("ts_om_viz.download", kwargs={"simulation_id": simulation.id, "name": "input.xml"})
+            reverse("ts_om_viz.download", kwargs={"simulation_id": simulation.id, "name": "scenario.xml"})
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content, "123")

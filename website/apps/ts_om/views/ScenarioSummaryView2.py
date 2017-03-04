@@ -51,12 +51,12 @@ class ScenarioSummaryView2(TemplateView):
         if 'submit_type' in self.request.POST and self.request.POST["submit_type"] == "run":
             # Clicked "Save and Run" button
             # Will submit a scenario to Simulation Manager here
-            simulation = submit.submit(self.request.user, scenario.xml)
+            simulation = submit.submit_new(scenario)
             if simulation is None:
                 set_notification(self.request, "Can't submit simulation", "alert-danger")
             else:
-                scenario.simulation = simulation
-                scenario.save()
+                # scenario.simulation = simulation
+                # scenario.save()
                 set_notification(self.request, "Successfully started simulation", "alert-success")
         raise HttpRedirectException(reverse('ts_om.list'))
 

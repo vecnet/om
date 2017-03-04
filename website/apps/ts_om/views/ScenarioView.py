@@ -22,7 +22,7 @@ from lxml import etree
 from lxml.etree import XMLSyntaxError
 
 from website.apps.ts_om.models import Scenario, ExperimentFile
-from website.apps.ts_om.submit import submit
+from website.apps.ts_om.submit import submit, submit_new
 from website.apps.ts_om.views.ScenarioValidationView import rest_validate
 
 
@@ -152,11 +152,11 @@ def submit_scenarios(request):
         if not valid:
             continue
 
-        simulation = submit(request.user.username, scenario.xml)
+        simulation = submit_new(scenario)
 
         if simulation:
-            scenario.simulation = simulation
-            scenario.save()
+            # scenario.simulation = simulation
+            # scenario.save()
             scenarios_data["scenarios"][-1]["ok"] = True
 
     scenarios_data["ok"] = True

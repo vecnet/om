@@ -9,7 +9,7 @@ def convert_submitted_by_to_submitted_by_user(apps, schema_editor):
     User = apps.get_model("auth", "User")
 
     for sim_group in SimulationGroup.objects.all():
-         sim_group.submitted_by_user = User.objects.get(username=sim_group.submitted_by.username)
+        sim_group.submitted_by_user = User.objects.get(username=sim_group.submitted_by.username)
 
 class Migration(migrations.Migration):
 
@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='simulationgroup',
             name='submitted_by_user',
-            field=models.ForeignKey(related_name='simulation_groups', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(related_name='simulation_groups', to=settings.AUTH_USER_MODEL, null=True),
         ),
         migrations.RunPython(convert_submitted_by_to_submitted_by_user),
     ]
