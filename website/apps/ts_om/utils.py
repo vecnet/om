@@ -1,13 +1,12 @@
 from django.core.files.base import ContentFile
 
 from data_services.models import Simulation
-from website.apps.ts_om.models import Scenario, Simulation
-
+from website.apps.ts_om.models import Simulation as SimulationNew
 
 def migrate_simulations():
     for simulation in Simulation.objects.all():
         print simulation.id
-        simulation_new = Simulation()
+        simulation_new = SimulationNew()
         input_file = simulation.input_files.filter(name="input.xml").first()
         if input_file:
             print input_file
@@ -40,11 +39,11 @@ def migrate_simulations():
             )
 
         if simulation.status == "done":
-            simulation_new.status = Simulation.COMPLETE
+            simulation_new.status = SimulationNew.COMPLETE
         elif simulation.status == "error":
-            simulation_new.status = Simulation.FAILED
+            simulation_new.status = SimulationNew.FAILED
         elif simulation.status == "ready":
-            simulation_new.status = Simulation.NEW
+            simulation_new.status = SimulationNew.NEW
 
         simulation_new.save()
         scenario = simulation.scenario_set.all().first()
