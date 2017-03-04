@@ -20,8 +20,7 @@ from django.core.exceptions import PermissionDenied
 @login_required
 def download_view(request, simulation_id, name):
     simulation = get_object_or_404(Simulation, id=simulation_id)
-    scenario = simulation.scenario
-    if scenario and scenario.user != request.user:
+    if hasattr(simulation, "scenario") and simulation.scenario.user != request.user:
         raise PermissionDenied
 
     filename = name

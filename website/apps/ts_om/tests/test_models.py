@@ -12,10 +12,10 @@ class Test(TestCase):
         fp = File(open("LICENSE.txt"))
         simulation.input_file.save("1234.txt", fp)
 
-        print simulation
-        print simulation.input_file.name
-
-        sim = Simulation.objects.get(pk=simulation.pk)
-        print sim
-        print sim.input_file.name
+        # print simulation
+        # print simulation.input_file.name
+        #
+        # sim = Simulation.objects.get(pk=simulation.pk)
+        # print sim
+        # print sim.input_file.name
 

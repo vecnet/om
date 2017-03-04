@@ -5,6 +5,7 @@ jsonfield==1.0.0
 django-tastypie==0.13.3
 gunicorn
 lxml
+mock=2.0.0
 git+git://github.com/vecnet/vecnet.openmalaria.git@develop#egg=vecnet.openmalaria
 vecnet.simulation
 factory_boy==2.8.1  # A fixtures replacement tool, replaces fixtures with easy-to-use factories for complex object. For usage in unittests
