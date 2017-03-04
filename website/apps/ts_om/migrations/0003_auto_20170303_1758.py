@@ -4,11 +4,6 @@ from __future__ import unicode_literals
 from django.db import migrations, models
 
 
-import website.apps.ts_om.utils
-
-def migrate_simulations(apps, schema_editor):
-    website.apps.ts_om.utils.migrate_simulations()
-
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -41,5 +36,4 @@ class Migration(migrations.Migration):
             name='new_simulation',
             field=models.OneToOneField(related_name='scenario', null=True, blank=True, to='ts_om.Simulation'),
         ),
-        migrations.RunPython(migrate_simulations),
     ]
