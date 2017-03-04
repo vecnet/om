@@ -11,25 +11,30 @@
 
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from data_services.models import Simulation
-from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
+from django.shortcuts import get_object_or_404
+
+from website.apps.ts_om.models import Simulation
+from django.core.exceptions import PermissionDenied
 
 
 @login_required
 def download_view(request, simulation_id, name):
-    simulation = Simulation.objects.get(id=simulation_id)
-    if simulation.scenario_set.count() > 0:
-        scenario = simulation.scenario_set.all()[0]
-        if scenario.user != request.user:
-            raise PermissionDenied
+    simulation = get_object_or_404(Simulation, id=simulation_id)
+    scenario = simulation.scenario
+    if scenario and scenario.user != request.user:
+        raise PermissionDenied
 
     filename = name
-    try:
-        simulation_file = simulation.input_files.get(name=name)
-        filename = simulation_file.metadata.get("filename", filename)
-    except ObjectDoesNotExist:
-        simulation_file = simulation.simulationoutputfile_set.get(name=name)
+    content = None
+    if filename == "scenario.xml":
+        content = simulation.input_file.read()
+    elif filename == "output.txt":
+        content = simulation.output_file.read()
+    elif filename == "ctsout.txt":
+        content = simulation.ctsout_file.read()
+    elif filename == "model_stdout_stderr.txt":
+        content = simulation.model_stdout.read()
 
-    response = HttpResponse(simulation_file.get_contents())
+    response = HttpResponse(content)
     response['Content-Disposition'] = "attachment; filename=%s" % filename
     return response

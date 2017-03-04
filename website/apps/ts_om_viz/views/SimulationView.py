@@ -1,14 +1,24 @@
 # -*- coding: utf-8 -*-
+#
+# This file is part of the VecNet OpenMalaria Portal.
+# For copyright and licensing information about this package, see the
+# NOTICE.txt and LICENSE.txt files in its top-level directory; they are
+# available at https://github.com/vecnet/om
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License (MPL), version 2.0.  If a copy of the MPL was not distributed
+# with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
 import json
 
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
-from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
+from django.core.exceptions import ObjectDoesNotExist
 from vecnet.openmalaria.cts import continuousMeasuresDescription
 from vecnet.openmalaria.output_parser import surveyFileMap
 
-from data_services.models import Simulation, SimulationInputFile, SimulationOutputFile
+from website.apps.ts_om.models import Simulation
 from website.notification import set_notification
 from website.apps.ts_om_viz.utils import om_output_parser_from_simulation
 
@@ -25,47 +35,27 @@ class SimulationView(TemplateView):
             context["survey_measure_id"] = int(request.GET["survey_measure_id"])
             context["survey_third_dimension"] = int(request.GET["survey_third_dimension"])
         context["sim_id"] = sim_id
-        try:
-            simulation = Simulation.objects.get(id=sim_id)
+        simulation = get_object_or_404(Simulation, id=sim_id)
+        context["simulation"] = simulation
+        # Get contents of xml input file and filename (if available)
+        if simulation.input_file:
+            context["xml_filename"] = "scenario.xml"
 
-            # Get contents of xml input file and filename (if available)
-            scenario_file = SimulationInputFile.objects.filter(simulations=simulation, name="scenario.xml")
-            if "filename" in scenario_file[0].metadata:
-                xml_filename = scenario_file[0].metadata["filename"]
-            else:
-                xml_filename = "scenario.xml"
-            context["xml_filename"] = xml_filename
-        except ObjectDoesNotExist:
-            set_notification(self.request,
-                             '<strong>Error! Simulation %s does not exist </strong>' % sim_id,
-                             'alert-error')
-            return context
-        except Exception as e:
-            set_notification(self.request,
-                             '<strong>Error! %s </strong>' % e,
-                             'alert-error')
-            return context
-
-        try:
-            output_file = SimulationOutputFile.objects.get(simulation=simulation, name="output.txt")
+        if simulation.output_file:
             output_txt_filename = "output.txt"
-        except:
+        else:
             output_txt_filename = None
 
-        try:
-            output_file = SimulationOutputFile.objects.get(simulation=simulation, name="ctsout.txt")
+        if simulation.ctsout_file:
             ctsout_txt_filename = "ctsout.txt"
-        except:
+        else:
             ctsout_txt_filename = None
 
 
         context["output_txt_filename"] = output_txt_filename
         context["ctsout_txt_filename"] = ctsout_txt_filename
-        try:
-            model_stdout_stderr_file = SimulationOutputFile.objects.get(simulation=simulation, name="model_stdout_stderr.txt")
+        if simulation.model_stdout:
             context["model_stdout"] = "model_stdout_stderr.txt"
-        except (ObjectDoesNotExist, MultipleObjectsReturned):
-            pass
 
         try:
             output_parser = om_output_parser_from_simulation(simulation)

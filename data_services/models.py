@@ -43,7 +43,7 @@ class SimulationGroup(models.Model):
     """
     submitted_when = models.DateTimeField(help_text='when was the group submitted',
                                           null=True, blank=True)  # Assigned by job services
-    submitted_by_user = models.ForeignKey(User, related_name="simulation_groups")
+    submitted_by_user = models.ForeignKey(User, related_name="simulation_groups", null=True)
 
     def __str__(self):
         return "%s" % self.id

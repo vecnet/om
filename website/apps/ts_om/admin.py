@@ -9,6 +9,7 @@ admin.site.register(ModelSnippet)
 admin.site.register(AnophelesSnippet)
 admin.site.register(InterventionSnippet)
 admin.site.register(InterventionComponent)
+admin.site.register(Simulation)
 
 
 class ExperimentFileAdmin(admin.ModelAdmin):

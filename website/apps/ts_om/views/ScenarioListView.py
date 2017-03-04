@@ -15,7 +15,7 @@ from django.views.generic import ListView
 from vecnet.openmalaria.scenario import Scenario
 from vecnet.simulation import sim_status
 
-from website.apps.ts_om.models import Scenario as ScenarioModel
+from website.apps.ts_om.models import Scenario as ScenarioModel, Simulation
 
 
 class ScenarioListView(ListView):
@@ -43,13 +43,12 @@ class ScenarioListView(ListView):
             demography_name = getattr(scenario.demography, "name", "no_name")
             version = getattr(scenario, "schemaVersion", None)
 
-            if s.simulation and s.simulation.status == sim_status.SCRIPT_DONE:
+            if s.new_simulation and s.new_simulation.status == Simulation.COMPLETE:
                 scenario_sim_list.append(
                     (s, "finished", demography_name, version, sim_status.get_description(s.status)))
-            elif s.simulation and (s.simulation.status == sim_status.OUTPUT_ERROR or
-                                           s.simulation.status == sim_status.SCRIPT_ERROR):
+            elif s.new_simulation and s.new_simulation.status == Simulation.FAILED:
                 scenario_sim_list.append((s, "error", demography_name, version, sim_status.get_description(s.status)))
-            elif s.simulation:
+            elif s.new_simulation:
                 scenario_sim_list.append((s, "running", demography_name, version, sim_status.get_description(s.status)))
             else:
                 scenario_sim_list.append((s, "", demography_name, version, sim_status.get_description(s.status)))
