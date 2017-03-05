@@ -34,7 +34,8 @@ class UserFactory(factory.DjangoModelFactory):
     email = factory.LazyAttribute(lambda obj: '%s@example.com' % obj.username)
     first_name = factory.Faker("first_name")
     last_name = factory.Faker("last_name")
-    password = "1"
+    # http://stackoverflow.com/questions/15616277/how-can-you-create-an-admin-user-with-factory-boy
+    password = factory.PostGenerationMethodCall('set_password', '1')
     is_staff = False
     is_superuser = False
     is_active = True

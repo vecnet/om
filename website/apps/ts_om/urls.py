@@ -3,7 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
 
 from website.apps.ts_om.views.ScenarioSummaryView2 import update_summary_form
-from website.apps.ts_om.views.ScenarioView import download_experiment_scenario, download_scenario_xml_view, save_scenario
+from website.apps.ts_om.views.ScenarioView import download_experiment_scenario, save_scenario
+from website.apps.ts_om.views.download_scenario_xml_view import download_scenario_xml_view
 from website.apps.ts_om.views.duplicate_scenario_view import duplicate_scenario_view
 from website.apps.ts_om.views.update_scenario_view import update_scenario_view
 from website.apps.ts_om_experiment.views.ExperimentRunView import get_sim_group_status

@@ -22,7 +22,7 @@ from website.apps.ts_om.tests.factories import ScenarioFactory
 DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
 
 
-class SumbitScenariosViewTest(TestCase):
+class SubmitScenariosViewTest(TestCase):
     def setUp(self):
         self.scenario = ScenarioFactory()
         self.user = self.scenario.user

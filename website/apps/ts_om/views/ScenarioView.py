@@ -11,31 +11,12 @@
 
 import json
 import zipfile
-from StringIO import StringIO
 
 from django.conf import settings
 from django.http import HttpResponse
-from lxml import etree
 
 from website.apps.ts_om.models import Scenario, ExperimentFile
 from website.apps.ts_om.views.ScenarioValidationView import rest_validate
-
-
-def download_scenario_xml_view(request, scenario_id):
-    if not request.user.is_authenticated() or not scenario_id or scenario_id < 0:
-        return
-
-    scenario = Scenario.objects.get(user=request.user, id=int(scenario_id))
-
-    if not scenario:
-        return
-
-    f = StringIO(str(scenario.xml))
-    parser = etree.XMLParser(remove_blank_text=True)
-    tree = etree.parse(f, parser)
-    xml = etree.tostring(tree.getroot(), encoding='UTF-8', pretty_print=True)
-
-    return HttpResponse(xml)
 
 
 def download_experiment_scenario(request, scenario_id, index):
