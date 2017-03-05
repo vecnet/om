@@ -175,8 +175,7 @@
                     </fieldset>
                     <hr>
                     <div>
-                        <button type="submit" class="save-scenario btn btn-success {% if scenario.new_simulation %}disabled{% endif %}"
-                                {% if sim_id %}disabled{% endif %}>
+                        <button type="submit" class="save-scenario-summary-page btn btn-success">
                             Save
                         </button>
                         <a href="{% url 'ts_om.list' %}" class="btn btn-default">Discard Changes</a>
@@ -206,11 +205,16 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-1">
+                        <div class="col-md-2">
                             <button class="btn btn-default {% if sim_id %}disabled{% endif %}" id="validate" type="button"
                                 {% if sim_id %}disabled{% endif %}>
                                 Validate
                             </button>
+                            <button class="btn btn-default {% if sim_id %}disabled{% endif %}"
+                                id="save-scenario-xml" type="button" data-scenario-id="{{ scenario_id }}"
+                            {% if sim_id %}disabled{% endif %}>
+                            Save
+                        </button>
                         </div>
                         <div class="col-md-1">
                             <div id="validate-spinner">
@@ -229,11 +233,7 @@
                     </div>
                     <textarea id="xml" name="xml" placeholder="<!-- write some xml -->">{{ xml }}</textarea>
                     <div class="form-actions">
-                        <button class="btn btn-default {% if sim_id %}disabled{% endif %}"
-                                id="save-scenario-summary-page" type="button"
-                            {% if sim_id %}disabled{% endif %}>
-                            Save
-                        </button>
+
                         <button class="submit-scenario btn btn-default {% if sim_id %}disabled{% endif %}" id="submit-scenario" type="button"
                             {% if sim_id %}disabled{% endif %} style="display: none;">
                             Save and Run
