@@ -83,6 +83,11 @@ LOGGING = {
             'handlers': ['file'],
             'level': 'DEBUG',
             'propogate': True,
+        },
+        'sim_services_local': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propogate': True,
         }
     },
     "formatters": {

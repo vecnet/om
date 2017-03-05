@@ -171,6 +171,11 @@ LOGGING = {
             'handlers': ['console'],
             'level': 'DEBUG',
             'propogate': True,
+        },
+        'sim_services_local': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propogate': True,
         }
     },
     "formatters": {
