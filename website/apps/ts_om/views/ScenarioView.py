@@ -9,51 +9,19 @@
 # License (MPL), version 2.0.  If a copy of the MPL was not distributed
 # with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from StringIO import StringIO
 import json
 import zipfile
+from StringIO import StringIO
 
 from django.conf import settings
-from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import get_object_or_404
+from django.http import HttpResponse
 from lxml import etree
-from lxml.etree import XMLSyntaxError
 
 from website.apps.ts_om.models import Scenario, ExperimentFile
-from website.apps.ts_om.submit import submit, submit_new
 from website.apps.ts_om.views.ScenarioValidationView import rest_validate
 
 
-@login_required
-def duplicate_scenario_view(request, scenario_id):
-
-    scenario = get_object_or_404(Scenario, user=request.user, id=int(scenario_id))
-
-    xml = scenario.xml
-
-    try:
-        tree = etree.parse(StringIO(str(xml)))
-    except XMLSyntaxError:
-        # Copy xml document as is
-        pass
-    else:
-        tree.getroot().set('name', scenario.name + " (duplicate)")
-        xml = etree.tostring(tree.getroot(), encoding='UTF-8')
-
-    new_scenario = Scenario.objects.create(
-        xml=xml,
-        start_date=scenario.start_date,
-        user=request.user,
-        baseline=scenario.baseline,
-        description=scenario.description,
-    )
-
-    return HttpResponseRedirect(reverse('ts_om.summary2', kwargs={'scenario_id': new_scenario.id}))
-
-
-def download_scenario(request, scenario_id):
+def download_scenario_xml_view(request, scenario_id):
     if not request.user.is_authenticated() or not scenario_id or scenario_id < 0:
         return
 
@@ -125,40 +93,3 @@ def save_scenario(request, scenario_id):
     return HttpResponse(json.dumps({'saved': True}), content_type="application/json")
 
 
-def submit_scenarios(request):
-    scenarios_data = {"ok": False, "scenarios": []}
-
-    if not request.user.is_authenticated() or not "scenario_ids" in request.POST:
-        return HttpResponse(json.dumps(scenarios_data), content_type="application/json")
-
-    scenario_ids = json.loads(request.POST["scenario_ids"])
-
-    if scenario_ids is None or len(scenario_ids) <= 0:
-        return HttpResponse(json.dumps(scenarios_data), content_type="application/json")
-
-    for scenario_id in scenario_ids:
-        scenarios_data["scenarios"].append({"id": scenario_id, "ok": False})
-
-        scenario = Scenario.objects.get(user=request.user, id=int(scenario_id))
-
-        if not scenario or scenario.new_simulation is not None:
-            continue
-
-        json_str = rest_validate(scenario.xml)
-        validation_result = json.loads(json_str)
-
-        valid = True if (validation_result['result'] == 0) else False
-
-        if not valid:
-            continue
-
-        simulation = submit_new(scenario)
-
-        if simulation:
-            # scenario.simulation = simulation
-            # scenario.save()
-            scenarios_data["scenarios"][-1]["ok"] = True
-
-    scenarios_data["ok"] = True
-
-    return HttpResponse(json.dumps(scenarios_data), content_type="application/json")
