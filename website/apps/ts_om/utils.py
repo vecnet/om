@@ -1,9 +1,21 @@
+# -*- coding: utf-8 -*-
+#
+# This file is part of the VecNet OpenMalaria Portal.
+# For copyright and licensing information about this package, see the
+# NOTICE.txt and LICENSE.txt files in its top-level directory; they are
+# available at https://github.com/vecnet/om
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License (MPL), version 2.0.  If a copy of the MPL was not distributed
+# with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
 from django.core.files.base import ContentFile
 
 from data_services.models import Simulation
 from website.apps.ts_om.models import Simulation as SimulationNew
 
 def migrate_simulations():
+    # This function is for use in data migration. Should be removed after data on the server has been migrated
     for simulation in Simulation.objects.all():
         print simulation.id
         simulation_new = SimulationNew()
