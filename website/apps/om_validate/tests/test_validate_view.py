@@ -52,6 +52,7 @@ class ValidateViewTest(TestCase):
         json_response = json.loads(response.content)
         self.assertEqual(json_response["result"], -1)
         self.assertIsNotNone(json_response["om_output"])
+        print json_response["om_output"]
         self.assertIn(
             "Error: Intervention \"\" has a no description for vector species \"gambiae1\"",
             json_response["om_output"][1]

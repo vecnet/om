@@ -36,9 +36,8 @@ def get_xml_validation_errors(xml, skip_openmalaria_validation=False):
     try:
         tree = etree.XML(xml, parser)
     except etree.ParseError as e:
-        print("Parse error: %s" % e)
+        logger.debug("Parse error: %s" % e)
         # Parsers have an error_log property that lists the errors and warnings of the last parser run:
-        print len(parser.error_log)
         for entry in parser.error_log:
             errors.append(entry.message)
         return errors
@@ -55,9 +54,8 @@ def get_xml_validation_errors(xml, skip_openmalaria_validation=False):
     try:
         tree = etree.XML(xml, parser)
     except etree.ParseError as e:
-        print("Parse error: %s" % e)
+        logger.debug("Parse error: %s" % e)
         # Parsers have an error_log property that lists the errors and warnings of the last parser run:
-        print len(parser.error_log)
         for entry in parser.error_log:
             errors.append(entry.message)
         return errors
@@ -110,7 +108,7 @@ def validate_openmalaria(xml):
         # out.split("\n")
         errors = [line.strip() for line in out.split("\n")]
         logger.info("subprocess error, return code: %s" % return_code)
-    except WindowsError as e:
+    except Exception as e:
         # The system cannot find the file specified and so on
         errors = ["%s" % e]
 
