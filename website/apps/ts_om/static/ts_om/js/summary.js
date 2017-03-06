@@ -23,7 +23,6 @@ $(function() {
         scenario_id = $("#save-scenario-xml").attr("data-scenario-id");
         // Get XML from CodeMirror edit area
         xml =  window.xmleditor.getValue();
-        alert(xml);
        $.post("/ts_om/update/", {scenario_id: scenario_id, xml:xml}, function(data){
             alert("Successfully updated XML");
        })

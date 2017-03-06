@@ -34,6 +34,7 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 SERVER_EMAIL = "VecNet OpenMalaria Portal <avyushko@nd.edu>"
 
 PYTHON_EXECUTABLE = "/opt/venvs/om-qa.vecnet.org/bin/python"
+OM_EXECUTABLE = "/opt/portal/om-qa.vecnet.org/binaries/om/openMalaria"
 SIM_SERVICE_LOCAL_OM_EXECUTABLE = "/opt/portal/om-qa.vecnet.org/binaries/om/openMalaria"
 TS_OM_SCENARIOS_DIR = os.path.join(BASE_DIR, 'scenarios')
 OPENMALARIA_EXEC_DIR = os.path.join(BASE_DIR, 'binaries', 'om')

@@ -11,6 +11,7 @@
 
 import os
 from django.test.testcases import TestCase
+from django.conf import settings
 
 import run_new
 from website.apps.ts_om.models import Simulation
@@ -30,7 +31,7 @@ class RunNewTest(TestCase):
 
     def test_success(self):
         simulation = Simulation.objects.create()
-        with open(os.path.join("website", "apps", "ts_om", "tests", "data", "default.xml")) as fp:
+        with open(os.path.join(settings.BASE_DIR, "website", "apps", "ts_om", "tests", "data", "default.xml")) as fp:
             simulation.set_input_file(fp)
         run_new.main(simulation.id)
         simulation.refresh_from_db()

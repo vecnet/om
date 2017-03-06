@@ -145,6 +145,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'website', 'media')
 
 SIM_SERVICE_LOCAL_INPUT_DIR = os.path.join(MEDIA_ROOT, "simulations")
 SIM_SERVICE_LOCAL_OM_EXECUTABLE = os.path.join(BASE_DIR, 'binaries/om/openMalaria')
+if os.name == "nt":
+    OM_EXECUTABLE = os.path.join(BASE_DIR, 'binaries', 'om', 'openmalaria.exe')
+else:
+    OM_EXECUTABLE = os.path.join(BASE_DIR, 'binaries', 'om', 'openMalaria')
 
 LOGIN_URL = "/auth/login/"
 LOGOUT_URL = "/auth/logout/?next=/"

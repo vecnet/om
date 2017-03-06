@@ -5,7 +5,7 @@ from unittest import TestCase
 from django.contrib.auth.models import AnonymousUser
 from django.test import RequestFactory
 
-from website.apps.om_validate.views import validate
+from website.apps.om_validate.views import validate_view
 
 
 class ValidationTestCase(TestCase):
@@ -18,7 +18,7 @@ class ValidationTestCase(TestCase):
 
         request.user = AnonymousUser()
 
-        response = validate(request)
+        response = validate_view(request)
 
         self.assertEqual(response.status_code, 200)
 

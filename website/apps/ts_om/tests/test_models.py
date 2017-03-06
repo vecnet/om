@@ -9,18 +9,18 @@
 # License (MPL), version 2.0.  If a copy of the MPL was not distributed
 # with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import StringIO
+import os
 from django.core.files.base import ContentFile, File
 from django.test.testcases import TestCase
 
 from website.apps.ts_om.models import Simulation
-
+from django.conf import settings
 
 class Test(TestCase):
     def test(self):
         simulation = Simulation.objects.create()
         f = ContentFile("123456")
-        fp = File(open("LICENSE.txt"))
+        fp = File(open(os.path.join(settings.BASE_DIR, "LICENSE.txt")))
         simulation.input_file.save("1234.txt", fp)
 
         # print simulation

@@ -1,102 +1,28 @@
-import string
-import random
-import os
-import glob
-import subprocess
 import logging
 
 from django.views.decorators.csrf import csrf_exempt
-from django.conf import settings
 from django.http import JsonResponse
-from lxml import etree
 
-from website.apps.ts_om.check import check_url, check_dir
+from website.apps.om_validate.utils import get_xml_validation_errors
 
-logger = logging.getLogger('prod_logger')
+logger = logging.getLogger(__name__)
 
 
 @csrf_exempt
-def validate(request):
+def validate_view(request):
     logger.info("om_validate service started")
     logger.info("user: %s" % request.user)
-    fileNew = request.read()
+    xml = request.read()
+    response = validate_scenario(xml)
 
-    data = validate_scenario(fileNew)
-
-    return JsonResponse(data, safe=False)
+    return JsonResponse(response, safe=False)
 
 
-def validate_scenario(scenario_file):
-    om_dir = check_dir(getattr(settings, "OPENMALARIA_EXEC_DIR", None), "openmalaria")
-    scenarios_dir = check_dir(getattr(settings, "TS_OM_SCENARIOS_DIR", None), "scenarios")
-    return_code = 0
-    out = None
-    data = {}
-
-    os.chdir(om_dir)
-
-    schema = []
-    for f in glob.glob(om_dir + '*.xsd'):
-        schema.append(f)
-
-    xmlSchemaDoc = etree.parse(schema[0])
-    xmlSchema = etree.XMLSchema(xmlSchemaDoc)
-
-    try:
-        # For some reason sometimes scenario_file is unicode, not str
-        # As result, exception is thrown:
-        # ValueError: Unicode strings with encoding declaration are not supported.
-        # Please use bytes input or XML fragments without declaration.
-        #
-        # See http://lxml.de/parsing.html for additional details
-        tree = etree.fromstring(str(scenario_file))
-    except etree.ParseError as e:
-        return_code = -1
-        out = ""
-        for entry in e.error_log:
-            out += entry.message + "\n"
-
-    if not out:
-        try:
-            xmlSchema.assertValid(tree)
-        except etree.DocumentInvalid as e:
-            return_code = -1
-            out = ""
-            for entry in e.error_log:
-                out += entry.message + "\n"
-        except etree.XMLSchemaValidateError as e:
-            return_code = -1
-            out = ""
-            for entry in e.error_log:
-                out += entry.message + "\n"
-
-    filename = None
-    if not out:
-        logger.info("scenarios_dir: %s" % scenarios_dir)
-        if not os.path.isdir(scenarios_dir):
-            logger.info("Created %s" % scenarios_dir)
-            os.mkdir(scenarios_dir)
-        filename = os.path.join(scenarios_dir, 'scenario_' + ''.join(random.sample(string.lowercase+string.digits,10)) + ".xml")
-        logger.info("Filename: %s" % filename)
-        with open(filename, 'w') as destination:
-            destination.write(scenario_file)
-
-        if os.name == "nt":
-            cmd = ['openMalaria.exe', '--scenario', filename, '--validate-only']
-        else:
-            cmd = ['./openMalaria', '--scenario', filename, '--validate-only']
-        try:
-            out = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
-        except subprocess.CalledProcessError as e:
-            return_code = e.returncode
-            out = e.output
-
-    # Remove temp file
-    if filename:
-        os.unlink(filename)
-
-    logger.info("Return code: %s" % return_code)
-    data['result'] = return_code
-    data['om_output'] = out.split("\n")
-
-    return data
+def validate_scenario(xml):
+    # Also used in ts_om application
+    data = get_xml_validation_errors(xml)
+    if data is None:
+        response = {"result": 0}
+    else:
+        response = {"result": -1, "om_output": data}
+    return response
