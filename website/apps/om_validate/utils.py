@@ -46,7 +46,9 @@ def get_xml_validation_errors(xml, skip_openmalaria_validation=False):
     # Check against scenario32.xsd schema
     # It is possible to combine this with checking whether the document is well-formed or not,
     # but errors messages are more meaningful this way
-    xmlSchemaDoc = etree.parse("d:\\Repositories\\om_bui\\binaries\\om\\scenario_32.xsd")
+    om_dir = os.path.dirname(settings.OM_EXECUTABLE)
+
+    xmlSchemaDoc = etree.parse(os.path.join(om_dir, "scenario_32.xsd"))
     xml_schema = etree.XMLSchema(xmlSchemaDoc)
     parser = etree.XMLParser(schema=xml_schema)
 
