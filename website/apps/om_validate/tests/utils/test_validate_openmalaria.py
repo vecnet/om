@@ -47,7 +47,6 @@ class ValidateOpenmalariaTests(TestCase):
         # See diff with scenario.xml to see what's wrong
         # (missing <anopheles mosquito="gambiae1"> in intervention description)
         errors = validate_openmalaria(get_xml("scenario_om_error.xml"))
-        print errors
         self.assertIn("Error: Unrecognised survey option: \"nHost11\"", errors[1])
         self.assertEqual(len(errors), 4)
 

@@ -97,8 +97,7 @@ def validate_openmalaria(xml):
         return ["Can't write file: %s" % e]
 
     cmd = [settings.OM_EXECUTABLE, '--scenario', filename, '--validate-only']
-    print cmd
-    print om_dir
+
     return_code = 0
     errors = None
     try:

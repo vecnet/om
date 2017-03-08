@@ -24,7 +24,6 @@ def get_xml(filename="scenario.xml"):
 class GetXmlValidationErrorsTest(TestCase):
     def test(self):
         result = get_xml_validation_errors("123")
-        print result
 
     def test_syntax_error_1(self):
         errors = get_xml_validation_errors("<xml></xml>")
