@@ -54,7 +54,7 @@ class ValidateViewTest(TestCase):
         self.assertIsNotNone(json_response["om_output"])
         print json_response["om_output"]
         self.assertIn(
-            "Error: Intervention \"\" has a no description for vector species \"gambiae1\"",
+            "Error: Unrecognised survey option: \"nHost11\"",
             json_response["om_output"][1]
         )
-        self.assertEqual(len(json_response["om_output"]), 5)
+        self.assertEqual(len(json_response["om_output"]), 4)

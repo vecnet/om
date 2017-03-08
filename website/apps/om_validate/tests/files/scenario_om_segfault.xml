@@ -42,7 +42,6 @@
         </continuous>
         <SurveyOptions> 
             <option name="nHost" value="true"/>
-            <option name="nHost11" value="true"/>
             <option name="nPatent" value="true"/>
             <option name="sumlogDens" value="false"/>
             <option name="nTransmit" value="false"/>
@@ -555,6 +554,43 @@
     <entomology mode="dynamic" name="Kenya Lowlands from EMOD" scaledAnnualEIR="25">
         <vector>
             <anopheles mosquito="gambiae" propInfected="0.078" propInfectious="0.015">
+                <seasonality annualEIR="1" input="EIR">
+                    <monthlyValues smoothing="fourier">
+                        <value>0.0468</value>
+                        <value>0.0447</value>
+                        <value>0.0374</value>
+                        <value>0.0417</value>
+                        <value>0.0629</value>
+                        <value>0.0658</value>
+                        <value>0.0423</value>
+                        <value>0.0239</value>
+                        <value>0.0203</value>
+                        <value>0.0253</value>
+                        <value>0.0331</value>
+                        <value>0.0728</value>
+                    </monthlyValues>
+                </seasonality>
+                <mosq minInfectedThreshold="0.001">
+                    <mosqRestDuration value="2"/>
+                    <extrinsicIncubationPeriod value="12"/>
+                    <mosqLaidEggsSameDayProportion value="0.313"/>
+                    <mosqSeekingDuration value="0.33"/>
+                    <mosqSurvivalFeedingCycleProbability value="0.623"/>
+                    <availabilityVariance value="0"/>
+                    <mosqProbBiting mean="0.95" variance="0"/>
+                    <mosqProbFindRestSite mean="0.95" variance="0"/>
+                    <mosqProbResting mean="0.99" variance="0"/>
+                    <mosqProbOvipositing value="0.88"/>
+                    <mosqHumanBloodIndex value=".85"/>
+                </mosq>
+                <nonHumanHosts name="unprotectedAnimals">
+                    <mosqRelativeEntoAvailability value="1.0"/>
+                    <mosqProbBiting value="0.95"/>
+                    <mosqProbFindRestSite value="0.95"/>
+                    <mosqProbResting value="0.99"/>
+                </nonHumanHosts>
+            </anopheles>
+            <anopheles mosquito="gambiae1" propInfected="0.078" propInfectious="0.015">
                 <seasonality annualEIR="1" input="EIR">
                     <monthlyValues smoothing="fourier">
                         <value>0.0468</value>

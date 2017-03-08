@@ -55,8 +55,8 @@ class GetXmlValidationErrorsTest(TestCase):
         # See diff with scenario.xml to see what's wrong
         # (missing <anopheles mosquito="gambiae1"> in intervention description)
         errors = get_xml_validation_errors(get_xml("scenario_om_error.xml"))
-        self.assertIn("Error: Intervention \"\" has a no description for vector species \"gambiae1\"", errors[1])
-        self.assertEqual(len(errors), 5)
+        self.assertIn("Error: Unrecognised survey option: \"nHost11\"", errors[1])
+        self.assertEqual(len(errors), 4)
 
     def test_success(self):
         result = get_xml_validation_errors(get_xml())

@@ -97,16 +97,22 @@ def validate_openmalaria(xml):
         return ["Can't write file: %s" % e]
 
     cmd = [settings.OM_EXECUTABLE, '--scenario', filename, '--validate-only']
-
+    print cmd
+    print om_dir
     return_code = 0
     errors = None
     try:
         out = subprocess.check_output(cmd, stderr=subprocess.STDOUT, cwd=om_dir)
     except subprocess.CalledProcessError as e:
+        # Note that -11 means "Segmentation fault"
+        # Also, http://stackoverflow.com/questions/18731791/determining-if-a-python-subprocess-segmentation-faults
         return_code = e.returncode
         out = e.output
         # out.split("\n")
         errors = [line.strip() for line in out.split("\n")]
+        if return_code == -11:
+            errors.append("Segmentation fault")
+            logger.error("Segmentation fault when validating scenario")
         logger.info("subprocess error, return code: %s" % return_code)
     except Exception as e:
         # The system cannot find the file specified and so on
