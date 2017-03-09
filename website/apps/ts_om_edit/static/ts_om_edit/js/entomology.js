@@ -195,7 +195,10 @@ $(function() {
     monthlyValues[vectorName] = JSON.parse($("#id_form-" + index + "-monthly_values").val());
 
     var moValStr = monthlyValues[vectorName][0].toString();
-    monthlyValues[vectorName]['decimal_length'] = moValStr.split('.')[1].length;
+    var moStrSplt = moValStr.split('.');
+
+    monthlyValues[vectorName]['decimal_length'] = (moStrSplt.length > 1) ? moStrSplt[1].length : 0;
+    // monthlyValues[vectorName]['decimal_length'] = moValStr.split('.')[1].length;
 
     var seriesOptions = {
       name: vectorName,
