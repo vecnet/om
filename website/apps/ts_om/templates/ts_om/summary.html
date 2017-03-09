@@ -42,7 +42,7 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="simple">
                     <div class="row">
-                        <button class="pull-right delete btn btn-default tooltip_button" data-id="{{ scenario_id }}"
+                        <button class="pull-right spread delete btn btn-danger tooltip_button" data-id="{{ scenario_id }}"
                                 data-type="{% if deleted %}restore{% else %}delete{% endif %}" data-toggle="modal"
                                 data-target="#confirm"
                                 data-original-title="{% if deleted %}Restore{% else %}Delete{% endif %} Simulation and all related data"
@@ -50,20 +50,20 @@
                             {% if deleted %}Restore{% else %}<span class="glyphicon glyphicon-trash"></span> Delete{% endif %}
                         </button>
                         {% if version == 32 %}
-                            <a class="pull-right duplicate btn btn-default tooltip_button" data-original-title="Copy Simulation"
+                            <a class="pull-right spread duplicate btn btn-info tooltip_button" data-original-title="Copy Simulation"
                                href="{% url "ts_om.duplicate" scenario_id %}">
                                 <span class="glyphicon glyphicon-copy"></span> Copy
                             </a>
                         {% endif %}
-                        <a download="{{ name }}.xml" class="pull-right btn btn-default" href="{% url "ts_om.download" scenario_id %}">
+                        <a download="{{ name }}.xml" class="pull-right spread btn btn-success" href="{% url "ts_om.download" scenario_id %}">
                             <span class="glyphicon glyphicon-download-alt"></span> Download XML
                         </a>
                         {% if scenario.new_simulation %}
-                        <a class="pull-right btn btn-default" href="{% url "ts_om_viz.SimulationView" scenario.new_simulation.id %}">
+                        <a class="pull-right spread btn btn-info" href="{% url "ts_om_viz.SimulationView" scenario.new_simulation.id %}">
                             <span class="glyphicon glyphicon-stats"></span> See results
                         </a>
                         {% endif %}
-                        <a {% if scenario.new_simulation %}disabled{% else %}href="{% url "ts_om.monitoring" scenario.id %}"{% endif %} class='pull-right btn btn-default'  > Edit </a>
+                        <a {% if scenario.new_simulation %}disabled{% else %}href="{% url "ts_om.monitoring" scenario.id %}"{% endif %} class='pull-right spread btn btn-success'  ><span class="glyphicon glyphicon-edit"></span> Edit </a>
                     </div>
                     <div class="modal fade" id="confirm">
                         <div class="modal-dialog" role="document">
@@ -77,9 +77,9 @@
                                         related data?</p>
                                 </div>
                                 <div class="modal-footer">
-                                    <a class="btn" data-dismiss="modal" href="#" aria-hidden="true">Cancel</a>
+                                    <a class="btn btn-warning" data-dismiss="modal" href="#" aria-hidden="true">Cancel</a>
                                     <button class="btn btn-danger" id="delete" data-dismiss="modal">{% if deleted %}Restore{% else %}
-                                        Delete{% endif %}</button>
+                                        <span class="glyphicon glyphicon-trash"></span> Delete{% endif %}</button>
                                 </div>
                                 <input id="modal-scenario-id" type="hidden" value="">
                             </div>
@@ -176,9 +176,9 @@
                     <hr>
                     <div>
                         <button type="submit" class="save-scenario-summary-page btn btn-success">
-                            Save
+                            <span class="glyphicon glyphicon-ok"></span> Save
                         </button>
-                        <a href="{% url 'ts_om.list' %}" class="btn btn-default">Discard Changes</a>
+                        <a href="{% url 'ts_om.list' %}" class="btn btn-warning "><span class="glyphicon glyphicon-ban-circle"></span> Discard Changes</a>
                         <button name="run" class="submit-scenario btn btn-primary pull-right {% if scenario.new_simulation %}disabled{% endif %}"
                                 type="button"
                                 {% if sim_id %}disabled{% endif %}>

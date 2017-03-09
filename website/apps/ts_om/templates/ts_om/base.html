@@ -1,20 +1,11 @@
 {% extends "base.html" %}
 
-{% block extra_css %}
-    <link rel="stylesheet" href="{{ STATIC_URL }}ts_om/css/ts2.css" />
-{% endblock %}
-
 {% block extra_js %}
     <script>
         var STATIC_URL = "{{ STATIC_URL|escapejs }}";
     </script>
     <script src="{{ STATIC_URL }}ts_om/js/common.js"></script>
     <script src="{{ STATIC_URL }}js/jquery.validate.min.js"></script>
-{% endblock %}
-
-{% block jumbotron_content %}
-    <h1>OpenMalaria Portal</h1>
-    <p class="lead">Basic user interface</p>
 {% endblock %}
 
 {% block main_content %}

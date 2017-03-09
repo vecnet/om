@@ -12,18 +12,8 @@
 
 {% load i18n %}
 
-{% block extra_css %}
-    {{ block.super }}
-    <link rel="stylesheet" href="{{ STATIC_URL }}ts_om/css/ts2.css" />
-{% endblock %}
-
 {% block extra_js %}
     {{ block.super }}
-{% endblock %}
-
-{% block jumbotron_content %}
-    <h1>OpenMalaria Results Visualizer</h1>
-    <p class="lead">Visualizing the OpenMalaria model output</p>
 {% endblock %}
 
 {% block main_content %}
