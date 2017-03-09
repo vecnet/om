@@ -25,6 +25,31 @@ class GetXmlValidationErrorsTest(TestCase):
     def test(self):
         result = get_xml_validation_errors("123")
 
+    def test_unicode_1(self):
+        errors = get_xml_validation_errors(u"<xml></xml>")
+        self.assertEqual(
+            errors,
+            ["Element 'xml': No matching global declaration available for the validation root."]
+        )
+
+    def test_unicode_2(self):
+        # Make sure this doesn't happen:
+        # ValueError: Unicode strings with encoding declaration are not supported.
+        # Please use bytes input or XML fragments without declaration.
+
+        errors = get_xml_validation_errors(u"""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<om:scenario xmlns:om="http://openmalaria.org/schema/scenario_32" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="South Bend, Indiana - 1000 people" schemaVersion="32" xsi:schemaLocation="http://openmalaria.org/schema/scenario_32 scenario_32.xsd">
+""")
+        self.assertEqual(
+            errors,
+            ["Premature end of data in tag scenario line 2"]
+        )
+
+    def test_unicode_success(self):
+        # For some reason in some cases get_xml_validation_errors get unicode, not string in production environment
+        result = get_xml_validation_errors(unicode(get_xml()))
+        self.assertEqual(result, None)
+
     def test_syntax_error_1(self):
         errors = get_xml_validation_errors("<xml></xml>")
         self.assertEqual(

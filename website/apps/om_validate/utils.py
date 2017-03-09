@@ -32,6 +32,11 @@ def get_xml_validation_errors(xml, skip_openmalaria_validation=False):
     # Check if document is well-formed
     errors = []
     # result = xml_schema.validate(tree)
+    # In some cases, we get unicode, not str.
+    # If we have <?xml version="1.0" encoding="UTF-8" standalone="no"?> as the first line of the xml, ValueError occurs
+    # ValueError: Unicode strings with encoding declaration are not supported.
+    if isinstance(xml, unicode):
+        xml = str(xml)
     parser = etree.XMLParser()
     try:
         tree = etree.XML(xml, parser)
