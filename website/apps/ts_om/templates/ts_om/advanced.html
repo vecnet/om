@@ -57,12 +57,12 @@
                             </div>
                             <textarea id="xml" name="xml" placeholder="<!-- write some xml -->">{{ scenario.xml }}</textarea>
                             <div class="form-actions">
-                                <button class="save-scenario btn btn-success {% if scenario.simulation %}disabled{% endif %}"
-                                        id="save-scenario" type="button" {% if scenario.simulation %}disabled{% endif %}>
+                                <button class="save-scenario btn btn-success {% if scenario.new_simulation %}disabled{% endif %}"
+                                        id="save-scenario" type="button" {% if scenario.new_simulation %}disabled{% endif %}>
                                     Save
                                 </button>
-                                <button class="submit-scenario btn-primary {% if scenario.simulation %}disabled{% endif %}"
-                                        id="submit-scenario" type="button" {% if scenario.simulation %}disabled{% endif %}
+                                <button class="submit-scenario btn-primary {% if scenario.new_simulation %}disabled{% endif %}"
+                                        id="submit-scenario" type="button" {% if scenario.new_simulation %}disabled{% endif %}
                                         style="display: none;">
                                     Save and Run
                                 </button>

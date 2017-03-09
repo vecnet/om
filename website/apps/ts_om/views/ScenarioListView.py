@@ -47,7 +47,7 @@ class ScenarioListView(ListView):
                 scenario_sim_list.append(
                     (s, "finished", demography_name, version, sim_status.get_description(s.status)))
             elif s.new_simulation and s.new_simulation.status == Simulation.FAILED:
-                scenario_sim_list.append((s, "error", demography_name, version, sim_status.get_description(s.status)))
+                scenario_sim_list.append((s, "error", demography_name, version, "Error"))
             elif s.new_simulation:
                 scenario_sim_list.append((s, "running", demography_name, version, sim_status.get_description(s.status)))
             else:

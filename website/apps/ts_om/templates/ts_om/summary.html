@@ -58,12 +58,12 @@
                         <a download="{{ name }}.xml" class="pull-right btn btn-default" href="{% url "ts_om.download" scenario_id %}">
                             <span class="glyphicon glyphicon-download-alt"></span> Download XML
                         </a>
-                        {% if scenario.simulation %}
-                        <a class="pull-right btn btn-default" href="{% url "ts_om_viz.SimulationView" scenario.simulation.id %}">
+                        {% if scenario.new_simulation %}
+                        <a class="pull-right btn btn-default" href="{% url "ts_om_viz.SimulationView" scenario.new_simulation.id %}">
                             <span class="glyphicon glyphicon-stats"></span> See results
                         </a>
                         {% endif %}
-                        <a {% if scenario.simulation %}disabled{% else %}href="{% url "ts_om.monitoring" scenario.id %}"{% endif %} class='pull-right btn btn-default'  > Edit </a>
+                        <a {% if scenario.new_simulation %}disabled{% else %}href="{% url "ts_om.monitoring" scenario.id %}"{% endif %} class='pull-right btn btn-default'  > Edit </a>
                     </div>
                     <div class="modal fade" id="confirm">
                         <div class="modal-dialog" role="document">
@@ -99,7 +99,7 @@
                     </div>
                     <fieldset>
                         <legend>
-                            {% if scenario.simulation %}
+                            {% if scenario.new_simulation %}
                                 Monitoring (outputs)
                             {% else %}
                                 <a href="{% url 'ts_om.monitoring' scenario.id %}">Monitoring (outputs)</a>
@@ -117,7 +117,7 @@
                     </fieldset>
                     <fieldset>
                         <legend>
-                            {% if scenario.simulation %}
+                            {% if scenario.new_simulation %}
                                 Demography
                             {% else %}
                                 <a href="{% url 'ts_om.demography' scenario.id %}">Demography</a>
@@ -128,7 +128,7 @@
                     </fieldset>
                     <fieldset>
                         <legend>
-                        {% if scenario.simulation %}
+                        {% if scenario.new_simulation %}
                             Health system
                         {% else %}
                                 <a href="{% url 'ts_om.healthsystem' scenario.id %}">Health system</a>
@@ -138,7 +138,7 @@
                     </fieldset>
                     <fieldset>
                         <legend>
-                            {% if scenario.simulation %}
+                            {% if scenario.new_simulation %}
                             Transmission/Entomology
                         {% else %}
                                 <a href="{% url 'ts_om.entomology' scenario.id %}">Transmission/Entomology</a>
@@ -157,7 +157,7 @@
                     </fieldset>
                     <fieldset>
                         <legend>
-                            {% if scenario.simulation %}
+                            {% if scenario.new_simulation %}
                             Interventions
                         {% else %}
                                 <a href="{% url 'ts_om.interventions' scenario.id %}">Interventions</a>
@@ -175,12 +175,11 @@
                     </fieldset>
                     <hr>
                     <div>
-                        <button type="submit" class="save-scenario btn btn-success {% if scenario.simulation %}disabled{% endif %}"
-                                {% if sim_id %}disabled{% endif %}>
+                        <button type="submit" class="save-scenario-summary-page btn btn-success">
                             Save
                         </button>
                         <a href="{% url 'ts_om.list' %}" class="btn btn-default">Discard Changes</a>
-                        <button name="run" class="submit-scenario btn btn-primary pull-right {% if scenario.simulation %}disabled{% endif %}"
+                        <button name="run" class="submit-scenario btn btn-primary pull-right {% if scenario.new_simulation %}disabled{% endif %}"
                                 type="button"
                                 {% if sim_id %}disabled{% endif %}>
                             Save and Run
@@ -206,11 +205,16 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-1">
+                        <div class="col-md-2">
                             <button class="btn btn-default {% if sim_id %}disabled{% endif %}" id="validate" type="button"
                                 {% if sim_id %}disabled{% endif %}>
                                 Validate
                             </button>
+                            <button class="btn btn-default {% if sim_id %}disabled{% endif %}"
+                                id="save-scenario-xml" type="button" data-scenario-id="{{ scenario_id }}"
+                            {% if sim_id %}disabled{% endif %}>
+                            Save
+                        </button>
                         </div>
                         <div class="col-md-1">
                             <div id="validate-spinner">
@@ -229,11 +233,7 @@
                     </div>
                     <textarea id="xml" name="xml" placeholder="<!-- write some xml -->">{{ xml }}</textarea>
                     <div class="form-actions">
-                        <button class="btn btn-default {% if sim_id %}disabled{% endif %}"
-                                id="save-scenario-summary-page" type="button"
-                            {% if sim_id %}disabled{% endif %}>
-                            Save
-                        </button>
+
                         <button class="submit-scenario btn btn-default {% if sim_id %}disabled{% endif %}" id="submit-scenario" type="button"
                             {% if sim_id %}disabled{% endif %} style="display: none;">
                             Save and Run

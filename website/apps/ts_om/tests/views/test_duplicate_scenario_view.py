@@ -52,7 +52,7 @@ class DuplicateScenarioViewTest(TestCase):
         self.assertEqual(new_scenario.baseline, self.scenario.baseline)
         self.assertEqual(new_scenario.deleted, False)
         self.assertEqual(new_scenario.is_public, False)
-        self.assertEqual(new_scenario.simulation, None)
+        self.assertEqual(new_scenario.new_simulation, None)
 
     def test_success_incorrect_xml(self):
         self.scenario.xml="bla-blah"
@@ -72,7 +72,7 @@ class DuplicateScenarioViewTest(TestCase):
         self.assertEqual(new_scenario.baseline, None)
         self.assertEqual(new_scenario.deleted, False)
         self.assertEqual(new_scenario.is_public, False)
-        self.assertEqual(new_scenario.simulation, None)
+        self.assertEqual(new_scenario.new_simulation, None)
 
     def test_anonymous(self):
         client = Client()

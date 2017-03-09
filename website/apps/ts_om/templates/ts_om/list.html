@@ -108,7 +108,7 @@
                         {% elif status == "error" %}
                             {{ status_desc }}
                             {% if scenario.output_file %}
-                                <a href="{% url 'ts_om_viz.download' simulation_id=scenario.output_file.simulation.id name="stdout.txt" %}">
+                                <a href="{% url 'ts_om_viz.download' simulation_id=scenario.new_simulation.id name="stdout.txt" %}">
                                     Details
                                 </a>
                             {% endif %}

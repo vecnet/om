@@ -1,14 +1,14 @@
-# Create your views here.
-# PEP 0263
 # -*- coding: utf-8 -*-
-########################################################################################################################
-# VECNet CI - Prototype
-# Date: 4/5/2013
-# Institution: University of Notre Dame
-# Primary Authors:
-#   Alexander Vyushkov <Alexander.Vyushkov@nd.edu>
-#   Nicolas Reed <nreed4@nd.edu>
-########################################################################################################################
+#
+# This file is part of the VecNet OpenMalaria Portal.
+# For copyright and licensing information about this package, see the
+# NOTICE.txt and LICENSE.txt files in its top-level directory; they are
+# available at https://github.com/vecnet/om
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License (MPL), version 2.0.  If a copy of the MPL was not distributed
+# with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
 import json
 from xml.etree.ElementTree import ParseError
 from django.core.exceptions import PermissionDenied
@@ -85,8 +85,8 @@ class ScenarioSummaryView2(TemplateView):
             context["deleted"] = self.model_scenario.deleted
             context["version"] = self.scenario.schemaVersion
 
-            if self.model_scenario.simulation:
-                context['sim_id'] = self.model_scenario.simulation.id
+            if self.model_scenario.new_simulation:
+                context['sim_id'] = self.model_scenario.new_simulation.id
 
             context["xml"] = self.scenario.xml
 
