@@ -13,7 +13,7 @@ import os
 from django.test.testcases import TestCase
 from django.conf import settings
 
-import run_new
+import run
 from website.apps.ts_om.models import Simulation
 
 
@@ -21,7 +21,7 @@ class RunNewTest(TestCase):
     def test_failure(self):
         simulation = Simulation.objects.create()
         simulation.set_input_file("")
-        run_new.main(simulation.id)
+        run.main(simulation.id)
         simulation.refresh_from_db()
         self.assertEqual(simulation.status, Simulation.FAILED)
         self.assertEqual("Exit code: 66", simulation.last_error_message)
@@ -33,7 +33,7 @@ class RunNewTest(TestCase):
         simulation = Simulation.objects.create()
         with open(os.path.join(settings.BASE_DIR, "website", "apps", "ts_om", "tests", "data", "default.xml")) as fp:
             simulation.set_input_file(fp)
-        run_new.main(simulation.id)
+        run.main(simulation.id)
         simulation.refresh_from_db()
         self.assertEqual(simulation.status, Simulation.COMPLETE)
         self.assertEqual("", simulation.last_error_message)

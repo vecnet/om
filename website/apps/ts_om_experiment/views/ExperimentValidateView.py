@@ -18,6 +18,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
 from django.views.generic import ListView
 
+import website.apps.ts_om_experiment.submit
 from website.apps.ts_om import submit
 from website.apps.ts_om.models import ExperimentFile
 from website.apps.ts_om.models import Scenario
@@ -38,7 +39,7 @@ class ExperimentValidateView(ListView):
         experiment = ExperimentFile.objects.get(id=experiment_id)
 
         scenarios = get_scenarios(experiment.file, False, 100)
-        submit_group = submit.submit_group(self.request.user, scenarios)
+        submit_group = website.apps.ts_om_experiment.submit.submit_group(self.request.user, scenarios)
 
         submit_type = "run"
         if submit_group:

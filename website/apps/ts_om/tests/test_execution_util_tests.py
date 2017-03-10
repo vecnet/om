@@ -17,7 +17,7 @@ from django.test import TestCase
 from vecnet.simulation import sim_model
 
 from .data import EMPTY_SCENARIO
-from website.apps.ts_om.submit import add_simulation
+from website.apps.ts_om_experiment.submit import add_simulation
 from data_services.models import Simulation, SimulationGroup
 
 

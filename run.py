@@ -4,18 +4,20 @@ import os
 import subprocess
 import uuid
 import sys
-from vecnet.simulation import sim_status
 import shutil
 import logging
 
+
 if __name__ == "__main__":
     # This is a code to use this script as a standalone python program
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "website.settings")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "website.settings.production")
     import django
     django.setup()
 # Ignore PEP8 warning, the code above is necessary to use Django models in a standalone script
-from data_services.models import SimulationOutputFile, Simulation
+from website.apps.ts_om.models import Simulation
+
 from django.conf import settings
+
 
 
 def run(simulation):
@@ -28,8 +30,8 @@ def run(simulation):
         input_dir = os.path.join(settings.SIM_SERVICE_LOCAL_INPUT_DIR,input_dir)
     os.makedirs(input_dir)
     logging.basicConfig(filename=os.path.join(input_dir, 'error.log'), level=logging.DEBUG)
-
-    xml = simulation.input_files.all()[0].get_contents()
+    logging.debug("Working directory: %s" % input_dir)
+    xml = simulation.input_file.read()
     fp = open(os.path.join(input_dir, "scenario.xml"),"w+")
     fp.write(xml)
     fp.close()
@@ -37,8 +39,9 @@ def run(simulation):
     shutil.copy2(os.path.join(base_dir, "sim_services_local", "files", "densities.csv"), os.path.join(input_dir, "densities.csv"))
 
     # Run OpenMalaria model
-    simulation.status = sim_status.RUNNING_MODEL
-    simulation.save()
+    simulation.status = Simulation.RUNNING
+    simulation.cwd = input_dir
+    simulation.save(update_fields=["status", "cwd"])
     input_file_path = os.path.join(input_dir, "scenario.xml")
     stdout = open(os.path.join(input_dir, "stdout.txt"), 'w')
     try:
@@ -63,67 +66,59 @@ def run(simulation):
                 logging.warn("No stdout.txt file")
             else:
                 logging.debug("Saving stdout.txt")
-                SimulationOutputFile.objects.create_file(contents=stdout_contents,
-                                                         simulation=simulation,
-                                                         name="stdout.txt")
+                simulation.set_model_stdout(stdout_contents)
                 logging.debug("stdout.txt saved successfully")
-            simulation.status = sim_status.SCRIPT_ERROR
+            simulation.status = Simulation.FAILED
+            simulation.last_error_message = "Exit code: %s" % exitcode
             simulation.save()
             return
     except Exception as e:
         logging.debug(e)
-        simulation.status = sim_status.SCRIPT_ERROR
+        simulation.status = Simulation.FAILED
+        simulation.last_error_message = "%s" % e
         simulation.save()
         return
-
-    # Load output files
-    simulation.status = sim_status.STAGING_OUTPUT
-    simulation.save()
 
     try:
         try:
             fp = open(os.path.join(input_dir, "ctsout.txt"))
             ctsout_contents = fp.read()
             fp.close()
+            simulation.set_ctsout_file(ctsout_contents)
         except IOError:
             logging.warn("No ctsout.txt file")
-        else:
-            SimulationOutputFile.objects.create_file(contents=ctsout_contents,
-                                                     simulation=simulation,
-                                                     name="ctsout.txt")
+
         try:
-            fp = open(os.path.join(input_dir, "output.txt"))
-            ctsout_contents = fp.read()
-            fp.close()
+            with open(os.path.join(input_dir, "output.txt")) as fp:
+                simulation.set_output_file(fp)
         except IOError:
             logging.warn("No output.txt file")
-        else:
-            SimulationOutputFile.objects.create_file(contents=ctsout_contents,
-                                                     simulation=simulation,
-                                                     name="output.txt")
 
         try:
             fp = open(os.path.join(input_dir, "stdout.txt"))
             stdout_contents = fp.read()
             fp.close()
+            simulation.set_model_stdout(stdout_contents)
         except IOError:
             logging.warn("No stdout.txt file")
-        else:
-            SimulationOutputFile.objects.create_file(contents=stdout_contents,
-                                             simulation=simulation,
-                                             name="stdout.txt")
 
-        simulation.status = sim_status.SCRIPT_DONE
+        simulation.status = Simulation.COMPLETE
+        simulation.last_error_message = ""
         simulation.save()
 
     except Exception as e:
         logging.debug(str(e))
 
-        simulation.status = sim_status.OUTPUT_ERROR
+        simulation.status = Simulation.FAILED
+        simulation.last_error_message = "I/O Error"
         simulation.save()
+
+
+def main(sim_id):
+    simulation = Simulation.objects.get(id=sim_id)
+    run(simulation)
 
 
 if __name__ == "__main__":
     sim_id = int(sys.argv[1])
-    simulation = Simulation.objects.get(id=sim_id)
-    run(simulation)
+    main(sim_id)

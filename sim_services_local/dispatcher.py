@@ -13,14 +13,14 @@ from website.apps.ts_om.models import Simulation
 logger = logging.getLogger(__name__)
 
 
-def submit_new(simulation):
+def submit(simulation):
     logger.debug("submit_new: simulation id %s" % simulation.id)
     assert isinstance(simulation, Simulation)
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     executable = sys.executable
     if hasattr(settings, "PYTHON_EXECUTABLE"):
         executable = settings.PYTHON_EXECUTABLE
-    run_script_filename = os.path.join(base_dir, "run_new.py")
+    run_script_filename = os.path.join(base_dir, "run.py")
     try:
         logger.debug("submit_new: before Popen")
         p = subprocess.Popen(
@@ -43,14 +43,14 @@ def submit_new(simulation):
     logger.debug("submit_new: success, PID: %s" % p.pid)
     return str(p.pid)
 
-def submit(simulation_group):
+def submit_old(simulation_group):
     """
     Run a simulation group on a local machine in background.
     Raises RuntimeError if the submission fails for some reason.
     """
     assert isinstance(simulation_group, data_models.SimulationGroup)
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    run_script_filename = os.path.join(base_dir, "run.py")
+    run_script_filename = os.path.join(base_dir, "run_old.py")
 
     for simulation in simulation_group.simulations.all():
         executable = sys.executable
