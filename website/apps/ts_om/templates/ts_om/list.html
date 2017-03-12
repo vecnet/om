@@ -1,10 +1,22 @@
 {% extends "ts_om/base.html" %}
 
+{% comment %}
+This file is part of the VecNet OpenMalaria Portal.
+For copyright and licensing information about this package, see the
+NOTICE.txt and LICENSE.txt files in its top-level directory; they are
+available at https://github.com/vecnet/om
+
+This Source Code Form is subject to the terms of the Mozilla Public
+License (MPL), version 2.0.  If a copy of the MPL was not distributed
+with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+{% endcomment %}
+
 {% load staticfiles %}
 
 {% block extra_css %}
     {{ block.super }}
     <link rel="stylesheet" href="{{ STATIC_URL }}ts_om/css/list.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}ts_om/css/spin.css">
 {% endblock %}
 
 {% block extra_js %}
@@ -113,7 +125,7 @@
                                 </a>
                             {% endif %}
                         {% elif status == "running" %}
-                            <span class="glyphicon glyphicon-refresh" style="color:#ffa500;"></span> Running
+                            <span class="glyphicon glyphicon-refresh ts-om-spin" style="color:#ffa500;"></span> Running
                         {% elif status == "xmlerror" %}
                             <span class="glyphicon glyphicon-warning-sign" style="color:red;"></span> XML Error
                         {% endif %}

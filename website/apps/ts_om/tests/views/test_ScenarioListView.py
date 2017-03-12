@@ -14,7 +14,8 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test.testcases import TestCase
 
-from website.apps.ts_om.models import Scenario
+from website.apps.ts_om.models import Scenario, Simulation
+from website.apps.ts_om.tests.factories import get_xml
 
 DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
 
@@ -68,3 +69,31 @@ class ScenarioListViewTest(TestCase):
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce auctor molestie ex vel cursus. Don...",
             response.content,
         )
+
+    def test_all_statuses(self):
+        xml = get_xml("default.xml")
+        scenario1 = Scenario.objects.create(
+            user=self.user,
+            xml=xml,
+            description="Lorem new simulation",
+            new_simulation=Simulation.objects.create()
+        )
+        scenario2 = Scenario.objects.create(
+            user=self.user,
+            xml=xml,
+            description="Lorem failed simulation",
+            new_simulation=Simulation.objects.create(status=Simulation.FAILED)
+        )
+        scenario3 = Scenario.objects.create(
+            user=self.user,
+            xml=xml,
+            description="Lorem completed simulation",
+            new_simulation=Simulation.objects.create(status=Simulation.COMPLETE)
+        )
+
+        response = self.client.get(reverse("ts_om.list"))
+        self.assertEqual(response.status_code, 200)
+        # This is very generic - mostly testing for internal server error when opening scenario list
+        self.assertIn("Results", response.content)
+        self.assertIn("Error", response.content)
+        self.assertIn("glyphicon glyphicon-refresh ts-om-spin", response.content)

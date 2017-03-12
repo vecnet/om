@@ -25,4 +25,5 @@ def validate_scenario(xml):
         response = {"result": 0}
     else:
         response = {"result": -1, "om_output": data}
+    logger.debug("validate_scenario: %s" % response)
     return response
