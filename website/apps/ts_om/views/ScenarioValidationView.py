@@ -34,7 +34,7 @@ def rest_validate(f):
     validate_url = None
     if url is not None:
         validate_url = check_url(url, "validate")
-    logger.debug("Validation URL: " % validate_url)
+    logger.debug("Validation URL: %s" % validate_url)
     if validate_url is not None:
         response = requests.post(validate_url, data=f)
 
