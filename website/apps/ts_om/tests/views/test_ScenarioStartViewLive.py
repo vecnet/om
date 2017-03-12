@@ -36,7 +36,7 @@ class ScenarioStartViewTestLive(LiveServerTestCase):
         self.assertIn("<h3>Start new simulation</h3>", response.content)
         self.assertEqual(response.status_code, 200)
 
-    override_settings(TS_OM_VALIDATE_URL=None)
+    @override_settings(TS_OM_VALIDATE_URL=None)
     def test_post_upload_xml_local_validation(self):
         # We don't have to do it this way, but this is a good example for LiveServerTestCase
         # (test_post_upload_xml_rest_validation does require LiveServerTestCase)
