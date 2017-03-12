@@ -40,6 +40,8 @@ class ScenarioStartViewTestLive(LiveServerTestCase):
     def test_post_upload_xml_local_validation(self):
         # We don't have to do it this way, but this is a good example for LiveServerTestCase
         # (test_post_upload_xml_rest_validation does require LiveServerTestCase)
+        from django.conf import settings
+        print settings.TS_OM_VALIDATE_URL
         xml = get_xml('tororo.xml')
         # Get CSRF token
         print "before get"
