@@ -43,7 +43,6 @@ class ScenarioStartView(FormView):
         return super(ScenarioStartView, self).form_invalid(form)
 
     def form_valid(self, form):
-        print "form_valid"
         xml = None
         baseline = None
 
@@ -51,9 +50,7 @@ class ScenarioStartView(FormView):
             xml_file = self.request.FILES['xml_file']
             baseline = None
             xml = xml_file.read()
-            print "before rest_validate"
             validation_result = json.loads(rest_validate(xml))
-            print "after rest_validate"
 
             valid = True if (validation_result['result'] == 0) else False
 

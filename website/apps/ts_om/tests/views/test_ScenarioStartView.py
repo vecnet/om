@@ -66,7 +66,7 @@ class ScenarioStartViewTest(TestCase):
         self.assertEqual(response.context["upload_error"], 'Error: Please specify baseline')
         self.assertFalse(Scenario.objects.filter(description="Brave New Scenario").exists())
 
-    override_settings(TS_OM_VALIDATE_URL=None)
+    @override_settings(TS_OM_VALIDATE_URL=None)
     def test_post_upload_xml(self):
         xml = get_xml()
         response = self.client.post(

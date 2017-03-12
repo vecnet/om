@@ -44,9 +44,7 @@ class ScenarioStartViewTestLive(LiveServerTestCase):
         print settings.TS_OM_VALIDATE_URL
         xml = get_xml('tororo.xml')
         # Get CSRF token
-        print "before get"
         response = requests.get(self.url, cookies=self.cookies, allow_redirects=False,)
-        print "after get"
         self.assertEqual(response.status_code, 200)
         self.assertNotIn("Please sign in", response.content)
         self.assertIn("<h3>Start new simulation</h3>", response.content)
@@ -56,7 +54,6 @@ class ScenarioStartViewTestLive(LiveServerTestCase):
         self.cookies["csrftoken"] = csrf_token
 
         # Post the xml + CSRF token
-        print "before post"
         response = requests.post(
             self.url,
             data={'name': 'Brave New', 'desc': 'Brave New S', 'choice': 'upload', 'csrfmiddlewaretoken': csrf_token},
@@ -64,7 +61,6 @@ class ScenarioStartViewTestLive(LiveServerTestCase):
             cookies=self.cookies,
             allow_redirects=False,
         )
-        print "after post"
         self.assertEqual(response.status_code, 302)
         scenario = Scenario.objects.get(description="Brave New S")
         self.assertIn(reverse('ts_om.monitoring', kwargs={'scenario_id': scenario.id}), response.headers['Location'])
