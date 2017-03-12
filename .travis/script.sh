@@ -12,6 +12,6 @@ else
   else
 	  ./binaries/om/openMalaria -v
 #	  python manage.py migrate
-	  python manage.py test -v 2
+	  python manage.py test -v 2 --liveserver=localhost:8082
   fi
 fi
