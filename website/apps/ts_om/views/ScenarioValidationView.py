@@ -11,6 +11,7 @@
 
 import json
 import requests
+import logging
 
 from django.conf import settings
 from django.http import HttpResponse
@@ -19,6 +20,9 @@ from django.views.generic.base import View
 from website.apps.om_validate.views import validate_scenario
 
 from website.apps.ts_om.check import check_url
+
+
+logger = logging.getLogger(__name__)
 
 
 @csrf_exempt
@@ -30,7 +34,7 @@ def rest_validate(f):
     validate_url = None
     if url is not None:
         validate_url = check_url(url, "validate")
-
+    logger.debug("Validation URL: " % validate_url)
     if validate_url is not None:
         response = requests.post(validate_url, data=f)
 
