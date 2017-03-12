@@ -25,13 +25,6 @@ class ScenarioSummaryForm(forms.Form):
     name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Name'}), required=True)
 
 
-class StandaloneSubmitForm(forms.Form):
-    name = forms.CharField(required=False)
-    xml = forms.CharField(widget=forms.Textarea)
-    desc = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Description', 'rows': '3'}), required=False)
-    model_version = forms.ChoiceField(choices=[("30", "30"), ("32", "32"), ("33", "33")])
-
-
 class ScenarioStartForm(forms.Form):
     CHOICES = [('build', 'Build new simulation'),
                ('list', 'Choose existing simulation from a list'),

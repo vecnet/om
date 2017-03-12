@@ -21,13 +21,10 @@ from website.apps.ts_om.forms import ScenarioStartForm
 from ScenarioValidationView import rest_validate
 from website.apps.ts_om.models import Scenario, BaselineScenario
 
-__author__ = 'nreed'
-
 
 class ScenarioStartView(FormView):
     template_name = "ts_om/start.html"
     form_class = ScenarioStartForm
-    success_url = "/ts_om/start/"
 
     def get_success_url(self):
         return reverse('ts_om.monitoring', kwargs={'scenario_id': self.kwargs['scenario_id']})
@@ -49,17 +46,11 @@ class ScenarioStartView(FormView):
         xml = None
         baseline = None
 
-        if form.cleaned_data['choice'] == 'build':
-            baseline = BaselineScenario.objects.get(name='Default')
-            xml = baseline.xml
-        elif form.cleaned_data['choice'] == 'list':
-            baseline = form.cleaned_data['list']
-            xml = baseline.xml
-        elif form.cleaned_data['choice'] == 'upload':
+        if form.cleaned_data['choice'] == 'upload' or 'xml_file' in self.request.FILES:
             xml_file = self.request.FILES['xml_file']
             baseline = None
-
-            validation_result = json.loads(rest_validate(xml_file))
+            xml = xml_file.read()
+            validation_result = json.loads(rest_validate(xml))
 
             valid = True if (validation_result['result'] == 0) else False
 
@@ -68,9 +59,17 @@ class ScenarioStartView(FormView):
 
                 return super(ScenarioStartView, self).form_invalid(form)
 
-            xml_file.seek(0)
+        elif form.cleaned_data['choice'] == 'build':
+            baseline = BaselineScenario.objects.get(name='Default')
+            xml = baseline.xml
+        elif form.cleaned_data['choice'] == 'list':
+            baseline = form.cleaned_data['list']
+            if not baseline:
+                self.kwargs['upload_error'] = 'Error: Please specify baseline'
+                return super(ScenarioStartView, self).form_invalid(form)
 
-            xml = xml_file.read()
+            xml = baseline.xml
+
 
         name = form.cleaned_data['name']
         desc = form.cleaned_data['desc'] if form.cleaned_data['desc'] != '' else None
