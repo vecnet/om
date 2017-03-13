@@ -147,38 +147,39 @@ with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
                 {% if forloop.last %}
                     </tbody>
                     </table>
-                    {% if is_paginated %}
-                        <nav>
-                            <ul class="pagination pagination-sm">
-                                {% if page_obj.has_previous %}
-                                    <li>
-                                        <a href="?page={{ page_obj.previous_page_number }}"><span class="glyphicon glyphicon-arrow-left"></span> Previous</a>
-                                    </li>
-                                    {% if page_obj.previous_page_number > 1 %}
-                                        <li><a href="?page=1">1</a></li>
-                                        <li><a>...</a></li>
-                                    {% endif %}
-                                    <li>
-                                        <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
-                                    </li>
-                                {% endif %}
-                                <li class="active"><span>{{ page_obj.number }}</span></li>
-                                {% if page_obj.has_next %}
-                                    <li><a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
-                                    </li>
-                                    {% if page_obj.next_page_number < page_obj.paginator.num_pages %}
-                                        <li><a>...</a></li>
-                                        <li><a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a></li>
-                                    {% endif %}
-                                    <li><a href="?page={{ page_obj.next_page_number }}">Next <span class="glyphicon glyphicon-arrow-right"></span></a>
-                                {% endif %}
-                            </ul>
-                        </nav>
-                    {% endif %}
                 {% endif %}
                 {% empty %}
                     <p>No simulations found</p>
                 {% endfor %}
+
+                {% if is_paginated %}
+                    <nav>
+                        <ul class="pagination pagination-sm">
+                            {% if page_obj.has_previous %}
+                                <li>
+                                    <a href="?page={{ page_obj.previous_page_number }}"><span class="glyphicon glyphicon-triangle-left"></span> Previous</a>
+                                </li>
+                                {% if page_obj.previous_page_number > 1 %}
+                                    <li><a href="?page=1">1</a></li>
+                                    <li><a>...</a></li>
+                                {% endif %}
+                                <li>
+                                    <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+                                </li>
+                            {% endif %}
+                            <li class="active"><span>{{ page_obj.number }}</span></li>
+                            {% if page_obj.has_next %}
+                                <li><a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+                                </li>
+                                {% if page_obj.next_page_number < page_obj.paginator.num_pages %}
+                                    <li><a>...</a></li>
+                                    <li><a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a></li>
+                                {% endif %}
+                                <li><a href="?page={{ page_obj.next_page_number }}">Next <span class="glyphicon glyphicon-triangle-right"></span></a>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                {% endif %}
 
                 <div class="sim-running-container hide">
                     <i class="icon-refresh" style="color:#ffa500;"></i> Running
