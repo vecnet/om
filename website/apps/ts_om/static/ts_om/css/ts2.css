@@ -118,7 +118,7 @@
 /* breadcrumb - according to VECNet style guide */
 .breadcrumb { border: none; background:transparent; margin-left:0; padding-left:0;}
 /* .breadcrumb > li > a { color:#28605f; }  let breadcrumb links be normal page link colors */
-.breadcrumb { color: #999; padding: 0px; white-space: nowrap;} /* #4c8773 */
+.breadcrumb { color: #999; padding: 0px; white-space: nowrap;     margin-bottom:10px} /* #4c8773 */
 
 /* Customize default bootstrap well styling */
 .page-well { padding: 30px; margin-bottom: 0px; }

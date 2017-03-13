@@ -24,6 +24,7 @@ class ScenarioInterventionsView(ScenarioBaseFormView):
     template_name = "ts_om_edit/interventions.html"
     form_class = ScenarioInterventionsForm
     next_url = 'ts_om.deployments'
+    step = "interventions"
 
     # def get_success_url(self):
     #     return reverse('ts_om.deployments', kwargs={'scenario_id': self.kwargs['scenario_id']})

@@ -27,6 +27,7 @@ class ScenarioBaseFormView(FormView):
     model_scenario = None
     scenario = None
     next_url = "ts_om.summary2"
+    step = None
 
     def get_success_url(self):
         reverse_url = self.request.POST.get('submit', self.next_url)
@@ -38,6 +39,7 @@ class ScenarioBaseFormView(FormView):
         context["xml"] = self.scenario.xml
         context['scenario_id'] = self.model_scenario.id
         context['scenario'] = self.model_scenario
+        context['step'] = self.step
 
         return context
 

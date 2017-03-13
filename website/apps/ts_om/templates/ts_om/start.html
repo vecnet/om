@@ -12,11 +12,19 @@
 {% block left_content %}{% endblock %}
 
 {% block main_content %}
-            <div class="container">
-            <div class="row">
-                <div class="col-md-3">
-                </div>
-    <div class="col-md-6">
+    <div class="container">
+        <div class="row">
+            <ul class="breadcrumb">
+                <li>
+                    <a href="{% url 'ts_om.list' %}">My Simulations</a><span class="divider"></span>
+                </li>
+                <li class="active"> Create New Simulation </li>
+            </ul>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+        </div>
+    <div class="col-md-8">
 	<h3>Start new simulation</h3>
     <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
         <p class="text-danger">
@@ -55,8 +63,8 @@
             </p>
         </div>
         <div>
-            <button class="btn btn-primary" id="nextPage" type="submit">Create</button>
-            <a href="{% url 'ts_om.list' %}" class="btn btn-default">Cancel</a>
+            <button class="btn btn-primary" id="nextPage" type="submit"><span class="glyphicon glyphicon-ok"></span> Create</button>
+            <a href="{% url 'ts_om.list' %}" class="btn btn-warning"><span class="glyphicon glyphicon-ban-circle"></span> Cancel</a>
         </div>
     </form>
     </div>

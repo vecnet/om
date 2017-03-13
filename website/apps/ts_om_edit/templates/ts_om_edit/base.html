@@ -20,26 +20,26 @@
         </ul>
     </div>
     <div class="list-group workflow-steps-list">
-        <button class="list-group-item" type="submit" name="submit" value="ts_om.summary2">
-            <span class="glyphicon glyphicon-chevron-left"></span> Back to Summary
-        </button>
-        <button class="list-group-item" type="submit" name="submit" value="ts_om.monitoring">
+        <button class="list-group-item {% if step == "monitoring" %}active{% endif %}" type="submit" name="submit" value="ts_om.monitoring">
             <span class="glyphicon glyphicon-time"></span> Monitoring
         </button>
-        <button class="list-group-item" type="submit" name="submit" value="ts_om.demography">
+        <button class="list-group-item {% if step == "demography" %}active{% endif %}" type="submit" name="submit" value="ts_om.demography">
             <span class="glyphicon glyphicon-signal"></span> Demography
         </button>
-        <button class="list-group-item" type="submit" name="submit" value="ts_om.healthsystem">
+        <button class="list-group-item {% if step == "health system" %}active{% endif %}" type="submit" name="submit" value="ts_om.healthsystem">
             <span class="glyphicon glyphicon-plus-sign"></span> Health System
         </button>
-        <button class="list-group-item" type="submit" name="submit" value="ts_om.entomology">
+        <button class="list-group-item {% if step == "entomology" %}active{% endif %}" type="submit" name="submit" value="ts_om.entomology">
             <span class="glyphicon glyphicon-screenshot"></span> Entomology
         </button>
-        <button class="list-group-item" type="submit" name="submit" value="ts_om.interventions">
+        <button class="list-group-item {% if step == "interventions" %}active{% endif %}" type="submit" name="submit" value="ts_om.interventions">
             <span class="glyphicon glyphicon-wrench"></span> Interventions
         </button>
-        <button class="list-group-item" type="submit" name="submit" value="ts_om.deployments">
+        <button class="list-group-item {% if step == "deployments" %}active{% endif %}" type="submit" name="submit" value="ts_om.deployments">
             <span class="glyphicon glyphicon-calendar"></span> Deployments
+        </button>
+        <button class="list-group-item" type="submit" name="submit" value="ts_om.summary2">
+            <span class="glyphicon glyphicon-ok"></span> Summary
         </button>
     </div>
 {% endblock %}

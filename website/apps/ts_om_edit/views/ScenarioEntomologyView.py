@@ -30,6 +30,7 @@ class ScenarioEntomologyView(ScenarioBaseFormView):
     template_name = "ts_om_edit/entomology.html"
     form_class = ScenarioEntomologyForm
     next_url = 'ts_om.interventions'
+    step = "entomology"
 
     # def get_success_url(self):
     #     return reverse('ts_om.interventions', kwargs={'scenario_id': self.kwargs['scenario_id']})

@@ -20,6 +20,8 @@ class ScenarioDeploymentsView(ScenarioBaseFormView):
     template_name = "ts_om_edit/deployments.html"
     form_class = ScenarioDeploymentsForm
     next_url = 'ts_om.summary2'
+    step = "deployments"
+
 
     def get_context_data(self, **kwargs):
         context = super(ScenarioDeploymentsView, self).get_context_data(**kwargs)
