@@ -60,7 +60,7 @@ Scale outputs in post-processing to get country/region estimates.">
     </div>
     <div class="form-actions">
         <a class="btn btn-default" id="prev-page" href="{% url "ts_om.monitoring" scenario_id %}">Previous</a>
-        <button class="btn btn-primary pull-right" id="nextPage" type="submit">Next</button>
+        <button class="btn btn-primary pull-right" id="nextPage" type="submit">Next  <span class="glyphicon glyphicon-triangle-right"></span></button>
     </div>
     {% for a in form.age_dist.field.choices %}
       <input class="age_dist_xml" id="{{ a.1.name }}" type="hidden" data-name="{{ a.1.title }}"
