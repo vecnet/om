@@ -11,7 +11,6 @@
 
 from django.conf.urls import patterns, url
 from django.contrib.auth.decorators import login_required
-from django.views.generic import TemplateView
 
 from website.apps.ts_om.views.ScenarioSummaryView2 import update_summary_form
 from website.apps.ts_om.views.ScenarioView import download_experiment_scenario, save_scenario
@@ -44,7 +43,6 @@ urlpatterns = patterns('',
    url(r'^update/$', update_scenario_view, name='ts_om.scenario.update'),
    url(r'^(?P<scenario_id>.+)/save/$', save_scenario, name='ts_om.save'),
    url(r'^scenarios/submit/$', submit_scenarios, name='ts_om.submit'),
-   url(r'^utilities/$', TemplateView.as_view(template_name="ts_om/utilities.html"), name='ts_om.utilities'),
    url(
        r'^(?P<experiment_id>.+)/experiment/run/(?P<run_type>\w+)/status/$',
        get_sim_group_status,
