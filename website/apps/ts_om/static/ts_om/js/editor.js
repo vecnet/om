@@ -35,6 +35,7 @@ $(document).ready(function () {
     });
 
     $(".save-scenario").click(function(e) {
+        alert("hi");
         var saveButton = $(this);
         var submitButton = saveButton.siblings(".submit-scenario");
         var validOrNo = $(".save-text");
@@ -359,18 +360,16 @@ function saveScenario(callback) {
     var valid = false;
 
     if (scenarioId > -1) {
-        $.post("/ts_om/" + scenarioId + "/save/", xml, function (data) {
-            if (data.hasOwnProperty("result")) {
-                valid = data.result == 0;
-            } else if (data.hasOwnProperty("saved")) {
-                valid = data.saved;
+        $.post("/ts_om/update/", {scenario_id:scenarioId, xml:xml}, function (data) {
+            valid = false;
+            if (data.hasOwnProperty("status")) {
+                if (data.status == "ok"){valid=true}
             }
-
             if (typeof(callback) === "function")
                 callback(valid);
         }, "json").fail(function(jqXHR, textStatus, errorThrown) {
             if (typeof(callback) === "function")
-                callback(valid);
+                callback(false);
         });
     }
 }

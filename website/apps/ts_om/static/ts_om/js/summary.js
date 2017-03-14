@@ -25,7 +25,9 @@ $(function() {
         xml =  window.xmleditor.getValue();
        $.post("/ts_om/update/", {scenario_id: scenario_id, xml:xml}, function(data){
             alert("Successfully updated XML");
-       })
+       }).fail(function(jqXHR, textStatus, errorThrown) {
+           alert("Can't update XML: " + errorThrown);
+       });
     });
 
     $("#delete").click(function() {

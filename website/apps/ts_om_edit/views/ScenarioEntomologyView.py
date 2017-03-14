@@ -10,7 +10,8 @@ from vecnet.openmalaria.scenario.interventions import Vaccine
 from website.apps.ts_om_edit.forms import ScenarioEntomologyForm, ScenarioEntomologyVectorForm, \
     ScenarioImportedInfectionsForm
 from website.apps.ts_om.models import Scenario as ScenarioModel, AnophelesSnippet
-from website.apps.ts_om.views.ScenarioBaseFormView import ScenarioBaseFormView, update_form
+from website.apps.ts_om_edit.views.ScenarioBaseFormView import ScenarioBaseFormView
+from website.apps.ts_om.utils import update_form
 from website.middleware import HttpRedirectException
 from website.notification import set_notification
 

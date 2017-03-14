@@ -3,7 +3,8 @@ from django.http import HttpResponse
 from vecnet.openmalaria.monitoring import get_survey_times, set_survey_times
 
 from website.apps.ts_om_edit.forms import ScenarioMonitoringForm
-from website.apps.ts_om.views.ScenarioBaseFormView import ScenarioBaseFormView, update_form
+from website.apps.ts_om_edit.views.ScenarioBaseFormView import ScenarioBaseFormView
+from website.apps.ts_om.utils import update_form
 
 
 class ScenarioMonitoringView(ScenarioBaseFormView):
