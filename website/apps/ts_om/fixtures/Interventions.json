@@ -1,1 +1,164 @@
-[{"pk": 1, "model": "ts_om.interventionsnippet", "fields": {"xml": "<component id=\"GVI\" name=\"GVI\">\r\n  <GVI>\r\n    <decay L=\"50\" function=\"step\"/>\r\n    <anophelesParams mosquito=\"gambiae\" propActive=\"0\">\r\n      <deterrency value=\"0.0\" />\r\n      <preprandialKillingEffect value=\"0\" />\r\n      <postprandialKillingEffect value=\"0\" />\r\n    </anophelesParams>\r\n  </GVI>\r\n</component>", "component": 1, "name": "GVI"}}, {"pk": 2, "model": "ts_om.interventionsnippet", "fields": {"xml": "<component id=\"LLIN\" name=\"LLIN\">\r\n  <GVI>\r\n    <decay L=\"3\" function=\"step\"/>\r\n    <anophelesParams mosquito=\"gambiae\" propActive=\"0.7\">\r\n      <deterrency value=\".23076923077\" />\r\n      <preprandialKillingEffect value=\"0.7\" />\r\n      <postprandialKillingEffect value=\"0\" />\r\n    </anophelesParams>\r\n  </GVI>\r\n</component>", "component": 1, "name": "LLIN"}}, {"pk": 3, "model": "ts_om.interventionsnippet", "fields": {"xml": "<component id=\"IRS\" name=\"IRS\">\r\n  <GVI>\r\n    <decay L=\"0.5\" function=\"step\"/>\r\n    <anophelesParams mosquito=\"gambiae\" propActive=\"0.7\">\r\n      <deterrency value=\"0.0\" />\r\n      <preprandialKillingEffect value=\"0.0\" />\r\n      <postprandialKillingEffect value=\"0.7\" />\r\n    </anophelesParams>\r\n  </GVI>\r\n</component>", "component": 1, "name": "IRS"}}, {"pk": 4, "model": "ts_om.interventionsnippet", "fields": {"xml": "<intervention name=\"Larviciding\">\r\n  <description>\r\n    <anopheles mosquito=\"gambiae\">\r\n      <emergenceReduction initial=\".8\">\r\n        <decay L=\"0.2465753424657534\" function=\"step\"/>\r\n      </emergenceReduction>\r\n    </anopheles>\r\n  </description>\r\n</intervention>", "component": 2, "name": "Larviciding"}}, {"pk": 5, "model": "ts_om.interventionsnippet", "fields": {"xml": "<component id=\"Coartem\" name=\"Coartem\">\r\n        <MDA>\r\n          <effects>\r\n            <option name=\"0.5\" pSelection=\"0.5\">\r\n              <clearInfections stage=\"liver\" timesteps=\"1\"/>\r\n\t      <clearInfections stage=\"blood\" timesteps=\"3\"/>\r\n            </option>\r\n            <option name=\"0.2\" pSelection=\"0.2\">\r\n              <clearInfections stage=\"liver\" timesteps=\"1\"/>\r\n\t      <clearInfections stage=\"blood\" timesteps=\"4\"/>\r\n            </option>\r\n            <option name=\"0.3\" pSelection=\"0.3\">\r\n              <clearInfections stage=\"liver\" timesteps=\"1\"/>\r\n\t      <clearInfections stage=\"blood\" timesteps=\"5\"/>\r\n            </option>\r\n          </effects>\r\n        </MDA>\r\n</component>", "component": 3, "name": "Coartem"}}, {"pk": 6, "model": "ts_om.interventionsnippet", "fields": {"xml": "<component id=\"Pyrethroids\" name=\"Pyrethroids\">\r\n        <GVI>\r\n          <decay L=\"0.33\" function=\"exponential\"/>\r\n        </GVI>\r\n</component>", "component": 1, "name": "Pyrethroids"}}, {"pk": 7, "model": "ts_om.interventionsnippet", "fields": {"xml": "<component id=\"DDT\" name=\"DDT\">\r\n        <GVI>\r\n          <decay L=\"0.5\" function=\"exponential\"/>\r\n        </GVI>\r\n</component>", "component": 1, "name": "DDT"}}, {"pk": 8, "model": "ts_om.interventionsnippet", "fields": {"xml": "<component id=\"PEV\" name=\"PEV\">\r\n<PEV>\r\n  <decay L=\"10.0\" function=\"exponential\" mu=\"0\" sigma=\"0.2\"/>\r\n  <efficacyB value=\"10\"/>\r\n  <initialEfficacy value=\"0.512\"/>\r\n  <initialEfficacy value=\"0.64\"/>\r\n  <initialEfficacy value=\"0.8\"/>\r\n</PEV>\r\n</component>", "component": 4, "name": "PEV"}}, {"pk": 9, "model": "ts_om.interventionsnippet", "fields": {"xml": "<component id=\"TBV\" name=\"TBV\">\r\n<TBV>\r\n\t<decay L=\"10.0\" function=\"exponential\"/>\r\n\t<efficacyB value=\"10\"/>\r\n\t<initialEfficacy value=\"0.512\"/>\r\n\t<initialEfficacy value=\"0.64\"/>\r\n\t<initialEfficacy value=\"0.8\"/>\r\n</TBV>\r\n</component>", "component": 6, "name": "TBV"}}, {"pk": 10, "model": "ts_om.interventionsnippet", "fields": {"xml": "<component id=\"BSV\" name=\"BSV\">\r\n<BSV>\r\n\t<decay L=\"10.0\" function=\"exponential\"/>\r\n\t<efficacyB value=\"10\"/>\r\n\t<initialEfficacy value=\"0.512\"/>\r\n\t<initialEfficacy value=\"0.64\"/>\r\n\t<initialEfficacy value=\"0.8\"/>\r\n</BSV>\r\n</component>", "component": 5, "name": "BSV"}}, {"pk": 11, "model": "ts_om.interventionsnippet", "fields": {"xml": "<importedInfections name=\"example\">\r\n  <timed>\r\n    <rate time=\"0\" value=\"5\"/>\r\n  </timed>\r\n</importedInfections>", "component": 7, "name": "Imported Infection"}}, {"pk": 1, "model": "ts_om.interventioncomponent", "fields": {"tag": "GVI", "name": "Generic vector intervention"}}, {"pk": 2, "model": "ts_om.interventioncomponent", "fields": {"tag": "intervention", "name": "Vector population intervention"}}, {"pk": 3, "model": "ts_om.interventioncomponent", "fields": {"tag": "MDA", "name": "Mass Drug Administration"}}, {"pk": 4, "model": "ts_om.interventioncomponent", "fields": {"tag": "PEV", "name": "Pre-erythrocytic vaccine"}}, {"pk": 5, "model": "ts_om.interventioncomponent", "fields": {"tag": "BSV", "name": "Blood-stage vaccine"}}, {"pk": 6, "model": "ts_om.interventioncomponent", "fields": {"tag": "TBV", "name": "Transmission-blocking vaccine"}}, {"pk": 7, "model": "ts_om.interventioncomponent", "fields": {"tag": "importedInfections", "name": "Imported Infection"}}]
+[{
+	"pk": 1,
+	"model": "ts_om.interventionsnippet",
+	"fields": {
+		"xml": "<component id=\"GVI\" name=\"GVI\">\r\n  <GVI>\r\n    <decay L=\"50\" function=\"step\"/>\r\n    <anophelesParams mosquito=\"gambiae\" propActive=\"0\">\r\n      <deterrency value=\"0.0\" />\r\n      <preprandialKillingEffect value=\"0\" />\r\n      <postprandialKillingEffect value=\"0\" />\r\n    </anophelesParams>\r\n  </GVI>\r\n</component>",
+		"component": 1,
+		"name": "GVI",
+		"documentation_url": "https://github.com/SwissTPH/openmalaria/wiki/ModelInterventions#generic-vector-intervention-gvi"
+	}
+},
+{
+	"pk": 2,
+	"model": "ts_om.interventionsnippet",
+	"fields": {
+		"xml": "<component id=\"LLIN\" name=\"LLIN\">\r\n  <GVI>\r\n    <decay L=\"3\" function=\"step\"/>\r\n    <anophelesParams mosquito=\"gambiae\" propActive=\"0.7\">\r\n      <deterrency value=\".23076923077\" />\r\n      <preprandialKillingEffect value=\"0.7\" />\r\n      <postprandialKillingEffect value=\"0\" />\r\n    </anophelesParams>\r\n  </GVI>\r\n</component>",
+		"component": 1,
+		"name": "LLIN",
+		"documentation_url": "https://github.com/SwissTPH/openmalaria/wiki/ModelInterventions#generic-vector-intervention-gvi"
+
+	}
+},
+{
+	"pk": 3,
+	"model": "ts_om.interventionsnippet",
+	"fields": {
+		"xml": "<component id=\"IRS\" name=\"IRS\">\r\n  <GVI>\r\n    <decay L=\"0.5\" function=\"step\"/>\r\n    <anophelesParams mosquito=\"gambiae\" propActive=\"0.7\">\r\n      <deterrency value=\"0.0\" />\r\n      <preprandialKillingEffect value=\"0.0\" />\r\n      <postprandialKillingEffect value=\"0.7\" />\r\n    </anophelesParams>\r\n  </GVI>\r\n</component>",
+		"component": 1,
+		"name": "IRS",
+		"documentation_url": "https://github.com/SwissTPH/openmalaria/wiki/ModelInterventions#generic-vector-intervention-gvi"
+	}
+},
+{
+	"pk": 4,
+	"model": "ts_om.interventionsnippet",
+	"fields": {
+		"xml": "<intervention name=\"Larviciding\">\r\n  <description>\r\n    <anopheles mosquito=\"gambiae\">\r\n      <emergenceReduction initial=\".8\">\r\n        <decay L=\"0.2465753424657534\" function=\"step\"/>\r\n      </emergenceReduction>\r\n    </anopheles>\r\n  </description>\r\n</intervention>",
+		"component": 2,
+		"name": "Larviciding",
+		"documentation_url": "https://github.com/SwissTPH/openmalaria/wiki/ModelInterventions#emergence-reduction-or-increase"
+	}
+},
+{
+	"pk": 5,
+	"model": "ts_om.interventionsnippet",
+	"fields": {
+		"xml": "<component id=\"Coartem\" name=\"Coartem\">\r\n        <MDA>\r\n          <effects>\r\n            <option name=\"0.5\" pSelection=\"0.5\">\r\n              <clearInfections stage=\"liver\" timesteps=\"1\"/>\r\n\t      <clearInfections stage=\"blood\" timesteps=\"3\"/>\r\n            </option>\r\n            <option name=\"0.2\" pSelection=\"0.2\">\r\n              <clearInfections stage=\"liver\" timesteps=\"1\"/>\r\n\t      <clearInfections stage=\"blood\" timesteps=\"4\"/>\r\n            </option>\r\n            <option name=\"0.3\" pSelection=\"0.3\">\r\n              <clearInfections stage=\"liver\" timesteps=\"1\"/>\r\n\t      <clearInfections stage=\"blood\" timesteps=\"5\"/>\r\n            </option>\r\n          </effects>\r\n        </MDA>\r\n</component>",
+		"component": 3,
+		"name": "Coartem"
+	}
+},
+{
+	"pk": 6,
+	"model": "ts_om.interventionsnippet",
+	"fields": {
+		"xml": "<component id=\"Pyrethroids\" name=\"Pyrethroids\">\r\n        <GVI>\r\n          <decay L=\"0.33\" function=\"exponential\"/>\r\n        </GVI>\r\n</component>",
+		"component": 1,
+		"name": "Pyrethroids",
+		"documentation_url": "https://github.com/SwissTPH/openmalaria/wiki/ModelInterventions#generic-vector-intervention-gvi"
+	}
+},
+{
+	"pk": 7,
+	"model": "ts_om.interventionsnippet",
+	"fields": {
+		"xml": "<component id=\"DDT\" name=\"DDT\">\r\n        <GVI>\r\n          <decay L=\"0.5\" function=\"exponential\"/>\r\n        </GVI>\r\n</component>",
+		"component": 1,
+		"name": "DDT",
+		"documentation_url": "https://github.com/SwissTPH/openmalaria/wiki/ModelInterventions#generic-vector-intervention-gvi"
+	}
+},
+{
+	"pk": 8,
+	"model": "ts_om.interventionsnippet",
+	"fields": {
+		"xml": "<component id=\"PEV\" name=\"PEV\">\r\n<PEV>\r\n  <decay L=\"10.0\" function=\"exponential\" mu=\"0\" sigma=\"0.2\"/>\r\n  <efficacyB value=\"10\"/>\r\n  <initialEfficacy value=\"0.512\"/>\r\n  <initialEfficacy value=\"0.64\"/>\r\n  <initialEfficacy value=\"0.8\"/>\r\n</PEV>\r\n</component>",
+		"component": 4,
+		"name": "PEV",
+		"documentation_url": "https://github.com/SwissTPH/openmalaria/wiki/ModelInterventions#vaccines"
+	}
+},
+{
+	"pk": 9,
+	"model": "ts_om.interventionsnippet",
+	"fields": {
+		"xml": "<component id=\"TBV\" name=\"TBV\">\r\n<TBV>\r\n\t<decay L=\"10.0\" function=\"exponential\"/>\r\n\t<efficacyB value=\"10\"/>\r\n\t<initialEfficacy value=\"0.512\"/>\r\n\t<initialEfficacy value=\"0.64\"/>\r\n\t<initialEfficacy value=\"0.8\"/>\r\n</TBV>\r\n</component>",
+		"component": 6,
+		"name": "TBV",
+		"documentation_url": "https://github.com/SwissTPH/openmalaria/wiki/ModelInterventions#vaccines"
+	}
+},
+{
+	"pk": 10,
+	"model": "ts_om.interventionsnippet",
+	"fields": {
+		"xml": "<component id=\"BSV\" name=\"BSV\">\r\n<BSV>\r\n\t<decay L=\"10.0\" function=\"exponential\"/>\r\n\t<efficacyB value=\"10\"/>\r\n\t<initialEfficacy value=\"0.512\"/>\r\n\t<initialEfficacy value=\"0.64\"/>\r\n\t<initialEfficacy value=\"0.8\"/>\r\n</BSV>\r\n</component>",
+		"component": 5,
+		"name": "BSV"
+	}
+},
+{
+	"pk": 11,
+	"model": "ts_om.interventionsnippet",
+	"fields": {
+		"xml": "<importedInfections name=\"example\">\r\n  <timed>\r\n    <rate time=\"0\" value=\"5\"/>\r\n  </timed>\r\n</importedInfections>",
+		"component": 7,
+		"name": "Imported Infection"
+	}
+},
+{
+	"pk": 1,
+	"model": "ts_om.interventioncomponent",
+	"fields": {
+		"tag": "GVI",
+		"name": "Generic vector intervention"
+	}
+},
+{
+	"pk": 2,
+	"model": "ts_om.interventioncomponent",
+	"fields": {
+		"tag": "intervention",
+		"name": "Vector population intervention"
+	}
+},
+{
+	"pk": 3,
+	"model": "ts_om.interventioncomponent",
+	"fields": {
+		"tag": "MDA",
+		"name": "Mass Drug Administration"
+	}
+},
+{
+	"pk": 4,
+	"model": "ts_om.interventioncomponent",
+	"fields": {
+		"tag": "PEV",
+		"name": "Pre-erythrocytic vaccine"
+	}
+},
+{
+	"pk": 5,
+	"model": "ts_om.interventioncomponent",
+	"fields": {
+		"tag": "BSV",
+		"name": "Blood-stage vaccine"
+	}
+},
+{
+	"pk": 6,
+	"model": "ts_om.interventioncomponent",
+	"fields": {
+		"tag": "TBV",
+		"name": "Transmission-blocking vaccine"
+	}
+},
+{
+	"pk": 7,
+	"model": "ts_om.interventioncomponent",
+	"fields": {
+		"tag": "importedInfections",
+		"name": "Imported Infection"
+	}
+}]

@@ -43,9 +43,9 @@
                                     {% endif %}
                                 </strong>
 							</div>
-							<div class="col-md-6">
+							<div class="col-    md-6">
                                 <a class="btn btn-default" target="_blank"
-                                     href="https://github.com/SwissTPH/openmalaria/wiki/schema-32#elt-{{ intervention.component.tag }}">
+                                     {% if intervention.documentation_url %}href="{{ intervention.documentation_url }}"{% else %}disabled{% endif %}>
                                     <span class="glyphicon glyphicon-book"></span> Documentation
                                 </a>
                                 <button class="btn btn-default add-button" type="button" data-original-title="Add intervention to simulation">

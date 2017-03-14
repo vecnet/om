@@ -234,6 +234,8 @@ class InterventionSnippet(models.Model):
     name = models.CharField(max_length=200)
     component = models.ForeignKey(InterventionComponent, null=False)
     xml = models.TextField(null=False, blank=False)
+    # URL to the documenation on OpenMalaria GitHub
+    documentation_url = models.TextField(blank=True)
 
     def __unicode__(self):
         return self.name
