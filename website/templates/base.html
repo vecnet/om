@@ -1,4 +1,4 @@
-{% load static %}
+{% load static notifications %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -79,6 +79,10 @@
     {% endblock %}
 
     {% block navbar %}
+    {% endblock %}
+
+    {% block notifications %}
+        {% notifications %}
     {% endblock %}
 
     {% block main_content %}

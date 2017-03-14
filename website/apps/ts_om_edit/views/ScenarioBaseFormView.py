@@ -22,6 +22,8 @@ from website.apps.ts_om.models import Scenario as ScenarioModel
 from website.apps.ts_om.views.ScenarioValidationView import rest_validate
 
 
+from website.notification import set_notification, INFO
+
 # https://django.readthedocs.org/en/1.5.x/topics/class-based-views/generic-editing.html
 class ScenarioBaseFormView(FormView):
     model_scenario = None
@@ -87,7 +89,11 @@ class ScenarioBaseFormView(FormView):
         self.model_scenario.xml = self.scenario.xml
 
         if not self.request.is_ajax() or json.loads(self.request.POST["save"]):
-            self.model_scenario.save()
+            if not self.model_scenario.new_simulation:
+                self.model_scenario.save()
+            else:
+                # Don't save scenario if it has been submitted already
+                set_notification(self.request, "Not saved", INFO)
 
         if not self.request.is_ajax():
             return super(ScenarioBaseFormView, self).form_valid(form)
