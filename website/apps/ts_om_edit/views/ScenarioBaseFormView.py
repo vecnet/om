@@ -22,7 +22,8 @@ from website.apps.ts_om.models import Scenario as ScenarioModel
 from website.apps.ts_om.views.ScenarioValidationView import rest_validate
 
 
-from website.notification import set_notification, INFO
+from website.notification import set_notification, INFO, DANGER
+
 
 # https://django.readthedocs.org/en/1.5.x/topics/class-based-views/generic-editing.html
 class ScenarioBaseFormView(FormView):
@@ -85,7 +86,7 @@ class ScenarioBaseFormView(FormView):
 
         if not valid:
             self.kwargs['validation_error'] = 'Error: Invalid openmalaria xml.'
-
+            set_notification(self.request, validation_result, DANGER)
             return super(ScenarioBaseFormView, self).form_invalid(form)
 
         self.model_scenario.xml = self.scenario.xml
