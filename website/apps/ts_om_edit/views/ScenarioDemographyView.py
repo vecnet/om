@@ -14,6 +14,7 @@ class ScenarioDemographyView(ScenarioBaseFormView):
     template_name = "ts_om_edit/demography.html"
     form_class = ScenarioDemographyForm
     next_url = "ts_om.healthsystem"
+    prev_url = 'ts_om.monitoring'
     step = "demography"
     om_dict = [
         ("age_dist", "name", "Age distribution"),

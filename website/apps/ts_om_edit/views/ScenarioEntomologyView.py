@@ -31,6 +31,7 @@ class ScenarioEntomologyView(ScenarioBaseFormView):
     template_name = "ts_om_edit/entomology.html"
     form_class = ScenarioEntomologyForm
     next_url = 'ts_om.interventions'
+    prev_url = 'ts_om.healthsystem'
     step = "entomology"
 
     # def get_success_url(self):

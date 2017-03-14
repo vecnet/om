@@ -29,6 +29,7 @@ class ScenarioBaseFormView(FormView):
     model_scenario = None
     scenario = None
     next_url = "ts_om.summary2"
+    prev_url = None
     step = None
 
     def get_success_url(self):
@@ -42,6 +43,7 @@ class ScenarioBaseFormView(FormView):
         context['scenario_id'] = self.model_scenario.id
         context['scenario'] = self.model_scenario
         context['step'] = self.step
+        context['prev_url'] = self.prev_url
 
         return context
 

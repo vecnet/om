@@ -16,6 +16,7 @@ class ScenarioHealthSystemView(ScenarioBaseFormView):
     template_name = "ts_om_edit/healthsystem.html"
     form_class = ScenarioHealthSystemForm
     next_url = 'ts_om.entomology'
+    prev_url = "ts_om.demography"
     step = "health system"
 
     def render_to_json_response(self, context, **response_kwargs):

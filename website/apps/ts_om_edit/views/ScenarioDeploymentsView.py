@@ -20,6 +20,7 @@ class ScenarioDeploymentsView(ScenarioBaseFormView):
     template_name = "ts_om_edit/deployments.html"
     form_class = ScenarioDeploymentsForm
     next_url = 'ts_om.summary2'
+    prev_url = 'ts_om.interventions'
     step = "deployments"
 
 

@@ -11,6 +11,7 @@ class ScenarioMonitoringView(ScenarioBaseFormView):
     template_name = "ts_om_edit/monitoring.html"
     form_class = ScenarioMonitoringForm
     next_url = 'ts_om.demography'
+    prev_url = None
     step = 'monitoring'
     om_dict = [
         ("nr_per_age_group", "nHost", "Number of individuals per age group (required)"),

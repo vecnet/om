@@ -9,8 +9,6 @@ $(document).ready(function () {
         });
     });
 
-    $("#further-info").html($("#wiki-info").html());
-
     $("form").bind("keypress", function(e) {
         // Enter key.
         if (e.keyCode == 13) {

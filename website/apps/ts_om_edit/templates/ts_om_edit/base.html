@@ -78,15 +78,17 @@
             </div>
 			<div class="tab-content">
                 <div class="tab-pane active" id="simple">
-                    {% block container_content %}
+                    {% block simple_tab_content %}
                     {% endblock %}
                 </div>
                 <div class="tab-pane" id="advanced">
                     <div class="row">
                         <div class="col-md-9">
                             <span class="help-block" id="further-info">
+                                {% block further_info %}
                                 Schema v32: <a target="_blank" href="https://github.com/SwissTPH/openmalaria/wiki/schema-32">Doc</a>
                                 | <a download="scenario_32.xsd" href="{{ STATIC_URL }}ts_om/files/scenario_32.xsd">Download</a>
+                                {% endblock %}
                             </span>
                         </div>
                     </div>
@@ -134,5 +136,14 @@
                     <input class="submit-type" id="submit-type-adv" name="submit_type" type="hidden" value="save">
                 </div>
 			</div>
+            <div class="row"><div class="col-md-12">
+                    <div class="form-actions">
+{#        <button class="btn" id="prev-page" type="button">Previous</button>#}
+        {% if prev_url %}
+            <a class="btn btn-default" id="prev-page" href="{% url prev_url scenario_id %}">Previous</a>
+        {% endif %}
+        <button class="btn btn-primary pull-right" id="nextPage" type="submit">Next <span class="glyphicon glyphicon-triangle-right"></span></button>
+    </div>
+            </div></div>
 	{% endblock %}
 {% endblock %}
