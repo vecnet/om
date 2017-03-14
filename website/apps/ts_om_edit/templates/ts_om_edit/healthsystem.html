@@ -19,7 +19,17 @@
 {% endblock %}
 
 {% block simple_tab_content %}
-
+    <div class="row">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-11">
+        <small>"Percentage of fevers treated with an antimalarial" and "Percentage of these treatments accessed through formal care providers" are converted to  the following (fairly self-explanatory)
+            <em>pSelfTreatUncomplicated</em>, <em>pSeekOfficialCareUncomplicated1</em> and <em>pSeekOfficialCareUncomplicated2</em> model parameter. <br>
+        Please refer to <a target="_blank" href="https://github.com/SwissTPH/openmalaria/wiki/ScenarioHealthSystem">Case Management</a> for additional information.
+        </small>
+    <br><br>
+        </div>
+    </div>
     <div class="row">
 		<div class="col-md-3">
             <div class="form-group">
@@ -44,7 +54,7 @@
 	</div>
 	<div class="row">
 		<div class="col-md-5">
-			<label>First line drug</label>
+			<label><i class="glyphicon glyphicon-info-sign blue" data-toggle="tooltip" title="The first treatment given for a disease."></i> First line drug</label>
 			{{ form.first_line_drug }}
 		</div>
 	</div>

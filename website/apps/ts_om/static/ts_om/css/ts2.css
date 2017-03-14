@@ -278,3 +278,5 @@ textarea { resize: vertical; }
 
 /* prevent extra padding narrowing well contents in accordions */
 .accordion-inner { padding-left: 0px; padding-right: 0px;}
+
+.blue {color: blue}
