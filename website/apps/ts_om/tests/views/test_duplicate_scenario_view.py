@@ -44,7 +44,7 @@ class DuplicateScenarioViewTest(TestCase):
         url = reverse('ts_om.summary2', kwargs={'scenario_id': new_scenario.id})
         # AssertionError: 'http://testserver/ts_om/5/summary2/' != u'/ts_om/5/summary2/'
         self.assertIn(url, response.url)
-        self.assertEqual(new_scenario.name, "Default scenario (duplicate)")
+        self.assertEqual(new_scenario.name, "Default scenario - 2")
         # self.assertEqual(new_scenario.xml, self.scenario.xml)
         self.assertEqual(new_scenario.user, self.scenario.user)
         self.assertEqual(new_scenario.description, self.scenario.description)
@@ -53,6 +53,18 @@ class DuplicateScenarioViewTest(TestCase):
         self.assertEqual(new_scenario.deleted, False)
         self.assertEqual(new_scenario.is_public, False)
         self.assertEqual(new_scenario.new_simulation, None)
+
+    def test_success_scenario_name_with_number(self):
+        self.scenario.name = "Default scenario - 9"
+        self.scenario.save()
+        response = self.client.get(reverse("ts_om.duplicate", kwargs={"scenario_id": self.scenario.id}))
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Scenario.objects.count(), 2)
+        new_scenario = Scenario.objects.all().order_by("id")[1]
+        url = reverse('ts_om.summary2', kwargs={'scenario_id': new_scenario.id})
+        # AssertionError: 'http://testserver/ts_om/5/summary2/' != u'/ts_om/5/summary2/'
+        self.assertIn(url, response.url)
+        self.assertEqual(new_scenario.name, "Default scenario - 10")
 
     def test_success_incorrect_xml(self):
         self.scenario.xml="bla-blah"

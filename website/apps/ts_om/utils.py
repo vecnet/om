@@ -97,3 +97,46 @@ def update_form(request, scenario_id):
         return HttpResponse(json.dumps({'valid': False}), content_type="application/json")
 
     return {"valid": valid, "scenario": temp_scenario}
+
+
+def get_number_at_the_end_of_string(string):
+    """ Return number at the end of the string (or None)
+    Examples:
+    "Scenario 23" -> 23
+    "Scenario -23" -> 23
+    "Scenario" -> None
+    "123" -> 123
+    :param string:
+    :return:
+    """
+    n = -1
+    number = ""
+    try:
+        while True:
+            ch = string[n]
+            if ch.isdigit():
+                number += ch
+                n -= 1
+            else:
+                raise IndexError
+    except IndexError:
+        pass
+    if number:
+        # Reverse string
+        return int(number[::-1])
+    else:
+        return None
+
+def scenario_name_with_next_number(name):
+    """ Generate new scenario name when coping scenario
+    "Kenya"     -> "Kenya - 2"
+    "Kenya - 4" -> "Kenya - 5"
+    :param string:
+    :return:
+    """
+    name = name.strip()
+    number = get_number_at_the_end_of_string(name)
+    if number is None:
+        return name + " - 2"
+    else:
+        return name[0:-len(str(number))] + str(number + 1)

@@ -18,6 +18,7 @@ from lxml import etree
 from lxml.etree import XMLSyntaxError
 
 from website.apps.ts_om.models import Scenario
+from website.apps.ts_om.utils import scenario_name_with_next_number
 
 
 @login_required
@@ -33,7 +34,7 @@ def duplicate_scenario_view(request, scenario_id):
         # Copy xml document as is
         pass
     else:
-        tree.getroot().set('name', scenario.name + " (duplicate)")
+        tree.getroot().set('name', scenario_name_with_next_number(scenario.name))
         xml = etree.tostring(tree.getroot(), encoding='UTF-8')
 
     new_scenario = Scenario.objects.create(
