@@ -14,7 +14,7 @@ from vecnet.openmalaria.scenario.interventions import GVI, MDA, Vaccine, VectorP
 from website.apps.ts_om_edit.forms import ScenarioInterventionsForm, ScenarioGviInterventionForm, \
     ScenarioLarvicidingInterventionForm, ScenarioMdaInterventionForm, ScenarioVaccineInterventionForm
 from website.apps.ts_om.models import Scenario as ScenarioModel, InterventionSnippet
-from website.apps.ts_om.views.ScenarioBaseFormView import ScenarioBaseFormView
+from website.apps.ts_om_edit.views.ScenarioBaseFormView import ScenarioBaseFormView
 from website.apps.ts_om.views.ScenarioValidationView import rest_validate
 import logging
 logger = logging.getLogger(__name__)
@@ -24,6 +24,7 @@ class ScenarioInterventionsView(ScenarioBaseFormView):
     template_name = "ts_om_edit/interventions.html"
     form_class = ScenarioInterventionsForm
     next_url = 'ts_om.deployments'
+    prev_url = 'ts_om.entomology'
     step = "interventions"
 
     # def get_success_url(self):

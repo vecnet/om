@@ -10,7 +10,8 @@ from vecnet.openmalaria.scenario.interventions import Vaccine
 from website.apps.ts_om_edit.forms import ScenarioEntomologyForm, ScenarioEntomologyVectorForm, \
     ScenarioImportedInfectionsForm
 from website.apps.ts_om.models import Scenario as ScenarioModel, AnophelesSnippet
-from website.apps.ts_om.views.ScenarioBaseFormView import ScenarioBaseFormView, update_form
+from website.apps.ts_om_edit.views.ScenarioBaseFormView import ScenarioBaseFormView
+from website.apps.ts_om.utils import update_form
 from website.middleware import HttpRedirectException
 from website.notification import set_notification
 
@@ -30,6 +31,7 @@ class ScenarioEntomologyView(ScenarioBaseFormView):
     template_name = "ts_om_edit/entomology.html"
     form_class = ScenarioEntomologyForm
     next_url = 'ts_om.interventions'
+    prev_url = 'ts_om.healthsystem'
     step = "entomology"
 
     # def get_success_url(self):

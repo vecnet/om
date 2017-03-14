@@ -1,4 +1,4 @@
-{% load static %}
+{% load static notifications %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,7 +49,6 @@
 
                         </ul>
                     </li>
-                    <li><a href="{% url 'ts_om.upload' %}">Upload Experiment</a></li>
                     <li class="dropdown"><a href="https://www.vecnet.org/index.php/contact-us">Contact Us</a></li>
 
                     {% block navbar_inner_right_post %}{% endblock %}
@@ -80,6 +79,10 @@
     {% endblock %}
 
     {% block navbar %}
+    {% endblock %}
+
+    {% block notifications %}
+        {% notifications %}
     {% endblock %}
 
     {% block main_content %}

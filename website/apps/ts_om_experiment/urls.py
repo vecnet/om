@@ -5,6 +5,7 @@ from views.ExperimentUploadView import ExperimentUploadView
 from views.ExperimentValidateView import ExperimentValidateView
 from views.ExperimentRunView import ExperimentRunView
 from website.apps.ts_om_experiment.views.ExperimentRunView import get_sim_group_status, download_experiment_zip
+from website.apps.ts_om_experiment.views.download_experiment_scenario_view import download_experiment_scenario
 
 urlpatterns = patterns('',
                        url(r'^experiment/upload/$', login_required(ExperimentUploadView.as_view()),
@@ -16,4 +17,9 @@ urlpatterns = patterns('',
                            name='ts_om.download_experiment'),
                        url(r'^(?P<experiment_id>.+)/experiment/run/(?P<run_type>\w+)/status/$', get_sim_group_status,
                            name='ts_om.run_status'),
+                       url(
+                           r'^(?P<scenario_id>.+)/experiment/(?P<index>.+)/scenario/download/$',
+                           download_experiment_scenario,
+                           name='ts_om.download_experiment_scenario'
+                       ),
                        )

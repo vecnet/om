@@ -1,6 +1,21 @@
+# -*- coding: utf-8 -*-
+#
+# This file is part of the VecNet OpenMalaria Portal.
+# For copyright and licensing information about this package, see the
+# NOTICE.txt and LICENSE.txt files in its top-level directory; they are
+# available at https://github.com/vecnet/om
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License (MPL), version 2.0.  If a copy of the MPL was not distributed
+# with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+import logging
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from data_services.models import SimulationInputFile, SimulationOutputFile, Simulation
 from vecnet.openmalaria.output_parser import OutputParser
+
+
+logger = logging.getLogger(__name__)
 
 
 def om_output_parser_from_simulation(simulation):
@@ -47,8 +62,9 @@ def om_output_parser_from_simulation(simulation):
 
     try:
         scenario = simulation.input_file.read()
-    except:
-        scenario = None
+    except Exception as e:
+        logger.debug("Exception when executing simulation.input_file.read(): %s" % e)
+        raise TypeError("No scenario.xml file in the simulation %s" % sim_id)
 
     try:
         output = simulation.output_file.read()

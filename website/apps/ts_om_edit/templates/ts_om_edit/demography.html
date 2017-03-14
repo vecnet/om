@@ -17,7 +17,12 @@
     <small><em>"What is the age-distribution of your population?"</em></small>
 {% endblock %}
 
-{% block container_content %}
+{% block further_info %}
+		Demography describes the population size and age structure. Adjusting the population size is useful, since it has a major impact on run-time and stochasticity of results (testing simulations often use 100-200, 1000 or more are used for simulations, relatively rare outcomes such as deaths require a larger population size due to stochasticity).
+		Please refer to <a target="_blank" href="https://github.com/SwissTPH/openmalaria/wiki/ModelDemography">Model Demography</a> for additional information.
+{% endblock %}
+
+{% block simple_tab_content %}
     <div class="row">
         <div class="col-md-4">
             <span class="tooltip_link" data-toggle="tooltip"
@@ -58,16 +63,8 @@ Scale outputs in post-processing to get country/region estimates.">
             <div id="chart" style="width: 100%; height: 400px; margin: 0 auto;"></div>
         </div>
     </div>
-    <div class="form-actions">
-        <a class="btn btn-default" id="prev-page" href="{% url "ts_om.monitoring" scenario_id %}">Previous</a>
-        <button class="btn btn-primary pull-right" id="nextPage" type="submit">Next</button>
-    </div>
     {% for a in form.age_dist.field.choices %}
       <input class="age_dist_xml" id="{{ a.1.name }}" type="hidden" data-name="{{ a.1.title }}"
              data-xml="{{ a.1.xml }}" data-url="{{ a.1.url }}" data-maximum-age-yrs="{{ a.1.maximum_age_yrs }}">
     {% endfor %}
-	<div id="wiki-info">
-		Demography describes the population size and age structure. Adjusting the population size is useful, since it has a major impact on run-time and stochasticity of results (testing simulations often use 100-200, 1000 or more are used for simulations, relatively rare outcomes such as deaths require a larger population size due to stochasticity).
-		Please refer to <a target="_blank" href="https://github.com/SwissTPH/openmalaria/wiki/ModelDemography">Model Demography</a> for additional information.
-	</div>
 {% endblock %}

@@ -6,13 +6,15 @@ from django.http import HttpResponse
 
 from website.apps.ts_om_edit.forms import ScenarioDemographyForm
 from website.apps.ts_om.models import DemographicsSnippet
-from website.apps.ts_om.views.ScenarioBaseFormView import ScenarioBaseFormView, update_form
+from website.apps.ts_om_edit.views.ScenarioBaseFormView import ScenarioBaseFormView
+from website.apps.ts_om.utils import update_form
 
 
 class ScenarioDemographyView(ScenarioBaseFormView):
     template_name = "ts_om_edit/demography.html"
     form_class = ScenarioDemographyForm
     next_url = "ts_om.healthsystem"
+    prev_url = 'ts_om.monitoring'
     step = "demography"
     om_dict = [
         ("age_dist", "name", "Age distribution"),

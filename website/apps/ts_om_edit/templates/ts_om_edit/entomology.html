@@ -17,7 +17,16 @@
     <small><em>"Level of transmission and a description of the main vectors"</em></small>
 {% endblock %}
 
-{% block container_content %}
+{% block further_info %}
+		For a map of dominant malaria vector species, see:
+		<a target="_blank" href="http://www.parasitesandvectors.com/content/5/1/69">Parasites and Vectors</a>
+		<br>
+		For more information on vector species parameters, see:
+		<a target="_blank" href="https://github.com/SwissTPH/openmalaria/wiki/XmlEntoVector">Ento Vector</a>
+		<br>
+{% endblock %}
+
+{% block simple_tab_content %}
 	<div class="modal fade" id="confirm" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -134,20 +143,7 @@
             {{ import_infections_form }}
         </div>
     </div>
-	<div class="form-actions">
-		<a class="btn btn-default" id="prev-page" href="{% url "ts_om.healthsystem" scenario_id %}">Previous</a>
-		<button class="btn btn-primary pull-right" id="nextPage" type="submit">Next</button>
-	</div>
-	<div id="wiki-info">
-		For a map of dominant malaria vector species, see:
-		<a target="_blank" href="http://www.parasitesandvectors.com/content/5/1/69">Parasites and Vectors</a>
-		<br>
-		For more information on vector species parameters, see:
-		<a target="_blank" href="https://github.com/SwissTPH/openmalaria/wiki/XmlEntoVector">Ento Vector</a>
-		<br>
-{#		For more information on how seasonal transmission via EIR is described,#}
-{#		<a target="_blank" href="https://github.com/SwissTPH/openmalaria/wiki/EIRSeasonDynamic">EIR Season Dynamic</a>#}
-	</div>
+
 	{% with vector_formset.empty_form as form %}
 		<div class="hidden-vector hide" id="vector_hidden" aria-expanded="false">
 			<legend>An. <span class="vector-name"></span>

@@ -10,7 +10,7 @@
 	<small><em>"How do you want to deploy the interventions?"</em></small>
 {% endblock %}
 
-{% block container_content %}
+{% block simple_tab_content %}
 	<fieldset>
 		<legend>
 			Deployments
@@ -52,8 +52,5 @@
             </div>
         </div>
 	</div>
-	<div class="form-actions">
-		<a class="btn btn-default" id="prev-page" href="{% url "ts_om.interventions" scenario_id %}">Previous</a>
-		<button class="btn btn-primary" id="nextPage" type="submit">Finish</button>
-	</div>
+
 {% endblock %}

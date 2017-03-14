@@ -11,22 +11,25 @@
 
 import json
 from xml.etree.ElementTree import ParseError
+
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
-
-from django.views.generic import FormView
 from django.http import HttpResponse
+from django.views.generic import FormView
 from vecnet.openmalaria.scenario import Scenario
 
-from website.apps.ts_om.views.ScenarioValidationView import rest_validate
 from website.apps.ts_om.models import Scenario as ScenarioModel
+from website.apps.ts_om.views.ScenarioValidationView import rest_validate
 
+
+from website.notification import set_notification, INFO
 
 # https://django.readthedocs.org/en/1.5.x/topics/class-based-views/generic-editing.html
 class ScenarioBaseFormView(FormView):
     model_scenario = None
     scenario = None
     next_url = "ts_om.summary2"
+    prev_url = None
     step = None
 
     def get_success_url(self):
@@ -40,6 +43,7 @@ class ScenarioBaseFormView(FormView):
         context['scenario_id'] = self.model_scenario.id
         context['scenario'] = self.model_scenario
         context['step'] = self.step
+        context['prev_url'] = self.prev_url
 
         return context
 
@@ -87,7 +91,11 @@ class ScenarioBaseFormView(FormView):
         self.model_scenario.xml = self.scenario.xml
 
         if not self.request.is_ajax() or json.loads(self.request.POST["save"]):
-            self.model_scenario.save()
+            if not self.model_scenario.new_simulation:
+                self.model_scenario.save()
+            else:
+                # Don't save scenario if it has been submitted already
+                set_notification(self.request, "Not saved", INFO)
 
         if not self.request.is_ajax():
             return super(ScenarioBaseFormView, self).form_valid(form)
@@ -97,30 +105,3 @@ class ScenarioBaseFormView(FormView):
             }
 
             return self.render_to_json_response(data)
-
-def update_form(request, scenario_id):
-    if not request.user.is_authenticated() or not scenario_id or scenario_id < 0:
-        return
-
-    xml_file = request.POST['xml']
-    json_str = rest_validate(xml_file)
-    validation_result = json.loads(json_str)
-
-    valid = True if (validation_result['result'] == 0) else False
-
-    if not valid:
-        return HttpResponse(json_str, content_type="application/json")
-
-    model_scenario = ScenarioModel.objects.get(id=scenario_id)
-    if model_scenario is None:
-        return HttpResponse(json.dumps({'valid': False}), content_type="application/json")
-
-    if request.user != model_scenario.user:
-        raise PermissionDenied
-
-    try:
-        temp_scenario = Scenario(xml_file)
-    except ParseError:
-        return HttpResponse(json.dumps({'valid': False}), content_type="application/json")
-
-    return {"valid": valid, "scenario": temp_scenario}

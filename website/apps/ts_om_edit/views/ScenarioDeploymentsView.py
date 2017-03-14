@@ -10,7 +10,7 @@ from vecnet.openmalaria.scenario import Scenario
 
 from website.apps.ts_om.models import Scenario as ScenarioModel
 from website.apps.ts_om_edit.forms import ScenarioDeploymentsForm, ScenarioDeploymentForm
-from website.apps.ts_om.views.ScenarioBaseFormView import ScenarioBaseFormView
+from website.apps.ts_om_edit.views.ScenarioBaseFormView import ScenarioBaseFormView
 from website.apps.ts_om.views.ScenarioValidationView import rest_validate
 
 __author__ = 'nreed'
@@ -20,6 +20,7 @@ class ScenarioDeploymentsView(ScenarioBaseFormView):
     template_name = "ts_om_edit/deployments.html"
     form_class = ScenarioDeploymentsForm
     next_url = 'ts_om.summary2'
+    prev_url = 'ts_om.interventions'
     step = "deployments"
 
 

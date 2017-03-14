@@ -14,7 +14,11 @@
 	<small><em>"The percentages below refer to the percentage of fevers treated with an antimalarial in two weeks. In OpenMalaria, these are transformed into the time steps of the simulation"</em></small>
 {% endblock %}
 
-{% block container_content %}
+{% block further_info %}
+		Please refer to <a target="_blank" href="https://github.com/SwissTPH/openmalaria/wiki/ScenarioHealthSystem">Case Management</a> for additional information.
+{% endblock %}
+
+{% block simple_tab_content %}
 
     <div class="row">
 		<div class="col-md-3">
@@ -44,11 +48,5 @@
 			{{ form.first_line_drug }}
 		</div>
 	</div>
-	<div class="form-actions">
-		<a class="btn btn-default" id="prev-page" href="{% url "ts_om.demography" scenario_id %}">Previous</a>
-		<button class="btn btn-primary pull-right" id="nextPage" type="submit">Next</button>
-	</div>
-	<div id="wiki-info">
-		Please refer to <a target="_blank" href="https://github.com/SwissTPH/openmalaria/wiki/ScenarioHealthSystem">Case Management</a> for additional information.
-	</div>
+
 {% endblock %}

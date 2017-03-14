@@ -11,24 +11,22 @@
 
 import json
 from xml.etree.ElementTree import ParseError
-from django.core.exceptions import PermissionDenied
 
+from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.base import TemplateView
-from vecnet.openmalaria.scenario import Scenario
 from vecnet.openmalaria.monitoring import get_survey_times
+from vecnet.openmalaria.scenario import Scenario
 
+from website.apps.ts_om import submit
 from website.apps.ts_om.forms import ScenarioSummaryForm
 from website.apps.ts_om.models import Scenario as ScenarioModel
-from website.apps.ts_om.views.ScenarioBaseFormView import update_form
 from website.middleware import HttpRedirectException
-from website.apps.ts_om import submit
 from website.notification import set_notification
 
 
-class ScenarioSummaryView2(TemplateView):
+class ScenarioSummaryView(TemplateView):
     template_name = "ts_om/summary.html"
     form_class = ScenarioSummaryForm
     model_scenario = None
@@ -61,7 +59,7 @@ class ScenarioSummaryView2(TemplateView):
         raise HttpRedirectException(reverse('ts_om.list'))
 
     def get_context_data(self, **kwargs):
-        context = super(ScenarioSummaryView2, self).get_context_data(**kwargs)
+        context = super(ScenarioSummaryView, self).get_context_data(**kwargs)
         scenario_id = self.kwargs["scenario_id"]
         self.model_scenario = ScenarioModel.objects.get(id=scenario_id)
 
@@ -117,22 +115,3 @@ class ScenarioSummaryView2(TemplateView):
 
         return context
 
-@csrf_exempt
-def update_summary_form(request, scenario_id):
-    data = update_form(request, scenario_id)
-    temp_scenario = None
-
-    if "valid" not in data:
-        return data
-
-    valid = data["valid"]
-
-    if not valid:
-        return data
-
-    if "scenario" in data:
-        temp_scenario = data["scenario"]
-
-    form_values = {'valid': valid, 'name': temp_scenario.name}
-
-    return JsonResponse(form_values)

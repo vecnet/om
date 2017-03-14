@@ -3,9 +3,8 @@ from django.http import HttpResponse
 from vecnet.openmalaria.healthsystem import get_percentage_from_prob, get_prob_from_percentage
 
 from website.apps.ts_om_edit.forms import ScenarioHealthSystemForm
-from website.apps.ts_om.views.ScenarioBaseFormView import ScenarioBaseFormView
-from website.apps.ts_om.views.ScenarioBaseFormView import update_form
-
+from website.apps.ts_om_edit.views.ScenarioBaseFormView import ScenarioBaseFormView
+from website.apps.ts_om.utils import update_form
 
 INITIAL_DRUG_VALUE = 0.96
 DRUG_NAME = "clear blood-stage infections"
@@ -17,6 +16,7 @@ class ScenarioHealthSystemView(ScenarioBaseFormView):
     template_name = "ts_om_edit/healthsystem.html"
     form_class = ScenarioHealthSystemForm
     next_url = 'ts_om.entomology'
+    prev_url = "ts_om.demography"
     step = "health system"
 
     def render_to_json_response(self, context, **response_kwargs):
