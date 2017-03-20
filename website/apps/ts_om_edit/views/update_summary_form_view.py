@@ -12,11 +12,11 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
-from website.apps.ts_om.utils import update_form
+from website.apps.ts_om_edit.utils import update_form
 
 
 @csrf_exempt
-def update_summary_form(request, scenario_id):
+def update_summary_form_view(request, scenario_id):
     data = update_form(request, scenario_id)
     temp_scenario = None
 

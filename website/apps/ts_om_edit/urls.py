@@ -19,6 +19,7 @@ from .views.ScenarioEntomologyView import ScenarioEntomologyView
 from .views.ScenarioInterventionsView import ScenarioInterventionsView
 from .views.ScenarioDeploymentsView import ScenarioDeploymentsView
 
+from website.apps.ts_om_edit.views.update_summary_form_view import update_summary_form_view
 from website.apps.ts_om_edit.views.ScenarioMonitoringView import update_monitoring_form
 from .views.ScenarioDemographyView import update_demography_form
 from .views.ScenarioHealthSystemView import update_healthsystem_form
@@ -52,7 +53,10 @@ urlpatterns = patterns('',
            name='ts_om.interventions.update.form'),
        url(r'^(?P<scenario_id>.+)/deployments/update/form/$', update_deployments_form,
            name='ts_om.deployments.update.form'),
+       url(r'^(?P<scenario_id>.+)/summary/update/form/$', update_summary_form_view,
+           name='ts_om.summary.update.form'),
 
-       url(r'^remove_species_from_scenario/(?P<scenario_id>.+)/(?P<species>.+)/', delete_species_from_scenario_view, name='ts_om.remove_species_from_scenario'),  # noqa
-
+       url(r'^remove_species_from_scenario/(?P<scenario_id>.+)/(?P<species>.+)/',
+           delete_species_from_scenario_view,
+           name='ts_om.remove_species_from_scenario'),
        )

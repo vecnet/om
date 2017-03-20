@@ -30,12 +30,11 @@ def duplicate_scenario_view(request, scenario_id):
 
     try:
         tree = etree.parse(StringIO(str(xml)))
+        tree.getroot().set('name', scenario_name_with_next_number(scenario.name))
+        xml = etree.tostring(tree.getroot(), encoding='UTF-8')
     except XMLSyntaxError:
         # Copy xml document as is
         pass
-    else:
-        tree.getroot().set('name', scenario_name_with_next_number(scenario.name))
-        xml = etree.tostring(tree.getroot(), encoding='UTF-8')
 
     new_scenario = Scenario.objects.create(
         xml=xml,

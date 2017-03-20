@@ -12,16 +12,15 @@
 from django.conf.urls import patterns, url
 from django.contrib.auth.decorators import login_required
 
-from website.apps.ts_om.views.update_summary_form_view import update_summary_form
+from website.apps.ts_om.views.ScenarioDeleteView import ScenarioDeleteView
+from website.apps.ts_om.views.ScenarioListView import ScenarioListView
+from website.apps.ts_om.views.ScenarioStartView import ScenarioStartView
+from website.apps.ts_om.views.ScenarioValidationView import ScenarioValidationView
 from website.apps.ts_om.views.download_scenario_xml_view import download_scenario_xml_view
 from website.apps.ts_om.views.duplicate_scenario_view import duplicate_scenario_view
+from website.apps.ts_om.views.submit_scenarios_view import submit_scenarios
 from website.apps.ts_om.views.update_scenario_view import update_scenario_view
 from website.apps.ts_om_experiment.views.ExperimentRunView import get_sim_group_status
-from website.apps.ts_om.views.submit_scenarios_view import submit_scenarios
-from website.apps.ts_om.views.ScenarioListView import ScenarioListView
-from website.apps.ts_om.views.ScenarioValidationView import ScenarioValidationView
-from website.apps.ts_om.views.ScenarioStartView import ScenarioStartView
-from website.apps.ts_om.views.ScenarioDeleteView import ScenarioDeleteView
 
 urlpatterns = patterns('',
     url(r'^$', login_required(ScenarioListView.as_view()), name='ts_om.list'),
@@ -38,5 +37,4 @@ urlpatterns = patterns('',
        get_sim_group_status,
        name='ts_om.run_status'
    ),
-   url(r'^(?P<scenario_id>.+)/summary/update/form/$', update_summary_form, name='ts_om.summary.update.form'),
 )

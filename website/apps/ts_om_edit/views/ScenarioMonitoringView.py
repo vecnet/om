@@ -1,10 +1,21 @@
+# -*- coding: utf-8 -*-
+#
+# This file is part of the VecNet OpenMalaria Portal.
+# For copyright and licensing information about this package, see the
+# NOTICE.txt and LICENSE.txt files in its top-level directory; they are
+# available at https://github.com/vecnet/om
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License (MPL), version 2.0.  If a copy of the MPL was not distributed
+# with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
 import json
 from django.http import HttpResponse
 from vecnet.openmalaria.monitoring import get_survey_times, set_survey_times
 
 from website.apps.ts_om_edit.forms import ScenarioMonitoringForm
 from website.apps.ts_om_edit.views.ScenarioBaseFormView import ScenarioBaseFormView
-from website.apps.ts_om.utils import update_form
+from website.apps.ts_om_edit.utils import update_form
 
 
 class ScenarioMonitoringView(ScenarioBaseFormView):
