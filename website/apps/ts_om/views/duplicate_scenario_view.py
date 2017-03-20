@@ -45,4 +45,4 @@ def duplicate_scenario_view(request, scenario_id):
         description=scenario.description,
     )
 
-    return HttpResponseRedirect(reverse('ts_om.summary2', kwargs={'scenario_id': new_scenario.id}))
+    return HttpResponseRedirect(reverse('ts_om.summary', kwargs={'scenario_id': new_scenario.id}))

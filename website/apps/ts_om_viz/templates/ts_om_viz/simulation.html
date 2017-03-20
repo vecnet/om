@@ -149,7 +149,7 @@
         <div class="span12" align="center">
             <h1>OpenMalaria output visualizer </h1>
             {% if simulation.scenario %}
-                <p><a class="btn btn-success" href="{% url "ts_om.summary2" simulation.scenario.id %}">Back to scenario</a></p>
+                <p><a class="btn btn-success" href="{% url "ts_om.summary" simulation.scenario.id %}">Back to scenario</a></p>
             {% endif %}
             <p> Download files: <a
                     href="{% url "ts_om_viz.download" simulation_id=sim_id name="scenario.xml" %}">{{ xml_filename }}</a>

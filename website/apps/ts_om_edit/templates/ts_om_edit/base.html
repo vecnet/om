@@ -38,7 +38,7 @@
         <button class="list-group-item {% if step == "deployments" %}active{% endif %}" type="submit" name="submit" value="ts_om.deployments">
             <span class="glyphicon glyphicon-calendar"></span> Deployments
         </button>
-        <button class="list-group-item" type="submit" name="submit" value="ts_om.summary2">
+        <button class="list-group-item" type="submit" name="submit" value="ts_om.summary">
             <span class="glyphicon glyphicon-ok"></span> Summary
         </button>
     </div>
@@ -66,7 +66,7 @@
                         {% if sim_id %}disabled{% endif %}>
                         Save
                     </button>
-                    <a class="btn btn-default " href="{% url "ts_om.summary2" scenario_id %}">
+                    <a class="btn btn-default " href="{% url "ts_om.summary" scenario_id %}">
                         Cancel
                     </a>
                 </div>

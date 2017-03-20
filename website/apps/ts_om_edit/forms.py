@@ -498,3 +498,11 @@ class ScenarioDeploymentForm(forms.Form):
                                             "in the range [0.0, 1.0].")
 
         return coverages
+
+
+class ScenarioSummaryForm(forms.Form):
+    xml = forms.CharField(widget=forms.Textarea)
+    desc = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Description', 'rows': '3'}), required=False)
+    simulation_id = forms.CharField(widget=forms.HiddenInput(), required=False)
+    submit_type = forms.CharField(widget=forms.HiddenInput(), required=False)
+    name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Name'}), required=True)

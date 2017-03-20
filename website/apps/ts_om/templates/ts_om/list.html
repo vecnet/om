@@ -94,7 +94,7 @@ with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
                     <td colspan="1">
                         {% if demography_name != "no_name" %}
                             {% if scenario.id and status != "xmlerror" %}
-                                <a href="{% url "ts_om.summary2" scenario.id %}">{{ scenario.id }}</a>
+                                <a href="{% url "ts_om.summary" scenario.id %}">{{ scenario.id }}</a>
                             {% else %}
                                 {{ scenario.id }}
                             {% endif %}

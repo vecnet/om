@@ -10,19 +10,10 @@
 # with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 from django import forms
-
 from django.forms import ModelForm
 
-from .models import ExperimentFile
 from .models import BaselineScenario
-
-
-class ScenarioSummaryForm(forms.Form):
-    xml = forms.CharField(widget=forms.Textarea)
-    desc = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Description', 'rows': '3'}), required=False)
-    simulation_id = forms.CharField(widget=forms.HiddenInput(), required=False)
-    submit_type = forms.CharField(widget=forms.HiddenInput(), required=False)
-    name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Name'}), required=True)
+from .models import ExperimentFile
 
 
 class ScenarioStartForm(forms.Form):

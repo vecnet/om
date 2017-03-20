@@ -204,7 +204,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <button class="btn btn-default {% if sim_id %}disabled{% endif %}" id="validate" type="button"
                                 {% if sim_id %}disabled{% endif %}>
                                 Validate
@@ -213,14 +213,15 @@
                                 id="save-scenario-xml" type="button" data-scenario-id="{{ scenario_id }}"
                             {% if sim_id %}disabled{% endif %}>
                             Save
-                        </button>
+                            </button>
+                            <a class="btn btn-warning" href="{% url "ts_om.summary" scenario_id %}"><span class="glyphicon glyphicon-ban-circle"></span> Cancel</a>
                         </div>
                         <div class="col-md-1">
                             <div id="validate-spinner">
                                 <span class="glyphicon glyphicon-spin icon-spinner"></span>
                             </div>
                         </div>
-                        <div class="col-md-5"></div>
+                        <div class="col-md-3"></div>
                         <div class="col-md-2">
                             <button class="discard-changes btn pull-right hide" type="button">Discard changes</button>
                         </div>

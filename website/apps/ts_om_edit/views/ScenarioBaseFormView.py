@@ -29,7 +29,7 @@ from website.notification import set_notification, INFO, DANGER
 class ScenarioBaseFormView(FormView):
     model_scenario = None
     scenario = None
-    next_url = "ts_om.summary2"
+    next_url = "ts_om.summary"
     prev_url = None
     step = None
 

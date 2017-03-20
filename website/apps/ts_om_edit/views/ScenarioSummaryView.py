@@ -12,25 +12,36 @@
 import json
 from xml.etree.ElementTree import ParseError
 
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.http import JsonResponse
+from django.http.response import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
+from django.utils.decorators import method_decorator
 from django.views.generic.base import TemplateView
 from vecnet.openmalaria.monitoring import get_survey_times
 from vecnet.openmalaria.scenario import Scenario
 
 from website.apps.ts_om import submit
-from website.apps.ts_om.forms import ScenarioSummaryForm
+from website.apps.ts_om_edit.forms import ScenarioSummaryForm
 from website.apps.ts_om.models import Scenario as ScenarioModel
-from website.middleware import HttpRedirectException
 from website.notification import set_notification
 
 
 class ScenarioSummaryView(TemplateView):
-    template_name = "ts_om/summary.html"
+    template_name = "ts_om_edit/summary.html"
     form_class = ScenarioSummaryForm
     model_scenario = None
     scenario = None
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        scenario_id = self.kwargs["scenario_id"]
+        self.model_scenario = get_object_or_404(ScenarioModel, id=scenario_id)
+        if self.request.user != self.model_scenario.user:
+            raise PermissionDenied
+        return super(ScenarioSummaryView, self).dispatch(request, *args, **kwargs)
 
     def post(self, *args, **kwargs):
         scenario_id = self.kwargs["scenario_id"]
@@ -48,34 +59,23 @@ class ScenarioSummaryView(TemplateView):
 
         if 'submit_type' in self.request.POST and self.request.POST["submit_type"] == "run":
             # Clicked "Save and Run" button
-            # Will submit a scenario to Simulation Manager here
+            # Will submit a scenario to backend here
             simulation = submit.submit_new(scenario)
             if simulation is None:
                 set_notification(self.request, "Can't submit simulation", "alert-danger")
             else:
-                # scenario.simulation = simulation
-                # scenario.save()
                 set_notification(self.request, "Successfully started simulation", "alert-success")
-        raise HttpRedirectException(reverse('ts_om.list'))
+        return HttpResponseRedirect(reverse('ts_om.list'))
 
     def get_context_data(self, **kwargs):
         context = super(ScenarioSummaryView, self).get_context_data(**kwargs)
-        scenario_id = self.kwargs["scenario_id"]
-        self.model_scenario = ScenarioModel.objects.get(id=scenario_id)
-
-        if self.request.user != self.model_scenario.user:
-            raise PermissionDenied
         try:
             self.scenario = Scenario(self.model_scenario.xml)
         except ParseError:
             self.scenario = None
 
-        vectors = []
-
-        for v in self.scenario.entomology.vectors:
-            vectors.append(v)
-
         if self.scenario:
+            vectors = list(self.scenario.entomology.vectors)
             context["scenario"] = self.model_scenario
             context["scenario_id"] = self.model_scenario.id
             context["name"] = self.model_scenario.name
@@ -114,4 +114,3 @@ class ScenarioSummaryView(TemplateView):
             context["interventions"] = interventions
 
         return context
-

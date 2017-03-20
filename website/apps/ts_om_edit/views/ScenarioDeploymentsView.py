@@ -1,3 +1,14 @@
+# -*- coding: utf-8 -*-
+#
+# This file is part of the VecNet OpenMalaria Portal.
+# For copyright and licensing information about this package, see the
+# NOTICE.txt and LICENSE.txt files in its top-level directory; they are
+# available at https://github.com/vecnet/om
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License (MPL), version 2.0.  If a copy of the MPL was not distributed
+# with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
 from functools import partial, wraps
 import json
 from xml.etree.ElementTree import ParseError
@@ -13,13 +24,10 @@ from website.apps.ts_om_edit.forms import ScenarioDeploymentsForm, ScenarioDeplo
 from website.apps.ts_om_edit.views.ScenarioBaseFormView import ScenarioBaseFormView
 from website.apps.ts_om.views.ScenarioValidationView import rest_validate
 
-__author__ = 'nreed'
-
-
 class ScenarioDeploymentsView(ScenarioBaseFormView):
     template_name = "ts_om_edit/deployments.html"
     form_class = ScenarioDeploymentsForm
-    next_url = 'ts_om.summary2'
+    next_url = 'ts_om.summary'
     prev_url = 'ts_om.interventions'
     step = "deployments"
 
