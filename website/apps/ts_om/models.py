@@ -17,6 +17,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from lxml import etree
 from lxml.etree import XMLSyntaxError
+from vecnet.openmalaria.scenario.scenario import Scenario as ScenarioXML
 
 from data_services.models import SimulationGroup
 
@@ -142,6 +143,8 @@ class Simulation(models.Model):
 
 
 class Scenario(models.Model):
+    STATUS_NEW = "New"
+
     xml = models.TextField()
     start_date = models.IntegerField(default=2016)
     user = models.ForeignKey(User)
@@ -178,11 +181,31 @@ class Scenario(models.Model):
     # ----------------------------------------------------
 
     @property
+    def demography(self):
+        try:
+            scenario = ScenarioXML(self.xml)
+            demography_name = scenario.demography
+        except Exception:
+            demography_name = "no_name"
+
+        return demography_name
+
+    @property
+    def version(self):
+        try:
+            scenario = ScenarioXML(self.xml)
+            version = scenario.schemaVersion
+        except Exception:
+            version = "Unknown"
+
+        return version
+
+    @property
     def status(self):
         try:
             status = self.new_simulation.status
         except Exception:
-            status = None
+            status = self.STATUS_NEW
         return status
 
     @property

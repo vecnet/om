@@ -51,7 +51,7 @@ class ScenarioListViewTest(TestCase):
             response.content,
         )
         self.assertIn(
-            "XML Error",
+            "Unknown",
             response.content,
         )
 
@@ -75,8 +75,8 @@ class ScenarioListViewTest(TestCase):
         scenario1 = Scenario.objects.create(
             user=self.user,
             xml=xml,
-            description="Lorem new simulation",
-            new_simulation=Simulation.objects.create()
+            description="Lorem running simulation",
+            new_simulation=Simulation.objects.create(status=Simulation.RUNNING)
         )
         scenario2 = Scenario.objects.create(
             user=self.user,
@@ -90,7 +90,12 @@ class ScenarioListViewTest(TestCase):
             description="Lorem completed simulation",
             new_simulation=Simulation.objects.create(status=Simulation.COMPLETE)
         )
-
+        scenario4 = Scenario.objects.create(
+            user=self.user,
+            xml=xml,
+            description="Lorem new simulation",
+            new_simulation=Simulation.objects.create()
+        )
         response = self.client.get(reverse("ts_om.list"))
         self.assertEqual(response.status_code, 200)
         # This is very generic - mostly testing for internal server error when opening scenario list

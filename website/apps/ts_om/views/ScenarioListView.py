@@ -12,10 +12,8 @@
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.generic import ListView
-from vecnet.openmalaria.scenario import Scenario
-from vecnet.simulation import sim_status
 
-from website.apps.ts_om.models import Scenario as ScenarioModel, Simulation
+from website.apps.ts_om.models import Scenario as ScenarioModel
 
 
 class ScenarioListView(ListView):
@@ -30,30 +28,7 @@ class ScenarioListView(ListView):
 
     def get_queryset(self):
         scenarios = ScenarioModel.objects.filter(user=self.request.user, deleted=False).order_by('-last_modified')
-
-        scenario_sim_list = []
-
-        for s in scenarios:
-            try:
-                scenario = Scenario(s.xml)
-            except:
-                scenario_sim_list.append((s, "xmlerror", "", "?", "XML Error"))
-                continue
-
-            demography_name = getattr(scenario.demography, "name", "no_name")
-            version = getattr(scenario, "schemaVersion", None)
-
-            if s.new_simulation and s.new_simulation.status == Simulation.COMPLETE:
-                scenario_sim_list.append(
-                    (s, "finished", demography_name, version, sim_status.get_description(s.status)))
-            elif s.new_simulation and s.new_simulation.status == Simulation.FAILED:
-                scenario_sim_list.append((s, "error", demography_name, version, "Error"))
-            elif s.new_simulation:
-                scenario_sim_list.append((s, "running", demography_name, version, sim_status.get_description(s.status)))
-            else:
-                scenario_sim_list.append((s, "", demography_name, version, sim_status.get_description(s.status)))
-
-        return scenario_sim_list
+        return scenarios
 
     def get_context_data(self, **kwargs):
         context = super(ScenarioListView, self).get_context_data(**kwargs)

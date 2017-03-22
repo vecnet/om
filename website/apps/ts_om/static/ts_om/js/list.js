@@ -99,7 +99,23 @@ $(function() {
     });
   });
 
-    // var refreshSimsInterval = setInterval(function() {
-    //     $("#simulations-data").load(document.URL + " #simulations-data");
-    // }, 10000);
+  // Update simulation status every 5 seconds (only simulations in progress)
+  var refreshSimsInterval = setInterval(function() {
+        update_running_simulations();
+  }, 5000);
 });
+
+function update_running_simulations()
+{
+   $(".running").each(function(){
+     var scenario_id = $(this).attr("data-scenario-id");
+     var element = this;
+      $.post("/ts_om/get_scenario_status/", {scenario_id: scenario_id}, function (data) {
+        $(element).parent().html(data);
+      }).fail(function(jqXHR, textStatus, errorThrown) {
+          // Can't update simulation status - just skip an update
+          //alert("failed");
+          console.log("Can't update simulation status");
+      });
+    });
+}

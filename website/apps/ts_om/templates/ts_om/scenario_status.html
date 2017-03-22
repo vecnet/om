@@ -1,0 +1,19 @@
+{% comment %}
+Used by ScenarioListView and get_scenario_status_view AJAX call
+{% endcomment %}
+{% if scenario.status == "Complete" %}
+    <a href="/ts_om_viz/sim/{{ scenario.new_simulation.id }}/" class="btn btn-default"
+       id="simulation_viz_{{ scenario.new_simulation.id }}">
+        <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
+        Results
+    </a>
+{% elif scenario.status == "Failed" %}
+    <span class="glyphicon glyphicon-ban-circle"></span> Error
+    {% if scenario.output_file %}
+        <a href="{% url 'ts_om_viz.download' simulation_id=scenario.new_simulation.id name="stdout.txt" %}">
+            Details
+        </a>
+    {% endif %}
+{% elif scenario.status == "Running" %}
+    <span data-scenario-id="{{ scenario.id }}" class="running"><span class="glyphicon glyphicon-refresh ts-om-spin" style="color:#ffa500;"></span> Running</span>
+{% endif %}

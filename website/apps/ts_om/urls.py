@@ -18,6 +18,7 @@ from website.apps.ts_om.views.ScenarioStartView import ScenarioStartView
 from website.apps.ts_om.views.ScenarioValidationView import ScenarioValidationView
 from website.apps.ts_om.views.download_scenario_xml_view import download_scenario_xml_view
 from website.apps.ts_om.views.duplicate_scenario_view import duplicate_scenario_view
+from website.apps.ts_om.views.get_scenario_status_view import get_scenario_status_view
 from website.apps.ts_om.views.submit_scenarios_view import submit_scenarios
 from website.apps.ts_om.views.update_scenario_view import update_scenario_view
 from website.apps.ts_om_experiment.views.ExperimentRunView import get_sim_group_status
@@ -31,6 +32,7 @@ urlpatterns = patterns('',
     url(r'^(?P<scenario_id>.+)/duplicate/$', duplicate_scenario_view, name='ts_om.duplicate'),
     url(r'^(?P<scenario_id>.+)/download/$', download_scenario_xml_view, name='ts_om.download'),
     url(r'^update/$', update_scenario_view, name='ts_om.scenario.update'),
+    url(r'^get_scenario_status/$', get_scenario_status_view, name='ts_om.status'),
     url(r'^scenarios/submit/$', submit_scenarios, name='ts_om.submit'),
     url(
        r'^(?P<experiment_id>.+)/experiment/run/(?P<run_type>\w+)/status/$',

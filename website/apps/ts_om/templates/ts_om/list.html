@@ -22,7 +22,7 @@ with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 {% block extra_js %}
     {{ block.super }}
     <script src="{{ STATIC_URL }}ts_om/js/popovers_tooltips.js"></script>
-    <script src="{{ STATIC_URL }}ts_om/js/list.js?1"></script>
+    <script src="{{ STATIC_URL }}ts_om/js/list.js?3"></script>
 {% endblock %}
 
 {% block main_content %}
@@ -45,8 +45,7 @@ with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
                         target="_blank">here</a>.
                 </p>
                 <a class="btn btn-success spread" href="{% url "ts_om.start" %}">
-                    <span class="glyphicon glyphicon-plus"></span>
-                    Create Simulation
+                    <span class="glyphicon glyphicon-plus"></span> Create Simulation
                 </a>
 
                 <div class="alert" id="delete-message"></div>
@@ -54,8 +53,7 @@ with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
                     <i class="glyphicon glyphicon-trash"></i> Delete
                 </button>
                 <a href="" class="btn spread btn-info pull-right tooltip_button" style="color:#ffffff" data-original-title="Refresh">
-                    <i class="glyphicon glyphicon-refresh"></i>
-                    Refresh
+                    <i class="glyphicon glyphicon-refresh"></i> Refresh
                 </a>
                 <button class="submit-scenarios spread btn btn-success tooltip_button pull-right"
                         data-original-title="Run selected simulations">
@@ -65,93 +63,68 @@ with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
         </div>
         <div class="row" id="simulations-data">
             <div class="col-md-12">
-                {% for scenario, status, demography_name, version, status_desc in object_list %}
-                    {% if forloop.first %}
-                        <table class="table table-hover table-striped table-condensed">
-                        <thead>
-                        <tr></tr>
-                        <tr>
-                            <th>
-                                <input class="all-scenarios-checkbox" type="checkbox">
-                            </th>
-                            <th>ID</th>
-                            <th colspan="4">
-                                Name/Description
-                            </th>
+            <table class="table table-hover table-striped table-condensed">
+                <thead>
+                <tr></tr>
+                <tr>
+                    <th>
+                        <input class="all-scenarios-checkbox" type="checkbox">
+                    </th>
+                    <th>ID</th>
+                    <th colspan="4">
+                        Name/Description
+                    </th>
 {#                            <th colspan="2">Demographics</th>#}
-                            <th colspan="1">OpenMalaria<br>Version</th>
-                            <th colspan="3"></th>
-                            <th colspan="2"></th>
-                            <th colspan="3">Last Modified</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                    {% endif %}
-                <tr id="scenario-row-{{ scenario.id }}">
-                    <td>
-                        <input class="scenario-checkbox" type="checkbox" data-id="{{ scenario.id }}">
-                    </td>
-                    <td colspan="1">
-                        {% if demography_name != "no_name" %}
-                            {% if scenario.id and status != "xmlerror" %}
+                    <th colspan="1">OpenMalaria<br>Version</th>
+                    <th colspan="3"></th>
+                    <th colspan="2"></th>
+                    <th colspan="3">Last Modified</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for scenario in object_list %}
+                    <tr id="scenario-row-{{ scenario.id }}">
+                        <td>
+                            <input class="scenario-checkbox" type="checkbox" data-id="{{ scenario.id }}">
+                        </td>
+                        <td colspan="1">
+                            {% if scenario.id and scenario.status != "xmlerror" %}
                                 <a href="{% url "ts_om.summary" scenario.id %}">{{ scenario.id }}</a>
                             {% else %}
                                 {{ scenario.id }}
                             {% endif %}
-                        {% else %}
-                            <span>{{ scenario.id }}</span>
-                        {% endif %}
-                    </td>
-                    <td colspan="4">
-                        {{ scenario.name }}<br>
-                        <i id="scenario-{{ scenario.id }}-description">{{ scenario.description|default:""|truncatechars:100 }}</i>
-                    </td>
-{#                    <td colspan="2">#}
-{#                        {{ demography_name }}#}
-{#                    </td>#}
-                    <td colspan="1">{{ version }}</td>
-                    <td class="sim-status" colspan="3">
-                        {% if status == "finished" %}
-                            <a href="/ts_om_viz/sim/{{ scenario.new_simulation.id }}/" class="btn btn-default"
-                               id="simulation_viz_{{ scenario.new_simulation.id }}">
-                                <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
-                                Results
-                            </a>
-                        {% elif status == "error" %}
-                            {{ status_desc }}
-                            {% if scenario.output_file %}
-                                <a href="{% url 'ts_om_viz.download' simulation_id=scenario.new_simulation.id name="stdout.txt" %}">
-                                    Details
+                        </td>
+                        <td colspan="4">
+                            {{ scenario.name }}<br>
+                            <i id="scenario-{{ scenario.id }}-description">{{ scenario.description|default:""|truncatechars:100 }}</i>
+                        </td>
+    {#                    <td colspan="2">#}
+    {#                        {{ demography_name }}#}
+    {#                    </td>#}
+                        <td colspan="1">{{ scenario.version }}</td>
+                        <td class="sim-status" colspan="3">
+                            {% include "ts_om/scenario_status.html" %}
+                        </td>
+                        <td colspan="2">
+                            {% if scenario.version == 32 %}
+                                <a class="duplicate btn btn-default tooltip_button" data-original-title="Copy Simulation"
+                                   href="{% url "ts_om.duplicate" scenario.id %}">
+                                    <span class="glyphicon glyphicon-copy"></span> Copy
                                 </a>
                             {% endif %}
-                        {% elif status == "running" %}
-                            <span class="glyphicon glyphicon-refresh ts-om-spin" style="color:#ffa500;"></span> Running
-                        {% elif status == "xmlerror" %}
-                            <span class="glyphicon glyphicon-warning-sign" style="color:red;"></span> XML Error
-                        {% endif %}
-                    </td>
-                    <td colspan="2">
-                        {% if demography_name != "no_name" and version == 32 %}
-                            <a class="duplicate btn btn-default tooltip_button" data-original-title="Copy Simulation"
-                               href="{% url "ts_om.duplicate" scenario.id %}">
-                                <span class="glyphicon glyphicon-copy"></span> Copy
-                            </a>
-                        {% endif %}
-                    </td>
-                    <td colspan="3">
-                    <span class="help-inline">
-                        {{ scenario.last_modified.date }}
-                    </span>
-                    </td>
-                </tr>
-                {% if forloop.last %}
-                    </tbody>
-                    </table>
-                {% endif %}
+                        </td>
+                        <td colspan="3">
+                        <span class="help-inline">
+                            {{ scenario.last_modified.date }}
+                        </span>
+                        </td>
+                    </tr>
                 {% empty %}
                     <p>No simulations found</p>
                 {% endfor %}
-
+                    </tbody>
+                    </table>
+                </div>
                 {% if is_paginated %}
                     <nav>
                         <ul class="pagination pagination-sm">
@@ -180,12 +153,7 @@ with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
                         </ul>
                     </nav>
                 {% endif %}
-
-                <div class="sim-running-container hide">
-                    <i class="icon-refresh" style="color:#ffa500;"></i> Running
-                </div>
             </div>
         </div>
-    </div>
 {% endblock %}
 

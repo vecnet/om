@@ -35,7 +35,6 @@ $(document).ready(function () {
     });
 
     $(".save-scenario").click(function(e) {
-        alert("hi");
         var saveButton = $(this);
         var submitButton = saveButton.siblings(".submit-scenario");
         var validOrNo = $(".save-text");
