@@ -41,4 +41,12 @@ except ImportError:
     pass
 
 
+try:
+    # If django-registration is installed, add registration urls to url patterns
+    import registration.backends.simple.urls
+
+    urlpatterns.append(url(r'^accounts/', include('registration.backends.simple.urls')))
+except ImportError:
+    raise
+
 # handler404 = TemplateView.as_view(template_name="404.html")
