@@ -10,12 +10,12 @@ Vagrant.configure(2) do |config|
   # For a complete reference, please see the online documentation at
   # https://docs.vagrantup.com.
   config.vm.provider :virtualbox do |vb|
-            vb.name = "om-centos7"
+            vb.name = "om-ubuntu16"
   end
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
   # https://atlas.hashicorp.com/chef/boxes/centos-7.0/versions/1.0.0/providers/virtualbox.box
-  config.vm.box = "chef/centos-7.0"
+  config.vm.box = "ubuntu/xenial64"
 
 
   # Disable automatic box update checking. If you disable this, then
@@ -70,21 +70,6 @@ Vagrant.configure(2) do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
-     pwd
-     sudo yum -y install vim python postgresql-server postgresql-client
-     sudo curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
-     sudo python get-pip.py
-     sudo rm get-pip.py
-     sudo pip install -r /vagrant/requirements.txt
-     sudo postgresql-setup initdb
-     sudo systemctl enable postgresql.service
-     sudo sh -c 'echo "local   all             all                                     peer" > /var/lib/pgsql/data/pg_hba.conf'
-     sudo sh -c 'echo "host    all             all             all    md5">> /var/lib/pgsql/data/pg_hba.conf'
-     sudo sh -c "echo listen_addresses = \\'*\\' >> /var/lib/pgsql/data/postgresql.conf"
-     sudo systemctl start postgresql.service
-     sudo -u postgres sh -c 'createdb om'
-     sudo -u postgres psql -c "CREATE USER om WITH PASSWORD 'om'"
-     sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE "om" to om;"
-     sudo systemctl restart postgresql.service
+       pwd
    SHELL
 end

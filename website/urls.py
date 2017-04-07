@@ -47,6 +47,6 @@ try:
 
     urlpatterns.append(url(r'^accounts/', include('registration.backends.simple.urls')))
 except ImportError:
-    raise
+    pass
 
 # handler404 = TemplateView.as_view(template_name="404.html")
