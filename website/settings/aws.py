@@ -45,11 +45,11 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 SERVER_EMAIL = "VecNet OpenMalaria Portal <avyushko@nd.edu>"
 
 PYTHON_EXECUTABLE = "/usr/bin/python2.7"
-OM_EXECUTABLE = "/opt/portal/om.vecnet.org/binaries/om/openMalaria"
-SIM_SERVICE_LOCAL_OM_EXECUTABLE = "/opt/portal/om.vecnet.org/binaries/om/openMalaria"
+OM_EXECUTABLE = "/opt/portal/aws.vecnet.org/binaries/om/openMalaria"
+SIM_SERVICE_LOCAL_OM_EXECUTABLE = "/opt/portal/aws.vecnet.org/binaries/om/openMalaria"
 TS_OM_SCENARIOS_DIR = os.path.join(BASE_DIR, 'scenarios')
 OPENMALARIA_EXEC_DIR = os.path.join(BASE_DIR, 'binaries', 'om')
-SIM_SERVICE_LOCAL_OM_EXECUTABLE = "/opt/portal/om.vecnet.org/binaries/om/openMalaria"
+SIM_SERVICE_LOCAL_OM_EXECUTABLE = "/opt/portal/aws.vecnet.org/binaries/om/openMalaria"
 
 LOGIN_URL = "/auth/login/"
 LOGOUT_URL = "/auth/logout/?next=/"
@@ -118,10 +118,10 @@ SILENCED_SYSTEM_CHECKS = ['security.W004', 'security.W019']
 
 # Security options
 # https://docs.djangoproject.com/en/1.10/ref/settings/#std:setting-CSRF_COOKIE_AGE
-CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = False  # Allow HTTP (without HTTPS)
 CSRF_COOKIE_HTTPONLY = False  # Don't set to True just yet - ajaxSetup in common.js depends on that cookie
 CSRF_COOKIE_AGE = 60480  # One week
-SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = False # Allow HTTP (without HTTPS)
 SESSION_COOKIE_HTTPONLY = True
 
 # Frames as used on this website, so setting to the 'SAMEORIGIN'
@@ -129,7 +129,7 @@ X_FRAME_OPTIONS = "SAMEORIGIN"
 
 # Unless your site should be available over both SSL and non-SSL connections, you may want to either
 # set this setting True or configure a load balancer or reverse-proxy server to redirect all connections to HTTPS.
-SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = False # Allow HTTP (without HTTPS)
 
 # Set the Anti-MIME-Sniffing header X-Content-Type-Options to 'nosniff'.
 # This prevents older versions of Internet Explorer and Chrome from performing MIME-sniffing on the response body,

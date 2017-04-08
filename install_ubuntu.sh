@@ -16,7 +16,21 @@ apt -y install python-minimal python-pip git
 apt -y install openssl libssl-dev
 mkdir -p /opt/portal/om
 git clone https://github.com/vecnet/om /opt/portal/$SITE_URL
+mkdir -p /opt/portal/$SITE_URL/logs
+touch /opt/portal/$SITE_URL/django.log
+chown -R www-data:www-data /opt/portal/$SITE_URL
 pip install -r /opt/portal/$SITE_URL/requirements/aws.txt
+
+cat > /opt/portal/$SITE_URL/config_local.py << EOL
+import os
+
+settings_module="website.settings.aws"
+
+os.environ["SECRET_KEY"] = "lkl39#;l=01,<ML;lodfsd;lkOP(aa;dsf90adfsadfksldfjp90sdflsklilsdfslklkj"
+os.environ["DATABASE_NAME"] = "om"
+os.environ["DATABASE_USER"] = "om"
+os.environ["DATABASE_PASSWORD"] = "om"
+EOL
 
 #################################
 # Configure postgresql
@@ -34,6 +48,7 @@ sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE \"${DB_NAME}\" to ${D
 apt -y install apache2 apache2-dev libapache2-mod-wsgi
 a2enmod rewrite
 a2enmod ssl
+a2enmod wsgi
 # To activate new configuration, you need to run:
 service apache2 restart
 mkdir -p /etc/apache2/ssl/
@@ -58,6 +73,7 @@ cat > /etc/apache2/sites-available/$SITE_URL.conf << EOL
 EOL
 
 a2ensite $SITE_URL.conf
+a2dissite 000-default.conf
 service apache2 reload
 
 ##########################
@@ -79,13 +95,7 @@ ufw allow https
 ###########################
 cat > /etc/apache2/sites-available/$SITE_URL.conf << EOL
 <VirtualHost *:80>
-  ServerName $SITE_URL
   Alias /.well-known/ /opt/portal/$SITE_URL/apache/.well-known/
-  RewriteEngine On
-  RewriteCond %{HTTPS} off
-  # Leave /.well-known/ directory open for let's encrypt it client
-  RewriteCond %{REQUEST_URI} !^/.well-known
-  RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}?%{QUERY_STRING}
 
   <Directory /opt/portal/$SITE_URL/apache/.well-known/>
         Options -Indexes +FollowSymLinks
@@ -113,7 +123,7 @@ cat > /etc/apache2/sites-available/$SITE_URL.conf << EOL
     Require all granted
   </Directory>
 
-  WSGIDaemonProcess $SITE_URL processes=3  python-path=/opt/portal/$SITE_URL/:/usr/lib/python2.7/ home=/opt/portal/$SITE_URL/  display-name=$SITE_URL
+  WSGIDaemonProcess $SITE_URL processes=3  python-path=/opt/portal/$SITE_URL/
   WSGIProcessGroup $SITE_URL
   WSGIScriptAlias / /opt/portal/$SITE_URL/wsgi.py
 
