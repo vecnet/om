@@ -97,8 +97,8 @@ def scenario_name_with_next_number(name):
     """ Generate new scenario name when coping scenario
     "Kenya"     -> "Kenya - 2"
     "Kenya - 4" -> "Kenya - 5"
-    :param string:
-    :return:
+    :param name: Current scenario name
+    :return: New scenario name, with number at the end increased by 1
     """
     name = name.strip()
     number = get_number_at_the_end_of_string(name)

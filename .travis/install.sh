@@ -10,8 +10,8 @@ else
 	  chmod +x docker-compose
 	  sudo mv docker-compose /usr/local/bin
 	  sudo apt-get -qq update
-	  sudo apt-get purge -y docker-engine
-	  sudo apt-get install -y docker-engine
+	  sudo apt-get purge -y docker-ce
+	  sudo apt-get install -y docker-ce
   else
 	  pip install --upgrade pip
 	  pip install -r requirements/staging.txt
