@@ -10,15 +10,17 @@ License (MPL), version 2.0.  If a copy of the MPL was not distributed
 with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 {% endcomment %}
 
+{% load static %}
+
 {% block extra_css %}
 	{{ block.super }}
-    <link rel="stylesheet" href="{{ STATIC_URL }}ts_om/css/summary.css">
+    <link rel="stylesheet" href="{% static 'ts_om/css/summary.css' %}">
 {% endblock %}
 
 {% block extra_js %}
 	{{ block.super }}
-    <script src="{{ STATIC_URL }}ts_om/js/popovers_tooltips.js"></script>
-    <script src="{{ STATIC_URL }}ts_om/js/summary.js?2"></script>
+    <script src="{% static 'ts_om/js/popovers_tooltips.js' %}"></script>
+    <script src="{% static 'ts_om/js/summary.js' %}?2"></script>
 {% endblock %}
 {% block main_content %}
     <div class="container">
@@ -209,7 +211,7 @@ with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
                         <div class="col-md-12">
                             <span class="pull-right" id="further-info">
                                 Schema v32: <a target="_blank" href="https://github.com/SwissTPH/openmalaria/wiki/schema-32">Doc</a>
-                                | <a download="scenario_32.xsd" href="{{ STATIC_URL }}ts_om/files/scenario_32.xsd">Download</a>
+                                | <a download="scenario_32.xsd" href="{% static 'ts_om/files/scenario_32.xsd' %}">Download</a>
                             </span>
                         </div>
                     </div>

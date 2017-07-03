@@ -48,7 +48,7 @@ class ScenarioBaseFormView(FormView):
 
         return context
 
-    def get_form(self, form_class):
+    def get_form(self, form_class=None):
         if "scenario_id" in self.kwargs:
             scenario_id = self.kwargs["scenario_id"]
             self.model_scenario = ScenarioModel.objects.get(id=scenario_id)

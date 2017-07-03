@@ -7,7 +7,7 @@ var xmlChanged = false;
 var scenarioId = -1;
 
 $(document).ready(function () {
-    $.getJSON(LOCAL_STATIC_URL + 'ts_om/files/xml_tags.json', function (data) {
+    $.getJSON(STATIC_URL_XML_TAGS, function (data) {
         tags = data;
     });
 
@@ -115,7 +115,7 @@ $(document).ready(function () {
     var uiOptions =  {
         path: 'js/',
         searchMode: 'popup',
-        imagePath: STATIC_URL + 'img/codemirror-ui/silk',
+        imagePath: CODEMIRROR_IMG_PATH,
         buttons: ['search', 'undo', 'redo', 'jump', 'reindent', 'about'],
         saveCallback: function() {}
     };

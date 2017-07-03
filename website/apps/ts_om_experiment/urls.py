@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
 
 from views.ExperimentUploadView import ExperimentUploadView
@@ -7,7 +7,7 @@ from views.ExperimentRunView import ExperimentRunView
 from website.apps.ts_om_experiment.views.ExperimentRunView import get_sim_group_status, download_experiment_zip
 from website.apps.ts_om_experiment.views.download_experiment_scenario_view import download_experiment_scenario
 
-urlpatterns = patterns('',
+urlpatterns = [
                        url(r'^experiment/upload/$', login_required(ExperimentUploadView.as_view()),
                            name='ts_om.upload'),
                        url(r'^experiment/validate/$', ExperimentValidateView.as_view(), name='ts_om.validate'),
@@ -22,4 +22,4 @@ urlpatterns = patterns('',
                            download_experiment_scenario,
                            name='ts_om.download_experiment_scenario'
                        ),
-                       )
+]

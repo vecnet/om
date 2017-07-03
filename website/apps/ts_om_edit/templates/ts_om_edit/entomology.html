@@ -1,15 +1,17 @@
 {% extends "ts_om_edit/base.html" %}
 
+{% load static %}
+
 {% block extra_css %}
 	{{ block.super }}
 {% endblock %}
 
 {% block extra_js %}
 	{{ block.super }}
-    <script src="{{ STATIC_URL }}js/HighCharts/js/highcharts.js"></script>
-    <script src="{{ STATIC_URL }}js/HighCharts/plugins/draggable-points.js"></script>
-    <script src="{{ STATIC_URL }}ts_om/js/popovers_tooltips.js"></script>
-    <script src="{{ STATIC_URL }}ts_om_edit/js/entomology.js"></script>
+    <script src="{% static 'js/HighCharts/js/highcharts.js' %}"></script>
+    <script src="{% static 'js/HighCharts/plugins/draggable-points.js' %}"></script>
+    <script src="{% static 'ts_om/js/popovers_tooltips.js' %}"></script>
+    <script src="{% static 'ts_om_edit/js/entomology.js' %}"></script>
 {% endblock %}
 
 {% block header_content %}

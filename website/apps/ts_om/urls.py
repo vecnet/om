@@ -9,7 +9,7 @@
 # License (MPL), version 2.0.  If a copy of the MPL was not distributed
 # with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
 
 from website.apps.ts_om.views.ScenarioDeleteView import ScenarioDeleteView
@@ -23,7 +23,7 @@ from website.apps.ts_om.views.submit_scenarios_view import submit_scenarios
 from website.apps.ts_om.views.update_scenario_view import update_scenario_view
 from website.apps.ts_om_experiment.views.ExperimentRunView import get_sim_group_status
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^$', login_required(ScenarioListView.as_view()), name='ts_om.list'),
 
     url(r'^restValidate/$', ScenarioValidationView.as_view(), name='ts_om.restValidate'),
@@ -39,4 +39,4 @@ urlpatterns = patterns('',
        get_sim_group_status,
        name='ts_om.run_status'
    ),
-)
+]

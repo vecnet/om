@@ -1,8 +1,10 @@
 {% extends "ts_om_edit/base.html" %}
 
+{% load static %}
+
 {% block extra_js %}
 	{{ block.super }}
-	<script src="{{ STATIC_URL }}ts_om_edit/js/deployments.js"></script>
+	<script src="{% static 'ts_om_edit/js/deployments.js' %}"></script>
 {% endblock %}
 
 {% block header_content %}

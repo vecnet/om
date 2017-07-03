@@ -1,38 +1,40 @@
 {% extends "ts_om/base.html" %}
 
+{% load static %}
+
 {% block extra_css %}
     {{ block.super }}
-    <link rel="stylesheet" href="{{ STATIC_URL }}js/codemirror/lib/codemirror.css">
-    <link rel="stylesheet" href="{{ STATIC_URL }}js/codemirror/addon/hint/show-hint.css">
-    <link rel="stylesheet" href="{{ STATIC_URL }}js/codemirror/addon/dialog/dialog.css">
-    <link rel="stylesheet" href="{{ STATIC_URL }}js/codemirror/addon/fold/foldgutter.css">
-    <link rel="stylesheet" href="{{ STATIC_URL }}js/codemirror/addon/display/fullscreen.css">
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/codemirror-ui/codemirror-ui.css">
-    <link rel="stylesheet" href="{{ STATIC_URL }}ts_om/css/editor.css">
+    <link rel="stylesheet" href="{% static 'js/codemirror/lib/codemirror.css' %}">
+    <link rel="stylesheet" href="{% static 'js/codemirror/addon/hint/show-hint.css' %}">
+    <link rel="stylesheet" href="{% static 'js/codemirror/addon/dialog/dialog.css' %}">
+    <link rel="stylesheet" href="{% static 'js/codemirror/addon/fold/foldgutter.css' %}">
+    <link rel="stylesheet" href="{% static 'js/codemirror/addon/display/fullscreen.css' %}">
+    <link rel="stylesheet" href="{% static 'css/codemirror-ui/codemirror-ui.css' %}">
+    <link rel="stylesheet" href="{% static 'ts_om/css/editor.css' %}">
 {% endblock %}
 
 {% block extra_js %}
     {{ block.super }}
-    <script>var LOCAL_STATIC_URL = "{{ STATIC_URL|escapejs }}";</script>
-    <script src="{{ STATIC_URL }}js/codemirror/lib/codemirror.js"></script>
-    <script src="{{ STATIC_URL }}js/codemirror/mode/xml/xml.js"></script>
-    <script src="{{ STATIC_URL }}js/codemirror/fold/foldcode.js"></script>
-    <script src="{{ STATIC_URL }}js/codemirror/addon/fold/xml-fold.js"></script>
-    <script src="{{ STATIC_URL }}js/codemirror/addon/fold/foldgutter.js"></script>
-    <script src="{{ STATIC_URL }}js/codemirror/addon/hint/show-hint.js"></script>
-    <script src="{{ STATIC_URL }}js/codemirror/addon/edit/matchbrackets.js"></script>
-    <script src="{{ STATIC_URL }}js/codemirror/addon/edit/matchtags.js"></script>
-    <script src="{{ STATIC_URL }}js/codemirror/addon/edit/closetag.js"></script>
-    <script src="{{ STATIC_URL }}js/codemirror/hint/xml-hint.js"></script>
-    <script src="{{ STATIC_URL }}js/codemirror/addon/dialog/dialog.js"></script>
-    <script src="{{ STATIC_URL }}js/codemirror/addon/search/searchcursor.js"></script>
-    <script src="{{ STATIC_URL }}js/codemirror/addon/search/search.js"></script>
-    <script src="{{ STATIC_URL }}js/codemirror/addon/display/fullscreen.js"></script>
-    <script src="{{ STATIC_URL }}js/codemirror/addon/display/placeholder.js"></script>
-    <script src="{{ STATIC_URL }}js/codemirror/addon/lint/lint.js"></script>
-    <script src="{{ STATIC_URL }}js/codemirror-ext/util/formatting.js"></script>
-    <script src="{{ STATIC_URL }}js/codemirror-ui/codemirror-ui.js"></script>
-    <script src="{{ STATIC_URL }}ts_om/js/editor.js?2"></script>
+    <script>var STATIC_URL_XML_TAGS = "{% static 'ts_om/files/xml_tags.json' %}";</script>
+    <script src="{% static 'js/codemirror/lib/codemirror.js' %}"></script>
+    <script src="{% static 'js/codemirror/mode/xml/xml.js' %}"></script>
+    <script src="{% static 'js/codemirror/fold/foldcode.js' %}"></script>
+    <script src="{% static 'js/codemirror/addon/fold/xml-fold.js' %}"></script>
+    <script src="{% static 'js/codemirror/addon/fold/foldgutter.js' %}"></script>
+    <script src="{% static 'js/codemirror/addon/hint/show-hint.js' %}"></script>
+    <script src="{% static 'js/codemirror/addon/edit/matchbrackets.js' %}"></script>
+    <script src="{% static 'js/codemirror/addon/edit/matchtags.js' %}"></script>
+    <script src="{% static 'js/codemirror/addon/edit/closetag.js' %}"></script>
+    <script src="{% static 'js/codemirror/hint/xml-hint.js' %}"></script>
+    <script src="{% static 'js/codemirror/addon/dialog/dialog.js' %}"></script>
+    <script src="{% static 'js/codemirror/addon/search/searchcursor.js' %}"></script>
+    <script src="{% static 'js/codemirror/addon/search/search.js' %}"></script>
+    <script src="{% static 'js/codemirror/addon/display/fullscreen.js' %}"></script>
+    <script src="{% static 'js/codemirror/addon/display/placeholder.js' %}"></script>
+    <script src="{% static 'js/codemirror/addon/lint/lint.js' %}"></script>
+    <script src="{% static 'js/codemirror-ext/util/formatting.js' %}"></script>
+    <script src="{% static 'js/codemirror-ui/codemirror-ui.js' %}"></script>
+    <script src="{% static 'ts_om/js/editor.js' %}?2"></script>
 {% endblock %}
 
 {% block main_content %}

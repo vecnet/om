@@ -1,13 +1,15 @@
 {% extends "ts_om/base_with_form.html" %}
 
+{% load static %}
+
 {% block extra_css %}
     {{ block.super }}
-    <link rel="stylesheet" href="{{ STATIC_URL }}ts_om_edit/css/base.css?2">
+    <link rel="stylesheet" href="{% static 'ts_om_edit/css/base.css' %}?2">
 {% endblock %}
 
 {% block extra_js %}
     {{ block.super }}
-	<script src="{{ STATIC_URL }}ts_om_edit/js/base.js?2"></script>
+	<script src="{% static 'ts_om_edit/js/base.js' %}?2"></script>
 {% endblock %}
 
 {% block left_content %}
@@ -87,7 +89,7 @@
                             <span class="help-block" id="further-info">
                                 {% block further_info %}
                                 Schema v32: <a target="_blank" href="https://github.com/SwissTPH/openmalaria/wiki/schema-32">Doc</a>
-                                | <a download="scenario_32.xsd" href="{{ STATIC_URL }}ts_om/files/scenario_32.xsd">Download</a>
+                                | <a download="scenario_32.xsd" href="{% static 'ts_om/files/scenario_32.xsd' %}">Download</a>
                                 {% endblock %}
                             </span>
                         </div>

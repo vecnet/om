@@ -15,14 +15,14 @@ with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 {% block extra_css %}
     {{ block.super }}
-    <link rel="stylesheet" href="{{ STATIC_URL }}ts_om/css/list.css">
-    <link rel="stylesheet" href="{{ STATIC_URL }}ts_om/css/spin.css">
+    <link rel="stylesheet" href="{% static 'ts_om/css/list.css' %}">
+    <link rel="stylesheet" href="{% static 'ts_om/css/spin.css' %}">
 {% endblock %}
 
 {% block extra_js %}
     {{ block.super }}
-    <script src="{{ STATIC_URL }}ts_om/js/popovers_tooltips.js"></script>
-    <script src="{{ STATIC_URL }}ts_om/js/list.js?3"></script>
+    <script src="{% static 'ts_om/js/popovers_tooltips.js' %}"></script>
+    <script src="{% static 'ts_om/js/list.js' %}?3"></script>
 {% endblock %}
 
 {% block main_content %}

@@ -26,7 +26,7 @@ class ScenarioStartViewTestLive(LiveServerTestCase):
         self.user = UserFactory()
         self.client.login(username=self.user.username, password="1")
         self.sessionid = self.client.cookies['sessionid']
-        self.cookies = {"sessionid": str(self.sessionid)}
+        self.cookies = {"sessionid": str(self.sessionid.value)}
         self.url = self.live_server_url + reverse("ts_om.start")
 
     def test_get(self):

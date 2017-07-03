@@ -1,11 +1,13 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block extra_js %}
     <script>
-        var STATIC_URL = "{{ STATIC_URL|escapejs }}";
+{#        var STATIC_URL = "{{ STATIC_URL|escapejs }}";#}
+        var CODEMIRROR_IMG_PATH = "{% static 'img/codemirror-ui/silk' %}";
     </script>
-    <script src="{{ STATIC_URL }}ts_om/js/common.js?2"></script>
-    <script src="{{ STATIC_URL }}js/jquery.validate.min.js?2"></script>
+    <script src="{% static 'ts_om/js/common.js' %}?2"></script>
+    <script src="{% static 'js/jquery.validate.min.js' %}?2"></script>
 {% endblock %}
 
 {#{% block navbar %}#}

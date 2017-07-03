@@ -1,13 +1,15 @@
 {% extends "ts_om/base.html" %}
 
+{% load static %}
+
 {% block extra_css %}
 	{{ block.super }}
-  <link rel="stylesheet" href="{{ STATIC_URL }}ts_om/css/start.css">
+  <link rel="stylesheet" href="{% static 'ts_om/css/start.css' %}">
 {% endblock %}
 
 {% block extra_js %}
 	{{ block.super }}
-  <script src="{{ STATIC_URL }}ts_om/js/start.js"></script>
+  <script src="{% static 'ts_om/js/start.js' %}"></script>
 {% endblock %}
 {% block left_content %}{% endblock %}
 

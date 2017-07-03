@@ -9,7 +9,7 @@
 # License (MPL), version 2.0.  If a copy of the MPL was not distributed
 # with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 from website.apps.ts_om_edit.views.ScenarioSummaryView import ScenarioSummaryView
 from .views.ScenarioMonitoringView import ScenarioMonitoringView
@@ -29,7 +29,7 @@ from website.apps.ts_om_edit.views.ScenarioDeploymentsView import update_deploym
 from website.apps.ts_om_edit.views.ScenarioEntomologyView import delete_species_from_scenario_view
 
 
-urlpatterns = patterns('',
+urlpatterns = [
        url(r'^(?P<scenario_id>.+)/summary/$', ScenarioSummaryView.as_view(), name='ts_om.summary'),
        url(r'^(?P<scenario_id>.+)/monitoring/$', ScenarioMonitoringView.as_view(), name='ts_om.monitoring'),
        url(r'^(?P<scenario_id>.+)/demography/$', ScenarioDemographyView.as_view(), name='ts_om.demography'),
@@ -59,4 +59,4 @@ urlpatterns = patterns('',
        url(r'^remove_species_from_scenario/(?P<scenario_id>.+)/(?P<species>.+)/',
            delete_species_from_scenario_view,
            name='ts_om.remove_species_from_scenario'),
-       )
+]

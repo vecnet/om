@@ -17,6 +17,8 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.views.generic.base import TemplateView, RedirectView
 
+from website.views import test_http_code_500
+
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', RedirectView.as_view(url='/ts_om/', permanent=False), name="index"),
@@ -25,7 +27,7 @@ urlpatterns = [
     # Please refer to https://docs.djangoproject.com/en/1.8/topics/auth/default/#using-the-views
     # for additional information about using django.contrib.auth.urls
     url(r'^auth/', include('django.contrib.auth.urls')),
-    url(r'^test_500/$', 'website.views.test_http_code_500'),
+    url(r'^test_500/$', test_http_code_500),
     url(r'^ts_om/', include('website.apps.ts_om.urls')),
     url(r'^ts_om_edit/', include('website.apps.ts_om_edit.urls')),
     url(r'^ts_om_viz/', include('website.apps.ts_om_viz.urls')),
