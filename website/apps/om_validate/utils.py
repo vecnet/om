@@ -119,6 +119,7 @@ def validate_openmalaria(xml):
             logger.error("Segmentation fault when validating scenario")
         logger.info("subprocess error, return code: %s" % return_code)
     except Exception as e:
+        logger.error("subprocess error: %s" % e)
         # The system cannot find the file specified and so on
         errors = ["%s" % e]
 
