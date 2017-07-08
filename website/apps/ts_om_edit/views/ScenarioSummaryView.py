@@ -26,7 +26,7 @@ from vecnet.openmalaria.scenario import Scenario
 from website.apps.ts_om import submit
 from website.apps.ts_om_edit.forms import ScenarioSummaryForm
 from website.apps.ts_om.models import Scenario as ScenarioModel
-from website.notification import set_notification
+from website.notification import set_notification, DANGER
 
 
 class ScenarioSummaryView(TemplateView):
@@ -72,21 +72,22 @@ class ScenarioSummaryView(TemplateView):
         try:
             self.scenario = Scenario(self.model_scenario.xml)
         except ParseError:
+            set_notification(self.request, "Invalid XML Document", DANGER)
             self.scenario = None
 
+        context["scenario"] = self.model_scenario
+        context["xml"] = self.model_scenario.xml
+        context["desc"] = self.model_scenario.description if self.model_scenario.description else ""
         if self.scenario:
             vectors = list(self.scenario.entomology.vectors)
-            context["scenario"] = self.model_scenario
             context["scenario_id"] = self.model_scenario.id
             context["name"] = self.model_scenario.name
-            context["desc"] = self.model_scenario.description if self.model_scenario.description else ""
             context["deleted"] = self.model_scenario.deleted
             context["version"] = self.scenario.schemaVersion
 
             if self.model_scenario.new_simulation:
                 context['sim_id'] = self.model_scenario.new_simulation.id
 
-            context["xml"] = self.scenario.xml
 
             monitor_info = get_survey_times(self.scenario.monitoring, self.model_scenario.start_date)
 

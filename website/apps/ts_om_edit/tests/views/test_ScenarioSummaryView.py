@@ -56,3 +56,9 @@ class ScenarioSummaryViewTest(TestCase):
         client.login(username=user.username, password="1")
         response = client.post(self.url, data={})
         self.assertEqual(response.status_code, 403)
+
+    def test_get_broken_xml(self):
+        self.scenario.xml = "<"
+        self.scenario.save()
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
