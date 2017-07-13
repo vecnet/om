@@ -2,7 +2,7 @@
 
 This project is based on VecNet-CI - https://github.com/vecnet/vnetsource
 
-#System requirements
+# System requirements
 
 This Django project has been tested on Windows 8 x64 and CentOS 7
 
@@ -11,7 +11,8 @@ This Django project has been tested on Windows 8 x64 and CentOS 7
 * PostgreSQL 9.4
 * Apache 2.4
 
-#Quick Start Guide
+# Quick Start Guide
+
 1. Set a local SECRET_KEY and use local settings module.
 	```bash
 	export SECRET_KEY=some-value
@@ -41,12 +42,13 @@ python manage.py runserver
 ```
 
 # Using docker-compose.
+
 ```bash
 docker-compose up
 ```
 
 
-#Using Vagrant
+# Using Vagrant
 
 1. Create Virtualbox VM `vagrant up`. It may take a while when starting VM for the first time
 
