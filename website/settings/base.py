@@ -61,7 +61,6 @@ INSTALLED_APPS = (
     'website.apps.ts_om',
     'website.apps.ts_om_viz',
     'website.apps.ts_om_edit',
-    'website.apps.ts_om_experiment',
 )
 
 MIDDLEWARE_CLASSES = (
