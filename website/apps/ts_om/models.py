@@ -22,21 +22,6 @@ from vecnet.openmalaria.scenario.scenario import Scenario as ScenarioXML
 from data_services.models import SimulationGroup
 
 
-class ExperimentFile(models.Model):
-    name = models.CharField(max_length=200)
-    file = models.FileField(upload_to='ts_om/experiments/%Y/%m/%d')
-    user = models.ForeignKey(User)
-    test_sim_group = models.ForeignKey(SimulationGroup, null=True, related_name="test_submit_group")
-    sim_group = models.ForeignKey(SimulationGroup, null=True, related_name="submit_group")
-
-    def __unicode__(self):
-        return self.name
-
-    @property
-    def state(self):
-        pass
-
-
 class BaselineScenario(models.Model):
     name = models.CharField(max_length=200)
     xml = models.TextField()

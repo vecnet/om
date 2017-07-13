@@ -10,10 +10,8 @@
 # with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 from django import forms
-from django.forms import ModelForm
 
 from .models import BaselineScenario
-from .models import ExperimentFile
 
 
 class ScenarioStartForm(forms.Form):
@@ -42,14 +40,3 @@ class ScenarioStartForm(forms.Form):
 
             if not xml_file:
                 raise forms.ValidationError("No scenario xml file chosen for upload.")
-
-
-class ExperimentUploadForm(ModelForm):
-    class Meta:
-        model = ExperimentFile
-        fields = ['name', 'file']
-
-    def __init__(self, *args, **kwargs):
-        super(ExperimentUploadForm, self).__init__(*args, **kwargs)
-
-        self.fields["name"].widget.attrs["class"] = "form-control"
