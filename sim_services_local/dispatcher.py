@@ -1,12 +1,19 @@
-# Copyright (C) 2015, University of Notre Dame
-# All rights reserved
-from django.utils import timezone
+# -*- coding: utf-8 -*-
+#
+# This file is part of the VecNet OpenMalaria Portal.
+# For copyright and licensing information about this package, see the
+# NOTICE.txt and LICENSE.txt files in its top-level directory; they are
+# available at https://github.com/vecnet/om
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License (MPL), version 2.0.  If a copy of the MPL was not distributed
+# with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
 from django.conf import settings
 import subprocess
 import sys
 import os
 import logging
-from data_services import models as data_models
 from website.apps.ts_om.models import Simulation
 
 
@@ -43,22 +50,3 @@ def submit(simulation):
     logger.debug("submit_new: success, PID: %s" % p.pid)
     return str(p.pid)
 
-def submit_old(simulation_group):
-    """
-    Run a simulation group on a local machine in background.
-    Raises RuntimeError if the submission fails for some reason.
-    """
-    assert isinstance(simulation_group, data_models.SimulationGroup)
-    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    run_script_filename = os.path.join(base_dir, "run_old.py")
-
-    for simulation in simulation_group.simulations.all():
-        executable = sys.executable
-        if hasattr(settings, "PYTHON_EXECUTABLE"):
-            executable = settings.PYTHON_EXECUTABLE
-        subprocess.Popen(executable + " " + "%s" % run_script_filename + " " + str(simulation.id),
-                         cwd=base_dir,
-                         shell=True)
-
-    simulation_group.submitted_when = timezone.now()
-    simulation_group.save()
