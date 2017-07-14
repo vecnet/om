@@ -32,6 +32,7 @@ urlpatterns = [
     url(r'^ts_om_edit/', include('website.apps.ts_om_edit.urls')),
     url(r'^ts_om_viz/', include('website.apps.ts_om_viz.urls')),
     url(r'^validate/', include('website.apps.om_validate.urls')),
+    url(r'^big_brother/', include('website.apps.big_brother.urls')),
 ]
 
 try:

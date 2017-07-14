@@ -15,7 +15,6 @@ from django.core.management import call_command
 from django.db import connection
 from django import db
 
-# from website.database_apps.database_manager.utils.backup_and_restore_functions import backup
 from website.management.commands.backup_db import backup
 
 

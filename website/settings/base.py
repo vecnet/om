@@ -61,6 +61,8 @@ INSTALLED_APPS = (
     'website.apps.ts_om',
     'website.apps.ts_om_viz',
     'website.apps.ts_om_edit',
+    'website.apps.big_brother',
+    'website.apps.email',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -69,6 +71,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    'website.apps.big_brother.middleware.BigBrotherMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',

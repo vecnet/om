@@ -9,10 +9,16 @@
 # License (MPL), version 2.0.  If a copy of the MPL was not distributed
 # with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from .models import Simulation, SimulationOutputFile, SimulationInputFile, SimulationGroup
-from django.contrib import admin
+from django.db.utils import IntegrityError
+from django.test.testcases import TestCase
 
-admin.site.register(SimulationGroup)
-admin.site.register(Simulation)
-admin.site.register(SimulationOutputFile)
-admin.site.register(SimulationInputFile)
+from website.apps.email.models import DoNotSendEmailList
+
+
+class DoNotSendEmailListTest(TestCase):
+    def test_str(self):
+        item = DoNotSendEmailList.objects.create(email="123@example.com")
+        self.assertEqual(str(item), "123@example.com")
+
+    def test_email_field_required(self):
+        self.assertRaises(IntegrityError, DoNotSendEmailList.objects.create)

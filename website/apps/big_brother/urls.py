@@ -9,10 +9,10 @@
 # License (MPL), version 2.0.  If a copy of the MPL was not distributed
 # with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from .models import Simulation, SimulationOutputFile, SimulationInputFile, SimulationGroup
-from django.contrib import admin
+from django.conf.urls import url
 
-admin.site.register(SimulationGroup)
-admin.site.register(Simulation)
-admin.site.register(SimulationOutputFile)
-admin.site.register(SimulationInputFile)
+from website.apps.big_brother.views import tracking_code_view
+
+urlpatterns = [
+    url(r"^img/(?P<tracking_code>.*)/$", tracking_code_view, name="big_brother.track"),
+]
