@@ -8,11 +8,13 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License (MPL), version 2.0.  If a copy of the MPL was not distributed
 # with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
-
+import datetime
+from django.contrib.auth.models import User
 from django.core.files.base import ContentFile
 
 from data_services.models import Simulation
-from website.apps.ts_om.models import Simulation as SimulationNew
+from website.apps.email.utils.send_html_email import send_html_email
+from website.apps.ts_om.models import Simulation as SimulationNew, Scenario
 
 
 def migrate_simulations():
@@ -106,3 +108,23 @@ def scenario_name_with_next_number(name):
         return name + " - 2"
     else:
         return name[0:-len(str(number))] + str(number + 1)
+
+
+def get_users_created_yesterday():
+    return User.objects.filter(date_joined__date=(datetime.datetime.today() - datetime.timedelta(days=1)))
+
+
+def get_scenarios_updated_yesterday():
+    return Scenario.objects.filter(last_modified__date=(datetime.datetime.today() - datetime.timedelta(days=1)))
+
+
+def send_daily_report(emails):
+    users_created_yesterday = get_users_created_yesterday()
+    send_html_email(
+        recipients=emails,
+        subject="OpenMalaria Portal report (%s scenarios updated)" % get_scenarios_updated_yesterday().count(),
+        text="New portal users report",
+        template_path="ts_om/emails/new_users_report.html",
+        users=users_created_yesterday,
+        scenarios=get_scenarios_updated_yesterday()
+    )

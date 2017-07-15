@@ -196,3 +196,5 @@ OPENMALARIA_EXEC_DIR = os.path.join(BASE_DIR, 'binaries', 'om')
 TS_OM_SCENARIOS_DIR = os.path.join(BASE_DIR, 'scenarios')
 
 DATABASE_BACKUP_DIR = MEDIA_ROOT
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

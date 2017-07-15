@@ -1,0 +1,45 @@
+<b>{{ users.count }} new user accounts created yesterday:<br></b>
+{% for user in users %}
+    {% if forloop.first %}
+        <table border="1">
+        <tr><td>Username</td></tr>
+    {% endif %}
+    <tr>
+
+    <td>
+        {{ user.username }}
+    </td>
+
+    </tr>
+    {% if forloop.last %}
+        </table>
+    {% endif %}
+{% endfor %}
+
+<b>{{ scenarios.count }} scenarios updated yesterday:<br></b>
+{% for scenario in scenarios %}
+    {% if forloop.first %}
+        <table border="1">
+        <tr><td>Scenario ID</td><td>Scenario name</td><td>Username</td><td>Updated</td></tr>
+    {% endif %}
+    <tr>
+
+    <td>
+        {{ scenario.id }}
+    </td>
+
+    <td>
+        {{ scenario.name }}
+    </td>
+
+    <td>
+        {{ scenario.user.username }}
+    </td>
+    <td>
+        {{ scenario.last_modified }}
+    </td>
+    </tr>
+    {% if forloop.last %}
+        </table>
+    {% endif %}
+{% endfor %}

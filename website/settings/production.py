@@ -47,6 +47,10 @@ TKT_AUTH_PUBLIC_KEY = '/etc/httpd/conf/sso/tkt_pubkey_dsa.pem'
 
 MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + ('django_auth_pubtkt.DjangoAuthPubtkt',)
 
+CRONJOBS = [
+    ('1 0 * * *', 'website.apps.ts_om.cron.send_daily_report_cron')
+]
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
