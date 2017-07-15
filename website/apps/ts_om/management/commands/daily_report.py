@@ -39,4 +39,5 @@ class Command(BaseCommand):
         Send list of new user accounts created yesterday. Should be run from cron 1 minute after midnight
         """
         emails = options["emails"].replace(" ", "").split(",")
+        print("Sending report to %s" % emails)
         send_daily_report(emails)
