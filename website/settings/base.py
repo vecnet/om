@@ -54,6 +54,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     # Although it's not required that you use the sites framework, it's strongly encouraged
     'django.contrib.sites',
+    'django_crontab',
     'bootstrap3',
     'website',
     'data_services',
