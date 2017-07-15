@@ -32,6 +32,7 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 # The email address that error messages come from, such as those sent to ADMINS and MANAGERS.
 # Used by mail_managers function
 SERVER_EMAIL = "VecNet OpenMalaria Portal <avyushko@nd.edu>"
+DEFAULT_FROM_EMAIL = "VecNet OpenMalaria Portal <avyushko@nd.edu>"
 
 PYTHON_EXECUTABLE = "/opt/venvs/om.vecnet.org/bin/python"
 OM_EXECUTABLE = "/opt/portal/om.vecnet.org/binaries/om/openMalaria"
