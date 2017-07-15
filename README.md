@@ -115,6 +115,8 @@ Check wsgi.py and manage.py to see how it works - they are different from defaul
 
 5. Set APP_ENV to 'production'
 
+6. Setup cron jobs: python manage.py crontab add
+
 # Enable VecNet SSO
 
 1. Install django-auth-pubtkt package

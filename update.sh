@@ -57,6 +57,10 @@ function update
     fi
     python manage.py migrate
     python manage.py collectstatic --noinput
+
+    # Update cron job (django-cron)
+    python manage.py crontab add
+
     touch wsgi.py
     python manage.py check --deploy
     echo "--------------- Update complete ---------------"
