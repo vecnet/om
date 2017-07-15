@@ -117,6 +117,8 @@ def get_users_created_yesterday():
 def get_scenarios_updated_yesterday():
     return Scenario.objects.filter(last_modified__date=(datetime.datetime.today() - datetime.timedelta(days=1)))
 
+def get_simulations_in_progress():
+    return SimulationNew.objects.filter(status=SimulationNew.RUNNING)
 
 def send_daily_report(emails):
     users_created_yesterday = get_users_created_yesterday()
@@ -126,5 +128,6 @@ def send_daily_report(emails):
         text="New portal users report",
         template_path="ts_om/emails/new_users_report.html",
         users=users_created_yesterday,
-        scenarios=get_scenarios_updated_yesterday()
+        scenarios=get_scenarios_updated_yesterday(),
+        simulation_in_progress=get_simulations_in_progress(),
     )

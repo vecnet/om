@@ -1,3 +1,6 @@
+<b> {{ simulation_in_progress.count }} simulations in progress</b><br>
+<a href="https://om.vecnet.org/admin/ts_om/scenario/?new_simulation__status__exact=Running">List</a><br>
+
 <b>{{ users.count }} new user accounts created yesterday:<br></b>
 {% for user in users %}
     {% if forloop.first %}

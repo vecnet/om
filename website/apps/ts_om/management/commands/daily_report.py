@@ -9,24 +9,9 @@
 # License (MPL), version 2.0.  If a copy of the MPL was not distributed
 # with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from datetime import timedelta
-
-import website
-from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
-from django.utils.timezone import datetime
-
-from website.apps.email.utils.send_html_email import send_html_email
-from website.apps.ts_om.models import Scenario
 from website.apps.ts_om.utils import send_daily_report
 
-
-def get_users_created_yesterday():
-    return User.objects.filter(date_joined__date=(datetime.today() - timedelta(days=1)))
-
-
-def get_scenarios_updated_yesterday():
-    return Scenario.objects.filter(last_modified__date=(datetime.today() - timedelta(days=1)))
 
 
 class Command(BaseCommand):
