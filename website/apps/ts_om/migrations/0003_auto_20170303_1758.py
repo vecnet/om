@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
-
+import django.db.models.deletion
 
 class Migration(migrations.Migration):
 
@@ -34,6 +34,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='scenario',
             name='new_simulation',
-            field=models.OneToOneField(related_name='scenario', null=True, blank=True, to='ts_om.Simulation'),
+            field=models.OneToOneField(related_name='scenario', null=True, blank=True, to='ts_om.Simulation', on_delete=django.db.models.deletion.PROTECT),
         ),
     ]
