@@ -128,17 +128,25 @@ class Simulation(models.Model):
 
 
 class Scenario(models.Model):
+    # Status is derived from simulation's status. If there is no simulation, use STATUS_NEW
     STATUS_NEW = "New"
 
     xml = models.TextField()
+    # The first year simulated
+    # The name "start_date" is somewhat misleading, should be renamed at some point
     start_date = models.IntegerField(default=2016)
-    user = models.ForeignKey(User)
-    new_simulation = models.OneToOneField(Simulation, null=True, blank=True, related_name="scenario")
+    # Owner of the simulation
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    new_simulation = models.OneToOneField(
+        Simulation, null=True, blank=True, related_name="scenario",
+        on_delete=models.PROTECT
+    )
     last_modified = models.DateTimeField(auto_now=True)
+    # Whether is scenario is deleted or not
     deleted = models.BooleanField(default=False)
     description = models.TextField(null=True, blank=True)
     is_public = models.BooleanField(default=False)
-    baseline = models.ForeignKey(BaselineScenario, null=True, blank=True)
+    baseline = models.ForeignKey(BaselineScenario, null=True, blank=True, on_delete=models.PROTECT)
 
     # -------------------------------------------------
     # name property setter and getter
@@ -240,7 +248,7 @@ class InterventionComponent(models.Model):
 
 class InterventionSnippet(models.Model):
     name = models.CharField(max_length=200)
-    component = models.ForeignKey(InterventionComponent, null=False)
+    component = models.ForeignKey(InterventionComponent, null=False, on_delete=models.PROTECT)
     xml = models.TextField(null=False, blank=False)
     # URL to the documenation on OpenMalaria GitHub
     documentation_url = models.TextField(blank=True)

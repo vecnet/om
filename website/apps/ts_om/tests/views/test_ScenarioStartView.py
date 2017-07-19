@@ -10,7 +10,7 @@
 # with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import StringIO
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.test.testcases import TestCase
 from django.test.utils import override_settings
 

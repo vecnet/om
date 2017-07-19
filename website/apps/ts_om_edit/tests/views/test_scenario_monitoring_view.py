@@ -3,7 +3,7 @@ import json
 
 from django.test import override_settings
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.test.client import Client
 from django.test.testcases import LiveServerTestCase
 from vecnet.openmalaria.healthsystem import get_prob_from_percentage

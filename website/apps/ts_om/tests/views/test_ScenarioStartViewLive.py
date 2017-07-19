@@ -12,7 +12,7 @@
 import StringIO
 
 import requests
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.test.testcases import LiveServerTestCase
 from django.test.utils import override_settings
 from lxml import html

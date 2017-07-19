@@ -12,7 +12,7 @@
 import json
 from django.contrib.auth.decorators import login_required
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.forms.formsets import formset_factory
 from django.http import HttpResponse
 from vecnet.openmalaria.scenario import Scenario

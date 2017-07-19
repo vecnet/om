@@ -13,7 +13,7 @@ import json
 from xml.etree.ElementTree import ParseError
 
 from django.core.exceptions import PermissionDenied
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.http import HttpResponse
 from django.views.generic import FormView
 from vecnet.openmalaria.scenario import Scenario

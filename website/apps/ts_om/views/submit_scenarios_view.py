@@ -21,7 +21,7 @@ from website.apps.ts_om.views.ScenarioValidationView import rest_validate
 def submit_scenarios(request):
     scenarios_data = {"ok": False, "scenarios": []}
 
-    if not request.user.is_authenticated() or not "scenario_ids" in request.POST:
+    if not request.user.is_authenticated or not "scenario_ids" in request.POST:
         return HttpResponse(json.dumps(scenarios_data), content_type="application/json")
 
     scenario_ids = json.loads(request.POST["scenario_ids"])

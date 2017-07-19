@@ -10,6 +10,7 @@
 # with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 from django.http.response import HttpResponseRedirect
+from django.utils.deprecation import MiddlewareMixin
 
 
 class HttpRedirectException(Exception):
@@ -19,7 +20,7 @@ class HttpRedirectException(Exception):
         self.url = url
 
 
-class RedirectionMiddleware(object):
+class RedirectionMiddleware(MiddlewareMixin):
     """ Redirect user if RedirectException is raised """
     @staticmethod
     def process_exception(request, exception):

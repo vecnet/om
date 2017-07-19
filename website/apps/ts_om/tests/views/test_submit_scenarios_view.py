@@ -12,7 +12,7 @@
 import json
 import os
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.test.client import Client
 from django.test.testcases import TestCase
 from mock.mock import patch

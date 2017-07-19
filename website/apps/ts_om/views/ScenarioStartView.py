@@ -12,7 +12,7 @@
 from StringIO import StringIO
 import json
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.views.generic import FormView
 from lxml import etree
 from lxml.etree import XMLSyntaxError
