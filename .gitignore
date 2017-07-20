@@ -75,3 +75,5 @@ apache/static/*
 docs/build/
 
 config_local.py
+
+.bak

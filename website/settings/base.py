@@ -130,7 +130,6 @@ USE_TZ = True
 # a static/ directory inside your apps, you can define a list of directories (STATICFILES_DIRS) in your settings
 # file where Django will also look for static files.
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "website", "static"),
 )
 
 # Static files (CSS, JavaScript, Images)
