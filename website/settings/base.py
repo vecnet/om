@@ -198,3 +198,7 @@ TS_OM_SCENARIOS_DIR = os.path.join(BASE_DIR, 'scenarios')
 DATABASE_BACKUP_DIR = MEDIA_ROOT
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# CRONTAB_COMMENT used for marking the added contab-lines for removing, default value includes project name
+# to distinguish multiple projects on the same host and user
+CRONTAB_COMMENT = "base"

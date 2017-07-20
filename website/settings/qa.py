@@ -47,6 +47,10 @@ TKT_AUTH_PUBLIC_KEY = '/etc/httpd/conf/sso/tkt_pubkey_dsa.pem'
 
 MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + ('django_auth_pubtkt.DjangoAuthPubtkt',)
 
+# CRONTAB_COMMENT used for marking the added contab-lines for removing, default value includes project name
+# to distinguish multiple projects on the same host and user
+CRONTAB_COMMENT = "qa"
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
