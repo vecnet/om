@@ -14,7 +14,7 @@ import json
 from django.http import HttpResponse
 
 from website.apps.ts_om.models import Scenario
-from website.apps.ts_om.submit import submit_new
+from website.apps.ts_om.submit import submit
 from website.apps.ts_om.views.ScenarioValidationView import rest_validate
 
 
@@ -45,7 +45,7 @@ def submit_scenarios(request):
         if not valid:
             continue
 
-        simulation = submit_new(scenario)
+        simulation = submit(scenario)
 
         if simulation:
             # scenario.simulation = simulation

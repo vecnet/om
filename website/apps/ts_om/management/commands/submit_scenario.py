@@ -11,7 +11,7 @@
 
 from django.core.management.base import BaseCommand
 from website.apps.ts_om.models import Scenario, Simulation
-from website.apps.ts_om.submit import submit_new
+from website.apps.ts_om.submit import submit
 import time
 
 
@@ -35,7 +35,7 @@ class Command(BaseCommand):
             return
         if scenario.new_simulation:
             print("WARNING: scenario has been submitted already")
-        simulation = submit_new(scenario)
+        simulation = submit(scenario)
         if not simulation:
             print "Can't submit scenario"
             return

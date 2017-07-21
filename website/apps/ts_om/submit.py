@@ -16,7 +16,7 @@ from website.apps.ts_om.models import Simulation
 
 logger = logging.getLogger(__name__)
 
-def submit_new(scenario):
+def submit(scenario):
     if scenario.new_simulation:
         logger.debug("Scenario %s has been submitted already" % scenario.id)
         return None
@@ -28,5 +28,5 @@ def submit_new(scenario):
         scenario.save(update_fields=["new_simulation"])
         return simulation
     except RuntimeError as e:
-        logger.debug("Runtime error in submit_new: %s" % e)
+        logger.debug("Runtime error in submit: %s" % e)
         return None

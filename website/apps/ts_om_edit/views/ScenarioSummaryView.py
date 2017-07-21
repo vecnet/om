@@ -60,7 +60,7 @@ class ScenarioSummaryView(TemplateView):
         if 'submit_type' in self.request.POST and self.request.POST["submit_type"] == "run":
             # Clicked "Save and Run" button
             # Will submit a scenario to backend here
-            simulation = submit.submit_new(scenario)
+            simulation = submit.submit(scenario)
             if simulation is None:
                 set_notification(self.request, "Can't submit simulation", "alert-danger")
             else:

@@ -29,7 +29,7 @@ class SubmitScenariosViewTest(TestCase):
         self.user.set_password("1")
         self.user.save()
 
-    @patch("website.apps.ts_om.views.submit_scenarios_view.submit_new")
+    @patch("website.apps.ts_om.views.submit_scenarios_view.submit")
     def test_anonymous(self, submit_func):
         client = Client()
         data = {"scenario_ids": json.dumps([self.scenario.id])}
@@ -40,7 +40,7 @@ class SubmitScenariosViewTest(TestCase):
         self.scenario.refresh_from_db()
         self.assertEqual(submit_func.called, False)
 
-    @patch("website.apps.ts_om.views.submit_scenarios_view.submit_new")
+    @patch("website.apps.ts_om.views.submit_scenarios_view.submit")
     @patch("website.apps.ts_om.views.submit_scenarios_view.rest_validate")
     def test_success(self, rest_validate_func, submit_func):
         rest_validate_func.return_value = json.dumps({'result':0})
@@ -55,7 +55,7 @@ class SubmitScenariosViewTest(TestCase):
         self.assertEqual(rest_validate_func.called, True)
         self.assertEqual(submit_func.called, True)
 
-    @patch("website.apps.ts_om.views.submit_scenarios_view.submit_new")
+    @patch("website.apps.ts_om.views.submit_scenarios_view.submit")
     @patch("website.apps.ts_om.views.submit_scenarios_view.rest_validate")
     def test_validation_fails(self, rest_validate_func, submit_func):
         rest_validate_func.return_value = json.dumps({'result':66})

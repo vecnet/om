@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 
 
 def submit(simulation):
-    logger.debug("submit_new: simulation id %s" % simulation.id)
+    logger.debug("dispatcher.submit: simulation id %s" % simulation.id)
     assert isinstance(simulation, Simulation)
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     executable = sys.executable
@@ -29,12 +29,12 @@ def submit(simulation):
         executable = settings.PYTHON_EXECUTABLE
     run_script_filename = os.path.join(base_dir, "run.py")
     try:
-        logger.debug("submit_new: before Popen")
+        logger.debug("dispatcher.submit: before Popen")
         p = subprocess.Popen(
             [executable, run_script_filename, str(simulation.id)],
             cwd=base_dir, shell=False
         )
-        logger.debug("submit_new: after Popen")
+        logger.debug("dispatcher.submit: after Popen")
 
     except (OSError, IOError) as e:
         logger.exception("subprocess failed: %s", sys.exc_info())
@@ -47,6 +47,6 @@ def submit(simulation):
     simulation.pid = str(p.pid)
     simulation.last_error_message = ""
     simulation.save(update_fields=["status", "pid", "last_error_message"])
-    logger.debug("submit_new: success, PID: %s" % p.pid)
+    logger.debug("dispatcher.submit: success, PID: %s" % p.pid)
     return str(p.pid)
 

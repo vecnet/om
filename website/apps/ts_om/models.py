@@ -11,7 +11,6 @@
 
 from StringIO import StringIO
 
-from django.core.exceptions import MultipleObjectsReturned
 from django.core.files.base import ContentFile, File
 from django.db import models
 from django.contrib.auth.models import User
@@ -250,7 +249,7 @@ class InterventionSnippet(models.Model):
     name = models.CharField(max_length=200)
     component = models.ForeignKey(InterventionComponent, null=False, on_delete=models.PROTECT)
     xml = models.TextField(null=False, blank=False)
-    # URL to the documenation on OpenMalaria GitHub
+    # URL to the documentation on OpenMalaria GitHub
     documentation_url = models.TextField(blank=True)
 
     def __unicode__(self):

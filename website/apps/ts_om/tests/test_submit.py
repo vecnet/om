@@ -14,7 +14,7 @@ from django.test.testcases import TestCase
 from mock.mock import patch
 
 from website.apps.ts_om.models import Scenario, Simulation
-from website.apps.ts_om.submit import submit_new
+from website.apps.ts_om.submit import submit
 
 class MockPopen:
     pid = 1234
@@ -25,7 +25,7 @@ class SubmitNewTest(TestCase):
         subprocess_func.return_value = MockPopen()
         user = User.objects.create(username="user")
         scenario = Scenario.objects.create(xml="123", user=user)
-        simulation = submit_new(scenario)
+        simulation = submit(scenario)
         scenario.refresh_from_db()
         self.assertEqual(scenario.new_simulation, simulation)
         self.assertEqual(scenario.new_simulation.pid, "1234")
@@ -38,7 +38,7 @@ class SubmitNewTest(TestCase):
         subprocess_func.return_value = MockPopen()
         user = User.objects.create(username="user")
         scenario = Scenario.objects.create(xml="123", user=user)
-        simulation = submit_new(scenario)
+        simulation = submit(scenario)
         scenario.refresh_from_db()
         self.assertEqual(scenario.new_simulation, simulation)
         self.assertEqual(scenario.new_simulation.pid, "1234")
@@ -46,7 +46,7 @@ class SubmitNewTest(TestCase):
         self.assertEqual(scenario.new_simulation.input_file.read(), "123")
         self.assertEqual(scenario.new_simulation.last_error_message, "")
 
-        simulation = submit_new(scenario)
+        simulation = submit(scenario)
         self.assertEqual(simulation, None)
 
     @patch("sim_services_local.dispatcher.subprocess.Popen")
@@ -54,7 +54,7 @@ class SubmitNewTest(TestCase):
         subprocess_func.side_effect = IOError("IO Error")
         user = User.objects.create(username="user")
         scenario = Scenario.objects.create(xml="123", user=user)
-        simulation = submit_new(scenario)
+        simulation = submit(scenario)
         scenario.refresh_from_db()
         self.assertEqual(scenario.new_simulation, simulation)
         self.assertEqual(scenario.new_simulation.pid, "")
