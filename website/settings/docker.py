@@ -15,23 +15,6 @@ DATABASES = {
     }
 }
 
-FILE_SERVER = {
-    'URI schemes': ('data', 'file'), #, 'https'),
-    'write scheme': 'data',
-    'file scheme': {
-        'root directory': '/tmp'
-        # The path above is a real directory (the output directory for testing), so it'll pass validation.  This setting
-        # should be set accordingly for each application environment.
-    },
-    # 'https scheme': {
-    #     'root directory': '',
-    #     # 'root directory': 'https://vecnet-qa.crc.nd.edu/webdav/qa/',
-    #     'authentication': 'basic',
-    #     'username': "webdav",
-    #     'password': "webdav",
-    #     # 'verify certificates': True,  # Optional; default = False
-    # }
-}
 
 OPENMALARIA_EXEC_DIR = os.path.join(BASE_DIR, 'binaries/om/')
 SIM_SERVICE_LOCAL_OM_EXECUTABLE = os.path.join(BASE_DIR, 'binaries/om/openMalaria')
