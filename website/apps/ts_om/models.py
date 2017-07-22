@@ -18,8 +18,6 @@ from lxml import etree
 from lxml.etree import XMLSyntaxError
 from vecnet.openmalaria.scenario.scenario import Scenario as ScenarioXML
 
-from data_services.models import SimulationGroup
-
 
 class BaselineScenario(models.Model):
     name = models.CharField(max_length=200)

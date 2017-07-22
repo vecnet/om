@@ -14,7 +14,7 @@ def load_fixtures(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('ts_om', '0006_interventionsnippet_documentation_url'),
+        ('ts_om', '0001_initial'),
     ]
 
     operations = [

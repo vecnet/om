@@ -57,7 +57,6 @@ INSTALLED_APPS = (
     'django_crontab',
     'bootstrap3',
     'website',
-    'data_services',
     'website.apps.om_validate',
     'website.apps.ts_om',
     'website.apps.ts_om_viz',
