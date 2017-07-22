@@ -2,7 +2,6 @@ Django==1.11.3
 requests==2.7.0
 django-bootstrap3==8.2.3
 django-registration==2.2
-jsonfield==1.0.0
 gunicorn
 lxml
 mock==2.0.0
