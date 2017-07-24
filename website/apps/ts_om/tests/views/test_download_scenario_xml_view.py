@@ -20,7 +20,7 @@ from website.apps.ts_om.tests.factories import ScenarioFactory, UserFactory
 DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
 
 
-class SubmitScenariosViewTest(TestCase):
+class DownloadScenarioXmlViewTest(TestCase):
     def setUp(self):
         self.scenario = ScenarioFactory()
         self.user = self.scenario.user
@@ -63,3 +63,12 @@ class SubmitScenariosViewTest(TestCase):
         response = client.get(self.url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content, "123")
+
+    def test_pretty_print(self):
+        client = Client()
+        self.scenario.xml = "<xml><test></test></xml>"
+        self.scenario.save()
+        client.login(username=self.user.username, password="1")
+        response = client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.content, "<xml>\n  <test/>\n</xml>\n")
