@@ -1,34 +1,10 @@
-/**
- * Created by nreed on 11/18/14.
- */
-
 var deleteData = Object;
 
 $(function() {
     $("#summary").addClass("active");
-    var sim_id = parseInt($("#simulation-id").val());
+
     var delObj = $(".delete");
     deleteData = delObj.data();
-
-    if (sim_id > -1) {
-        $("#monitoring").hide();
-        $("#demography").hide();
-        $("#healthsystem").hide();
-        $("#entomology").hide();
-        $("#interventions").hide();
-        $("#deployments").hide();
-    }
-
-    $("#save-scenario-xml").click(function(){
-        scenario_id = $("#save-scenario-xml").attr("data-scenario-id");
-        // Get XML from CodeMirror edit area
-        xml =  window.xmleditor.getValue();
-       $.post("/ts_om/update/", {scenario_id: scenario_id, xml:xml}, function(data){
-            alert("Successfully updated XML");
-       }).fail(function(jqXHR, textStatus, errorThrown) {
-           alert("Can't update XML: " + errorThrown);
-       });
-    });
 
     $("#delete").click(function() {
         var id = $("#modal-scenario-id").val();
@@ -85,45 +61,9 @@ $(function() {
         $("#modal-scenario-id").val(deleteData.id);
     });
 
-    $("#save-scenario-summary-page").click(function () {
-        var data = $("form").serializeArray();
-        var save = true;
-
-        data.push({name: 'save', value: save});
-
-        $.post(window.location.href, data, function(data) {
-            if (data.hasOwnProperty("success") && data.success) {
-                $(".save-scenario").trigger("click");
-            }
-        }, "json").fail(function(jqXHR, textStatus, errorThrown) {
-        });
-    });
-
     window.xmleditor.mirror.options.readOnly = $("#simulation-id").val() > 0;
     $(".advanced-tab-extra-text").hide();
-    $(".discard-changes").show();
 
     var modeTabsObj = $("#mode-tabs");
-    modeTabsObj.find("a[href='#simple']").on("click", getUpdatedSummaryForm);
-    modeTabsObj.find("a[href='#advanced']").on("click", function(e) {
-        getUpdatedScenario(e, false, null, $("form").serializeArray(), $(this));
-    });
 });
 
-function getUpdatedSummaryForm(e) {
-    e.stopImmediatePropagation();
-
-    var obj = $(this);
-    var postVals = {'xml': window.xmleditor.getValue()};
-
-    $.post("/ts_om_edit/" + $("#scenario-id").val() + "/summary/update/form/", postVals, function(data) {
-        if (data.hasOwnProperty("valid") && data.valid) {
-            if (data.hasOwnProperty('name')) {
-                $("#name").val(data["name"]);
-            }
-
-            obj.tab('show');
-        }
-    }, "json").fail(function(jqXHR, textStatus, errorThrown) {
-    });
-}

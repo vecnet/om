@@ -1,4 +1,4 @@
-{% extends "ts_om/base_with_form.html" %}
+{% extends "ts_om/base.html" %}
 {% comment %}
 This file is part of the VecNet OpenMalaria Portal.
 For copyright and licensing information about this package, see the
@@ -13,16 +13,46 @@ with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 {% load static %}
 
 {% block extra_css %}
-	{{ block.super }}
+    <link rel="stylesheet" href="{% static 'js/codemirror/lib/codemirror.css' %}">
+    <link rel="stylesheet" href="{% static 'js/codemirror/addon/hint/show-hint.css' %}">
+    <link rel="stylesheet" href="{% static 'js/codemirror/addon/dialog/dialog.css' %}">
+    <link rel="stylesheet" href="{% static 'js/codemirror/addon/fold/foldgutter.css' %}">
+    <link rel="stylesheet" href="{% static 'js/codemirror/addon/display/fullscreen.css' %}">
+    <link rel="stylesheet" href="{% static 'css/codemirror-ui/codemirror-ui.css' %}">
+    <link rel="stylesheet" href="{% static 'ts_om/css/editor.css' %}">
     <link rel="stylesheet" href="{% static 'ts_om/css/summary.css' %}">
 {% endblock %}
 
 {% block extra_js %}
-	{{ block.super }}
+    {{ block.super }}
+    <script>var STATIC_URL_XML_TAGS = "{% static 'ts_om/files/xml_tags.json' %}";</script>
+    <script src="{% static 'js/codemirror/lib/codemirror.js' %}"></script>
+    <script src="{% static 'js/codemirror/mode/xml/xml.js' %}"></script>
+    <script src="{% static 'js/codemirror/fold/foldcode.js' %}"></script>
+    <script src="{% static 'js/codemirror/addon/fold/xml-fold.js' %}"></script>
+    <script src="{% static 'js/codemirror/addon/fold/foldgutter.js' %}"></script>
+    <script src="{% static 'js/codemirror/addon/hint/show-hint.js' %}"></script>
+    <script src="{% static 'js/codemirror/addon/edit/matchbrackets.js' %}"></script>
+    <script src="{% static 'js/codemirror/addon/edit/matchtags.js' %}"></script>
+    <script src="{% static 'js/codemirror/addon/edit/closetag.js' %}"></script>
+    <script src="{% static 'js/codemirror/hint/xml-hint.js' %}"></script>
+    <script src="{% static 'js/codemirror/addon/dialog/dialog.js' %}"></script>
+    <script src="{% static 'js/codemirror/addon/search/searchcursor.js' %}"></script>
+    <script src="{% static 'js/codemirror/addon/search/search.js' %}"></script>
+    <script src="{% static 'js/codemirror/addon/display/fullscreen.js' %}"></script>
+    <script src="{% static 'js/codemirror/addon/display/placeholder.js' %}"></script>
+    <script src="{% static 'js/codemirror/addon/lint/lint.js' %}"></script>
+    <script src="{% static 'js/codemirror-ext/util/formatting.js' %}"></script>
+    <script src="{% static 'js/codemirror-ui/codemirror-ui.js' %}"></script>
+    <script src="{% static 'ts_om_edit/js/new_editor.js' %}?2"></script>
+    <script src="{% static 'ts_om_edit/js/new_summary.js' %}?2"></script>
+
     <script src="{% static 'ts_om/js/popovers_tooltips.js' %}"></script>
-    <script src="{% static 'ts_om/js/summary.js' %}?2"></script>
+{#    <script src="{% static 'ts_om/js/summary.js' %}?3"></script>#}
 {% endblock %}
+
 {% block main_content %}
+    <form action="" id="ts-om-form" method="post">{% csrf_token %}
     <div class="container">
         <div class="row">
             <ul class="breadcrumb">
@@ -98,7 +128,6 @@ with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
                     </div>
             {% endblock %}
             {% block simple_tab_content %}
-                <form action="" method="POST">{% csrf_token %}
                     <div class="form-group">
                         <label class="col-sm-1 control-label" for="name">Name</label>
                         <input class="form-control text" id="name" name="name" placeholder="Name" value="{{ scenario.name }}"/>
@@ -184,18 +213,7 @@ with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
                             {% endif %}
                         </label>
                     </fieldset>
-                    <hr>
-                    <div>
-                        <button type="submit" class="save-scenario-summary-page btn btn-success">
-                            <span class="glyphicon glyphicon-ok"></span> Save
-                        </button>
-                        <a href="{% url 'ts_om.list' %}" class="btn btn-warning "><span class="glyphicon glyphicon-ban-circle"></span> Discard Changes</a>
-                        <button name="run" class="submit-scenario btn btn-primary pull-right {% if scenario.new_simulation %}disabled{% endif %}"
-                                type="button"
-                                {% if sim_id %}disabled{% endif %}>
-                            Save and Run
-                        </button>
-                    </div>
+
                     <div id="submit-progress" class="progress progress-striped active" style="width: 40%; display: none;">
                         <div class="progress-bar" style="width: 20%;"></div>
                     </div>
@@ -203,7 +221,6 @@ with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
                     <input id="scenario-id" name="scenario_id" type="hidden" value="{{ scenario_id }}">
                     <input id="simulation-id" name="simulation_id" type="hidden" value="{{ sim_id }}">
                     <input class="submit-type" id="submit-type-simple" name="submit_type" type="hidden" value="save">
-                </form>
             {% endblock %}
                 </div>
                 <div class="tab-pane" id="advanced">
@@ -221,12 +238,7 @@ with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
                                 {% if sim_id %}disabled{% endif %}>
                                 Validate
                             </button>
-                            <button class="btn btn-default {% if sim_id %}disabled{% endif %}"
-                                id="save-scenario-xml" type="button" data-scenario-id="{{ scenario_id }}"
-                            {% if sim_id %}disabled{% endif %}>
-                            Save
-                            </button>
-                            <a class="btn btn-warning" href="{% url "ts_om.summary" scenario_id %}"><span class="glyphicon glyphicon-ban-circle"></span> Cancel</a>
+
                         </div>
                         <div class="col-md-1">
                             <div id="validate-spinner">
@@ -235,7 +247,7 @@ with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
                         </div>
                         <div class="col-md-3"></div>
                         <div class="col-md-2">
-                            <button class="discard-changes btn pull-right hide" type="button">Discard changes</button>
+                            <a href="" class="btn pull-right hide">Discard changes</a>
                         </div>
                     </div>
                     <div class="row">
@@ -250,6 +262,7 @@ with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
                             {% if sim_id %}disabled{% endif %} style="display: none;">
                             Save and Run
                         </button>
+
                     </div>
                     <span class="help-block">
                         While in the editor window:<br>
@@ -269,4 +282,17 @@ with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
                 </div>
             </div>
     </div>
+    <div class="row">
+        <hr>
+            <div>
+                <button type="submit" class="save-scenario-summary-page btn btn-success">
+                    <span class="glyphicon glyphicon-ok"></span> Save
+                </button>
+                <a href="{% url 'ts_om.list' %}" class="btn btn-warning "><span class="glyphicon glyphicon-ban-circle"></span> Discard Changes</a>
+
+            <input name="submit_run" type="submit" class="btn btn-primary pull-right" value="Save and Run">
+            </div>
+        </div>
+    </div>
+    </form>
 {% endblock %}

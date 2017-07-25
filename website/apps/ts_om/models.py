@@ -128,6 +128,9 @@ class Scenario(models.Model):
     # Status is derived from simulation's status. If there is no simulation, use STATUS_NEW
     STATUS_NEW = "New"
 
+    # User-defined scenario name
+    name = models.TextField(default="")
+    # Scenario XML
     xml = models.TextField()
     # The first year simulated
     # The name "start_date" is somewhat misleading, should be renamed at some point
@@ -148,7 +151,7 @@ class Scenario(models.Model):
     # -------------------------------------------------
     # name property setter and getter
     @property
-    def name(self):
+    def xml_name(self):
         try:
             tree = etree.parse(StringIO(str(self.xml)))
         except XMLSyntaxError:
@@ -160,8 +163,8 @@ class Scenario(models.Model):
                 name = "Unnamed scenario"
         return name
 
-    @name.setter
-    def name(self, value):
+    @xml_name.setter
+    def xml_name(self, value):
         tree = etree.parse(StringIO(str(self.xml)))
         scenario = tree.getroot()
         scenario.attrib['name'] = value

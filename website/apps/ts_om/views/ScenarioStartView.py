@@ -9,16 +9,13 @@
 # License (MPL), version 2.0.  If a copy of the MPL was not distributed
 # with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from StringIO import StringIO
 import json
 
 from django.urls import reverse
 from django.views.generic import FormView
-from lxml import etree
-from lxml.etree import XMLSyntaxError
 
-from website.apps.ts_om.forms import ScenarioStartForm
 from ScenarioValidationView import rest_validate
+from website.apps.ts_om.forms import ScenarioStartForm
 from website.apps.ts_om.models import Scenario, BaselineScenario
 
 
@@ -74,16 +71,9 @@ class ScenarioStartView(FormView):
         name = form.cleaned_data['name']
         desc = form.cleaned_data['desc'] if form.cleaned_data['desc'] != '' else None
 
-        if name:
-            try:
-                tree = etree.parse(StringIO(str(xml)))
-            except XMLSyntaxError:
-                pass
-            else:
-                tree.getroot().set('name', name)
-                xml = etree.tostring(tree.getroot(), encoding='UTF-8')
-
-        scenario = Scenario.objects.create(xml=xml, user=self.request.user, description=desc, baseline=baseline)
+        scenario = Scenario.objects.create(
+            name=name, xml=xml, user=self.request.user, description=desc, baseline=baseline
+        )
         scenario.save()
 
         self.kwargs["scenario_id"] = scenario.id

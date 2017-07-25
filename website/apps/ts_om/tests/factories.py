@@ -49,3 +49,9 @@ class ScenarioFactory(factory.DjangoModelFactory):
     xml = get_xml()
     description = factory.Sequence(lambda n: 'description_{0}'.format(n))
 
+
+class SimulationFactory(factory.DjangoModelFactory):
+    class Meta:
+        model = models.Simulation
+
+    pid = "1234"

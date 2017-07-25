@@ -8,14 +8,11 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License (MPL), version 2.0.  If a copy of the MPL was not distributed
 # with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
-from StringIO import StringIO
 
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
-from lxml import etree
-from lxml.etree import XMLSyntaxError
 
 from website.apps.ts_om.models import Scenario
 from website.apps.ts_om.utils import scenario_name_with_next_number
@@ -27,16 +24,10 @@ def duplicate_scenario_view(request, scenario_id):
     scenario = get_object_or_404(Scenario, user=request.user, id=int(scenario_id))
 
     xml = scenario.xml
-
-    try:
-        tree = etree.parse(StringIO(str(xml)))
-        tree.getroot().set('name', scenario_name_with_next_number(scenario.name))
-        xml = etree.tostring(tree.getroot(), encoding='UTF-8')
-    except XMLSyntaxError:
-        # Copy xml document as is
-        pass
+    new_name = scenario_name_with_next_number(scenario.name)
 
     new_scenario = Scenario.objects.create(
+        name=new_name,
         xml=xml,
         start_date=scenario.start_date,
         user=request.user,

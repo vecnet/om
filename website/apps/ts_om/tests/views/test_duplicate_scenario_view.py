@@ -29,6 +29,7 @@ class DuplicateScenarioViewTest(TestCase):
         with open(os.path.join(DATA_DIR, "default.xml")) as fp:
             self.xml = fp.read()
         self.scenario = Scenario.objects.create(
+            name="Default scenario",
             xml=self.xml,
             user=self.user,
             description="Hey",

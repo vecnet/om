@@ -9,13 +9,11 @@
 # License (MPL), version 2.0.  If a copy of the MPL was not distributed
 # with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import json
 from xml.etree.ElementTree import ParseError
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.urls import reverse
-from django.http import JsonResponse
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
@@ -23,14 +21,15 @@ from django.views.generic.base import TemplateView
 from vecnet.openmalaria.monitoring import get_survey_times
 from vecnet.openmalaria.scenario import Scenario
 
+from website.apps.om_validate.utils import get_xml_validation_errors
 from website.apps.ts_om import submit
 from website.apps.ts_om_edit.forms import ScenarioSummaryForm
 from website.apps.ts_om.models import Scenario as ScenarioModel
 from website.notification import set_notification, DANGER
 
 
-class ScenarioSummaryView(TemplateView):
-    template_name = "ts_om_edit/summary.html"
+class NewScenarioSummaryView(TemplateView):
+    template_name = "ts_om_edit/new_summary.html"
     form_class = ScenarioSummaryForm
     model_scenario = None
     scenario = None
@@ -41,23 +40,22 @@ class ScenarioSummaryView(TemplateView):
         self.model_scenario = get_object_or_404(ScenarioModel, id=scenario_id)
         if self.request.user != self.model_scenario.user:
             raise PermissionDenied
-        return super(ScenarioSummaryView, self).dispatch(request, *args, **kwargs)
+        return super(NewScenarioSummaryView, self).dispatch(request, *args, **kwargs)
 
     def post(self, *args, **kwargs):
         scenario_id = self.kwargs["scenario_id"]
         scenario = ScenarioModel.objects.get(id=scenario_id)
-        if self.request.user != scenario.user:
-            raise PermissionDenied
         scenario.name = self.request.POST.get('name', scenario.name)
         scenario.description = self.request.POST.get('desc', scenario.description)
+        xml = self.request.POST.get('xml', scenario.xml)
+        result = get_xml_validation_errors(xml, skip_openmalaria_validation=True)
+        if result is not None:
+            set_notification(self.request, "Invalid XML: %s. Changes not recorded" % result, DANGER)
+            return HttpResponseRedirect(reverse("ts_om.summary", kwargs={"scenario_id": scenario_id}))
+        scenario.xml = xml
+        scenario.save()
 
-        if not self.request.is_ajax() or "save" in self.request.POST and json.loads(self.request.POST["save"]):
-            scenario.save()
-
-        if self.request.is_ajax():
-            return JsonResponse({"success": True, "xml": scenario.xml})
-
-        if 'submit_type' in self.request.POST and self.request.POST["submit_type"] == "run":
+        if 'submit_run' in self.request.POST:
             # Clicked "Save and Run" button
             # Will submit a scenario to backend here
             simulation = submit.submit(scenario)
@@ -65,10 +63,12 @@ class ScenarioSummaryView(TemplateView):
                 set_notification(self.request, "Can't submit simulation", "alert-danger")
             else:
                 set_notification(self.request, "Successfully started simulation", "alert-success")
+        set_notification(self.request, "Successfully saved scenario", "alert-success")
+
         return HttpResponseRedirect(reverse('ts_om.list'))
 
     def get_context_data(self, **kwargs):
-        context = super(ScenarioSummaryView, self).get_context_data(**kwargs)
+        context = super(NewScenarioSummaryView, self).get_context_data(**kwargs)
         try:
             self.scenario = Scenario(self.model_scenario.xml)
         except ParseError:
