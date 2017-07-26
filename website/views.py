@@ -21,6 +21,6 @@ def test_http_code_500(request):
     # View to test
     # - HTTP 500 handler in production mode (when DEBUG = False)
     # - Django logging configuration
-    set_notification(request.session, "hello", "alert-info")
+    set_notification(request, "hello", "alert-info")
     logger.debug("Raising RuntimeError - just because")
     raise RuntimeError

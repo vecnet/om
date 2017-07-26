@@ -1,7 +1,5 @@
 # enable Django logging for this module
 import logging
-from django.http.request import HttpRequest
-import warnings
 
 logger = logging.getLogger(__name__)
 
@@ -11,7 +9,7 @@ WARNING = "alert-warning"
 INFO = "alert-info"
 
 
-def set_notification(session, message, alert_type):
+def set_notification(request, message, alert_type):
 
     """ Set notification that will be displayed in {% notifications %} templatetag when page is rendered
 
@@ -19,7 +17,7 @@ def set_notification(session, message, alert_type):
     (provided that sessions are enabled in your Django project).
     Bootstrap alert class is used (<div class="alert {{ notification.type }}">)
 
-    :param session: Django session object (request.session) or HttpRequest object
+    :param request: HttpRequest object
     :param message: Message to be show
     :type message: str
     :param alert_type: alert class - alert-cuess
@@ -27,10 +25,7 @@ def set_notification(session, message, alert_type):
     """
 
     # Preparing for switching to Django HttpRequest
-    if isinstance(session, HttpRequest):
-        session = session.session
-    else:
-        warnings.warn("Using Django session variable is depricated, pass HttpRequest object to set_notification function instead", RuntimeWarning)  # noqa
+    session = request.session
 
     if not session.__contains__("notifications"):
         session["notifications"] = []
