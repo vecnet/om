@@ -11,7 +11,7 @@
 
 from django.conf.urls import url
 
-from website.apps.ts_om_edit.views.NewScenarioSummaryView import NewScenarioSummaryView
+from website.apps.ts_om_edit.views.ScenarioSummaryView import ScenarioSummaryView
 from .views.ScenarioMonitoringView import ScenarioMonitoringView
 from .views.ScenarioDemographyView import ScenarioDemographyView
 from .views.ScenarioHealthSystemView import ScenarioHealthSystemView
@@ -29,7 +29,7 @@ from website.apps.ts_om_edit.views.ScenarioEntomologyView import delete_species_
 
 
 urlpatterns = [
-       url(r'^(?P<scenario_id>.+)/summary/$', NewScenarioSummaryView.as_view(), name='ts_om.summary'),
+       url(r'^(?P<scenario_id>.+)/summary/$', ScenarioSummaryView.as_view(), name='ts_om.summary'),
        url(r'^(?P<scenario_id>.+)/monitoring/$', ScenarioMonitoringView.as_view(), name='ts_om.monitoring'),
        url(r'^(?P<scenario_id>.+)/demography/$', ScenarioDemographyView.as_view(), name='ts_om.demography'),
        url(r'^(?P<scenario_id>.+)/healthsystem/$', ScenarioHealthSystemView.as_view(),

@@ -28,8 +28,8 @@ from website.apps.ts_om.models import Scenario as ScenarioModel
 from website.notification import set_notification, DANGER
 
 
-class NewScenarioSummaryView(TemplateView):
-    template_name = "ts_om_edit/new_summary.html"
+class ScenarioSummaryView(TemplateView):
+    template_name = "ts_om_edit/summary.html"
     form_class = ScenarioSummaryForm
     model_scenario = None
     scenario = None
@@ -40,7 +40,7 @@ class NewScenarioSummaryView(TemplateView):
         self.model_scenario = get_object_or_404(ScenarioModel, id=scenario_id)
         if self.request.user != self.model_scenario.user:
             raise PermissionDenied
-        return super(NewScenarioSummaryView, self).dispatch(request, *args, **kwargs)
+        return super(ScenarioSummaryView, self).dispatch(request, *args, **kwargs)
 
     def post(self, *args, **kwargs):
         scenario_id = self.kwargs["scenario_id"]
@@ -68,7 +68,7 @@ class NewScenarioSummaryView(TemplateView):
         return HttpResponseRedirect(reverse('ts_om.list'))
 
     def get_context_data(self, **kwargs):
-        context = super(NewScenarioSummaryView, self).get_context_data(**kwargs)
+        context = super(ScenarioSummaryView, self).get_context_data(**kwargs)
         try:
             self.scenario = Scenario(self.model_scenario.xml)
         except ParseError:

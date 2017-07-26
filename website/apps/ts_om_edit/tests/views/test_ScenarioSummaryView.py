@@ -94,7 +94,7 @@ class ScenarioSummaryViewTest(TestCase):
         self.assertEqual(response.url, reverse('ts_om.list'))
         self.assertEqual(self.client.session["notifications"][0]["type"], SUCCESS)
 
-    @patch("website.apps.ts_om_edit.views.NewScenarioSummaryView.submit.submit")
+    @patch("website.apps.ts_om_edit.views.ScenarioSummaryView.submit.submit")
     def test_post_save_and_run_failed(self, submit_func):
         submit_func.return_value = None
         self.data['xml'] = get_xml()
@@ -109,7 +109,7 @@ class ScenarioSummaryViewTest(TestCase):
         self.assertEqual(self.client.session["notifications"][1]["type"], SUCCESS) # Scenario saved successfully
         self.assertEqual(submit_func.called, True)
 
-    @patch("website.apps.ts_om_edit.views.NewScenarioSummaryView.submit.submit")
+    @patch("website.apps.ts_om_edit.views.ScenarioSummaryView.submit.submit")
     def test_post_save_and_run_success(self, submit_func):
         simulation = SimulationFactory()
         submit_func.return_value = simulation
