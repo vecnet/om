@@ -87,7 +87,7 @@ class Simulation(models.Model):
 
     creation_timestamp = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
-    last_error_message = models.TextField(default="")
+    last_error_message = models.TextField(default="", blank=True)
 
     class Meta:
         db_table = "simulation"

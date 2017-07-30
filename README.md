@@ -4,9 +4,9 @@ This project is based on VecNet-CI - https://github.com/vecnet/vnetsource
 
 # System requirements
 
-This Django project has been tested on Windows 8 x64 and CentOS 7
+This Django project has been tested on Windows 8 x64, RedHat 7 and CentOS 7
 
-* Django 1.8
+* Django 1.11
 * Python 2.7
 * PostgreSQL 9.4
 * Apache 2.4
