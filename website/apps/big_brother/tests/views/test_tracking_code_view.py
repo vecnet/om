@@ -8,9 +8,12 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License (MPL), version 2.0.  If a copy of the MPL was not distributed
 # with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+from django.test.client import RequestFactory
+from django.test.utils import override_settings
 from django.urls import reverse
 from django.test import TestCase, Client
 from website.apps.big_brother.models import TrackingCode
+from website.apps.big_brother.views import tracking_code_view
 
 
 class TrackingCodeViewTest(TestCase):
@@ -53,3 +56,14 @@ class TrackingCodeViewTest(TestCase):
         # Tracking code should be created even though confirmation doesn't exist
         tracking_code = TrackingCode.objects.all()[0]
         self.assertEqual(tracking_code.code, "123")
+
+    def test_callback(self):
+        def func(request, tracking_code, tracking_code_object):
+            # This will be used as a callback function in big_brother.track view
+            self.assertEqual(tracking_code, "123")
+            self.assertEqual(tracking_code_object.code, "123")
+
+        factory = RequestFactory()
+        request = factory.get('/')
+        tracking_code_view(request, tracking_code="123", callback=func)
+        self.assertEqual(TrackingCode.objects.count(), 1)

@@ -10,11 +10,14 @@
 # with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 from io import BytesIO
 
+from django.http.response import HttpResponse
 from django.test import TestCase, Client
+from django.test.client import RequestFactory
 from mock.mock import patch
 
 from website.apps.big_brother.middleware import BigBrotherMiddleware
 from website.apps.big_brother.models import PageVisit
+from website.apps.ts_om.tests.factories import UserFactory
 
 
 class TestBigBrotherMiddleware(TestCase):
@@ -28,6 +31,14 @@ class TestBigBrotherMiddleware(TestCase):
         self.assertEqual(page_visit.http_code, "302")
         self.assertIsNone(page_visit.user)
         self.assertEqual(page_visit.url, "/")
+
+    def test_404(self):
+        c = Client()
+        response = c.get("/sdfsdfdsfsdfds")
+        page_visit = PageVisit.objects.get(url="/sdfsdfdsfsdfds")
+        self.assertEqual(page_visit.http_code, "404")
+        self.assertIsNone(page_visit.user)
+        self.assertEqual(page_visit.url, "/sdfsdfdsfsdfds")
 
     def test_page_visit_post_ascii(self):
         self.client.post("/", data={"file": BytesIO("1234")})
@@ -67,6 +78,7 @@ class TestBigBrotherMiddleware(TestCase):
             "\\x00\\x01\\x02\\x03\\x04\\x05\\x06\\x07\\x08\\t\\n\\x0b\\x0c\\r\\x0e\\x0f\\x10",
             page_visit.post_content,
         )
+
     @patch("website.apps.big_brother.models.PageVisit.save")
     def test_exception_save(self, save_func):
         save_func.side_effect = Exception("ERROR")
@@ -76,3 +88,25 @@ class TestBigBrotherMiddleware(TestCase):
         self.assertEqual(response.status_code, 302)
         # Make sure save() actually failed
         self.assertEqual(PageVisit.objects.filter(url="/").exists(), False)
+
+    @patch("website.apps.big_brother.middleware.PageVisit")
+    @patch("website.apps.big_brother.middleware.PageVisit.save")
+    def test_exception_save_2(self, save_func, page_visits_class):
+        save_func.side_effect = ValueError("PROCESS")
+        c = Client()
+        response = c.get("/")
+        self.assertEqual(response.status_code, 302)
+
+    def test_exception_process_response(self):
+        factory = RequestFactory()
+        request = factory.get('/')
+        page_visit = PageVisit.objects.create(url="/")
+        request.page_visit = page_visit
+        request.user = UserFactory()
+        response = HttpResponse()
+        with patch("website.apps.big_brother.middleware.PageVisit.save", side_effect=ValueError("PROCESS2")):
+            new_response = BigBrotherMiddleware.process_response(request, response)
+        self.assertIsNotNone(response)
+        self.assertEqual(response, new_response)
+        page_visit.refresh_from_db()
+        self.assertEqual(page_visit.http_code, "")
