@@ -10,8 +10,10 @@
 # with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 import os
 
+import subprocess
 from django.test.testcases import TestCase
 from django.test.utils import override_settings
+from mock.mock import patch
 
 from website.apps.om_validate.utils import validate_openmalaria
 
@@ -56,6 +58,26 @@ class ValidateOpenmalariaTests(TestCase):
         # It normally should fail, but if not - additional clean up might be required
         errors = validate_openmalaria(get_xml("scenario.xml"))
         self.assertIn("MEDIA_ROOT problem", errors[0])
+
+    @override_settings(MEDIA_ROOT=DATA_DIR)
+    def test_directory_creation(self):
+        # This test normally should remove test directory, but if not - additional clean up might be required
+        errors = validate_openmalaria(get_xml("scenario.xml"))
+        self.assertTrue(os.path.exists(os.path.join(DATA_DIR, "tmp")))
+        os.rmdir(os.path.join(DATA_DIR, "tmp"))
+        self.assertIsNone(errors)
+
+    @patch("website.apps.om_validate.utils.get_random_string")
+    def test_file_creation_failed(self, get_random_string_func):
+        get_random_string_func.return_value="#/\\?%*:<>"
+        errors = validate_openmalaria(get_xml("scenario.xml"))
+        self.assertIn("Can't write file:", errors[0])
+
+    def test_openmalaria_segfault(self):
+        with patch("website.apps.om_validate.utils.subprocess.check_output") as func:
+            func.side_effect = subprocess.CalledProcessError(returncode=-11, cmd="openmalaria", output="")
+            errors = validate_openmalaria(get_xml("scenario.xml"))
+        self.assertIn("Segmentation fault", errors[1])
 
     def test_success(self):
         # WARNING: this test runs openmalaria in background
