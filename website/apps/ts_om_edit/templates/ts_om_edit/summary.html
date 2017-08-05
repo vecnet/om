@@ -45,10 +45,9 @@ with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
     <script src="{% static 'js/codemirror-ext/util/formatting.js' %}"></script>
     <script src="{% static 'js/codemirror-ui/codemirror-ui.js' %}"></script>
     <script src="{% static 'ts_om_edit/js/editor.js' %}?2"></script>
-    <script src="{% static 'ts_om_edit/js/summary.js' %}?2"></script>
+    <script src="{% static 'ts_om_edit/js/summary.js' %}?3"></script>
 
     <script src="{% static 'ts_om/js/popovers_tooltips.js' %}"></script>
-{#    <script src="{% static 'ts_om/js/summary.js' %}?3"></script>#}
 {% endblock %}
 
 {% block main_content %}
@@ -119,8 +118,8 @@ with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
                                 </div>
                                 <div class="modal-footer">
                                     <a class="btn btn-warning" data-dismiss="modal" href="#" aria-hidden="true">Cancel</a>
-                                    <button class="btn btn-danger" id="delete" data-dismiss="modal">{% if deleted %}Restore{% else %}
-                                        <span class="glyphicon glyphicon-trash"></span> Delete{% endif %}</button>
+                                    <a href="{% url 'ts_om.delete' scenario.id %}" class="btn btn-danger">{% if deleted %}Restore{% else %}
+                                        <span class="glyphicon glyphicon-trash"></span> Delete{% endif %}</a>
                                 </div>
                                 <input id="modal-scenario-id" type="hidden" value="">
                             </div>

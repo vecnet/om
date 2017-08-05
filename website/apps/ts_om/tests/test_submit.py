@@ -31,7 +31,17 @@ class SubmitNewTest(TestCase):
         self.assertEqual(scenario.new_simulation.pid, "1234")
         self.assertEqual(scenario.new_simulation.status, Simulation.QUEUED)
         self.assertEqual(scenario.new_simulation.input_file.read(), "123")
-        self.assertEqual(scenario.new_simulation.last_error_message, "")
+        self.assertEqual(scenario.new_simulation.last_error_message, "")\
+
+    @patch("sim_services_local.dispatcher.subprocess.Popen")
+    def test_runtime_error(self, subprocess_func):
+        subprocess_func.side_effect = RuntimeError()
+        user = User.objects.create(username="user")
+        scenario = Scenario.objects.create(xml="123", user=user)
+        simulation = submit(scenario)
+        scenario.refresh_from_db()
+        self.assertEqual(scenario.new_simulation, None)
+        self.assertEqual(simulation, None)
 
     @patch("sim_services_local.dispatcher.subprocess.Popen")
     def test_double_submit(self, subprocess_func):

@@ -8,23 +8,9 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License (MPL), version 2.0.  If a copy of the MPL was not distributed
 # with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
-
-import os
-
-from django.conf import settings
-
-url_dict = {
-    'validate': 'http://127.0.0.1:8000/om_validate/validate/',
-    'scenarios': getattr(settings, "PROJECT_ROOT", '') + '/scenarios/',
-    'openmalaria': getattr(settings, "PROJECT_ROOT", '') + '/om_validate/bin/'
-}
+from django.test.testcases import TestCase
 
 
-def check_url(url, typ):
-    if url is None or url == '':
-        return url_dict[typ]
-
-    if not url.endswith('/'):
-        url += '/'
-
-    return url
+class SimulationViewTest(TestCase):
+    def setUp(self):
+        pass

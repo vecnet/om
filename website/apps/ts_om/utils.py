@@ -15,9 +15,6 @@ from website.apps.email.utils.send_html_email import send_html_email
 from website.apps.ts_om.models import Simulation as SimulationNew, Scenario
 
 
-def migrate_simulations():
-    pass
-
 def get_number_at_the_end_of_string(string):
     """ Return number at the end of the string (or None)
     Examples:
@@ -63,7 +60,6 @@ def scenario_name_with_next_number(name):
 
 def get_users_created_yesterday():
     return User.objects.filter(date_joined__date=(datetime.datetime.today() - datetime.timedelta(days=1)))
-
 
 def get_scenarios_updated_yesterday():
     return Scenario.objects.filter(last_modified__date=(datetime.datetime.today() - datetime.timedelta(days=1)))

@@ -10,7 +10,7 @@ Used by ScenarioListView and get_scenario_status_view AJAX call
 {% elif scenario.status == "Failed" %}
     <span class="glyphicon glyphicon-ban-circle"></span> Error
     {% if scenario.output_file %}
-        <a href="{% url 'ts_om_viz.download' simulation_id=scenario.new_simulation.id name="stdout.txt" %}">
+        <a href="{% url 'ts_om_viz.download' simulation_id=scenario.new_simulation.id name="model_stdout_stderr.txt" %}">
             Details
         </a>
     {% endif %}

@@ -23,6 +23,8 @@ DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__
 
 
 nSevere = 15
+Vector_Nv0 = 31
+
 
 def get_xml(filename="default.xml"):
     with open(os.path.join(DATA_DIR, filename)) as fp:
@@ -31,6 +33,15 @@ def get_xml(filename="default.xml"):
 
 
 class GetCtsDataViewTest(TestCase):
+    def create_scenario_from_directory(self, user, directory):
+        simulation = Simulation.objects.create(status=Simulation.COMPLETE)
+        simulation.set_input_file(get_xml(os.path.join(directory, "scenario.xml")))
+        simulation.set_output_file(get_xml(os.path.join(directory,"output.txt")))
+        simulation.set_ctsout_file(get_xml(os.path.join(directory,"ctsout.txt")))
+        simulation.set_model_stdout(get_xml(os.path.join(directory,"model_stdout_stderr.txt")))
+        scenario = ScenarioFactory(user=user, xml=get_xml("scenario.xml"), new_simulation=simulation)
+        return scenario
+
     def setUp(self):
         self.simulation = Simulation.objects.create(status=Simulation.COMPLETE)
         self.simulation.set_input_file(get_xml("scenario.xml"))
@@ -74,6 +85,21 @@ class GetCtsDataViewTest(TestCase):
         self.assertEqual(json_content["measure_name"], "nSevere(0.0 - 90)")
         self.assertIn("description", json_content)
 
+    def test_success_specifies_name(self):
+        scenario = self.create_scenario_from_directory(user=self.user, directory="gambiae")
+        url = reverse(
+            "ts_om_viz.get_survey_data",
+            kwargs={"sim_id": scenario.new_simulation.id, "measure_id": Vector_Nv0, "bin_number": "gambiae"}
+        )
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        json_content = json.loads(response.content)
+        self.assertEqual(json_content["sim_id"], scenario.new_simulation.id)
+        self.assertEqual(json_content["data"][0], [2.0, 14.6554])
+        self.assertEqual(json_content["data"][-1], [10.0, 14.6554])
+        self.assertEqual(json_content["measure_name"], "Vector_Nv0(gambiae)")
+        self.assertIn("description", json_content)
+
     def test_success_no_ctsout_file(self):
         self.simulation.ctsout_file = None
         self.simulation.model_stdout = None
@@ -95,8 +121,6 @@ class GetCtsDataViewTest(TestCase):
     def test_different_user(self):
         client = Client()
         user = UserFactory()
-        print user.username
-        print self.user.username
         client.login(username=user.username, password="1")
         response = client.get(self.url)
         self.assertEqual(response.status_code, 403)

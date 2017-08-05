@@ -11,26 +11,21 @@
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.http.response import JsonResponse
+from django.http.response import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
+from django.urls.base import reverse
 
 from website.apps.ts_om.models import Scenario
+from website.notification import set_notification, SUCCESS
 
 
 @login_required
-def update_scenario_view(request):
-    """ used by editor.js """
-    scenario_id = request.POST["scenario_id"]
+def delete_scenario_view(request, scenario_id):
     scenario = get_object_or_404(Scenario, id=scenario_id)
     if scenario.user != request.user:
         raise PermissionDenied
 
-    if "xml" in request.POST:
-        scenario.xml = request.POST["xml"]
-    if "name" in request.POST:
-        scenario.name = request.POST["name"]
-    if "description" in request.POST:
-        scenario.description = request.POST["description"]
-
+    scenario.deleted = not scenario.deleted
     scenario.save()
-    return JsonResponse(data={"status": "ok"})
+    set_notification(request, "Scenario %s successfully deleted" % scenario.name, SUCCESS)
+    return HttpResponseRedirect(reverse("ts_om.list"))

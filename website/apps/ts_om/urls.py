@@ -16,6 +16,7 @@ from website.apps.ts_om.views.ScenarioDeleteView import ScenarioDeleteView
 from website.apps.ts_om.views.ScenarioListView import ScenarioListView
 from website.apps.ts_om.views.ScenarioStartView import ScenarioStartView
 from website.apps.ts_om.views.ScenarioValidationView import ScenarioValidationView
+from website.apps.ts_om.views.delete_scenario_view import delete_scenario_view
 from website.apps.ts_om.views.download_scenario_xml_view import download_scenario_xml_view
 from website.apps.ts_om.views.duplicate_scenario_view import duplicate_scenario_view
 from website.apps.ts_om.views.get_scenario_status_view import get_scenario_status_view
@@ -30,6 +31,7 @@ urlpatterns = [
     url(r'^deleteScenario/$', ScenarioDeleteView.as_view(), name='ts_om.deleteScenario'),
     url(r'^(?P<scenario_id>.+)/duplicate/$', duplicate_scenario_view, name='ts_om.duplicate'),
     url(r'^(?P<scenario_id>.+)/download/$', download_scenario_xml_view, name='ts_om.download'),
+    url(r'^(?P<scenario_id>.+)/delete/$', delete_scenario_view, name='ts_om.delete'),
     url(r'^update/$', update_scenario_view, name='ts_om.scenario.update'),
     url(r'^get_scenario_status/$', get_scenario_status_view, name='ts_om.status'),
     url(r'^scenarios/submit/$', submit_scenarios, name='ts_om.submit'),

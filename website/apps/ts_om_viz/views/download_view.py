@@ -33,7 +33,8 @@ def download_view(request, simulation_id, name):
         content = simulation.ctsout_file.read()
     elif filename == "model_stdout_stderr.txt":
         content = simulation.model_stdout.read()
-
+    if content is None:
+        raise RuntimeError("Incorrect filename: %s" % filename)
     response = HttpResponse(content)
     response['Content-Disposition'] = "attachment; filename=%s" % filename
     return response

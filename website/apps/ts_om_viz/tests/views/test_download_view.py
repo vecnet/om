@@ -17,11 +17,17 @@ from django.test.testcases import TestCase
 from website.apps.ts_om.models import Scenario, Simulation
 
 
-def create_simulation(user, input_file=None):
+def create_simulation(user, input_file=None, output_txt_file=None, ctsout_txt_file=None, model_output_file=None):
     simulation = Simulation.objects.create()
     if input_file:
         simulation.set_input_file(input_file)
-        simulation.save()
+    if output_txt_file:
+        simulation.set_output_file(output_txt_file)
+    if ctsout_txt_file:
+        simulation.set_ctsout_file(ctsout_txt_file)
+    if model_output_file:
+        simulation.set_model_stdout(model_output_file)
+    simulation.save()
     return simulation
 
 class DownloadViewTest(TestCase):
@@ -55,7 +61,7 @@ class DownloadViewTest(TestCase):
         )
         self.assertEqual(response.status_code, 403)
 
-    def test_success_1(self):
+    def test_success_get_scenario_xml_1(self):
         simulation = create_simulation(self.user, input_file="123")
         response = self.client.get(
             reverse("ts_om_viz.download", kwargs={"simulation_id": simulation.id, "name": "scenario.xml"})
@@ -63,7 +69,7 @@ class DownloadViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content, "123")
 
-    def test_success_2(self):
+    def test_success_get_scenario_xml_2(self):
         simulation = create_simulation(self.user, input_file="123")
         self.scenario.new_simulation = simulation
         self.scenario.save()
@@ -72,3 +78,34 @@ class DownloadViewTest(TestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content, "123")
+
+    def test_success_get_output_txt(self):
+        simulation = create_simulation(self.user, output_txt_file="output_txt")
+        response = self.client.get(
+            reverse("ts_om_viz.download", kwargs={"simulation_id": simulation.id, "name": "output.txt"})
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.content, "output_txt")
+
+    def test_success_get_ctsout_txt(self):
+        simulation = create_simulation(self.user, ctsout_txt_file="ctsout_txt")
+        response = self.client.get(
+            reverse("ts_om_viz.download", kwargs={"simulation_id": simulation.id, "name": "ctsout.txt"})
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.content, "ctsout_txt")
+
+    def test_success_get_model_output_txt(self):
+        simulation = create_simulation(self.user, model_output_file="model_stdout_stderr_txt")
+        response = self.client.get(
+            reverse("ts_om_viz.download", kwargs={"simulation_id": simulation.id, "name": "model_stdout_stderr.txt"})
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.content, "model_stdout_stderr_txt")
+
+    def test_incorrect_filename(self):
+        simulation = create_simulation(self.user, model_output_file="model_stdout_stderr_txt")
+        self.assertRaises(RuntimeError,
+            self.client.get,
+            reverse("ts_om_viz.download", kwargs={"simulation_id": simulation.id, "name": "bla"})
+        )
