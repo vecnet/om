@@ -4,3 +4,5 @@ omit =
     config_local_example.py
     manage.py
     wsgi.py
+    website/tests/selenium.py
+    website/logger.py
