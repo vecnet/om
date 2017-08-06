@@ -1,4 +1,5 @@
 [![Coverage Status](https://coveralls.io/repos/github/vecnet/om/badge.svg)](https://coveralls.io/github/vecnet/om)
+[![Build Status](https://travis-ci.org/vecnet/om.svg?branch=master)](https://travis-ci.org/vecnet/om)
 
 # Overview
 
