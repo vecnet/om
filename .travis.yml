@@ -38,6 +38,8 @@ before_script:
   - ./.travis/before_script.sh
 script:
   - ./.travis/script.sh
+after_success:
+  - coveralls
 notifications:
   email:
     recipients:
