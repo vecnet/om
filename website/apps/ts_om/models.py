@@ -203,7 +203,7 @@ class Scenario(models.Model):
 
     @property
     def output_file(self):
-        if not self.new_simulation.model_stdout:
+        if not self.new_simulation or not self.new_simulation.model_stdout:
             return None
         return self.new_simulation.model_stdout
 

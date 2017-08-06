@@ -35,20 +35,20 @@ urlpatterns = [
     url(r'^big_brother/', include('website.apps.big_brother.urls')),
 ]
 
-try:
+try: # pragma: no cover
     # If django_auth_pubtkt is installed, add sso/ to url patterns
     from django_auth_pubtkt.views import redirect_to_sso
     urlpatterns.append(url(r'^sso/', redirect_to_sso))
-except ImportError:
+except ImportError: # pragma: no cover
     pass
 
 
-try:
+try: # pragma: no cover
     # If django-registration is installed, add registration urls to url patterns
     import registration.backends.simple.urls
 
     urlpatterns.append(url(r'^accounts/', include('registration.backends.simple.urls')))
-except ImportError:
+except ImportError: # pragma: no cover
     pass
 
 # handler404 = TemplateView.as_view(template_name="404.html")

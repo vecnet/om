@@ -26,6 +26,10 @@ def get_xml(filename="default.xml"):
     return xml
 
 
+def get_xml_as_fp(filename="default.xml"):
+    return open(os.path.join(DATA_DIR, filename))
+
+
 class UserFactory(factory.DjangoModelFactory):
     class Meta:
         model = User
