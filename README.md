@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/vecnet/om/badge.svg)](https://coveralls.io/github/vecnet/om)
+
 # Overview
 
 This project is based on VecNet-CI - https://github.com/vecnet/vnetsource
