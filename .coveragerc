@@ -1,0 +1,6 @@
+[run]
+omit =
+    website/settings/*
+    config_local_example.py
+    manage.py
+    wsgi.py
