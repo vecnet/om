@@ -25,7 +25,6 @@ from .views.ScenarioHealthSystemView import update_healthsystem_form
 from .views.ScenarioEntomologyView import update_entomology_form
 from .views.ScenarioInterventionsView import update_interventions_form
 from website.apps.ts_om_edit.views.ScenarioDeploymentsView import update_deployments_form
-from website.apps.ts_om_edit.views.ScenarioEntomologyView import delete_species_from_scenario_view
 
 
 urlpatterns = [
@@ -53,7 +52,4 @@ urlpatterns = [
        url(r'^(?P<scenario_id>.+)/deployments/update/form/$', update_deployments_form,
            name='ts_om.deployments.update.form'),
 
-       url(r'^remove_species_from_scenario/(?P<scenario_id>.+)/(?P<species>.+)/',
-           delete_species_from_scenario_view,
-           name='ts_om.remove_species_from_scenario'),
 ]

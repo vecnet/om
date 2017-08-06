@@ -27,17 +27,6 @@ from website.middleware import HttpRedirectException
 from website.notification import set_notification
 
 
-@login_required
-def delete_species_from_scenario_view(request, scenario_id, species):
-    scenario = ScenarioModel.objects.get(id=scenario_id)
-    om_scenario = Scenario(scenario.xml)
-    del om_scenario.entomology.vectors[species]
-    scenario.xml = om_scenario.xml
-    scenario.save()
-    set_notification(request, "Successfully deleted mosquito %s" % species, "alert-success")
-    raise HttpRedirectException(reverse("ts_om.entomology", kwargs={"scenario_id": scenario_id}))
-
-
 class ScenarioEntomologyView(ScenarioBaseFormView):
     template_name = "ts_om_edit/entomology.html"
     form_class = ScenarioEntomologyForm
