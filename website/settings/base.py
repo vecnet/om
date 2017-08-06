@@ -56,6 +56,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django_crontab',
     'bootstrap3',
+    'sim_services_local',
     'website',
     'website.apps.om_validate',
     'website.apps.ts_om',
