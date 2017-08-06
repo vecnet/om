@@ -32,16 +32,16 @@ def get_xml(filename="default.xml"):
     return xml
 
 
-class GetCtsDataViewTest(TestCase):
-    def create_scenario_from_directory(self, user, directory):
-        simulation = Simulation.objects.create(status=Simulation.COMPLETE)
-        simulation.set_input_file(get_xml(os.path.join(directory, "scenario.xml")))
-        simulation.set_output_file(get_xml(os.path.join(directory,"output.txt")))
-        simulation.set_ctsout_file(get_xml(os.path.join(directory,"ctsout.txt")))
-        simulation.set_model_stdout(get_xml(os.path.join(directory,"model_stdout_stderr.txt")))
-        scenario = ScenarioFactory(user=user, xml=get_xml("scenario.xml"), new_simulation=simulation)
-        return scenario
+def create_scenario_from_directory(user, directory):
+    simulation = Simulation.objects.create(status=Simulation.COMPLETE)
+    simulation.set_input_file(get_xml(os.path.join(directory, "scenario.xml")))
+    simulation.set_output_file(get_xml(os.path.join(directory,"output.txt")))
+    simulation.set_ctsout_file(get_xml(os.path.join(directory,"ctsout.txt")))
+    simulation.set_model_stdout(get_xml(os.path.join(directory,"model_stdout_stderr.txt")))
+    scenario = ScenarioFactory(user=user, xml=get_xml("scenario.xml"), new_simulation=simulation)
+    return scenario
 
+class GetCtsDataViewTest(TestCase):
     def setUp(self):
         self.simulation = Simulation.objects.create(status=Simulation.COMPLETE)
         self.simulation.set_input_file(get_xml("scenario.xml"))
@@ -86,7 +86,7 @@ class GetCtsDataViewTest(TestCase):
         self.assertIn("description", json_content)
 
     def test_success_specifies_name(self):
-        scenario = self.create_scenario_from_directory(user=self.user, directory="gambiae")
+        scenario = create_scenario_from_directory(user=self.user, directory="gambiae")
         url = reverse(
             "ts_om_viz.get_survey_data",
             kwargs={"sim_id": scenario.new_simulation.id, "measure_id": Vector_Nv0, "bin_number": "gambiae"}
