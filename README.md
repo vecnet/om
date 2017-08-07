@@ -5,8 +5,6 @@
 
 This project is based on VecNet-CI - https://github.com/vecnet/vnetsource
 
-OpenMalaria model offers flexibility for modelling malaria in humans (epidemiology) allowing great input in the details of human disease including; variation in human exposure and response to the parasite, vaccine mechanisms, and drug treatments available to villages prior to intervention simulation. These strengths in epidemiology make OpenMalaria attractive to those interested in human disease outputs and human population dynamics.
-
 OpenMalaria portal is a user-friendly web interface for OpenMalaria model. User can create
 simulation, define environment and explore effect of interventions (drugs, spraying, bednets) on
 malaria transmission levels. Model can be executed from the web interface using our
