@@ -16,6 +16,9 @@
     <div class="row">
         <ul class="breadcrumb">
             <li>
+                <a href="{% url 'index' %}">Home</a><span class="divider"></span>
+            </li>
+            <li>
                 <a href="{% url 'ts_om.list' %}">My Simulations</a><span class="divider"></span>
             </li>
             <li class="active"> {{  scenario.name  }} </li>

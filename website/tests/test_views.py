@@ -16,3 +16,9 @@ class Http500Test(TestCase):
     def test(self):
         url = reverse("test_http_code_500")
         self.assertRaises(RuntimeError, self.client.get, url)
+
+
+class IndexViewTest(TestCase):
+    def test(self):
+        response = self.client.get(reverse("index"))
+        self.assertEqual(response.status_code, 200)

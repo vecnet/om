@@ -54,7 +54,11 @@ with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
     <form action="" id="ts-om-form" method="post">{% csrf_token %}
     <div class="container">
         <div class="row">
+
             <ul class="breadcrumb">
+                <li>
+                    <a href="{% url 'index' %}">Home</a><span class="divider"></span>
+                </li>
                 <li>
                     <a href="{% url 'ts_om.list' %}">My Simulations</a><span class="divider"></span>
                 </li>

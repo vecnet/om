@@ -11,6 +11,9 @@
 
 
 import logging
+
+from django.views.generic.base import TemplateView
+
 logger = logging.getLogger(__name__)
 
 from website.notification import set_notification
@@ -24,3 +27,7 @@ def test_http_code_500(request):
     set_notification(request, "hello", "alert-info")
     logger.debug("Raising RuntimeError - just because")
     raise RuntimeError
+
+
+class IndexView(TemplateView):
+    template_name = "index.html"

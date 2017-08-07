@@ -145,6 +145,21 @@
 </style>
 
 {% block inner_content %}
+            <div class="row">
+
+            <ul class="breadcrumb">
+                <li>
+                    <a href="{% url 'index' %}">Home</a><span class="divider"></span>
+                </li>
+                <li>
+                    <a href="{% url 'ts_om.list' %}">My Simulations</a><span class="divider"></span>
+                </li>
+                <li>
+                    <a href="{% url "ts_om.summary" simulation.scenario.id %}">{{  simulation.scenario.name  }}</a><span class="divider"></span>
+                <li class="active"> Results </li>
+            </ul>
+        </div>
+
     <div class="row">
         <div class="span12" align="center">
             <h1>OpenMalaria output visualizer </h1>

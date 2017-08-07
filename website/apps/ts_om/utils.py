@@ -10,6 +10,7 @@
 # with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 import datetime
 from django.contrib.auth.models import User
+from django.views.generic.dates import timezone_today
 
 from website.apps.email.utils.send_html_email import send_html_email
 from website.apps.ts_om.models import Simulation as SimulationNew, Scenario
@@ -59,10 +60,10 @@ def scenario_name_with_next_number(name):
 
 
 def get_users_created_yesterday():
-    return User.objects.filter(date_joined__date=(datetime.datetime.today() - datetime.timedelta(days=1)))
+    return User.objects.filter(date_joined__date=(timezone_today() - datetime.timedelta(days=1)))
 
 def get_scenarios_updated_yesterday():
-    return Scenario.objects.filter(last_modified__date=(datetime.datetime.today() - datetime.timedelta(days=1)))
+    return Scenario.objects.filter(last_modified__date=(timezone_today() - datetime.timedelta(days=1)))
 
 def get_simulations_in_progress():
     return SimulationNew.objects.filter(status=SimulationNew.RUNNING)

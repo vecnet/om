@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block main_content %}
+    <div class="container">
+
+            <div class="row">
+            <div class="col-sm-4 col-md-4">
+                <a href="{% url "ts_om.list" %}"><img width="100%" src="{% static "ts_om/img/vecnet2.jpg" %}"></a>
+            </div>
+            <div class="col-sm-8  col-md-8">
+                <p align="justify">
+                    <b>OpenMalaria Portal</b> is a user-friendly web interface for OpenMalaria model. You can create
+simulation, define environment and explore effect of interventions (drugs, spraying, bednets) on
+malaria transmission levels. Model can be executed from the web interface using our
+high-performance cluster.
+Model output can be easily visualized or downloaded for further processing.
+
+                </p>
+                <p align="justify">
+                    OpenMalaria Portal is an open-source application released under MPLv2 license.
+                    You can access the source code on <a href="https://github.com/vecnet.om">GitHub</a>.
+                </p>
+
+                    {% if request.user.is_authenticated %}
+        <div class="row col-sm-12"><a class="btn btn-success" href="{% url "ts_om.list" %}">Go to My Simulations <span class="glyphicon glyphicon-triangle-right"></span></a></div>
+                    {% else %}
+                        <a class="btn btn-success" href="{% url "ts_om.list" %}">Request a free account <span class="glyphicon glyphicon-triangle-right"></span></a>
+                    {% endif %}
+            </div>
+
+        </div>
+        <hr>
+                <div class="row">
+            <div class="col-sm-2">
+                 <p align="justify">
+
+                 </p>
+            </div>
+                    <div class="col-sm-8">
+                        <b>How it works</b><br>
+                        <img width="100%" src="{%  static "ts_om/img/how-it-works.png" %}">
+                    </div>
+                </div>
+    <hr/>
+
+            <div class="row">
+            <div class="col-sm-8 col-md-8">
+                 <p align="justify">
+                     <b>OpenMalaria</b> is an open source C++ program for simulating malaria epidemiology and
+                     the impacts on that epidemiology of interventions against malaria. It is based on microsimulations
+                     of Plasmodium falciparum malaria in humans, originally developed for simulating malaria vaccines.
+                     These models simulate the dynamics of malaria parasitaemia in the course of an infection,
+                     of transmission, of immunity, and of the processes leading to illness and death.
+                     The system is set up to simulate malaria in village, or district size human populations.
+            </p>
+                <p align="justify">
+                    OpenMalaria offers flexibility for modelling malaria in humans (epidemiology)
+                    allowing
+                    great input in the details of human disease including; variation in human exposure
+                    and response to the parasite, vaccine mechanisms, and drug treatments available to
+                    villages
+                    prior to intervention simulation. These strengths in epidemiology make OpenMalaria
+                    attractive to those interested in human disease outputs and human population
+                    dynamics.</p>
+                <p>
+
+                <p>
+                    Read more on OpenMalaria <a href="https://github.com/SwissTPH/openmalaria/wiki"
+                        target="_blank">here</a>.
+                </p>
+            </div>
+            <div class="col-sm-4 col-md-4">
+{#                <img width="100%" src="{% static "ts_om/img/pexels-photo-256262.jpeg" %}">#}
+                <img width="100%" src="{% static "ts_om/img/openmalaria.jpg" %}">
+            </div>
+        </div>
+    </div>
+{% endblock %}

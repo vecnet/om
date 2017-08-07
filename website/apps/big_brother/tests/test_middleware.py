@@ -28,7 +28,7 @@ class TestBigBrotherMiddleware(TestCase):
         c = Client()
         response = c.get("/")
         page_visit = PageVisit.objects.get(url="/")
-        self.assertEqual(page_visit.http_code, "302")
+        self.assertEqual(page_visit.http_code, "200")
         self.assertIsNone(page_visit.user)
         self.assertEqual(page_visit.url, "/")
 
@@ -85,7 +85,7 @@ class TestBigBrotherMiddleware(TestCase):
         c = Client()
         response = c.get("/")
         # Make sure the request came through even though we can't save PageVisit
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
         # Make sure save() actually failed
         self.assertEqual(PageVisit.objects.filter(url="/").exists(), False)
 
@@ -95,7 +95,7 @@ class TestBigBrotherMiddleware(TestCase):
         save_func.side_effect = ValueError("PROCESS")
         c = Client()
         response = c.get("/")
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
 
     def test_exception_process_response(self):
         factory = RequestFactory()

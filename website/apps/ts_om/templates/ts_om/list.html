@@ -27,23 +27,21 @@ with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 {% block main_content %}
     {{ block.super }}
-    <div class="container">
-        <div class="row">
-            <h3>My Simulations</h3>
 
+
+    <div class="container">
+            <div class="row">
+            <ul class="breadcrumb">
+                <li>
+                    <a href="{% url 'index' %}">Home</a><span class="divider"></span>
+                </li>
+                <li class="active">My Simulations</li>
+            </ul>
+        </div>
+        <div class="row col-md-12">            <h3>My Simulations</h3></div>
+
+        <div class="row">
             <div class="col-md-12">
-                <p align="justify">
-                    <b>OpenMalaria</b> offers flexibility for modelling malaria in humans (epidemiology)
-                    allowing
-                    great input in the details of human disease including; variation in human exposure
-                    and response to the parasite, vaccine mechanisms, and drug treatments available to
-                    villages
-                    prior to intervention simulation. These strengths in epidemiology make OpenMalaria
-                    attractive to those interested in human disease outputs and human population
-                    dynamics.
-                    Read more on OpenMalaria <a href="https://github.com/SwissTPH/openmalaria/wiki"
-                        target="_blank">here</a>.
-                </p>
                 <a class="btn btn-success spread" href="{% url "ts_om.start" %}">
                     <span class="glyphicon glyphicon-plus"></span> Create Simulation
                 </a>
