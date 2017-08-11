@@ -97,3 +97,8 @@ body { padding-top:40px; font-size:14px;}
     color: #000000;
     box-shadow: 10px 10px 5px #888888;
 }
+
+/* Large font on index page */
+.lead {
+  font-size: 21px;
+}
