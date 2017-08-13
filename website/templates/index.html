@@ -24,15 +24,15 @@ Model output can be easily visualized or downloaded for further processing.
                 </p>
 
                     {% if request.user.is_authenticated %}
-        <div class="row col-sm-12"><a class="btn btn-lg btn-success" href="{% url "ts_om.list" %}">Go to My Simulations <span class="glyphicon glyphicon-triangle-right"></span></a></div>
+        <div class="row col-sm-12"><a class="btn btn-lg btn-success mediumseagreen_background" href="{% url "ts_om.list" %}">Go to My Simulations <span class="glyphicon glyphicon-triangle-right"></span></a></div>
                     {% else %}
 
             <div class="row">
                 <div class="col-sm-6">
-                        <a class="lead btn btn-lg btn-success" href="https://www.vecnet.org/index.php/request-an-account">Request an account <span class="glyphicon glyphicon-triangle-right"></span></a>
+                        <a class="btn btn-lg btn-success mediumseagreen_background" href="https://www.vecnet.org/index.php/request-an-account">Request an account <span class="glyphicon glyphicon-triangle-right"></span></a>
                     </div>
                 <div class="col-sm-6">
-                        <a class="lead btn btn-lg btn-success" href="{% url "ts_om.list" %}">Go to My Simulations <span class="glyphicon glyphicon-triangle-right"></span></a>
+                        <a class="btn btn-lg btn-success mediumseagreen_background" href="{% url "ts_om.list" %}">Go to My Simulations <span class="glyphicon glyphicon-triangle-right"></span></a>
                     </div>
                         </div>
                     {% endif %}
