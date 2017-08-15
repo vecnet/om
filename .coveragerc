@@ -6,3 +6,6 @@ omit =
     wsgi.py
     website/tests/selenium.py
     website/logger.py
+    website/management/commands/backup_db.py
+    website/management/commands/reset.py
+    website/management/commands/restore_db.py

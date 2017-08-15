@@ -21,9 +21,10 @@
 # with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 from django.test import TestCase
+from django.test.client import Client
 from django.urls import reverse
 
-from website.apps.ts_om.tests.factories import ScenarioFactory, get_xml
+from website.apps.ts_om.tests.factories import ScenarioFactory, get_xml, UserFactory
 
 
 class UpdateScenarioViewTest(TestCase):
@@ -46,3 +47,14 @@ class UpdateScenarioViewTest(TestCase):
         self.assertEqual(self.scenario.name, "Updated scenario name")
         self.assertEqual(self.scenario.description, "New Description")
         self.assertEqual(self.scenario.xml, "")
+
+    def test_no_permission(self):
+        user = UserFactory()
+        client = Client()
+        client.login(username=user.username, password="1")
+        response = client.post(self.url, data=self.data)
+        self.assertEqual(response.status_code, 403)
+        self.scenario.refresh_from_db()
+        self.assertNotEqual(self.scenario.name, "Updated scenario name")
+        self.assertNotEqual(self.scenario.description, "New Description")
+        self.assertNotEqual(self.scenario.xml, "")

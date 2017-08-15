@@ -96,3 +96,14 @@ class ScenarioStartViewTest(TestCase):
         # self.assertIsNone(scenario.new_simulation)
         # self.assertEqual(scenario.user, self.user)
         # self.assertEqual(scenario.baseline, None)
+
+    @override_settings(TS_OM_VALIDATE_URL=None)
+    def test_post_upload_incorrect_xml(self):
+        xml = "aaa"
+        response = self.client.post(
+            self.url,
+            data={'name': 'Brave New', 'desc': 'Brave New S', 'choice': 'upload', 'xml_file': StringIO.StringIO(xml)}
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Scenario.objects.count(), 0)
+        self.assertIn("Error: Invalid openmalaria simulation uploaded.", response.content)
