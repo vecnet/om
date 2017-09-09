@@ -31,7 +31,7 @@ from django.test.client import Client
 
 from django.urls import reverse
 
-from website.apps.ts_om_edit.views.ScenarioInterventionsView import parse_parameters, parse_options
+from website.apps.ts_om_edit.views.ScenarioInterventionsView import parse_parameters, parse_options, inner_parse_options
 from vecnet.openmalaria.scenario import Scenario
 
 from website.apps.ts_om.models import Scenario as ScenarioModel
@@ -79,6 +79,12 @@ class ScenarioInterventionsViewUtilsTest(TestCase):
         deploy = data_point["deploys"][0]
         self.assertIn("components", deploy)
         self.assertEqual(deploy["components"], "test")
+
+    def test_inner_parse_options_none_1(self):
+        self.assertFalse(inner_parse_options(None, {}, "test"))
+
+    def test_inner_parse_options_none_2(self):
+        self.assertFalse(inner_parse_options("Test", None, "test"))
 
 
 class ScenarioViewsTest(TestCase):

@@ -17,6 +17,7 @@ from functools import partial, wraps
 from django.core.exceptions import PermissionDenied
 from django.forms.formsets import formset_factory
 from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 from django.db.models import Q
 from vecnet.openmalaria.scenario import Scenario
@@ -622,8 +623,8 @@ def load_interventions_data(scenario):
 
 
 def update_interventions_form(request, scenario_id):
-    if not request.user.is_authenticated() or not scenario_id or scenario_id < 0:
-        return
+    if not request.user.is_authenticated():
+        raise PermissionDenied
 
     xml_file = request.POST['xml']
     json_str = rest_validate(xml_file)
@@ -634,17 +635,12 @@ def update_interventions_form(request, scenario_id):
     if not valid:
         return HttpResponse(json_str, content_type="application/json")
 
-    model_scenario = ScenarioModel.objects.get(id=scenario_id)
-    if model_scenario is None:
-        return HttpResponse(json.dumps({'valid': False}), content_type="application/json")
+    model_scenario = get_object_or_404(ScenarioModel, id=scenario_id)
 
     if request.user != model_scenario.user:
         raise PermissionDenied
 
-    try:
-        temp_scenario = Scenario(xml_file)
-    except ParseError:
-        return HttpResponse(json.dumps({'valid': False}), content_type="application/json")
+    temp_scenario = Scenario(xml_file)
 
     extra_data = load_interventions_data(temp_scenario)
 
