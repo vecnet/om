@@ -6,19 +6,19 @@
     <div class="container">
 
             <div class="row">
-            <div class="col-sm-4 col-md-4">
+            <div class="col-sm-4 col-md-4" style="padding: 0">
                 <a href="{% url "ts_om.list" %}"><img width="100%" src="{% static "ts_om/img/vecnet2.jpg" %}"></a>
             </div>
             <div class="col-sm-8  col-md-8">
                 <p class="lead" align="left">
-                    <b>OpenMalaria Portal</b> is a user-friendly web interface for OpenMalaria model. You can create
+                    <b style="letter-spacing: 1px">OpenMalaria Portal</b> is a user-friendly web interface for OpenMalaria model. You can create
 simulation, define environment and explore effect of interventions (drugs, spraying, bednets) on
 malaria transmission levels. Model can be executed from the web interface using our
 high-performance cluster.
 Model output can be easily visualized or downloaded for further processing.
 
                 </p>
-                <p class="lead" align="left">
+                <p align="left">
                     OpenMalaria Portal is an open-source application released under MPLv2 license.
                     You can access the source code on <a href="https://github.com/vecnet/om">GitHub</a>.
                 </p>
@@ -39,31 +39,41 @@ Model output can be easily visualized or downloaded for further processing.
             </div>
 
         </div>
-        <hr>
+    </div>
+        <div style="background-color: #fbfbfb">
+        <hr/>
+    <div class="container">
                 <div class="row">
-            <div class="col-sm-2">
-                 <p align="justify">
-
-                 </p>
+{#            <div class="col-sm-2">#}
+{#                 <p align="justify">#}
+{##}
+{#                 </p>#}
             </div>
-                    <div class="col-sm-8">
-                        <b>How it works</b><br>
+                    <div class="col-sm-12">
+                        <p class="lead" style="letter-spacing: 1px"><b>How it works</b></p>
                         <img width="100%" src="{%  static "ts_om/img/how-it-works.png" %}">
                     </div>
                 </div>
-    <hr/>
+            <hr/>
+
+    </div>
+
+
+    <div class="container">
 
             <div class="row">
             <div class="col-sm-8 col-md-8">
-                 <p class="lead" align="left">
-                     <b>OpenMalaria</b> is an open source C++ program for simulating malaria epidemiology and
-                     the impacts on that epidemiology of interventions against malaria. It is based on microsimulations
+                 <p align="left">
+                     <span class="lead"><b style="letter-spacing: 1px">OpenMalaria</b> is an open source C++ program for simulating malaria epidemiology and
+                     the impacts on that epidemiology of interventions against malaria. </span>
+                     </p>
+                <p>It is based on microsimulations
                      of Plasmodium falciparum malaria in humans, originally developed for simulating malaria vaccines.
                      These models simulate the dynamics of malaria parasitaemia in the course of an infection,
                      of transmission, of immunity, and of the processes leading to illness and death.
                      The system is set up to simulate malaria in village, or district size human populations.
             </p>
-                <p class="lead" align="left">
+                <p align="left">
                     OpenMalaria offers flexibility for modelling malaria in humans (epidemiology)
                     allowing
                     great input in the details of human disease including; variation in human exposure
@@ -74,12 +84,12 @@ Model output can be easily visualized or downloaded for further processing.
                     dynamics.</p>
                 <p>
 
-                <p class="lead">
+                <p >
                     Read more on OpenMalaria <a href="https://github.com/SwissTPH/openmalaria/wiki"
                         target="_blank">here</a>.
                 </p>
             </div>
-            <div class="col-sm-4 col-md-4">
+            <div class="col-sm-4 col-md-4"  style="padding: 0">
 {#                <img width="100%" src="{% static "ts_om/img/pexels-photo-256262.jpeg" %}">#}
                 <img width="100%" src="{% static "ts_om/img/openmalaria.jpg" %}">
             </div>
