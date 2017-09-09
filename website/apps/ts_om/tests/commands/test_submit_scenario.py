@@ -19,11 +19,11 @@ class SubmitScenarioTest(TestCase):
         self.scenario = ScenarioFactory()
 
     def test_scenario_doesnt_exist(self):
-        call_command("submit_scenario", scenario_id=1000000, wait=True)
+        call_command("submit_scenario", 1000000, wait=True)
         # Make sure that there is no exception
         self.assertTrue(True)
 
     def test_success(self):
-        call_command("submit_scenario", scenario_id=self.scenario.id)
+        call_command("submit_scenario", self.scenario.id)
         # Make sure that there is no exception
         self.assertTrue(True)
