@@ -15,6 +15,7 @@ import logging
 
 from django.conf import settings
 from django.http import HttpResponse
+from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.base import View
 from website.apps.om_validate.views import validate_scenario
@@ -48,7 +49,7 @@ def rest_validate(f):
 
     return None
 
-
+@method_decorator(csrf_exempt, name="dispatch")
 class ScenarioValidationView(View):
     def post(self, request):
         json_str = rest_validate(request.read())
