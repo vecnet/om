@@ -17,7 +17,7 @@ import shutil
 import logging
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     # This is a code to use this script as a standalone python program
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "website.settings.production")
     import django
@@ -128,6 +128,6 @@ def main(sim_id):
     run(simulation)
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     sim_id = int(sys.argv[1])
     main(sim_id)
