@@ -23,18 +23,20 @@
 {% for scenario in scenarios %}
     {% if forloop.first %}
         <table border="1">
-        <tr><td>Scenario ID</td><td>Scenario name</td><td>Username</td><td>Updated</td></tr>
+        <tr><td>Scenario ID</td><td>Scenario name</td><td>Status</td><td>Username</td><td>Updated</td></tr>
     {% endif %}
     <tr>
 
     <td>
-        {{ scenario.id }}
+        <a href="{{ SITE_URL }}{% url 'ts_om.summary' scenario.id %}">{{ scenario.id }}</a>
     </td>
 
     <td>
         {{ scenario.name }}
     </td>
-
+    <td>
+        {{ scenario.status }}
+    </td>
     <td>
         {{ scenario.user.username }}
     </td>

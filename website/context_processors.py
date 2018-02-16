@@ -1,5 +1,5 @@
 from django.conf import settings
-
+import website
 
 def app_env(request):
     """ This function defines login and logout pages.
@@ -12,3 +12,7 @@ def app_env(request):
     # if hasattr(settings, "SERVER_MAINTENANCE_MESSAGE"):
     #      env["SERVER_MAINTENANCE_MESSAGE"] = settings.SERVER_MAINTENANCE_MESSAGE
     return env
+
+def site_url(request):
+    """ Add SITE_URL variable to the context """
+    return {"SITE_URL": website.get_site_url()}

@@ -131,6 +131,8 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 # XSS filtering and help prevent XSS attacks
 SECURE_BROWSER_XSS_FILTER = True
 
+# Site URL
+SITE_URL = "https://om-qa.vecnet.org"
 
 try:
     # Optional settings specific to the local system (for example, custom

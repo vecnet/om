@@ -143,7 +143,8 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 # XSS filtering and help prevent XSS attacks
 SECURE_BROWSER_XSS_FILTER = True
 
-
+# Site URL
+SITE_URL = "https://om.vecnet.org"
 
 
 try:

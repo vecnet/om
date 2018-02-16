@@ -97,7 +97,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 # 'django.core.context_processors.static',
-                "website.context_processors.app_env"
+                "website.context_processors.app_env",
+                "website.context_processors.site_url",
             ],
         },
     },
@@ -202,3 +203,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # CRONTAB_COMMENT used for marking the added contab-lines for removing, default value includes project name
 # to distinguish multiple projects on the same host and user
 CRONTAB_COMMENT = "base"
+
+# Site URL
+SITE_URL = "http://localhost:8083"

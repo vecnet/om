@@ -19,3 +19,4 @@ EMAIL_PORT = 1025
 
 DEBUG = True
 
+SITE_URL = "http://localhost:8083"
