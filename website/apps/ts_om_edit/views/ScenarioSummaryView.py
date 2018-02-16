@@ -38,7 +38,7 @@ class ScenarioSummaryView(TemplateView):
     def dispatch(self, request, *args, **kwargs):
         scenario_id = self.kwargs["scenario_id"]
         self.model_scenario = get_object_or_404(ScenarioModel, id=scenario_id)
-        if self.request.user != self.model_scenario.user:
+        if self.request.user != self.model_scenario.user and not self.request.user.is_superuser:
             raise PermissionDenied
         return super(ScenarioSummaryView, self).dispatch(request, *args, **kwargs)
 

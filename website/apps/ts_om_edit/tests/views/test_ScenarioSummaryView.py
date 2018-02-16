@@ -53,6 +53,13 @@ class ScenarioSummaryViewTest(TestCase):
         response = client.get(self.url)
         self.assertEqual(response.status_code, 403)
 
+    def test_get_as_admin(self):
+        client = Client()
+        user = UserFactory(is_superuser=True)
+        client.login(username=user.username, password="1")
+        response = client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+
     def test_success_get(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
