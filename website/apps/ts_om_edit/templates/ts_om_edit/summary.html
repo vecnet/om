@@ -222,7 +222,7 @@ with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
                     </div>
                     <p class="text-success" id="submit_success" style="display: none; float:right;">Simulation submitted.</p>
                     <input id="scenario-id" name="scenario_id" type="hidden" value="{{ scenario_id }}">
-                    <input id="simulation-id" name="simulation_id" type="hidden" value="{{ sim_id }}">
+                    <input id="simulation-id" name="simulation_id" type="hidden" value="{{ scenario.new_simulation.id }}">
                     <input class="submit-type" id="submit-type-simple" name="submit_type" type="hidden" value="save">
             {% endblock %}
                 </div>
@@ -237,8 +237,8 @@ with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
                     </div>
                     <div class="row">
                         <div class="col-md-4">
-                            <button class="btn btn-default {% if sim_id %}disabled{% endif %}" id="validate" type="button"
-                                {% if sim_id %}disabled{% endif %}>
+                            <button class="btn btn-default {% if scenario.new_simulation %}disabled{% endif %}" id="validate" type="button"
+                                {% if scenario.new_simulation %}disabled{% endif %}>
                                 Validate
                             </button>
 
@@ -261,8 +261,8 @@ with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
                     <textarea id="xml" name="xml" placeholder="<!-- write some xml -->">{{ xml }}</textarea>
                     <div class="form-actions">
 
-                        <button class="submit-scenario btn btn-default {% if sim_id %}disabled{% endif %}" id="submit-scenario" type="button"
-                            {% if sim_id %}disabled{% endif %} style="display: none;">
+                        <button class="submit-scenario btn btn-default {% if scenario.new_simulation  %}disabled{% endif %}" id="submit-scenario" type="button"
+                            {% if scenario.new_simulation  %}disabled{% endif %} style="display: none;">
                             Save and Run
                         </button>
 
@@ -280,7 +280,7 @@ with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
                     </div>
                     <p class="text-success" id="submit_success" style="display: none; float:right;">Simulation submitted.</p>
                     <input id="scenario-id" name="scenario_id" type="hidden" value="{{ scenario_id }}">
-                    <input id="simulation-id" name="simulation_id" type="hidden" value="{{ sim_id }}">
+                    <input id="simulation-id" name="simulation_id" type="hidden" value="{{ scenario.new_simulation.id }}">
                     <input class="submit-type" id="submit-type-adv" name="submit_type" type="hidden" value="save">
                 </div>
             </div>
@@ -288,12 +288,12 @@ with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
     <div class="row">
         <hr>
             <div>
-                <button type="submit" class="save-scenario-summary-page btn btn-success">
-                    <span class="glyphicon glyphicon-ok"></span> Save
+                <button type="submit" class="save-scenario-summary-page btn btn-success" >
+                    <span class="glyphicon glyphicon-ok"></span> {% if scenario.new_simulation  %}Update{% else %}Save{% endif %}
                 </button>
                 <a href="{% url 'ts_om.list' %}" class="btn btn-warning "><span class="glyphicon glyphicon-ban-circle"></span> Discard Changes</a>
 
-            <input name="submit_run" type="submit" class="btn btn-primary pull-right" value="Save and Run">
+            <input name="submit_run" type="submit" class="btn btn-primary pull-right" value="Save and Run" {% if scenario.new_simulation  %}disabled{% endif %} >
             </div>
         </div>
     </div>
