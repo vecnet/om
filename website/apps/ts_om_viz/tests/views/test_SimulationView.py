@@ -34,6 +34,14 @@ class SimulationViewTest(TestCase):
         self.assertEqual(response.status_code, 403)
         self.assertNotIn("simulation", response.context)
 
+    def test_as_admin(self):
+        admin_user = UserFactory(is_superuser=True)
+        client = Client()
+        client.login(username=admin_user.username, password="1")
+        response = client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("simulation", response.context)
+
     def test_success(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)

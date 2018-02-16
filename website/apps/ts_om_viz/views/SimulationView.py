@@ -39,7 +39,7 @@ class SimulationView(TemplateView):
             context["survey_third_dimension"] = int(request.GET["survey_third_dimension"])
         context["sim_id"] = sim_id
         simulation = get_object_or_404(Simulation, id=sim_id)
-        if simulation.scenario.user != request.user:
+        if simulation.scenario.user != request.user and not request.user.is_superuser:
             raise PermissionDenied
         context["simulation"] = simulation
         # Get contents of xml input file and filename (if available)
