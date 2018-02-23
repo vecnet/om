@@ -20,7 +20,7 @@
 # License (MPL), version 2.0.  If a copy of the MPL was not distributed
 # with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from django.test import TestCase
+from django.test import TestCase, override_settings
 
 from website.apps.email.models import Email
 from website.apps.ts_om.cron import send_daily_report_cron
@@ -30,6 +30,7 @@ class SendDailyReportCronTest(TestCase):
     def setUp(self):
         pass
 
+    @override_settings(ADMINS=[('Alex', 'avyushko@nd.edu'),])
     def test(self):
         send_daily_report_cron()
         self.assertEqual(Email.objects.count(), 1)
