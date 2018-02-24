@@ -56,7 +56,7 @@ def run(simulation):
     try:
         logging.debug("Running openmalaria.exe")
         exitcode = subprocess.call(
-            "%s -s scenario.xml" % settings.SIM_SERVICE_LOCAL_OM_EXECUTABLE,
+            "%s -s scenario.xml" % settings.OM_EXECUTABLE,
             shell=True,
             cwd=input_dir,
             stdout=stdout,

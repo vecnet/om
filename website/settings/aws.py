@@ -22,36 +22,17 @@ ALLOWED_HOSTS = [
     '*',
 ]
 
-SECRET_KEY = get_env_variable("SECRET_KEY")
-
-DATABASES = {
-    'default': {
-        'ENGINE': "django.db.backends.postgresql_psycopg2",
-        'NAME': get_env_variable("DATABASE_NAME"),
-        'USER': get_env_variable("DATABASE_USER"),
-        'PASSWORD': get_env_variable("DATABASE_PASSWORD"),
-        'HOST': "127.0.0.1",
-        'PORT': "5432",
-    }
-}
-
-# SMTP server configuration
-EMAIL_HOST = "smtp.nd.edu"
+# SMTP server configuration. Assuming we have a local SMTP server.
+EMAIL_HOST = "localhost"
 EMAIL_PORT = 25
-EMAIL_USE_TLS = True
 # SMTP Backend: the backend to use for sending emails.
 # Overriding development settings (Console backend)
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 # The email address that error messages come from, such as those sent to ADMINS and MANAGERS.
 # Used by mail_managers function
-SERVER_EMAIL = "VecNet OpenMalaria Portal <avyushko@nd.edu>"
+SERVER_EMAIL = "OpenMalaria Portal <avyushko@nd.edu>"
 
 PYTHON_EXECUTABLE = "/usr/bin/python2.7"
-OM_EXECUTABLE = "/opt/portal/aws.vecnet.org/binaries/om/openMalaria"
-SIM_SERVICE_LOCAL_OM_EXECUTABLE = "/opt/portal/aws.vecnet.org/binaries/om/openMalaria"
-TS_OM_SCENARIOS_DIR = os.path.join(BASE_DIR, 'scenarios')
-OPENMALARIA_EXEC_DIR = os.path.join(BASE_DIR, 'binaries', 'om')
-SIM_SERVICE_LOCAL_OM_EXECUTABLE = "/opt/portal/aws.vecnet.org/binaries/om/openMalaria"
 
 LOGIN_URL = "/auth/login/"
 LOGOUT_URL = "/auth/logout/?next=/"
@@ -145,6 +126,10 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
 
 
+# CRONTAB_COMMENT used for marking the added contab-lines for removing, default value includes project name
+# to distinguish multiple projects on the same host and user
+CRONTAB_COMMENT = "cloud"
+
 try:
     # Optional settings specific to the local system (for example, custom
     # settings on a developer's system).  The file "settings_local.py" is
@@ -152,3 +137,10 @@ try:
     from .settings_local import *
 except ImportError:
     pass
+
+# SECRET_KEY must be defined in settings_local in cloud environment
+# Example:
+# SECRET_KEY = 'z5azf=qbb%lmzd^xf9#g5bqtv30e%12P!t(&!0hkpzp0jc8q5$'
+
+# DATABASES must be defined in settings_local in cloud environment
+assert(DATABASES is not None)

@@ -147,7 +147,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'apache', 'static')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'website', 'media')
 
 SIM_SERVICE_LOCAL_INPUT_DIR = os.path.join(MEDIA_ROOT, "simulations")
-SIM_SERVICE_LOCAL_OM_EXECUTABLE = os.path.join(BASE_DIR, 'binaries/om/openMalaria')
 if os.name == "nt":
     OM_EXECUTABLE = os.path.join(BASE_DIR, 'binaries', 'om', 'openmalaria.exe')
 else:
@@ -191,10 +190,6 @@ LOGGING = {
         }
     }
 }
-
-OPENMALARIA_EXEC_DIR = os.path.join(BASE_DIR, 'binaries', 'om')
-
-TS_OM_SCENARIOS_DIR = os.path.join(BASE_DIR, 'scenarios')
 
 DATABASE_BACKUP_DIR = MEDIA_ROOT
 
