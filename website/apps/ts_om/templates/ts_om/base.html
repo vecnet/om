@@ -3,16 +3,11 @@
 
 {% block extra_js %}
     <script>
-{#        var STATIC_URL = "{{ STATIC_URL|escapejs }}";#}
         var CODEMIRROR_IMG_PATH = "{% static 'img/codemirror-ui/silk' %}";
     </script>
     <script src="{% static 'ts_om/js/common.js' %}?2"></script>
     <script src="{% static 'js/jquery.validate.min.js' %}?2"></script>
 {% endblock %}
-
-{#{% block navbar %}#}
-{#    {% include 'navbar.html' with active_nav="simulations" %}#}
-{#{% endblock %}#}
 
 {% block main_content %}
         <div class="container">

@@ -19,57 +19,7 @@
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container-fluid">
-            <div class="navbar-header">
-            </div>
-            <div class="collapse navbar-collapse">
-                {% block navbar_inner %}{% endblock %}
-
-                <ul class="nav navbar-nav">
-                    {% block navbar_inner_right_pre %}{% endblock %}
-                    <li><a class="brand" href="https://www.vecnet.org">&nbsp;&nbsp;VecNet</a></li>
-                </ul>
-
-                 <ul class="nav navbar-nav navbar-right">
-                             {% if request.user.is_superuser %}
-                <li> <a href="/admin/"> Admin panel </a> </li>
-            {% endif %}
-                                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Our Work<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="https://www.vecnet.org/index.php/about-vecnet">About VecNet</a></li>
-                                <li><a href="https://www.vecnet.org/index.php/about-vecnet/collaborations">Collaborations</a></li>
-                                <li><a href="https://www.vecnet.org/index.php/about-vecnet/faq">FAQ</a></li>
-                                <li><a href="https://www.vecnet.org/index.php/about-vecnet/vecnet-how-to">VecNet How To</a></li>
-                            </ul>
-                        </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tools<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="https://dl.vecnet.org/">Digital Library</a></li>
-                            <li><a href="https://dw.vecnet.org/">Data Warehouse Browser</a></li>
-                            <li><a href="https://ci.vecnet.org/ts_emod/">Transmission Simulator</a></li>
-                            <li><a href="https://om.vecnet.org/">OpenMalaria Portal</a></li>
-
-                        </ul>
-                    </li>
-                    <li class="dropdown"><a href="https://www.vecnet.org/index.php/contact-us">Contact Us</a></li>
-
-                    {% block navbar_inner_right_post %}{% endblock %}
-
-                {% if user.username %}
-                     <li> <a href="{{ LOGOUT_URL }}"> Logout ({{ user.username }}) </a> </li>
-                {% else %}
-                     <li> <a href="{{ LOGIN_URL }}?{{ REDIRECT_FIELD_NAME }}={{ request.build_absolute_uri }}"> Log in </a></li>
-
-                {% endif %}
-
-
-                </ul>
-            </div>
-        </div>
-    </nav>
+    {% include HEADER_TEMPLATE %}
 
     {% block jumbotron %}
         <div class="jumbotron subhead">
@@ -94,12 +44,7 @@
     {% endblock %}
 
     {% block footer %}
-    <footer class="footer">
-        <hr>
-        <img style="margin: 0 10px 0 0; float: right;" src="{% static 'img/vecnet-logo.jpg' %}" alt="VecNet Logo" width="35" />
-        <p class="text-center"> <a href="https://www.vecnet.org/index.php/contact-us/">Contact us</a> | <a href="https://www.vecnet.org/index.php/about-vecnet/faq">FAQ</a> | <a href="https://www.vecnet.org/index.php/user-privacy-policy">User Privacy Policy</a> | <a href="https://www.vecnet.org/index.php/terms-of-use">Terms of Use</a></p>
-        <p class="fine-print text-center"> Copyright &copy; 2013-2018 <a href="https://www.vecnet.org/">Vector-Borne Disease Network (VecNet)</a></p>
-    </footer>
+        {% include FOOTER_TEMPLATE %}
     {% endblock %}
 
     <script src="{% static 'js/jquery-2.1.4.min.js' %}"></script>

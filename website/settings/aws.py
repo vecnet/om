@@ -34,6 +34,8 @@ SERVER_EMAIL = "OpenMalaria Portal <avyushko@nd.edu>"
 
 PYTHON_EXECUTABLE = "/usr/bin/python2.7"
 
+FOOTER_TEMPLATE = "footers/footer_cloud.html"
+HEADER_TEMPLATE = "headers/header_cloud.html"
 LOGIN_URL = "/auth/login/"
 LOGOUT_URL = "/auth/logout/?next=/"
 

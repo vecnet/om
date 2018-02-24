@@ -154,6 +154,8 @@ else:
 
 LOGIN_URL = "/auth/login/"
 LOGOUT_URL = "/auth/logout/?next=/"
+FOOTER_TEMPLATE = "footers/footer_vecnet.html"
+HEADER_TEMPLATE = "headers/header_vecnet.html"
 
 # Django logging configuration
 # https://docs.djangoproject.com/en/1.8/topics/logging/

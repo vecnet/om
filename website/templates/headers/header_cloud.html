@@ -1,0 +1,29 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header"></div>
+        <div class="collapse navbar-collapse">
+            {% block navbar_inner %}{% endblock %}
+
+            <ul class="nav navbar-nav">
+                {% block navbar_inner_right_pre %}{% endblock %}
+                <li><a class="brand" href="/">&nbsp;&nbsp;Home</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                {% if request.user.is_superuser %}
+                   <li> <a href="/admin/"> Admin panel </a> </li>
+                {% endif %}
+                {% if not user.is_authenticated %}
+                    <li class="dropdown"><a href="https://www.vecnet.org/index.php/contact-us">Sign up</a></li>
+                {% endif %}
+                {% block navbar_inner_right_post %}{% endblock %}
+
+                {% if user.username %}
+                     <li> <a href="{{ LOGOUT_URL }}"> Logout ({{ user.username }}) </a> </li>
+                {% else %}
+                     <li> <a href="{{ LOGIN_URL }}?{{ REDIRECT_FIELD_NAME }}={{ request.build_absolute_uri }}"> Log in </a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
