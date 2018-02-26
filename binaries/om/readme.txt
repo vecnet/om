@@ -1,3 +1,6 @@
+OpenMalaria v32
+Works on RedHat 7/CentOS 7 (with gsl and xerces-c packages are dependencies)
+
 This build was built with build-maia-release.sh
 * from user vagrant
 * at 2015-12-16
