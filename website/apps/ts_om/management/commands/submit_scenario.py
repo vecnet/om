@@ -31,15 +31,15 @@ class Command(BaseCommand):
         scenario_id = options["scenario_id"]
         scenario = Scenario.objects.filter(pk=scenario_id).first()
         if not scenario:
-            print "Scenario %s doesn't exists"
+            print("Scenario %s doesn't exists")
             return
         if scenario.new_simulation:
             print("WARNING: scenario has been submitted already")
         simulation = submit(scenario)
         if not simulation:
-            print "Can't submit scenario"
+            print("Can't submit scenario")
             return
-        print "Simulation successfully submitted, status: %s" % simulation.status
+        print("Simulation successfully submitted, status: %s" % simulation.status)
 
         if options["wait"]:
             print("Waiting for simulation completion")
@@ -48,7 +48,7 @@ class Command(BaseCommand):
                 time.sleep(1)
                 seconds += 1
                 if seconds % 30 == 0:
-                    print "Waiting %s seconds, status %s" % (seconds, simulation.status)
+                    print("Waiting %s seconds, status %s" % (seconds, simulation.status))
                 # reload model from the database
                 simulation.refresh_from_db()
-            print "Simulation result: %s" % simulation.status
+            print("Simulation result: %s" % simulation.status)

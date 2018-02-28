@@ -65,7 +65,7 @@ class SimulationViewTest(TestCase):
         url = reverse("ts_om_viz.SimulationView", kwargs={"id": simulation.id})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertIn("Error processing input or output files", response.content)
+        self.assertIn("Error processing input or output files", response.content.decode("utf-8"))
         self.assertEqual(response.context["simulation"], simulation)
         self.assertEqual(response.context["output_txt_filename"], None)
         self.assertEqual(response.context["ctsout_txt_filename"], None)

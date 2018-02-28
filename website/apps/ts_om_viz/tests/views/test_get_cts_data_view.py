@@ -65,7 +65,7 @@ class GetCtsDataViewTest(TestCase):
     def test_success(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        json_content = json.loads(response.content)
+        json_content = json.loads(response.content.decode("utf-8"))
         self.assertEqual(json_content["sim_id"], self.scenario.new_simulation.id)
         self.assertEqual(json_content["data"][0], 0.00223318)
         self.assertEqual(json_content["data"][-1], 0.00290952)
@@ -78,7 +78,7 @@ class GetCtsDataViewTest(TestCase):
         self.simulation.save()
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        json_content = json.loads(response.content)
+        json_content = json.loads(response.content.decode("utf-8"))
         self.assertEqual(json_content["sim_id"], self.scenario.new_simulation.id)
         self.assertEqual(json_content["data"][0], 0.00223318)
         self.assertEqual(json_content["data"][-1], 0.00290952)
@@ -93,8 +93,6 @@ class GetCtsDataViewTest(TestCase):
     def test_different_user(self):
         client = Client()
         user = UserFactory()
-        print user.username
-        print self.user.username
         client.login(username=user.username, password="1")
         response = client.get(self.url)
         self.assertEqual(response.status_code, 403)

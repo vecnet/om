@@ -23,34 +23,34 @@ class SimulationModelTest(TestCase):
 
     def test_set_ctsout_file_as_string(self):
         self.simulation.set_ctsout_file("Test file")
-        self.assertEqual(self.simulation.ctsout_file.read(), "Test file")
+        self.assertEqual(self.simulation.ctsout_file.read(), b"Test file")
 
     def test_set_ctsout_file_as_file_object(self):
         fp = get_xml_as_fp("file.txt")
         self.simulation.set_ctsout_file(fp)
         fp.close()
-        self.assertEqual(self.simulation.ctsout_file.read(), "Content of the file")
+        self.assertEqual(self.simulation.ctsout_file.read(), b"Content of the file")
 
     def test_set_ctsout_file_as_django_file_object(self):
         fp = get_xml_as_fp("file.txt")
         file_object = File(fp)
         self.simulation.set_ctsout_file(file_object)
         fp.close()
-        self.assertEqual(self.simulation.ctsout_file.read(), "Content of the file")
+        self.assertEqual(self.simulation.ctsout_file.read(), b"Content of the file")
 
     def test_set_model_stdout_as_string(self):
         self.simulation.set_model_stdout("Test file")
-        self.assertEqual(self.simulation.model_stdout.read(), "Test file")
+        self.assertEqual(self.simulation.model_stdout.read(), b"Test file")
 
     def test_set_model_stdout_as_file_object(self):
         fp = get_xml_as_fp("file.txt")
         self.simulation.set_model_stdout(fp)
         fp.close()
-        self.assertEqual(self.simulation.model_stdout.read(), "Content of the file")
+        self.assertEqual(self.simulation.model_stdout.read(), b"Content of the file")
 
     def test_set_model_stdout_as_django_file_object(self):
         fp = get_xml_as_fp("file.txt")
         file_object = File(fp)
         self.simulation.set_model_stdout(file_object)
         fp.close()
-        self.assertEqual(self.simulation.model_stdout.read(), "Content of the file")
+        self.assertEqual(self.simulation.model_stdout.read(), b"Content of the file")

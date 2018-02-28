@@ -67,7 +67,7 @@ class DownloadViewTest(TestCase):
             reverse("ts_om_viz.download", kwargs={"simulation_id": simulation.id, "name": "scenario.xml"})
         )
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.content, "123")
+        self.assertEqual(response.content.decode("utf-8"), "123")
 
     def test_success_get_scenario_xml_2(self):
         simulation = create_simulation(self.user, input_file="123")
@@ -77,7 +77,7 @@ class DownloadViewTest(TestCase):
             reverse("ts_om_viz.download", kwargs={"simulation_id": simulation.id, "name": "scenario.xml"})
         )
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.content, "123")
+        self.assertEqual(response.content.decode("utf-8"), "123")
 
     def test_success_get_output_txt(self):
         simulation = create_simulation(self.user, output_txt_file="output_txt")
@@ -85,7 +85,7 @@ class DownloadViewTest(TestCase):
             reverse("ts_om_viz.download", kwargs={"simulation_id": simulation.id, "name": "output.txt"})
         )
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.content, "output_txt")
+        self.assertEqual(response.content.decode("utf-8"), "output_txt")
 
     def test_success_get_ctsout_txt(self):
         simulation = create_simulation(self.user, ctsout_txt_file="ctsout_txt")
@@ -93,7 +93,7 @@ class DownloadViewTest(TestCase):
             reverse("ts_om_viz.download", kwargs={"simulation_id": simulation.id, "name": "ctsout.txt"})
         )
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.content, "ctsout_txt")
+        self.assertEqual(response.content.decode("utf-8"), "ctsout_txt")
 
     def test_success_get_model_output_txt(self):
         simulation = create_simulation(self.user, model_output_file="model_stdout_stderr_txt")
@@ -101,7 +101,7 @@ class DownloadViewTest(TestCase):
             reverse("ts_om_viz.download", kwargs={"simulation_id": simulation.id, "name": "model_stdout_stderr.txt"})
         )
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.content, "model_stdout_stderr_txt")
+        self.assertEqual(response.content.decode("utf-8"), "model_stdout_stderr_txt")
 
     def test_incorrect_filename(self):
         simulation = create_simulation(self.user, model_output_file="model_stdout_stderr_txt")

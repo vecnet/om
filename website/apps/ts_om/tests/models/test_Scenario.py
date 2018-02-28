@@ -15,48 +15,6 @@ from website.apps.ts_om.tests.factories import ScenarioFactory, get_xml
 
 
 class ScenarioTest(TestCase):
-    def test_xml_name_property_get_1(self):
-        scenario = ScenarioFactory(xml="")
-        self.assertEqual(scenario.xml_name, "Invalid xml document")
-
-    def test_xml_name_property_get_2(self):
-        scenario = ScenarioFactory(xml="<aaaa")
-        self.assertEqual(scenario.xml_name, "Invalid xml document")
-
-    def test_xml_name_property_get_3(self):
-        scenario = ScenarioFactory(xml="<xml></xml>")
-        self.assertEqual(scenario.xml_name, "Unnamed scenario")
-
-    def test_xml_name_property_get_4(self):
-        scenario = ScenarioFactory(xml="""
-            <om:scenario xmlns:om="http://openmalaria.org/schema/scenario_32" 
-            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Default scenario" 
-            schemaVersion="32" xsi:schemaLocation="http://openmalaria.org/schema/scenario_32 scenario_32.xsd">
-            </om:scenario>"""
-        )
-        self.assertEqual(scenario.xml_name, "Default scenario")
-
-    def test_xml_name_property_get_5(self):
-        scenario = ScenarioFactory(xml="""
-            <om:scenario xmlns:om="http://openmalaria.org/schema/scenario_32" 
-            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="" 
-            schemaVersion="32" xsi:schemaLocation="http://openmalaria.org/schema/scenario_32 scenario_32.xsd">
-            </om:scenario>"""
-        )
-        self.assertEqual(scenario.xml_name, "")
-
-    def test_xml_name_property_set(self):
-        scenario = ScenarioFactory(xml="""
-            <om:scenario xmlns:om="http://openmalaria.org/schema/scenario_32" 
-            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Test" 
-            schemaVersion="32" xsi:schemaLocation="http://openmalaria.org/schema/scenario_32 scenario_32.xsd">
-            </om:scenario>"""
-        )
-        self.assertEqual(scenario.xml_name, "Test")
-        scenario.xml_name = "New Name"
-        self.assertEqual(scenario.xml_name, "New Name")
-        self.assertIn("name=\"New Name\"", scenario.xml)
-
     def test_demography_property_1(self):
         scenario = ScenarioFactory(xml=get_xml("tororo.xml"))
         self.assertEqual(scenario.demography.name, "Tororo")
@@ -80,5 +38,5 @@ class ScenarioTest(TestCase):
         scenario.new_simulation = Simulation.objects.create()
         scenario.save()
         scenario.new_simulation.set_model_stdout("123")
-        self.assertEqual(scenario.output_file.read(), "123")
+        self.assertEqual(scenario.output_file.read(), b"123")
 

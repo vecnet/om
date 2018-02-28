@@ -64,10 +64,13 @@ class ScenarioSummaryViewTest(TestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context["scenario"], self.scenario)
-        self.assertEqual(
-            ['arabiensis', 'funestus', 'minor', 'gambiae'],
-            [vector.mosquito for vector in response.context["vectors"]]
-        )
+        # Note that as of vecnet.openmalaria v0.9.3, scenario.vectors doesn't preserve the order of <anopheles> tags
+        # Oh, well
+        vector_names = [vector.mosquito for vector in response.context["vectors"]]
+        self.assertIn('arabiensis', vector_names)
+        self.assertIn('funestus', vector_names)
+        self.assertIn('minor', vector_names)
+        self.assertIn('gambiae', vector_names)
 
     def test_get_broken_xml(self):
         self.scenario.xml = "<"

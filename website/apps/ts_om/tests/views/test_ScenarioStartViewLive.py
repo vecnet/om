@@ -9,7 +9,7 @@
 # License (MPL), version 2.0.  If a copy of the MPL was not distributed
 # with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import StringIO
+import io
 
 import requests
 from django.urls import reverse
@@ -32,8 +32,8 @@ class ScenarioStartViewTestLive(LiveServerTestCase):
     def test_get(self):
         response = requests.get(self.url, cookies=self.cookies)
         self.assertEqual(response.status_code, 200)
-        self.assertNotIn("Please sign in", response.content)
-        self.assertIn("<h3>Start new simulation</h3>", response.content)
+        self.assertNotIn("Please sign in", response.content.decode("utf-8"))
+        self.assertIn("<h3>Start new simulation</h3>", response.content.decode("utf-8"))
         self.assertEqual(response.status_code, 200)
 
     @override_settings(TS_OM_VALIDATE_URL=None)
@@ -41,13 +41,12 @@ class ScenarioStartViewTestLive(LiveServerTestCase):
         # We don't have to do it this way, but this is a good example for LiveServerTestCase
         # (test_post_upload_xml_rest_validation does require LiveServerTestCase)
         from django.conf import settings
-        print settings.TS_OM_VALIDATE_URL
         xml = get_xml('tororo.xml')
         # Get CSRF token
         response = requests.get(self.url, cookies=self.cookies, allow_redirects=False,)
         self.assertEqual(response.status_code, 200)
-        self.assertNotIn("Please sign in", response.content)
-        self.assertIn("<h3>Start new simulation</h3>", response.content)
+        self.assertNotIn("Please sign in", response.content.decode("utf-8"))
+        self.assertIn("<h3>Start new simulation</h3>", response.content.decode("utf-8"))
         tree = html.fromstring(response.content)
         csrf_token_input_element = tree.xpath('//input[@name="csrfmiddlewaretoken"]')[0]
         csrf_token = csrf_token_input_element.value
@@ -57,7 +56,7 @@ class ScenarioStartViewTestLive(LiveServerTestCase):
         response = requests.post(
             self.url,
             data={'name': 'Brave New', 'desc': 'Brave New S', 'choice': 'upload', 'csrfmiddlewaretoken': csrf_token},
-            files={'xml_file': StringIO.StringIO(xml)},
+            files={'xml_file': io.StringIO(xml)},
             cookies=self.cookies,
             allow_redirects=False,
         )
@@ -80,7 +79,7 @@ class ScenarioStartViewTestLive(LiveServerTestCase):
             response = self.client.post(
                 self.url,
                 data={'name': 'Brave New', 'desc': 'Brave New S', 'choice': 'upload',
-                      'xml_file': StringIO.StringIO(xml)}
+                      'xml_file': io.StringIO(xml)}
             )
             self.assertEqual(response.status_code, 302)
             scenario = Scenario.objects.get(description="Brave New S")

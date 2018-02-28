@@ -14,7 +14,7 @@ import json
 from django.urls import reverse
 from django.views.generic import FormView
 
-from ScenarioValidationView import rest_validate
+from .ScenarioValidationView import rest_validate
 from website.apps.ts_om.forms import ScenarioStartForm
 from website.apps.ts_om.models import Scenario, BaselineScenario
 

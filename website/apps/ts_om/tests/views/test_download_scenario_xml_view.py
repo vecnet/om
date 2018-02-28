@@ -39,7 +39,10 @@ class DownloadScenarioXmlViewTest(TestCase):
         client.login(username=self.user.username, password="1")
         response = client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertIn('<demography maximumAgeYrs="90" name="Rachuonyo" popSize="100">', response.content)
+        self.assertIn(
+            '<demography maximumAgeYrs="90" name="Rachuonyo" popSize="100">',
+            response.content.decode("utf-8")
+        )
 
     def test_wrong_user(self):
         client = Client()
@@ -62,7 +65,7 @@ class DownloadScenarioXmlViewTest(TestCase):
         client.login(username=self.user.username, password="1")
         response = client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.content, "123")
+        self.assertEqual(response.content.decode("utf-8"), "123")
 
     def test_pretty_print(self):
         client = Client()
@@ -71,4 +74,4 @@ class DownloadScenarioXmlViewTest(TestCase):
         client.login(username=self.user.username, password="1")
         response = client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.content, "<xml>\n  <test/>\n</xml>\n")
+        self.assertEqual(response.content.decode("utf-8"), "<xml>\n  <test/>\n</xml>\n")

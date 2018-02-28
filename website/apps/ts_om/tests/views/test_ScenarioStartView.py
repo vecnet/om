@@ -9,7 +9,7 @@
 # License (MPL), version 2.0.  If a copy of the MPL was not distributed
 # with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import StringIO
+import io
 from django.urls import reverse
 from django.test.testcases import TestCase
 from django.test.utils import override_settings
@@ -71,7 +71,7 @@ class ScenarioStartViewTest(TestCase):
         xml = get_xml()
         response = self.client.post(
             self.url,
-            data={'name': 'Brave New', 'desc': 'Brave New S', 'choice': 'upload', 'xml_file': StringIO.StringIO(xml)}
+            data={'name': 'Brave New', 'desc': 'Brave New S', 'choice': 'upload', 'xml_file': io.StringIO(xml)}
         )
         self.assertEqual(response.status_code, 302)
         scenario = Scenario.objects.get(description="Brave New S")
@@ -102,8 +102,8 @@ class ScenarioStartViewTest(TestCase):
         xml = "aaa"
         response = self.client.post(
             self.url,
-            data={'name': 'Brave New', 'desc': 'Brave New S', 'choice': 'upload', 'xml_file': StringIO.StringIO(xml)}
+            data={'name': 'Brave New', 'desc': 'Brave New S', 'choice': 'upload', 'xml_file': io.StringIO(xml)}
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Scenario.objects.count(), 0)
-        self.assertIn("Error: Invalid openmalaria simulation uploaded.", response.content)
+        self.assertIn("Error: Invalid openmalaria simulation uploaded.", response.content.decode("utf-8"))

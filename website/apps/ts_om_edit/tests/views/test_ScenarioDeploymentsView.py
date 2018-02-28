@@ -46,7 +46,10 @@ class ScenarioDeploymentsViewTest(TestCase):
     def test_continuous_deployment_human_intervention_get(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertIn("&lt;deploy coverage=&quot;0.0&quot; targetAgeYrs=&quot;0.0833&quot; /&gt;", response.content)
+        self.assertIn(
+            "&lt;deploy coverage=&quot;0.0&quot; targetAgeYrs=&quot;0.0833&quot; /&gt;",
+            response.content.decode("utf-8")
+        )
 
         # Can't really test POST with this approach
 

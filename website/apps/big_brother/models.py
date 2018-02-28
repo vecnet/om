@@ -28,7 +28,7 @@ class PageVisit(models.Model):
     user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     post_content = models.TextField(default="")
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s" % self.url
 
 
@@ -41,7 +41,7 @@ class TrackingCode(models.Model):
     # Auto saves on create
     timestamp = models.DateTimeField(auto_now_add=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s" % self.code
 
     class Meta:

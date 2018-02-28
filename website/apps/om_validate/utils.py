@@ -32,11 +32,11 @@ def get_xml_validation_errors(xml, skip_openmalaria_validation=False):
     # Check if document is well-formed
     errors = []
     # result = xml_schema.validate(tree)
-    # In some cases, we get unicode, not str.
+    # In some cases, we get str, not bytes.
     # If we have <?xml version="1.0" encoding="UTF-8" standalone="no"?> as the first line of the xml, ValueError occurs
     # ValueError: Unicode strings with encoding declaration are not supported.
-    if isinstance(xml, unicode):
-        xml = str(xml)
+    if isinstance(xml, str):
+        xml = str.encode(xml)
     parser = etree.XMLParser()
     try:
         tree = etree.XML(xml, parser)
@@ -78,7 +78,8 @@ def validate_openmalaria(xml):
     """ Validate XML using built-in openmalaria validation tool (--validate-only) """
     scenarios_dir = os.path.join(settings.MEDIA_ROOT, "tmp")
     om_dir = os.path.dirname(settings.OM_EXECUTABLE)
-
+    if isinstance(xml, bytes):
+        xml = xml.decode("UTF-8")
     logger.info("scenarios_dir: %s" % scenarios_dir)
     if not os.path.isdir(scenarios_dir):
         try:
@@ -112,6 +113,8 @@ def validate_openmalaria(xml):
         # Also, http://stackoverflow.com/questions/18731791/determining-if-a-python-subprocess-segmentation-faults
         return_code = e.returncode
         out = e.output
+        if isinstance(out, bytes):
+            out = out.decode("ascii")
         # out.split("\n")
         errors = [line.strip() for line in out.split("\n")]
         if return_code == -11:

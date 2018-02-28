@@ -46,4 +46,4 @@ class GetScenarioStatusViewTest(TestCase):
         response = self.client.post(self.url, data=self.data)
         self.assertEqual(response.status_code, 200)
         # New scenario
-        self.assertEqual(response.content, "\n")
+        self.assertEqual(response.content.decode("utf-8"), "\n")

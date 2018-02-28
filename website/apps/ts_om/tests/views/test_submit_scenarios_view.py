@@ -35,7 +35,7 @@ class SubmitScenariosViewTest(TestCase):
         data = {"scenario_ids": json.dumps([self.scenario.id])}
         response = client.post(reverse("ts_om.submit"), data=data)
         self.assertEqual(response.status_code, 200)
-        response_json = json.loads(response.content)
+        response_json = json.loads(response.content.decode("utf-8"))
         self.assertEqual(response_json["ok"], False)
         self.scenario.refresh_from_db()
         self.assertEqual(submit_func.called, False)
@@ -49,7 +49,7 @@ class SubmitScenariosViewTest(TestCase):
         data = {"scenario_ids": json.dumps([self.scenario.id])}
         response = client.post(reverse("ts_om.submit"), data=data)
         self.assertEqual(response.status_code, 200)
-        response_json = json.loads(response.content)
+        response_json = json.loads(response.content.decode("utf-8"))
         self.assertEqual(response_json["ok"], True)
         self.scenario.refresh_from_db()
         self.assertEqual(rest_validate_func.called, True)
@@ -64,7 +64,7 @@ class SubmitScenariosViewTest(TestCase):
         data = {"scenario_ids": json.dumps([self.scenario.id])}
         response = client.post(reverse("ts_om.submit"), data=data)
         self.assertEqual(response.status_code, 200)
-        response_json = json.loads(response.content)
+        response_json = json.loads(response.content.decode("utf-8"))
         # self.assertEqual(response_json["ok"], False)
         self.scenario.refresh_from_db()
         self.assertEqual(rest_validate_func.called, True)

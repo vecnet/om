@@ -22,7 +22,7 @@
 
 import json
 import os
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 from django.contrib.auth.models import User
 from django.http import QueryDict
@@ -49,7 +49,7 @@ class ScenarioInterventionsViewUtilsTest(TestCase):
         with open(json_filename) as json_file:
             json_data = json.load(json_file)
             self.post_data = json_data["interventions-post-data"]
-            query_string = urllib.urlencode(self.post_data)
+            query_string = urllib.parse.urlencode(self.post_data)
             self.query_dict = QueryDict(query_string=query_string)
 
     def test_post_data(self):

@@ -9,7 +9,7 @@
 # License (MPL), version 2.0.  If a copy of the MPL was not distributed
 # with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from StringIO import StringIO
+from io import StringIO
 
 from django.core.files.base import ContentFile, File
 from django.db import models
@@ -23,7 +23,7 @@ class BaselineScenario(models.Model):
     name = models.CharField(max_length=200)
     xml = models.TextField()
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -34,7 +34,7 @@ class DemographicsSnippet(models.Model):
     title = models.CharField(max_length=200)
     url = models.CharField(max_length=200)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
 
@@ -55,7 +55,7 @@ http://www.plosmedicine.org/article/fetchObject.action?uri=info:doi/10.1371/jour
     name = models.CharField(max_length=200)
     xml = models.TextField()
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -70,7 +70,7 @@ class Simulation(models.Model):
     # Version of the model (i.e. 30, 32, etc)
     version = models.TextField(default="32")
     # Status of this simulation - Running, Complete, Failed
-    status = models.TextField(choices=zip(STATUSES, STATUSES), default=NEW)
+    status = models.TextField(choices=list(zip(STATUSES, STATUSES)), default=NEW)
 
     # PID of process (or job id)
     pid = models.TextField(default="")
@@ -92,32 +92,32 @@ class Simulation(models.Model):
     class Meta:
         db_table = "simulation"
 
-    def __unicode__(self):
-        return u"%s" % self.id
+    def __str__(self):
+        return "%s" % self.id
 
     def set_input_file(self, fp):
-        if isinstance(fp, (str, unicode)):
+        if isinstance(fp, str):
             f = ContentFile(fp)
         else:
             f = File(fp)
         self.input_file.save("scenario_%s.xml" % self.id, f)
 
     def set_output_file(self, fp):
-        if isinstance(fp, (str, unicode)):
+        if isinstance(fp, str):
             f = ContentFile(fp)
         else:
             f = File(fp)
         self.output_file.save("output_%s.txt" % self.id, f)
 
     def set_ctsout_file(self, fp):
-        if isinstance(fp, (str, unicode)):
+        if isinstance(fp, str):
             f = ContentFile(fp)
         else:
             f = File(fp)
         self.ctsout_file.save("ctsout_%s.txt" % self.id, f)
 
     def set_model_stdout(self, fp):
-        if isinstance(fp, (str, unicode)):
+        if isinstance(fp, str):
             f = ContentFile(fp)
         else:
             f = File(fp)
@@ -147,31 +147,6 @@ class Scenario(models.Model):
     description = models.TextField(null=True, blank=True)
     is_public = models.BooleanField(default=False)
     baseline = models.ForeignKey(BaselineScenario, null=True, blank=True, on_delete=models.PROTECT)
-
-    # -------------------------------------------------
-    # name property setter and getter
-    @property
-    def xml_name(self):
-        try:
-            tree = etree.parse(StringIO(str(self.xml)))
-        except XMLSyntaxError:
-            name = "Invalid xml document"
-        else:
-            try:
-                name = tree.getroot().xpath('@name')[0]
-            except IndexError:
-                name = "Unnamed scenario"
-        return name
-
-    @xml_name.setter
-    def xml_name(self, value):
-        tree = etree.parse(StringIO(str(self.xml)))
-        scenario = tree.getroot()
-        scenario.attrib['name'] = value
-        self.xml = etree.tostring(tree.getroot(), pretty_print=True)
-
-    #
-    # ----------------------------------------------------
 
     @property
     def demography(self):
@@ -234,7 +209,7 @@ class AnophelesSnippet(models.Model):
                 name = "Unnamed anopheles snippet"
         return name
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -242,7 +217,7 @@ class InterventionComponent(models.Model):
     name = models.CharField(max_length=200)
     tag = models.CharField(max_length=200)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -253,5 +228,5 @@ class InterventionSnippet(models.Model):
     # URL to the documentation on OpenMalaria GitHub
     documentation_url = models.TextField(blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name

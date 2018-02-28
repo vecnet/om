@@ -69,8 +69,8 @@ class ScenarioHealthSystemView(ScenarioBaseFormView):
             return response
 
     def form_valid(self, form, **kwargs):
-        prob_total = get_prob_from_percentage(int(form.cleaned_data["perc_total_treated"]))
-        perc_formal = int(form.cleaned_data["perc_formal_care"])
+        prob_total = get_prob_from_percentage(int(float(form.cleaned_data["perc_total_treated"])))
+        perc_formal = int(float(form.cleaned_data["perc_formal_care"]))
         prob_formal = get_prob_from_percentage(100-perc_formal)
 
         # total % (uncomplicated) fevers treated converted to probability.
@@ -83,7 +83,7 @@ class ScenarioHealthSystemView(ScenarioBaseFormView):
         first_line_drug = form.cleaned_data["first_line_drug"]
 
         self.scenario.healthSystem.ImmediateOutcomes.firstLine = first_line_drug
-        self.scenario.healthSystem.ImmediateOutcomes.drugs.add(first_line_drug, unicode(INITIAL_DRUG_VALUE),
+        self.scenario.healthSystem.ImmediateOutcomes.drugs.add(first_line_drug, str(INITIAL_DRUG_VALUE),
                                                                ["initialACR", "compliance", "nonCompliersEffective"])
 
         drug = self.scenario.healthSystem.ImmediateOutcomes.drugs[first_line_drug]

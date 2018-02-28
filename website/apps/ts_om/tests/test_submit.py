@@ -30,7 +30,7 @@ class SubmitNewTest(TestCase):
         self.assertEqual(scenario.new_simulation, simulation)
         self.assertEqual(scenario.new_simulation.pid, "1234")
         self.assertEqual(scenario.new_simulation.status, Simulation.QUEUED)
-        self.assertEqual(scenario.new_simulation.input_file.read(), "123")
+        self.assertEqual(scenario.new_simulation.input_file.read(), b"123")
         self.assertEqual(scenario.new_simulation.last_error_message, "")\
 
     @patch("sim_services_local.dispatcher.subprocess.Popen")
@@ -53,7 +53,7 @@ class SubmitNewTest(TestCase):
         self.assertEqual(scenario.new_simulation, simulation)
         self.assertEqual(scenario.new_simulation.pid, "1234")
         self.assertEqual(scenario.new_simulation.status, Simulation.QUEUED)
-        self.assertEqual(scenario.new_simulation.input_file.read(), "123")
+        self.assertEqual(scenario.new_simulation.input_file.read(), b"123")
         self.assertEqual(scenario.new_simulation.last_error_message, "")
 
         simulation = submit(scenario)
@@ -69,5 +69,5 @@ class SubmitNewTest(TestCase):
         self.assertEqual(scenario.new_simulation, simulation)
         self.assertEqual(scenario.new_simulation.pid, "")
         self.assertEqual(scenario.new_simulation.status, Simulation.FAILED)
-        self.assertEqual(scenario.new_simulation.input_file.read(), "123")
+        self.assertEqual(scenario.new_simulation.input_file.read(), b"123")
         self.assertEqual(scenario.new_simulation.last_error_message, "Subprocess failed: IO Error")

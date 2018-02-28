@@ -32,7 +32,13 @@ class BigBrotherMiddleware(MiddlewareMixin):
 
         # Save up to 4096 bytes of request body in the database
         # http://stackoverflow.com/questions/13927889/show-non-printable-characters-in-a-string
-        post_content = request.body[:4096].encode('string_escape')[:4096]
+        post_content = ""
+        for code in request.body[:4096]:
+            if chr(code).isprintable() or chr(code) == "\n":
+                post_content += chr(code)
+            else:
+                post_content += "\\x%02x" % code
+        post_content = post_content[:4096]
 
         try:
             with atomic():

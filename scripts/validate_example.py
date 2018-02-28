@@ -16,4 +16,4 @@ if __name__ == '__main__':
         print("Success!")
     else:
         for message in result["om_output"]:
-            print message
+            print(message)

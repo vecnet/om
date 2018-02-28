@@ -47,7 +47,7 @@ class UpdateEntomologyFormTest(TestCase):
     def test_invalid_xml(self):
         response = self.client.post(self.url, data={"xml": ""})
         self.assertEqual(response.status_code, 200)
-        json_content = json.loads(response.content)
+        json_content = json.loads(response.content.decode("utf-8"))
         self.assertEqual(json_content["result"], -1)
 
     def test_scenario_doesnt_exist(self):

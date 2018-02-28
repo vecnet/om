@@ -77,3 +77,4 @@ docs/build/
 config_local.py
 
 .bak
+scenarios/*.xml

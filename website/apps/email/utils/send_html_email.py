@@ -63,7 +63,7 @@ def send_html_email(recipients,
         recipients = filtered_recipients
 
     template = get_template(template_path)
-    context_variables = dict(kwargs.items())
+    context_variables = dict(list(kwargs.items()))
     html_code = template.render(context_variables)
 
     return send_html_email_by_html(

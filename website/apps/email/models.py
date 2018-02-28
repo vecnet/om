@@ -58,7 +58,7 @@ class Email(models.Model):
     tracking_code = models.TextField(null=True, blank=True, default=None)
     # Email status - unsent, failed, sent
     # You should use CharField instead TextField to get select menu - TextField rendered always as TextArea
-    status = models.CharField(choices=zip(STATUSES, STATUSES), default=UNSENT, max_length=30)
+    status = models.CharField(choices=list(zip(STATUSES, STATUSES)), default=UNSENT, max_length=30)
 
     sent_timestamp = models.DateTimeField(null=True, blank=True, default=None)
     last_error_message = models.TextField(null=True, blank=True)

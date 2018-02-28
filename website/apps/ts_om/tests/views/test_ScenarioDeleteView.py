@@ -29,7 +29,7 @@ class ScenarioDeleteViewTest(TestCase):
         self.client.login(username="user", password="1")
         response = self.client.post(reverse("ts_om.deleteScenario"), data={})
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.content, '{"ok": false}')
+        self.assertEqual(response.content.decode("utf-8"), '{"ok": false}')
         self.scenario.refresh_from_db()
         self.assertEqual(self.scenario.deleted, False)
 
@@ -37,7 +37,7 @@ class ScenarioDeleteViewTest(TestCase):
         self.client.login(username="user", password="1")
         response = self.client.post(reverse("ts_om.deleteScenario"), data=self.data)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.content, '{"ok": true}')
+        self.assertEqual(response.content.decode("utf-8"), '{"ok": true}')
         self.scenario.refresh_from_db()
         self.assertEqual(self.scenario.deleted, True)
 
@@ -50,7 +50,7 @@ class ScenarioDeleteViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.scenario.refresh_from_db()
         self.assertEqual(self.scenario.deleted, False)
-        self.assertEqual(response.content, '{"ok": false}')
+        self.assertEqual(response.content.decode("utf-8"), '{"ok": false}')
 
     def test_no_scenario(self):
         self.client.login(username="user", password="1")
@@ -58,6 +58,6 @@ class ScenarioDeleteViewTest(TestCase):
             reverse("ts_om.deleteScenario"), data={"scenario_ids": json.dumps([1000000])}
         )
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.content, '{"ok": false}')
+        self.assertEqual(response.content.decode("utf-8"), '{"ok": false}')
         self.scenario.refresh_from_db()
         self.assertEqual(self.scenario.deleted, False)

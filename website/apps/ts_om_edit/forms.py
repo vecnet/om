@@ -154,7 +154,7 @@ class ScenarioGviInterventionForm(ScenarioHumanInterventionForm):
 
         if 'vectors_iterator' in kwargs:
             try:
-                vectors = kwargs.pop('vectors_iterator').next()
+                vectors = next(kwargs.pop('vectors_iterator'))
             except StopIteration:
                 pass
         elif 'vectors' in kwargs:
@@ -247,7 +247,7 @@ class ScenarioLarvicidingInterventionForm(ScenarioBaseInterventionForm):
 
         if 'vectors_iterator' in kwargs:
             try:
-                vectors = kwargs.pop('vectors_iterator').next()
+                vectors = next(kwargs.pop('vectors_iterator'))
             except StopIteration:
                 pass
         elif 'vectors' in kwargs:
@@ -336,7 +336,7 @@ class ScenarioMdaInterventionForm(ScenarioHumanInterventionForm):
 
         if 'options_iterator' in kwargs:
             try:
-                options = kwargs.pop('options_iterator').next()
+                options = next(kwargs.pop('options_iterator'))
             except StopIteration:
                 pass
         elif 'options' in kwargs:

@@ -34,7 +34,7 @@ class ScenarioListViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn(
             "<p>No simulations found</p>",
-            response.content,
+            response.content.decode("utf-8"),
         )
 
     def test_incorrect_xml_example(self):
@@ -48,11 +48,11 @@ class ScenarioListViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn(
             "Incorrect XML Example",
-            response.content,
+            response.content.decode("utf-8"),
         )
         self.assertIn(
             "Unknown",
-            response.content,
+            response.content.decode("utf-8"),
         )
 
     def test_description_truncation(self):
@@ -67,7 +67,7 @@ class ScenarioListViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn(
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce auctor molestie ex vel cursus. Don...",
-            response.content,
+            response.content.decode("utf-8"),
         )
 
     def test_all_statuses(self):
@@ -99,6 +99,6 @@ class ScenarioListViewTest(TestCase):
         response = self.client.get(reverse("ts_om.list"))
         self.assertEqual(response.status_code, 200)
         # This is very generic - mostly testing for internal server error when opening scenario list
-        self.assertIn("Results", response.content)
-        self.assertIn("Error", response.content)
-        self.assertIn("glyphicon glyphicon-refresh ts-om-spin", response.content)
+        self.assertIn("Results", response.content.decode("utf-8"))
+        self.assertIn("Error", response.content.decode("utf-8"))
+        self.assertIn("glyphicon glyphicon-refresh ts-om-spin", response.content.decode("utf-8"))

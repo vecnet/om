@@ -26,18 +26,18 @@ def om_output_parser_from_simulation(simulation):
 
     # Get contents of xml input file and filename (if available)
     try:
-        scenario = simulation.input_file.read()
+        scenario = simulation.input_file.read().decode("utf-8")
     except Exception as e:
         logger.debug("Exception when executing simulation.input_file.read(): %s" % e)
         raise TypeError("No scenario.xml file in the simulation %s" % sim_id)
 
     try:
-        output = simulation.output_file.read()
+        output = simulation.output_file.read().decode("utf-8")
     except:
         output = None
 
     try:
-        ctsout = simulation.ctsout_file.read()
+        ctsout = simulation.ctsout_file.read().decode("utf-8")
     except:
         ctsout = None
 

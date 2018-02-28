@@ -19,8 +19,8 @@ matrix:
       services: docker
       env: USE_DOCKER="yes"
     - os: linux
-      python: "2.7"
-      env: PYTHON=/usr/bin/python2.7
+      python: "3.5"
+      env: PYTHON=/usr/bin/python3.5
       services: postgresql
       addons:
         apt:

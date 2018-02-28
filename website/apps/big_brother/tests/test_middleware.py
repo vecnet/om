@@ -8,7 +8,7 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License (MPL), version 2.0.  If a copy of the MPL was not distributed
 # with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
-from io import BytesIO
+from io import BytesIO, StringIO
 
 from django.http.response import HttpResponse
 from django.test import TestCase, Client
@@ -41,7 +41,7 @@ class TestBigBrotherMiddleware(TestCase):
         self.assertEqual(page_visit.url, "/sdfsdfdsfsdfds")
 
     def test_page_visit_post_ascii(self):
-        self.client.post("/", data={"file": BytesIO("1234")})
+        self.client.post("/", data={"file": BytesIO(b"1234")})
         page_visit = PageVisit.objects.get(url="/")
         # Django test client (as of v1.10) only allows form-encoded data
         # POST content is something like
@@ -55,13 +55,13 @@ class TestBigBrotherMiddleware(TestCase):
         self.assertIn("1234", page_visit.post_content)
 
     def test_page_visit_post_binary(self):
-        data = "\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10"
+        data = b"\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10"
         self.client.post("/", data={"data": BytesIO(data)})
         page_visit = PageVisit.objects.get(url="/")
         # Django test client (as of v1.10) only allows form-encoded data
         # Note that encode('string_escape') in big brother middleware converts \x09 to \t, \0x0a to \n and so on
         self.assertIn(
-            "\\x00\\x01\\x02\\x03\\x04\\x05\\x06\\x07\\x08\\t\\n\\x0b\\x0c\\r\\x0e\\x0f\\x10",
+            "\\x00\\x01\\x02\\x03\\x04\\x05\\x06\\x07\\x08\\x09\n\\x0b\\x0c\\x0d\\x0e\\x0f\\x10",
             page_visit.post_content,
         )
 
@@ -70,12 +70,12 @@ class TestBigBrotherMiddleware(TestCase):
         content = ""
         for ch in range(0, 256):
             content += chr(ch)
-        self.client.post("/", data={"test": BytesIO(content)})
+        self.client.post("/", data={"test": StringIO(content)})
         page_visit = PageVisit.objects.get(url="/")
         # Django test client (as of v1.10) only allows form-encoded data
         # Note that encode('string_escape') in big brother middleware converts \x0a to \t etc
         self.assertIn(
-            "\\x00\\x01\\x02\\x03\\x04\\x05\\x06\\x07\\x08\\t\\n\\x0b\\x0c\\r\\x0e\\x0f\\x10",
+            "\\x00\\x01\\x02\\x03\\x04\\x05\\x06\\x07\\x08\\x09\n\\x0b\\x0c\\x0d\\x0e\\x0f\\x10",
             page_visit.post_content,
         )
 

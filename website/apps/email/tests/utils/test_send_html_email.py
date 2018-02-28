@@ -124,7 +124,7 @@ class SendHtmlEmailTest(TestCase):
             "base.html",
             from_email="test@gmail.com")
         self.assertFalse(result)
-        self.assertIn("No module named wrong", message)
+        self.assertIn("No module named 'wrong'", message)
 
     @patch("website.apps.email.models.send_mail")
     @override_settings(SEND_HTML_EMAIL_ADDRESS="123@example.com")

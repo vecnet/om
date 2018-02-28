@@ -76,15 +76,15 @@ class ScenarioMonitoringView(ScenarioBaseFormView):
 
     def form_valid(self, form, **kwargs):
         sim_start_date = int(form.cleaned_data['sim_start_date'])
-        mon_yrs = int(form.cleaned_data['monitor_yrs'])
-        mon_mos = int(form.cleaned_data['monitor_mos'])
-        mon_start_date = int(form.cleaned_data['monitor_start_date'])
+        mon_yrs = int(float(form.cleaned_data['monitor_yrs']))
+        mon_mos = int(float(form.cleaned_data['monitor_mos']))
+        mon_start_date = int(float(form.cleaned_data['monitor_start_date']))
         output_measurement = form.cleaned_data['measure_outputs']
         diagnostic_type = form.cleaned_data['parasite_detection_diagnostic_type']
         options_list = []
 
         for o in self.om_dict:
-            if unicode(form.cleaned_data[o[0]]).lower() == "true":
+            if str(form.cleaned_data[o[0]]).lower() == "true":
                 options_list.append(o[1])
 
         if diagnostic_type != "custom":

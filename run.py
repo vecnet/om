@@ -40,7 +40,7 @@ def run(simulation):
     os.makedirs(input_dir)
     logging.basicConfig(filename=os.path.join(input_dir, 'error.log'), level=logging.DEBUG)
     logging.debug("Working directory: %s" % input_dir)
-    xml = simulation.input_file.read()
+    xml = simulation.input_file.read().decode("utf-8")
     fp = open(os.path.join(input_dir, "scenario.xml"),"w+")
     fp.write(xml)
     fp.close()

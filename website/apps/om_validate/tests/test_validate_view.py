@@ -26,7 +26,7 @@ class ValidateViewTest(TestCase):
     def test_no_errors(self):
         response = self.client.post(reverse("validate"), data=get_xml(), content_type='application/octet-stream')
         self.assertEqual(response.status_code, 200)
-        json_response = json.loads(response.content)
+        json_response = json.loads(response.content.decode("utf-8"))
         self.assertEqual(json_response["result"], 0)
 
     def test_validation_schema_error(self):
@@ -34,7 +34,7 @@ class ValidateViewTest(TestCase):
             reverse("validate"), data=get_xml("scenario_schema_error.xml"), content_type='application/octet-stream'
         )
         self.assertEqual(response.status_code, 200)
-        json_response = json.loads(response.content)
+        json_response = json.loads(response.content.decode("utf-8"))
         self.assertEqual(json_response["result"], -1)
         self.assertIsNotNone(json_response["om_output"])
         self.assertEqual(
@@ -49,10 +49,9 @@ class ValidateViewTest(TestCase):
             reverse("validate"), data=get_xml("scenario_om_error.xml"), content_type='application/octet-stream'
         )
         self.assertEqual(response.status_code, 200)
-        json_response = json.loads(response.content)
+        json_response = json.loads(response.content.decode("utf-8"))
         self.assertEqual(json_response["result"], -1)
         self.assertIsNotNone(json_response["om_output"])
-        print json_response["om_output"]
         self.assertIn(
             "Error: Unrecognised survey option: \"nHost11\"",
             json_response["om_output"][1]

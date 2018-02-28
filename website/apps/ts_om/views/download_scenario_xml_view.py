@@ -9,7 +9,7 @@
 # License (MPL), version 2.0.  If a copy of the MPL was not distributed
 # with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from StringIO import StringIO
+from io import StringIO, BytesIO
 
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
@@ -24,7 +24,7 @@ def download_scenario_xml_view(request, scenario_id):
 
     scenario = get_object_or_404(Scenario, user=request.user, id=int(scenario_id))
 
-    f = StringIO(str(scenario.xml))
+    f = BytesIO(str(scenario.xml).encode("UTF-8"))
     try:
         parser = etree.XMLParser(remove_blank_text=True)
         tree = etree.parse(f, parser)

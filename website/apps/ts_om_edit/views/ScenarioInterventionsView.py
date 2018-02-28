@@ -11,7 +11,6 @@
 
 import json
 from xml.etree import ElementTree
-from xml.etree.ElementTree import ParseError
 from functools import partial, wraps
 
 from django.core.exceptions import PermissionDenied
@@ -294,7 +293,7 @@ def parse_inner_data(post_data, prefix, data_type="vector", index=0, inner_func=
     data_points = []
     ignored_substring = "inner-prefix"
 
-    for key, value in post_data.iteritems():
+    for key, value in post_data.items():
         if ignored_substring in key or prefix not in key or data_type not in key:
             continue
 
@@ -437,7 +436,7 @@ def parse_options(post_data, prefix, index=0):
     parsed_data = parse_inner_data(post_data, prefix, data_type="option", index=index, inner_func=inner_parse_options)
 
     for data_point in parsed_data:
-        for key, value in data_point.iteritems():
+        for key, value in data_point.items():
             if key == "clearInfections" or key == "deploys":
                 new_value = [val["data"] for val in sorted(value, key=lambda val: val["index"])]
                 data_point[key] = new_value
