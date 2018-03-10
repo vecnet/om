@@ -15,6 +15,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='simulation',
             name='last_error_message',
-            field=models.TextField(blank=True, default=b''),
+            field=models.TextField(blank=True, default=''),
         ),
     ]
