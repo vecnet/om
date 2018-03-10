@@ -14,7 +14,7 @@ Model output can be easily visualized or downloaded for further processing.
 This Django project has been tested on Windows 8 x64, RedHat 7 and CentOS 7
 
 * Django 1.11
-* Python 2.7
+* Python 3.5
 * PostgreSQL 9.4
 * Apache 2.4
 
