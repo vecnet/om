@@ -15,6 +15,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='email',
             name='status',
-            field=models.CharField(choices=[(b'Unsent', b'Unsent'), (b'Failed', b'Failed'), (b'Sent', b'Sent')], default=b'Unsent', max_length=30),
+            field=models.CharField(choices=[('Unsent', 'Unsent'), ('Failed', 'Failed'), ('Sent', 'Sent')], default='Unsent', max_length=30),
         ),
     ]

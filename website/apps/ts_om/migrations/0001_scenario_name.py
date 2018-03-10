@@ -33,7 +33,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='scenario',
             name='name',
-            field=models.TextField(default=b''),
+            field=models.TextField(default=''),
         ),
         migrations.RunPython(convert_xml_name_property_to_name),
     ]

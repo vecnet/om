@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
                 ('user_agent', models.TextField()),
                 ('ip', models.TextField()),
                 ('timestamp', models.DateTimeField(auto_now_add=True)),
-                ('post_content', models.TextField(default=b'')),
+                ('post_content', models.TextField(default='')),
                 ('user', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
