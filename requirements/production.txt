@@ -1,4 +1,5 @@
 -r base.txt
 
 psycopg2
-django-auth-pubtkt==1.1.2
+m2crypto==0.29.0  # This version installs on RedHat 7/Python 2.7 with no issues
+django-auth-pubtkt==2.0.0
