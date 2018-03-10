@@ -42,7 +42,7 @@ LOGOUT_URL="https://www.vecnet.org/index.php/log-out"
 TKT_AUTH_LOGIN_URL = "https://www.vecnet.org/index.php/sso-login"
 TKT_AUTH_PUBLIC_KEY = '/etc/httpd/conf/sso/tkt_pubkey_dsa.pem'
 
-MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + ('django_auth_pubtkt.DjangoAuthPubtkt',)
+MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + ('django_auth_pubtkt.middleware.DjangoAuthPubtkt',)
 
 CRONJOBS = [
     ('1 0 * * *', 'website.apps.ts_om.cron.send_daily_report_cron')
