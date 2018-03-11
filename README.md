@@ -139,3 +139,9 @@ ALLOWED_HOSTS = [
 
 2. Copy public key for validating pubtkt tickets to /etc/httpd/conf/sso/tkt_pubkey_dsa.pem
 
+# Let's encrypt it notes
+
+```bash
+/root/.acme.sh/acme.sh --issue -d om.vecnet.org -w /opt/portal/om.vecnet.org/apache/ --log
+/root/.acme.sh/acme.sh --installcert -d om.vecnet.org --certpath /etc/httpd/ssl/om.vecnet.org.cer --keypath /etc/httpd/ssl/om.vecnet.org.key --fullchainpath /etc/httpd/ssl/om.vecnet.org.int.cer --reloadcmd "service httpd restart"
+```
