@@ -18,32 +18,15 @@ This Django project has been tested on Windows 8 x64, RedHat 7 and CentOS 7
 * PostgreSQL 9.4
 * Apache 2.4
 
-# Quick Start Guide
+# Quick Start Guide - Development
 
-1. Set a local SECRET_KEY and use local settings module.
-	```bash
-	export SECRET_KEY=some-value
-	export DJANGO_SETTINGS_MODULE=website.settings.local
-	```
-
-2. Create database structures
+1. Create database structures
     `./manage.py migrate`
 
-3. Check if there are database migrations by reviewing the list of known migrations:
-    `./manage.py migrate --list`
-
-4. Create an admin user
+2. Create an admin user
    `./manage.py createsuperuser`
 
-5. Load fixtures
-	```bash
-	python manage.py loaddata AnophelesSnippets
-	python manage.py loaddata BaselineScenarios
-	python manage.py loaddata DemographicsSnippets
-	python manage.py loaddata Interventions
-	```
-
-6. Run the server.
+3. Run the server.
 ```bash
 python manage.py runserver
 ```
