@@ -2,7 +2,7 @@ from .base import *
 
 
 ADMINS = [
-    ('Alex', 'avyushko@nd.edu'),
+    ('Alex', 'alex.vyushkov@gmail.com'),
 ]
 
 ALLOWED_HOSTS = [
