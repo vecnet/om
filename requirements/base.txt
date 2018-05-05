@@ -6,7 +6,7 @@ gunicorn
 lxml
 mock==2.0.0
 # git+git://github.com/vecnet/vecnet.openmalaria.git@develop#egg=vecnet.openmalaria
-vecnet.openmalaria==0.9.4
+vecnet.openmalaria==0.9.6
 factory_boy==2.8.1  # A fixtures replacement tool, replaces fixtures with easy-to-use factories for complex object. For usage in unittests
 html2text==2016.9.19 # Used to convert html emails into plain text emails
 django-crontab==0.7.1  # Dead simple crontab powered job scheduling for django

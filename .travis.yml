@@ -43,6 +43,6 @@ after_success:
 notifications:
   email:
     recipients:
-      - avyushko@nd.edu
+      - alex.vyushkov@gmail.com
     on_success: change
     on_failure: always
