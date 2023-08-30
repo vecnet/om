@@ -9,6 +9,10 @@ malaria transmission levels. Model can be executed from the web interface using 
 high-performance cluster.
 Model output can be easily visualized or downloaded for further processing.
 
+
+https://github.com/vecnet/om/assets/1641196/1965c836-0290-4f06-98a7-3414bf2a80fb
+
+
 # System requirements
 
 This Django project has been tested on Windows 8 x64, RedHat 7 and CentOS 7
